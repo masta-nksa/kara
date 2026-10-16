@@ -113,6 +113,24 @@ nur `#.SZ`, genau ein Start und ein Ausgang am Rand, Weg vorhanden, höchstens 1
 Texte nur als reiner Text). «Verdeckt» ist eine Spielregel, kein Geheimnis: Wer den Link
 entschlüsselt, sieht alle Labyrinthe.
 
+## Nutzungsstatistik (GoatCounter)
+
+`assets/zaehler.js` meldet Aufrufe anonym an <https://nksa.goatcounter.com> (ohne Cookies, ohne
+Kennung im Browser; GoatCounter speichert keine IP-Adressen). Gesendet werden Pfad, Seitentitel,
+Herkunftsseite und Bildschirmgrösse.
+
+| Pfad | Bedeutung |
+| --- | --- |
+| `/kara/` | Cockpit |
+| `/kara/editor/` | Labyrinth-Editor |
+| `/kara/baukasten/<reihe>/<aufgabe>` | Aufgabe geöffnet (eigene Challenges: `…/eigene/challenge`) |
+| `/kara/baukasten/geloest/<reihe>/<aufgabe>` | Ereignis: Aufgabe gelöst |
+| `/kara/baukasten/challenge-uebernommen` | Ereignis: Challenge per Link übernommen |
+
+Nicht gezählt wird lokal (localhost, file:) und in Browsern, die einmal eine Seite mit
+`?zaehler=aus` geöffnet haben (z. B. für die eigenen Aufrufe der Lehrperson); `?zaehler=an`
+hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
+
 ## Im Browser gespeichert (`localStorage`)
 
 | Schlüssel | Inhalt |

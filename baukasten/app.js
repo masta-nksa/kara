@@ -9,6 +9,16 @@
 
   var E = window.BaukastenEngine;
   var C = window.KaraChallenges || null;   // eigene Challenges (assets/challenges.js)
+  var ZAEHLER = window.KaraZaehler || null; // anonyme Nutzungsstatistik (assets/zaehler.js)
+
+  // Pfad für die Statistik: /kara/baukasten/<reihe>/<aufgabe>; eigene Challenges zusammengefasst.
+  function statistik(wo, ereignis) {
+    if (!ZAEHLER || !aufg || !reihe) return;
+    var basis = location.pathname.replace(/index\.html$/, "");
+    if (basis.slice(-1) !== "/") basis += "/";
+    ZAEHLER.zaehlen(basis + (wo ? wo + "/" : "") + reihe.id + "/" + (aufg.challenge ? "challenge" : aufg.id),
+      aufg.challenge ? "Eigene Challenge" : aufg.titel, ereignis);
+  }
   var SPEICHER = "kara.baukasten.v1";
   var TEMPO = [1100, 700, 420, 220, 90, 35, 10];
   var TEMPO_TEXT = ["sehr langsam", "langsam", "mittel", "schnell", "sehr schnell", "blitzschnell", "Turbo"];
@@ -207,6 +217,7 @@
         $("importJa").textContent = schon ? "Spielen" : "Hinzufügen und spielen";
         $("importJa").onclick = function () {
           var r = C.hinzufuegen(ch);
+          if (ZAEHLER) ZAEHLER.zaehlen(location.pathname.replace(/index\.html$/, "") + "challenge-uebernommen", "Challenge übernommen", true);
           reiheParam = "eigene";
           aufgabeParam = r.id;
           if (!r.gespeichert) importHinweis = "Der Browser erlaubt kein Speichern. Die Challenge ist nicht dauerhaft übernommen.";
@@ -323,6 +334,7 @@
 
     tabsAktualisieren();
     adresseSetzen();
+    statistik();
     renderPalette();
     var p = aufg.palette;
     $("zaehlwerk").hidden = !((p.befehle || []).some(function (c) { return /^zaehler/.test(c); }) ||
@@ -1500,6 +1512,7 @@
   function bewerten(res) {
     if (res.ok) {
       geloest[aufg.id] = Math.min(res.bloecke, geloest[aufg.id] || res.bloecke);
+      statistik("geloest", true);
       speichereFortschritt();
       tabsAktualisieren();
       var knopf = null;
