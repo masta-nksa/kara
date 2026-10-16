@@ -1,0 +1,71 @@
+{
+  "hinweis": "Abschluss-Level mit allen Bausteinen; danach eigene Challenges aus dem Editor (im Browser gespeichert). Keine Loesungen enthalten.",
+  "aufgaben": [
+    {
+      "id": "abschluss",
+      "maxTiefe": 6,
+      "titel": "Abschluss · Grosse Labyrinthe",
+      "stufe": "Alles zusammen",
+      "text": "Das letzte Level: grössere Labyrinthe, mit und ohne Inseln, der Start mal am Rand, mal im Inneren. Alle Bausteine stehen zur Verfügung. Ihr Programm muss in den drei gezeigten, in drei verdeckten und in zehn zufälligen Labyrinthen zum Ausgang finden. Danach können Sie im Labyrinth-Editor eigene Challenges bauen und teilen.",
+      "layouts": [
+        {
+          "karte": ["#############", "Z.#.#.......S", "#.#.#####.###", "#.....#.#...#", "#####.#.#.#.#", "#...#.#...#.#", "###.#.#.#####", "#...#...#...#", "###.###.#.###", "#...........#", "#.#.#.#####.#", "#.#.#.#.....#", "#############"],
+          "blick": "W"
+        },
+        {
+          "karte": ["#############", "#...#...#.#.#", "###.#.###.#.#", "#........S..#", "###.#.#####.#", "#...........#", "###.#.#.###.#", "#...#.#.....#", "#.#.###.#.###", "#.......#...#", "#.#####.#####", "#...#.......#", "#Z###########"],
+          "blick": "W"
+        },
+        {
+          "karte": ["#############", "#...........#", "#.#.#.###.#.#", "#.#S#.....#.#", "#.###.###.###", "#...........#", "#.#.#.#####.#", "#.#.#...#...#", "#####.###.#.#", "#.....#.....#", "#.#.#.#.#.#.#", "#.#.#.#...#.#", "#######Z#####"],
+          "blick": "N"
+        }
+      ],
+      "verdeckt": [
+        {
+          "karte": ["#############", "#...........#", "#.#.#.#.###.#", "#.#.#.#...#.#", "#.#.#####.###", "Z.#.....#...#", "###.#########", "#.....#...#.#", "#.#.#.#.#.#.#", "#.#.#...#...#", "#.#.###.###.#", "#.#.#.....#.#", "#####S#######"],
+          "blick": "N"
+        },
+        {
+          "karte": ["#############", "#.#...#.....#", "#.#.#####.#.#", "#.......#.#S#", "###.###.#.#.#", "#...........#", "#####.#.#.#.#", "#.......#.#.#", "#######.###.#", "#.......#.#.#", "#.#.#.#.#.#.#", "Z...#.#.....#", "#############"],
+          "blick": "S"
+        },
+        {
+          "karte": ["#############", "#.....#...#.Z", "#.#.#.#.###.#", "#...........#", "#.###.#.#.#.#", "#..S#...#.#.#", "#.#######.###", "#.#.........#", "#.###.#.###.#", "#.....#.#.#.#", "#.###.###.#.#", "#.#.........#", "#############"],
+          "blick": "W"
+        }
+      ],
+      "zufall": {
+        "anzahl": 10,
+        "raeume": 6,
+        "inseln": 5
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links",
+          "zaehlerPlus",
+          "zaehlerMinus",
+          "zaehlerNull"
+        ],
+        "wiederholung": true,
+        "bis": true,
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts",
+          "zaehlerIstNull"
+        ],
+        "sonst": true
+      },
+      "maxBloecke": null,
+      "kleinsteLoesung": 14,
+      "hinweise": [
+        "Ein Programm, das in «Inseln und Pledge» überall funktioniert hat, funktioniert hier auch, wenn es wirklich allgemein ist.",
+        "Prüfen Sie zuerst mit «Alle prüfen», in welchen Labyrinthen es hakt, und sehen Sie sich diese dann einzeln an."
+      ]
+    }
+  ]
+}

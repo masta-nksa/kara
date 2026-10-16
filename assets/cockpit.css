@@ -30,6 +30,8 @@
   font-weight:600;color:var(--surface);background:var(--accent);border-radius:var(--radius);text-decoration:none;
 }
 .ck-start:hover{filter:brightness(1.08)}
+.ck-knoepfe{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ck-zweit{background:transparent;color:var(--accent);border:1px solid var(--accent)}
 .ck-aufgaben a:focus-visible,.ck-start:focus-visible,.ck-fuss a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .ck-fuss{font-size:.82rem;color:var(--ink-soft)}
 .ck-fuss p{margin:0}

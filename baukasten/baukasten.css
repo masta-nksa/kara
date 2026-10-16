@@ -59,6 +59,14 @@
 .bk-hinweis summary{cursor:pointer;min-height:44px;display:flex;align-items:center;width:max-content;max-width:100%}
 .bk-hinweis p{padding:2px 0 6px}
 .bk-hinweis p + p{border-top:1px dashed var(--line);padding-top:8px}
+.bk-challenge{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.bk-challenge[hidden],.bk-editor-link[hidden]{display:none}
+.bk-challenge a.bk-knopf{display:inline-flex;align-items:center;text-decoration:none}
+.bk-ch-link{flex-basis:100%;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.75rem;padding:8px;color:var(--ink);background:var(--ground);border:1px solid var(--line);border-radius:var(--radius)}
+.bk-ch-link[hidden],.bk-ch-meldung[hidden]{display:none}
+.bk-ch-meldung{flex-basis:100%;margin:0;font-size:.88rem;color:var(--ink-soft)}
+.bk-editor-link{margin:10px 0 0;font-size:.92rem}
+.bk-editor-link a{color:var(--accent)}
 .bk-tipp{min-height:36px;padding:4px 12px;font-size:.85rem;margin:2px 0 6px}
 .bk-tipp[hidden]{display:none}
 

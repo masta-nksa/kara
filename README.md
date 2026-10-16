@@ -13,7 +13,9 @@ Hervorgegangen aus dem Struktogramm-Baukasten in
 
 ```
 index.html                Cockpit: Übersicht der Reihen mit Fortschritt
-assets/                   basis.css (Farben Hell/Dunkel, Schrift), cockpit.css/.js, favicon.svg
+assets/                   basis.css (Farben Hell/Dunkel, Schrift), cockpit.css/.js, favicon.svg,
+                          challenges.js (eigene Challenges: prüfen, Link, Speicher)
+editor/                   Labyrinth-Editor für eigene Challenges
 baukasten/                der Baukasten
   index.html, app.js      Oberfläche (Bausteine ziehen, Käfer-Feld, Ablauf)
   engine.js               Interpreter, Prüfung und Programmbaum (reine Funktionen, ohne DOM)
@@ -80,6 +82,26 @@ Hände scheitern; kein Programm mit bis zu 6 Bausteinen löst es) und «Jedes La
 Inseln» (Pledge-Algorithmus; in den gezeigten und verdeckten Labyrinthen scheitern die
 Handregeln jeweils mindestens einmal, dazu zehn Zufallslabyrinthe mit Inseln).
 
+## Abschluss und eigene Challenges
+
+Die letzte Reihe («Abschluss und eigene Challenges», `lokal: true` in `reihen.json`) enthält das
+Abschluss-Level (`aufgaben/abschluss.json`: 13 × 13, mit und ohne Inseln, alle Bausteine) und
+danach die Challenges, die in diesem Browser gespeichert sind.
+
+**Editor** (`editor/`): Raster bearbeiten (Mauer/Weg auch durch Ziehen, Start mit Blickrichtung,
+Ausgang am Rand), Grösse 7 bis 15, Zufallslabyrinthe mit und ohne Inseln, bis zu 12 Labyrinthe
+pro Challenge, einzelne als «verdeckt» markieren, Titel, Beschreibung, Bausteinlimit. Die
+Spielbarkeit (Start, Ausgang am Rand, Weg dazwischen) wird laufend geprüft. Der Entwurf bleibt
+im Browser. Bedienung auch per Tastatur (Pfeiltasten, Eingabetaste).
+
+**Teilen ohne Server**: «Link kopieren» erzeugt `baukasten/?reihe=eigene#challenge=<Base64>`.
+Wer den Link öffnet, wird gefragt, ob die Challenge in den eigenen Browser übernommen werden
+soll; danach verschwindet der `#`-Teil aus der Adresszeile. Derselbe Link zweimal ergibt kein
+Duplikat (Kennung aus dem Inhalt). Eingelesene Daten werden streng geprüft (Grösse 5–15,
+nur `#.SZ`, genau ein Start und ein Ausgang am Rand, Weg vorhanden, höchstens 12 Labyrinthe,
+Texte nur als reiner Text). «Verdeckt» ist eine Spielregel, kein Geheimnis: Wer den Link
+entschlüsselt, sieht alle Labyrinthe.
+
 ## Im Browser gespeichert (`localStorage`)
 
 | Schlüssel | Inhalt |
@@ -88,6 +110,8 @@ Handregeln jeweils mindestens einmal, dazu zehn Zufallslabyrinthe mit Inseln).
 | `kara.baukasten.prog.v1` | Stand der Bausteine je Aufgabe; «Alles löschen» leert ihn |
 | `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
 | `kara.baukasten.nebel` | Nebel ein/aus |
+| `kara.challenges.v1` | eigene und übernommene Challenges |
+| `kara.editor.entwurf.v1` | Entwurf im Editor |
 
 Checks und Kara liegen unter derselben Adresse `masta-nksa.github.io` und teilen sich darum
 den `localStorage`. Beim ersten Besuch übernimmt Kara einmalig den Stand aus dem früheren

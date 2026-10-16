@@ -34,6 +34,14 @@
       <div id="hinweisListe"></div>
       <button type="button" class="bk-knopf bk-tipp" id="knopfTipp">Noch ein Tipp</button>
     </details>
+    <div class="bk-challenge" id="challengeLeiste" hidden>
+      <button type="button" class="bk-knopf" id="chTeilen">Link kopieren</button>
+      <a class="bk-knopf" id="chBearbeiten" href="../editor/">Im Editor bearbeiten</a>
+      <button type="button" class="bk-knopf" id="chEntfernen">Entfernen</button>
+      <input type="text" class="bk-ch-link" id="chLink" readonly hidden aria-label="Link zur Challenge">
+      <p class="bk-ch-meldung" id="chMeldung" role="status" aria-live="polite" hidden></p>
+    </div>
+    <p class="bk-editor-link" id="editorLink" hidden><a href="../editor/">Zum Labyrinth-Editor: eigene Challenges bauen und teilen →</a></p>
   </section>
 
   <div class="bk-raster">
@@ -137,7 +145,18 @@
   </div>
 </dialog>
 
+<dialog class="bk-bild" id="importDialog" aria-labelledby="importTitel">
+  <h2 id="importTitel">Challenge erhalten</h2>
+  <p class="bk-bild-hilfe" id="importText"></p>
+  <p class="bk-meldung fehler" id="importFehler" hidden></p>
+  <div class="bk-bild-knoepfe">
+    <button type="button" class="bk-knopf primaer" id="importJa">Hinzufügen und spielen</button>
+    <button type="button" class="bk-knopf" id="importNein">Ablehnen</button>
+  </div>
+</dialog>
+
 <script src="engine.js"></script>
+<script src="../assets/challenges.js"></script>
 <script src="figur.js"></script>
 <script src="app.js"></script>
 </body>
