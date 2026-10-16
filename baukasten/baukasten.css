@@ -58,6 +58,9 @@
 .bk-hinweis{margin-top:10px;font-size:.92rem;color:var(--ink-soft)}
 .bk-hinweis summary{cursor:pointer;min-height:44px;display:flex;align-items:center;width:max-content;max-width:100%}
 .bk-hinweis p{padding:2px 0 6px}
+.bk-hinweis p + p{border-top:1px dashed var(--line);padding-top:8px}
+.bk-tipp{min-height:36px;padding:4px 12px;font-size:.85rem;margin:2px 0 6px}
+.bk-tipp[hidden]{display:none}
 
 /* ---------- Raster ---------- */
 .bk-raster{display:grid;gap:20px;grid-template-columns:minmax(0,1fr)}
@@ -228,6 +231,26 @@ body.bk-zieht *{cursor:grabbing!important}
 
 /* ---------- Käfer-Feld ---------- */
 .bk-feld{display:flex;justify-content:center}
+/* Mehrere Labyrinthe: Reiter mit Ergebnis der letzten Prüfung */
+.bk-layouts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px}
+.bk-layouts[hidden]{display:none}
+.bk-lay{
+  font:inherit;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.82rem;cursor:pointer;
+  min-width:44px;min-height:36px;padding:4px 10px;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:var(--radius);
+}
+.bk-lay:hover{border-color:var(--accent)}
+.bk-lay[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.bk-lay.verdeckt,.bk-lay.zufall{border-style:dashed}
+.bk-lay:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bk-lay-marke.ok{color:var(--ok);font-weight:700}
+.bk-lay-marke.fehl{color:var(--no);font-weight:700}
+.bk-lay-info{font-size:.8rem;color:var(--ink-soft);margin-left:4px}
+/* Nebel */
+.bk-nebel{fill:var(--ground);opacity:.97;pointer-events:none}
+.bk-nebel-schalter{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--ink-soft);cursor:pointer}
+.bk-nebel-schalter[hidden]{display:none}
+.bk-nebel-schalter input{width:18px;height:18px;accent-color:var(--accent)}
 .bk-feld svg{display:block;width:100%;height:auto;max-width:420px}
 .bk-zelle{fill:var(--surface);stroke:var(--line);stroke-width:1}
 .bk-spurpunkt{fill:var(--accent);opacity:.6}

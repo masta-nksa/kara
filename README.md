@@ -50,11 +50,25 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
   blendet den Sonst-Zweig aus.
 - `maxTiefe` (Standard 3): wie viele Ebenen Wiederholungen und Verzweigungen ineinander
   stecken dürfen.
+- Mehrere Labyrinthe pro Aufgabe: `layouts` (sichtbar) und `verdeckt` (je `{karte, blick}`),
+  dazu optional `zufall: {anzahl, raeume}` für zufällig erzeugte, inselfreie Labyrinthe
+  (Kartengrösse 2·raeume+1, Ein- und Ausgang als Lücken im Rahmen). Gelöst ist die Aufgabe
+  erst, wenn der Käfer in allen den Ausgang findet. Gescheiterte verdeckte und zufällige
+  Labyrinthe werden danach als Reiter sichtbar. «Alle prüfen» prüft ohne Animation.
+- `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
+- `kleinsteLoesung`: Anzahl Bausteine der kleinsten bekannten Lösung; erscheint erst nach dem
+  Lösen. Die Bausteinlimits lassen bewusst auch weniger kompakte Lösungen zu.
+- «wiederhole bis Ziel» erkennt, wenn der Käfer im Kreis läuft (gleicher Ort, gleiche
+  Blickrichtung zu Beginn eines Durchlaufs), und bricht dann sofort ab.
+- Nebel (Schalter beim Käfer-Feld, Standard aus): Während eines Ablaufs sind nur der Käfer,
+  seine vier Nachbarfelder und das Ziel sichtbar.
 - Die Prüfung vergleicht das **Ergebnis** (Endfeld, besuchte Felder, Bausteinlimit), nie ein
   Muster. Lösungen und Tests gehören nicht in dieses Repo.
 
-Die Labyrinth-Karten und Bausteinlimits der Levels 1 bis 10 stammen aus
-[Blockly Games](https://github.com/google/blockly-games) (Maze, Apache-Lizenz 2.0).
+Die Labyrinth-Karten und Bausteinlimits der Levels 1 bis 8 und 10 stammen aus
+[Blockly Games](https://github.com/google/blockly-games) (Maze, Apache-Lizenz 2.0); Level 10 hat
+den Ausgang im Rahmen. Level 9 («Kreuzungen») und 11 («Jedes Labyrinth») sind eigene,
+inselfreie Labyrinthe: Dort führt die Linke-Hand-Regel immer zum Ausgang.
 
 ## Im Browser gespeichert (`localStorage`)
 
@@ -63,6 +77,7 @@ Die Labyrinth-Karten und Bausteinlimits der Levels 1 bis 10 stammen aus
 | `kara.baukasten.v1` | gelöste Aufgaben (grüner Haken) |
 | `kara.baukasten.prog.v1` | Stand der Bausteine je Aufgabe; «Alles löschen» leert ihn |
 | `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
+| `kara.baukasten.nebel` | Nebel ein/aus |
 
 Checks und Kara liegen unter derselben Adresse `masta-nksa.github.io` und teilen sich darum
 den `localStorage`. Beim ersten Besuch übernimmt Kara einmalig den Stand aus dem früheren

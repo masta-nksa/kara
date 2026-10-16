@@ -10,7 +10,7 @@
     {
       "id": "labyrinth",
       "titel": "Labyrinth",
-      "untertitel": "Zehn Levels nach Blockly Games: von geradeaus bis zum Wandfolger",
+      "untertitel": "Von geradeaus über Kreuzungen bis zum Programm, das in jedem Labyrinth den Ausgang findet",
       "dateien": ["aufgaben/labyrinth.json"]
     }
   ]

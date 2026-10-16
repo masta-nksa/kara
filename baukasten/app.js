@@ -264,17 +264,124 @@
 
     $("aufgabeTitel").textContent = aufg.titel;
     $("aufgabeText").textContent = aufg.text;
-    var hb = $("hinweisBox");
-    hb.hidden = !aufg.hinweis;
-    hb.open = false;
-    $("hinweisText").textContent = aufg.hinweis || "";
+    tippStufe = 1;
+    $("hinweisBox").open = false;
+    renderHinweise();
+    layout = { idx: 0, ergebnisse: {}, aufgedeckt: {}, zufall: [] };
+    aufg.feld = aufg.felder[0].feld;
+    aufg.ziel = aufg.felder[0].ziel;
 
     tabsAktualisieren();
     adresseSetzen();
     renderPalette();
+    renderLayouts();
     renderFeld();
     simReset();
     renderBau();
+  }
+
+  /* ---------- Hinweise (gestuft: jeder weitere Tipp erst auf Klick) - */
+
+  var tippStufe = 1;
+  function hinweisListe() { return aufg.hinweise || (aufg.hinweis ? [aufg.hinweis] : []); }
+  function renderHinweise() {
+    var liste = hinweisListe(), box = $("hinweisListe");
+    $("hinweisBox").hidden = !liste.length;
+    box.textContent = "";
+    liste.slice(0, tippStufe).forEach(function (t) { box.append(el("p", null, t)); });
+    var knopf = $("knopfTipp");
+    knopf.hidden = tippStufe >= liste.length;
+    knopf.textContent = "Noch ein Tipp (" + (tippStufe + 1) + " von " + liste.length + ")";
+  }
+  $("knopfTipp").addEventListener("click", function () { tippStufe++; renderHinweise(); });
+
+  /* ---------- Mehrere Labyrinthe ---------------------------- */
+
+  // idx: angezeigtes Labyrinth; ergebnisse: letzte Prüfung je Name; aufgedeckt: verdeckte, die
+  // gescheitert sind und darum sichtbar werden; zufall: gescheiterte Zufallslabyrinthe (zum Ansehen).
+  var layout = { idx: 0, ergebnisse: {}, aufgedeckt: {}, zufall: [] };
+  var MAX_ZUFALL_ZEIGEN = 3;
+
+  function mehrereLayouts() { return aufg.felder.length > 1 || !!aufg.zufall; }
+  function sichtbareFelder() {
+    return aufg.felder.filter(function (f) { return !f.verdeckt || layout.aufgedeckt[f.name]; }).concat(layout.zufall);
+  }
+  function kurzName(f) { return f.name.replace("Layout ", "").replace("Verdeckt ", "V").replace("Zufall ", "Z"); }
+
+  function layoutSetzen(i) {
+    var liste = sichtbareFelder();
+    layout.idx = Math.max(0, Math.min(i, liste.length - 1));
+    aufg.feld = liste[layout.idx].feld;
+    aufg.ziel = liste[layout.idx].ziel;
+    renderLayouts();
+    renderFeld();
+    simReset();
+  }
+
+  function renderLayouts() {
+    var box = $("layouts");
+    var mehr = mehrereLayouts();
+    box.hidden = !mehr;
+    $("knopfAlle").hidden = !mehr;
+    box.textContent = "";
+    if (!mehr) return;
+    sichtbareFelder().forEach(function (f, i) {
+      var r = layout.ergebnisse[f.name];
+      var b = el("button", "bk-lay" + (f.verdeckt ? " verdeckt" : "") + (f.zufall ? " zufall" : ""));
+      b.type = "button";
+      b.append(el("span", null, kurzName(f)));
+      if (r) b.append(el("span", "bk-lay-marke " + (r.ok ? "ok" : "fehl"), r.ok ? "✓" : "✗"));
+      b.setAttribute("aria-pressed", i === layout.idx ? "true" : "false");
+      b.setAttribute("aria-label", f.name + (r ? (r.ok ? ", geschafft" : ", nicht geschafft: " + r.text) : ""));
+      b.title = f.name + (r && !r.ok ? ": " + r.text : "");
+      b.addEventListener("click", function () { if (i !== layout.idx) layoutSetzen(i); });
+      box.append(b);
+    });
+    var info = [], verd = aufg.felder.filter(function (f) { return f.verdeckt && !layout.aufgedeckt[f.name]; }).length;
+    if (verd) info.push(verd + " verdeckt");
+    if (aufg.zufall) info.push(aufg.zufall.anzahl + " zufällig");
+    if (info.length) box.append(el("span", "bk-lay-info", "+ " + info.join(", ")));
+  }
+
+  // Bei jeder Prüfung neue Zufallslabyrinthe (inselfrei, Ein- und Ausgang im Rahmen).
+  function zufallsFelder() {
+    var z = aufg.zufall;
+    if (!z) return [];
+    var seed = (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0, liste = [];
+    for (var i = 0; i < z.anzahl; i++) {
+      var f = E.layoutVorbereiten(E.erzeugeLabyrinth(seed + i, z.raeume || 5), "Zufall " + (i + 1), false, "Zufall");
+      f.zufall = true;
+      liste.push(f);
+    }
+    return liste;
+  }
+
+  // Prüft in allen Labyrinthen. Gescheiterte verdeckte und zufällige werden sichtbar.
+  function pruefenAlle() {
+    var aktiv = sichtbareFelder()[layout.idx];
+    var extra = zufallsFelder();
+    var res = E.pruefe(aufg, prog, extra);
+    layout.ergebnisse = {};
+    res.ergebnisse.forEach(function (r) { layout.ergebnisse[r.name] = r; });
+    res.ergebnisse.forEach(function (r) { if (r.verdeckt && !r.ok) layout.aufgedeckt[r.name] = true; });
+    layout.zufall = extra.filter(function (f) { return !layout.ergebnisse[f.name].ok; }).slice(0, MAX_ZUFALL_ZEIGEN);
+    var neu = sichtbareFelder().indexOf(aktiv);
+    layout.idx = neu >= 0 ? neu : 0;
+    renderLayouts();
+    return res;
+  }
+
+  var GRUND_KURZ = {
+    anstoss: "stösst an", kreis: "läuft im Kreis", limit: "läuft zu lange",
+    endfeld: "kommt nicht zum Ausgang", fehlend: "verpasst Felder", zusaetzlich: "zu viele Felder"
+  };
+
+  function kleinsteText(n) {
+    var k = aufg.kleinsteLoesung;
+    if (!k) return "";
+    if (n < k) return " Das ist kleiner als die kleinste bekannte Lösung mit " + k + " Bausteinen. Stark!";
+    if (n === k) return " Das ist die kleinste bekannte Lösung.";
+    return " Kleinste bekannte Lösung: " + k + " Bausteine.";
   }
 
   /* ---------- Palette --------------------------------------- */
@@ -924,7 +1031,7 @@
     }
 
     var spurFlaechen = svgEl("g"), ziel = svgEl("g"), spurLinien = svgEl("g"), hind = svgEl("g"), marken = svgEl("g");
-    svg.append(spurFlaechen, ziel);
+    svg.append(spurFlaechen);
 
     var st = svgEl("text", { x: zx(f.start[0]) + 3, y: zy(f.start[1]) + 9 }, "bk-start");
     st.textContent = "Start";
@@ -947,6 +1054,8 @@
     }
 
     svg.append(spurLinien, hind);
+    var nebel = nebelBauen(svg, f);
+    svg.append(ziel);
     // Hindernisse als Steinblöcke; Form und Helligkeit variieren leicht von Feld zu Feld.
     var RISSE = [
       "M{a} {b} l5 6 l-3 5 l6 7", "M{c} {b} l-4 7 l5 4 l-2 8", "M{a} {d} l7 -3 l3 5 l8 -2"
@@ -990,12 +1099,14 @@
 
     feldBox.textContent = "";
     feldBox.append(svg);
-    feldRef = { svg: svg, spurFlaechen: spurFlaechen, spurLinien: spurLinien, marken: marken, kaefer: k, bild: bildGruppe };
+    feldRef = { svg: svg, spurFlaechen: spurFlaechen, spurLinien: spurLinien, marken: marken, kaefer: k, bild: bildGruppe, nebel: nebel };
+    $("nebelSchalter").hidden = !f.karte;
 
     var info = "Feld " + f.cols + " × " + f.rows + ". Start: Spalte " + f.start[0] + ", Zeile " + f.start[1] +
       ", Blick nach " + E.BLICK_TEXT[f.blick] + ". ";
     info += z.typ === "endfeld" ? "Ziel: das Feld mit der Flagge."
       : "Ziel: alle gestrichelt markierten Felder besuchen" + (z.endfeld ? ", Ende auf dem Feld mit der Flagge." : ".");
+    if (mehrereLayouts()) info = "Labyrinth «" + sichtbareFelder()[layout.idx].name + "». " + info;
     $("feldInfo").textContent = info;
   }
 
@@ -1004,7 +1115,48 @@
     return alt + ((ziel - mod + 540) % 360) - 180;
   }
 
+  /* ---------- Nebel: nur der Käfer und seine Nachbarfelder sind sichtbar ---------- */
+
+  var NEBEL_SPEICHER = "kara.baukasten.nebel", nebelNr = 0;
+  var nebelAn = false;
+  try { nebelAn = localStorage.getItem(NEBEL_SPEICHER) === "1"; } catch (e) { /* Standard: aus */ }
+  $("nebel").checked = nebelAn;
+  $("nebel").addEventListener("change", function () {
+    nebelAn = $("nebel").checked;
+    try { localStorage.setItem(NEBEL_SPEICHER, nebelAn ? "1" : "0"); } catch (e) { /* nur für diese Seite */ }
+    nebelSetzen();
+  });
+
+  function nebelBauen(svg, f) {
+    var id = "bk-nebel-" + (++nebelNr);
+    var defs = svgEl("defs"), maske = svgEl("mask", { id: id, maskUnits: "userSpaceOnUse" });
+    maske.append(svgEl("rect", { x: 0, y: 0, width: RAND + f.cols * Z + 4, height: f.rows * Z + RAND + 4, fill: "#fff" }));
+    var loecher = svgEl("g");
+    maske.append(loecher);
+    defs.append(maske);
+    var decke = svgEl("rect", { x: RAND, y: 2, width: f.cols * Z, height: f.rows * Z, mask: "url(#" + id + ")" }, "bk-nebel");
+    decke.style.display = "none";
+    svg.append(defs, decke);
+    return { decke: decke, loecher: loecher };
+  }
+
+  // Nebel nur während eines Ablaufs (ab Start bis Zurücksetzen) und nur, wenn eingeschaltet.
+  function nebelSetzen(x, y) {
+    if (!feldRef || !feldRef.nebel) return;
+    var n = feldRef.nebel, aktiv = nebelAn && !!sim.lauf && !!aufg.feld.karte;
+    n.decke.style.display = aktiv ? "" : "none";
+    if (!aktiv) return;
+    if (x == null) { x = nebelOrt[0]; y = nebelOrt[1]; }
+    nebelOrt = [Math.round(x), Math.round(y)];
+    n.loecher.textContent = "";
+    [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]].forEach(function (v) {
+      n.loecher.append(svgEl("rect", { x: zx(nebelOrt[0] + v[0]), y: zy(nebelOrt[1] + v[1]), width: Z, height: Z, fill: "#000" }));
+    });
+  }
+  var nebelOrt = [1, 1];
+
   function kaeferSetzen(x, y, winkel, ohneAnim) {
+    nebelSetzen(x, y);
     var g = feldRef.kaefer;
     if (ohneAnim) g.style.transition = "none";
     var b = feldRef.bild;
@@ -1080,6 +1232,7 @@
     sim.lauf = E.run(aufg.feld, prog, { ziel: E.zielfeld(aufg.ziel) });
     sim.i = 0;
     sim.ende = false;
+    nebelSetzen(aufg.feld.start[0], aufg.feld.start[1]);
     return true;
   }
 
@@ -1100,6 +1253,9 @@
       text = BIS_LABEL + " – Durchlauf " + ev.durchlauf;
     } else if (ev.typ === "if") {
       text = E.BEDINGUNGEN[ev.cond || "frei"].label + " → " + (ev.ja ? "Ja" : "Nein");
+    } else if (ev.code === "kreis") {
+      feldRef.kaefer.classList.add("fehler");
+      text = "Der Käfer läuft im Kreis.";
     } else {
       var dr = SCREEN_DIR[ev.d], cx = mx(ev.x), cy = my(ev.y), h = Z / 2;
       var ex = cx + dr[0] * h, ey = cy + dr[1] * h;
@@ -1131,7 +1287,10 @@
     sim.ende = true;
     knoepfe();
     $("schrittInfo").setAttribute("aria-live", "polite");
-    var res = E.pruefe(aufg, prog);
+    bewerten(mehrereLayouts() ? pruefenAlle() : E.pruefe(aufg, prog));
+  }
+
+  function bewerten(res) {
     if (res.ok) {
       geloest[aufg.id] = Math.min(res.bloecke, geloest[aufg.id] || res.bloecke);
       speichereFortschritt();
@@ -1142,14 +1301,35 @@
         knopf.type = "button";
         knopf.addEventListener("click", function () { waehleAufgabe(aktuell + 1); window.scrollTo({ top: 0, behavior: "smooth" }); });
       }
-      meldungZeigen("ok", "Geschafft", "Der Käfer hat die Aufgabe gelöst. " + E.bausteineText(res.bloecke, res.max) + "." +
+      var wo = res.ergebnisse.length > 1
+        ? "Der Käfer findet in allen " + res.ergebnisse.length + " Labyrinthen zum Ausgang" +
+          (aufg.zufall ? ", davon " + aufg.zufall.anzahl + " zufällig erzeugt" : "") + ". "
+        : "Der Käfer hat die Aufgabe gelöst. ";
+      meldungZeigen("ok", "Geschafft", wo + E.bausteineText(res.bloecke, res.max) + "." + kleinsteText(res.bloecke) +
         (knopf ? "" : " Das war die letzte Aufgabe."), knopf);
     } else if (res.grund === "bloecke" && res.zielErreicht) {
       meldungZeigen("fehler", "Fast", "Der Käfer löst die Aufgabe, aber: " + res.text + " Geht es mit weniger?");
+    } else if (res.grund === "layouts") {
+      var fehl = res.ergebnisse.filter(function (r) { return !r.ok; });
+      var liste = fehl.slice(0, 6).map(function (r) { return r.name + " (" + (GRUND_KURZ[r.grund] || r.text) + ")"; }).join(", ") +
+        (fehl.length > 6 ? " und " + (fehl.length - 6) + " weitere" : "");
+      var neuSichtbar = fehl.some(function (r) { return r.verdeckt || r.zufall; });
+      meldungZeigen("fehler", null, res.text + " Nicht geschafft: " + liste + "." +
+        (neuSichtbar ? " Gescheiterte verdeckte und zufällige Labyrinthe sind jetzt oben als Reiter zu sehen." : ""));
     } else {
       meldungZeigen("fehler", null, res.text);
     }
   }
+
+  $("knopfAlle").addEventListener("click", function () {
+    if (sim.laeuft) pause();
+    if (!prog.length) { meldungZeigen("fehler", null, E.TEXTE.leer); return; }
+    if (arbeit.querySelector(".bk-n.ungueltig")) {
+      meldungZeigen("fehler", null, "Bitte geben Sie bei «wiederhole» eine ganze Zahl von 1 bis " + E.MAX_WIEDERHOLUNG + " ein.");
+      return;
+    }
+    bewerten(pruefenAlle());
+  });
 
   function pause() {
     clearTimeout(sim.timer);

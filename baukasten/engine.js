@@ -36,7 +36,8 @@
     anstoss: "Der Käfer stösst an ein Hindernis oder den Rand.",
     limit: "Das Programm läuft zu lange (mehr als " + SCHRITTLIMIT + " Schritte) und wurde angehalten.",
     leer: "Das Struktogramm ist leer. Ziehen Sie zuerst Bausteine hinein.",
-    unbekannt: "Das Programm enthält einen unbekannten Baustein."
+    unbekannt: "Das Programm enthält einen unbekannten Baustein.",
+    kreis: "Der Käfer läuft im Kreis: Er steht wieder am gleichen Ort, schaut in die gleiche Richtung und hat das Ziel nicht erreicht."
   };
 
   /* ---------- Tabellen (erweiterbar) ----------------------- */
@@ -248,7 +249,7 @@
   /* ---------- Interpreter ---------------------------------- */
 
   // Führt das Programm aus und liefert den vollständigen Ablauf:
-  // {ok, fehler:null|"anstoss"|"limit"|"unbekannt", besucht, end, blick, schritte, trace}
+  // {ok, fehler:null|"anstoss"|"kreis"|"limit"|"unbekannt", besucht, end, blick, schritte, trace}
   // trace-Ereignisse: {typ:"act"|"loop"|"if"|"fehler", pfad, x, y, d, ...} (Zustand nach dem Ereignis).
   function run(feld, prog, opts) {
     var limit = (opts && opts.limit) || SCHRITTLIMIT;
@@ -283,8 +284,16 @@
           for (var j = 0; j < b.body.length; j++) ausfuehren(b.body[j], pfad.concat(["body", j]));
         }
       } else if (b.t === "until") {
-        var durchlauf = 0;
+        // Zu Beginn jedes Durchlaufs bestimmen Ort und Blickrichtung den weiteren Ablauf vollständig
+        // (alle anderen Bausteine sind ohne Gedächtnis). Kommt ein Zustand wieder, läuft der Käfer im Kreis.
+        var durchlauf = 0, gesehen = {};
         while (!zielFeld || z.x !== zielFeld[0] || z.y !== zielFeld[1]) {
+          var zust = z.x + "," + z.y + "," + z.d;
+          if (gesehen[zust]) {
+            ereignis("fehler", pfad, { code: "kreis" });
+            throw { code: "kreis" };
+          }
+          gesehen[zust] = true;
           ereignis("until", pfad, { durchlauf: ++durchlauf });
           for (var u = 0; u < b.body.length; u++) ausfuehren(b.body[u], pfad.concat(["body", u]));
         }
@@ -323,62 +332,157 @@
 
   /* ---------- Aufgaben vorbereiten ------------------------- */
 
-  // Wandelt eine Aufgabe mit Zeichenkarte (feld.karte) in die Felddaten um und liefert eine Kopie.
-  // Karte: eine Zeichenkette pro Zeile, oberste Zeile zuerst. «#» Mauer, «.» Weg,
-  // «S» Start, «Z» Ziel (nur wenn die Aufgabe kein eigenes «ziel» hat). Aufgaben ohne Karte bleiben unverändert.
-  function vorbereiten(aufgabe) {
-    var a = klonen(aufgabe), f = a.feld;
-    if (!f.karte) return a;
-    var rows = f.karte.length, cols = f.karte[0].length, hind = [], start = null, ziel = null;
-    f.karte.forEach(function (zeile, r) {
-      if (zeile.length !== cols) throw new Error("Karte: Zeilen ungleich lang (" + a.id + ").");
+  // Zeichenkarte -> Felddaten. Karte: eine Zeichenkette pro Zeile, oberste Zeile zuerst.
+  // «#» Mauer, «.» Weg, «S» Start, «Z» Ziel. Liefert {feld, zielFeld}.
+  function karteLesen(karte, blick, wo) {
+    if (!Array.isArray(karte) || !karte.length) throw new Error("Karte fehlt (" + wo + ").");
+    var rows = karte.length, cols = karte[0].length, hind = [], start = null, ziel = null;
+    karte.forEach(function (zeile, r) {
+      if (typeof zeile !== "string" || zeile.length !== cols) throw new Error("Karte: Zeilen ungleich lang (" + wo + ").");
       for (var c = 0; c < cols; c++) {
         var ch = zeile.charAt(c), x = c + 1, y = rows - r;
         if (ch === "#") hind.push([x, y]);
         else if (ch === "S") start = [x, y];
         else if (ch === "Z") ziel = [x, y];
-        else if (ch !== ".") throw new Error("Karte: unbekanntes Zeichen «" + ch + "» (" + a.id + ").");
+        else if (ch !== ".") throw new Error("Karte: unbekanntes Zeichen «" + ch + "» (" + wo + ").");
       }
     });
-    if (!start) throw new Error("Karte ohne Start (" + a.id + ").");
-    f.cols = cols; f.rows = rows; f.start = start; f.hindernisse = hind;
-    if (!f.blick) f.blick = "E";
-    if (!a.ziel) {
-      if (!ziel) throw new Error("Karte ohne Ziel (" + a.id + ").");
-      a.ziel = { typ: "endfeld", feld: ziel };
+    if (!start) throw new Error("Karte ohne Start (" + wo + ").");
+    return { feld: { karte: karte, cols: cols, rows: rows, start: start, hindernisse: hind, blick: blick || "E" }, zielFeld: ziel };
+  }
+
+  // Ein Layout (Karte mit Start und Ziel) für die Prüfung vorbereiten: {name, feld, ziel, verdeckt}.
+  function layoutVorbereiten(layout, name, verdeckt, wo) {
+    var k = karteLesen(layout.karte, layout.blick, wo);
+    if (!k.zielFeld) throw new Error("Karte ohne Ziel (" + wo + ").");
+    return { name: layout.name || name, feld: k.feld, ziel: { typ: "endfeld", feld: k.zielFeld }, verdeckt: !!verdeckt };
+  }
+
+  // Liefert eine vorbereitete Kopie der Aufgabe. Jede Aufgabe bekommt «felder»: die Layouts, gegen
+  // die geprüft wird (sichtbare zuerst, dann verdeckte). «feld» und «ziel» zeigen auf das erste Layout.
+  //  - Aufgabe mit «layouts» (und optional «verdeckt»): mehrere Karten.
+  //  - Aufgabe mit «feld.karte»: eine Karte; «ziel» ergibt sich aus «Z», falls nicht angegeben.
+  //  - sonst: Feld mit cols/rows/start/hindernisse und eigenem «ziel» (unverändert).
+  function vorbereiten(aufgabe) {
+    var a = klonen(aufgabe);
+    if (Array.isArray(a.layouts) && a.layouts.length) {
+      a.felder = a.layouts.map(function (l, i) { return layoutVorbereiten(l, "Layout " + (i + 1), false, a.id + ", Layout " + (i + 1)); })
+        .concat((a.verdeckt || []).map(function (l, i) { return layoutVorbereiten(l, "Verdeckt " + (i + 1), true, a.id + ", verdeckt " + (i + 1)); }));
+    } else if (a.feld && a.feld.karte) {
+      var k = karteLesen(a.feld.karte, a.feld.blick, a.id);
+      if (!a.ziel) {
+        if (!k.zielFeld) throw new Error("Karte ohne Ziel (" + a.id + ").");
+        a.ziel = { typ: "endfeld", feld: k.zielFeld };
+      }
+      a.felder = [{ name: "Layout 1", feld: k.feld, ziel: a.ziel, verdeckt: false }];
+    } else {
+      a.felder = [{ name: "Layout 1", feld: a.feld, ziel: a.ziel, verdeckt: false }];
     }
+    a.feld = a.felder[0].feld;
+    a.ziel = a.felder[0].ziel;
     return a;
+  }
+
+  /* ---------- Zufallslabyrinthe ---------------------------- */
+
+  // Kleiner Zufallsgenerator mit Startzahl (mulberry32): gleiche Startzahl, gleiches Labyrinth.
+  function zufall(seed) {
+    var s = seed >>> 0;
+    return function () {
+      s = (s + 0x6D2B79F5) >>> 0;
+      var t = s;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  // Perfektes Labyrinth (jeder Ort auf genau einem Weg erreichbar, also ohne Inseln) mit
+  // raeume × raeume Räumen, Kartengrösse 2·raeume+1. Eingang (Start) und Ausgang (Ziel) sind
+  // Lücken im Rahmen auf zwei verschiedenen Seiten. Verfahren: zufälliges Prim, das viele
+  // Abzweigungen erzeugt. Liefert ein Layout {karte, blick}.
+  function erzeugeLabyrinth(seed, raeume) {
+    var r = zufall(seed), n = raeume || 5, g = 2 * n + 1, x, y;
+    var m = [];
+    for (y = 0; y < g; y++) { m.push([]); for (x = 0; x < g; x++) m[y].push("#"); }
+    var drin = {}, rand = [];
+    function rein(cx, cy) {
+      drin[cx + "," + cy] = true;
+      m[2 * cy + 1][2 * cx + 1] = ".";
+      [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(function (v) {
+        var nx = cx + v[0], ny = cy + v[1];
+        if (nx >= 0 && ny >= 0 && nx < n && ny < n && !drin[nx + "," + ny]) rand.push([nx, ny, cx, cy]);
+      });
+    }
+    rein(Math.floor(r() * n), Math.floor(r() * n));
+    while (rand.length) {
+      var e = rand.splice(Math.floor(r() * rand.length), 1)[0];
+      if (drin[e[0] + "," + e[1]]) continue;
+      m[e[1] + e[3] + 1][e[0] + e[2] + 1] = ".";      // Wand zwischen den beiden Räumen öffnen
+      rein(e[0], e[1]);
+    }
+    // Seiten: 0 oben, 1 rechts, 2 unten, 3 links. Blick des Käfers zeigt vom Eingang ins Labyrinth.
+    var seiteS = Math.floor(r() * 4), seiteZ = (seiteS + 1 + Math.floor(r() * 3)) % 4;
+    function luecke(seite) {
+      var k = 2 * Math.floor(r() * n) + 1;
+      return seite === 0 ? [0, k] : seite === 1 ? [k, g - 1] : seite === 2 ? [g - 1, k] : [k, 0];
+    }
+    var s = luecke(seiteS), zl = luecke(seiteZ);
+    m[s[0]][s[1]] = "S";
+    m[zl[0]][zl[1]] = "Z";
+    return { karte: m.map(function (z) { return z.join(""); }), blick: ["S", "W", "N", "E"][seiteS] };
   }
 
   function bausteineText(n, max) {
     return max == null ? "Bausteine: " + n : "Bausteine: " + n + " von höchstens " + max;
   }
 
-  // Prüft ein Programm gegen eine Aufgabe. Reihenfolge wie in der Referenz-
-  // Simulation: Ablauf (Fehler) -> Bausteinlimit -> Ziel. Zusätzlich: leeres Programm.
-  // Ergebnis: {ok, grund, text, bloecke, max, zielErreicht, lauf}
-  function pruefe(aufgabe, prog) {
+  // Prüft ein Programm in einem Layout: {ok, grund, text, lauf}.
+  function pruefeLayout(f, prog) {
+    var lauf = run(f.feld, prog, { ziel: zielfeld(f.ziel) });
+    if (!lauf.ok) return { ok: false, grund: lauf.fehler, text: TEXTE[lauf.fehler] || TEXTE.unbekannt, lauf: lauf };
+    var pruef = ZIELTYPEN[f.ziel.typ];
+    if (!pruef) throw new Error("Unbekannter Zieltyp: " + f.ziel.typ);
+    var miss = pruef(f.ziel, lauf);
+    return miss ? { ok: false, grund: miss.grund, text: miss.text, lauf: lauf } : { ok: true, grund: "ok", text: "", lauf: lauf };
+  }
+
+  // Prüft ein Programm gegen eine (vorbereitete) Aufgabe in allen ihren Layouts, dazu in den
+  // optionalen «extra»-Layouts (z. B. Zufallslabyrinthe). Reihenfolge: leeres Programm ->
+  // Ablauf/Ziel je Layout -> Bausteinlimit. Ergebnis:
+  // {ok, grund, text, bloecke, max, zielErreicht, lauf, ergebnisse:[{name, verdeckt, zufall, ok, grund, text, lauf}]}
+  // Mit nur einem Layout entsprechen grund/text/lauf genau diesem Layout.
+  function pruefe(aufgabe, prog, extra) {
     var max = aufgabe.maxBloecke == null ? null : aufgabe.maxBloecke;
     var n = zaehleBausteine(prog);
-    var res = { ok: false, grund: null, text: "", bloecke: n, max: max, zielErreicht: false, lauf: null };
+    var res = { ok: false, grund: null, text: "", bloecke: n, max: max, zielErreicht: false, lauf: null, ergebnisse: [] };
     if (!prog.length) { res.grund = "leer"; res.text = TEXTE.leer; return res; }
 
-    var lauf = run(aufgabe.feld, prog, { ziel: zielfeld(aufgabe.ziel) });
-    res.lauf = lauf;
-    if (!lauf.ok) { res.grund = lauf.fehler; res.text = TEXTE[lauf.fehler] || TEXTE.unbekannt; return res; }
+    var felder = (aufgabe.felder || [{ name: "Layout 1", feld: aufgabe.feld, ziel: aufgabe.ziel }]).concat(extra || []);
+    res.ergebnisse = felder.map(function (f) {
+      var r = pruefeLayout(f, prog);
+      r.name = f.name; r.verdeckt = !!f.verdeckt; r.zufall = !!f.zufall;
+      return r;
+    });
+    var fehl = res.ergebnisse.filter(function (r) { return !r.ok; });
+    res.lauf = res.ergebnisse[0].lauf;
+    res.zielErreicht = !fehl.length;
 
-    var z = aufgabe.ziel;
-    var pruef = ZIELTYPEN[z.typ];
-    if (!pruef) throw new Error("Unbekannter Zieltyp: " + z.typ);
-    var miss = pruef(z, lauf);
-    res.zielErreicht = !miss;
-
+    // Ablauffehler in einem einzigen Layout gehen vor dem Bausteinlimit (wie bisher).
+    if (felder.length === 1 && fehl.length && fehl[0].lauf && !fehl[0].lauf.ok) {
+      res.grund = fehl[0].grund; res.text = fehl[0].text; return res;
+    }
     if (max !== null && n > max) {
       res.grund = "bloecke";
       res.text = "Sie haben " + n + " von höchstens " + max + " Bausteinen verwendet.";
       return res;
     }
-    if (miss) { res.grund = miss.grund; res.text = miss.text; return res; }
+    if (fehl.length) {
+      if (felder.length === 1) { res.grund = fehl[0].grund; res.text = fehl[0].text; return res; }
+      res.grund = "layouts";
+      res.text = "Der Käfer schafft " + (felder.length - fehl.length) + " von " + felder.length + " Labyrinthen.";
+      return res;
+    }
     res.ok = true; res.grund = "ok"; res.text = "Geschafft. Der Käfer hat die Aufgabe gelöst.";
     return res;
   }
@@ -390,6 +494,8 @@
     klonen: klonen, zaehleBausteine: zaehleBausteine, tiefe: tiefe, validiere: validiere,
     neuerBlock: neuerBlock, listeAt: listeAt, blockAt: blockAt, istPraefix: istPraefix,
     kannEinfuegen: kannEinfuegen, zuTief: zuTief, einfuegen: einfuegen, entfernen: entfernen, verschieben: verschieben,
-    run: run, pruefe: pruefe, bausteineText: bausteineText, vorbereiten: vorbereiten, zielfeld: zielfeld
+    run: run, pruefe: pruefe, pruefeLayout: pruefeLayout, bausteineText: bausteineText, vorbereiten: vorbereiten,
+    zielfeld: zielfeld, karteLesen: karteLesen, layoutVorbereiten: layoutVorbereiten,
+    zufall: zufall, erzeugeLabyrinth: erzeugeLabyrinth
   };
 });
