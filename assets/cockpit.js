@@ -79,7 +79,12 @@
     var offen = aufgaben.filter(function (a) { return !fertig[a.id]; })[0];
     var start = el("a", "ck-start", n === 0 ? "Starten" : offen ? "Weitermachen" : "Nochmals ansehen");
     start.href = offen && n > 0 ? href + "&aufgabe=" + encodeURIComponent(offen.id) : href;
-    li.append(start);
+    if (r.lokal) {
+      var knoepfe = el("div", "ck-knoepfe"), editor = el("a", "ck-start ck-zweit", "Labyrinth-Editor");
+      editor.href = "editor/";
+      knoepfe.append(start, editor);
+      li.append(knoepfe);
+    } else li.append(start);
     return li;
   }
 
@@ -87,7 +92,10 @@
     if (!d || !Array.isArray(d.reihen) || !d.reihen.length) throw new Error("reihen.json: Feld „reihen“ fehlt oder ist leer.");
     return Promise.all(d.reihen.map(function (r) {
       return Promise.all(r.dateien.map(function (f) { return holeJson(BASIS + f); })).then(function (teile) {
-        return { reihe: r, aufgaben: teile.reduce(function (acc, t) { return acc.concat(t.aufgaben || []); }, []) };
+        var aufgaben = teile.reduce(function (acc, t) { return acc.concat(t.aufgaben || []); }, []);
+        // Eigene Challenges aus diesem Browser gehören zur Reihe mit «lokal: true»
+        if (r.lokal && window.KaraChallenges) aufgaben = aufgaben.concat(window.KaraChallenges.alle().map(window.KaraChallenges.alsAufgabe));
+        return { reihe: r, aufgaben: aufgaben };
       });
     }));
   }).then(function (liste) {

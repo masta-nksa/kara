@@ -18,6 +18,13 @@
       "titel": "Inseln und Pledge",
       "untertitel": "Wenn die Hand an der Wand im Kreis führt: mit einem Zähler trotzdem zum Ausgang",
       "dateien": ["aufgaben/inseln.json"]
+    },
+    {
+      "id": "eigene",
+      "titel": "Abschluss und eigene Challenges",
+      "untertitel": "Grosse Labyrinthe mit allen Bausteinen, dazu eigene Challenges aus dem Labyrinth-Editor",
+      "dateien": ["aufgaben/abschluss.json"],
+      "lokal": true
     }
   ]
 }

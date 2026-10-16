@@ -8,6 +8,7 @@
   "use strict";
 
   var E = window.BaukastenEngine;
+  var C = window.KaraChallenges || null;   // eigene Challenges (assets/challenges.js)
   var SPEICHER = "kara.baukasten.v1";
   var TEMPO = [1100, 700, 420, 220, 90];
   var TEMPO_TEXT = ["sehr langsam", "langsam", "mittel", "schnell", "sehr schnell"];
@@ -159,6 +160,8 @@
 
   // Eine Reihe kann aus mehreren Dateien bestehen (reihen.json, Feld «dateien»): so lassen sich
   // Reihen später zusammenlegen, ohne die Aufgaben-Dateien anzufassen.
+  // Reihen mit «lokal: true» hängen die Challenges aus diesem Browser an (nicht zwischengespeichert,
+  // weil sie sich jederzeit ändern können).
   function ladeReihe(r) {
     if (reihenCache[r.id]) return Promise.resolve(reihenCache[r.id]);
     return Promise.all(r.dateien.map(holeJson)).then(function (teile) {
@@ -167,10 +170,53 @@
         if (!d || !Array.isArray(d.aufgaben) || !d.aufgaben.length) throw new Error(r.dateien[i] + ": Feld „aufgaben“ fehlt oder ist leer.");
         liste = liste.concat(d.aufgaben.map(E.vorbereiten));
       });
-      reihenCache[r.id] = liste;
+      if (r.lokal && C) {
+        C.alle().forEach(function (ch) {
+          try { liste.push(E.vorbereiten(C.alsAufgabe(ch))); } catch (e) { console.warn("[baukasten] Challenge übersprungen", e); }
+        });
+      } else reihenCache[r.id] = liste;
       return liste;
     });
   }
+
+  /* ---------- Challenge per Link übernehmen ----------------- */
+
+  // Ein Link wie baukasten/?reihe=eigene#challenge=… bringt eine Challenge mit. Erst nach Rückfrage
+  // wird sie in diesem Browser gespeichert. Der #-Teil wird sofort aus der Adresszeile entfernt.
+  function importieren() {
+    return new Promise(function (fertig) {
+      var hash = location.hash || "";
+      if (!C || hash.indexOf("challenge=") < 0) { fertig(); return; }
+      try { history.replaceState(null, "", location.pathname + location.search); } catch (e) { /* Adresse bleibt */ }
+      var d = $("importDialog"), ch = null;
+      try { ch = C.dekodieren(hash); } catch (e) {
+        $("importText").textContent = "Dieser Link enthält keine gültige Challenge.";
+        $("importFehler").textContent = e.message;
+        $("importFehler").hidden = false;
+        $("importJa").hidden = true;
+        $("importNein").textContent = "Schliessen";
+      }
+      if (ch) {
+        var id = C.kennung(ch), schon = !!C.finde(id);
+        var verd = ch.layouts.filter(function (l) { return l.verdeckt; }).length;
+        $("importText").textContent = "«" + ch.titel + "»: " + ch.layouts.length + (ch.layouts.length === 1 ? " Labyrinth" : " Labyrinthe") +
+          (verd ? ", davon " + verd + " verdeckt" : "") + (ch.maxBloecke ? ", höchstens " + ch.maxBloecke + " Bausteine" : "") + ". " +
+          (schon ? "Diese Challenge ist schon in Ihrem Browser." : "Möchten Sie sie in Ihren Browser übernehmen? Sie wird nur hier gespeichert.");
+        $("importJa").textContent = schon ? "Spielen" : "Hinzufügen und spielen";
+        $("importJa").onclick = function () {
+          var r = C.hinzufuegen(ch);
+          reiheParam = "eigene";
+          aufgabeParam = r.id;
+          if (!r.gespeichert) importHinweis = "Der Browser erlaubt kein Speichern. Die Challenge ist nicht dauerhaft übernommen.";
+          d.close();
+        };
+      }
+      $("importNein").onclick = function () { d.close(); };
+      d.addEventListener("close", function () { fertig(); }, { once: true });
+      d.showModal();
+    });
+  }
+  var importHinweis = null;
 
   function zeigeReihe(r) {
     return ladeReihe(r).then(function (liste) {
@@ -208,13 +254,13 @@
 
   ladeFortschritt();
   ladeProgramme();
-  holeJson("reihen.json").then(function (d) {
+  importieren().then(function () { return holeJson("reihen.json"); }).then(function (d) {
     if (!d || !Array.isArray(d.reihen) || !d.reihen.length) throw new Error("reihen.json: Feld „reihen“ fehlt oder ist leer.");
     REIHEN = d.reihen.filter(function (r) { return r && r.id && Array.isArray(r.dateien) && r.dateien.length; });
     reihe = REIHEN[0];
     REIHEN.forEach(function (r) { if (r.id === reiheParam) reihe = r; });
     baueReihen();
-    return zeigeReihe(reihe);
+    return zeigeReihe(reihe).then(function () { if (importHinweis) meldungZeigen("fehler", null, importHinweis); });
   }).catch(function (err) { ladeFehler(err, "reihen.json"); });
 
   /* ---------- Aufgabenwahl ---------------------------------- */
@@ -267,6 +313,7 @@
     tippStufe = 1;
     $("hinweisBox").open = false;
     renderHinweise();
+    challengeLeiste();
     layout = { idx: 0, ergebnisse: {}, aufgedeckt: {}, zufall: [] };
     aufg.feld = aufg.felder[0].feld;
     aufg.ziel = aufg.felder[0].ziel;
@@ -297,6 +344,35 @@
     knopf.textContent = "Noch ein Tipp (" + (tippStufe + 1) + " von " + liste.length + ")";
   }
   $("knopfTipp").addEventListener("click", function () { tippStufe++; renderHinweise(); });
+
+  /* ---------- Eigene Challenges: Teilen, Bearbeiten, Entfernen ---------- */
+
+  function challengeLeiste() {
+    var ch = aufg.challenge && C ? C.finde(aufg.id) : null;
+    $("challengeLeiste").hidden = !ch;
+    $("chLink").hidden = true;
+    $("chMeldung").hidden = true;
+    $("chBearbeiten").href = "../editor/?id=" + encodeURIComponent(aufg.id);
+    $("editorLink").hidden = !(reihe && reihe.lokal);
+  }
+  function chMeldung(text) { $("chMeldung").textContent = text; $("chMeldung").hidden = !text; }
+  $("chTeilen").addEventListener("click", function () {
+    var ch = C && C.finde(aufg.id);
+    if (!ch) return;
+    var url = C.link(ch, location.href), feld = $("chLink");
+    feld.value = url;
+    feld.hidden = false;
+    feld.focus();
+    feld.select();
+    var fertig = function (ok) { chMeldung(ok ? "Link kopiert. Wer ihn öffnet, kann die Challenge in den eigenen Browser übernehmen." : "Bitte den Link markieren und kopieren."); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { fertig(true); }, function () { fertig(false); });
+    else fertig(false);
+  });
+  $("chEntfernen").addEventListener("click", function () {
+    if (!C || !confirm("«" + aufg.titel.replace(/^★ /, "") + "» aus diesem Browser entfernen?")) return;
+    C.entfernen(aufg.id);
+    zeigeReihe(reihe);
+  });
 
   /* ---------- Mehrere Labyrinthe ---------------------------- */
 
