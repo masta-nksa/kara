@@ -25,6 +25,8 @@ baukasten/                der Baukasten
 ```
 
 Aufruf einer Reihe bzw. Aufgabe: `baukasten/?reihe=labyrinth&aufgabe=lab3`.
+«Link zum Teilen kopieren» bei jeder Aufgabe liefert genau diesen Link; bei eigenen Challenges
+den Link mit der ganzen Challenge (siehe unten).
 Die Adresszeile folgt der gewählten Aufgabe, Neuladen bleibt also am selben Ort.
 
 ## Reihen (`baukasten/reihen.json`)
