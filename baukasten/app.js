@@ -1258,13 +1258,14 @@
   }
 
   // Nebel, sobald eingeschaltet: auch vor dem Start ist nur die Umgebung des Käfers sichtbar.
+  // x, y: neuer Ort des Käfers. Der Ort wird immer gemerkt, auch wenn der Nebel aus ist; sonst
+  // stünde das Loch nach dem Einschalten an einer alten Stelle. Ohne x, y gilt der gemerkte Ort.
   function nebelSetzen(x, y) {
+    if (x != null) nebelOrt = [Math.round(x), Math.round(y)];
     if (!feldRef || !feldRef.nebel) return;
     var n = feldRef.nebel, aktiv = nebelAn && !!aufg.feld.karte;
     n.decke.style.display = aktiv ? "" : "none";
     if (!aktiv) return;
-    if (x == null) { x = nebelOrt[0]; y = nebelOrt[1]; }
-    nebelOrt = [Math.round(x), Math.round(y)];
     n.loecher.textContent = "";
     [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]].forEach(function (v) {
       n.loecher.append(svgEl("rect", { x: zx(nebelOrt[0] + v[0]), y: zy(nebelOrt[1] + v[1]), width: Z, height: Z, fill: "#000" }));
