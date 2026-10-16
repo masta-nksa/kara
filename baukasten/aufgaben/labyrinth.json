@@ -1,5 +1,5 @@
 {
-  "hinweis": "Labyrinth-Reihe fuer den Struktogramm-Baukasten (Kaefer). Karten und Bausteinlimits nach Blockly Games, Maze (Level 1 bis 10, Apache-Lizenz 2.0). Keine Loesungen enthalten.",
+  "hinweis": "Labyrinth-Reihe fuer den Struktogramm-Baukasten (Kaefer). Levels 1 bis 8 mit Karten und Bausteinlimits nach Blockly Games, Maze (Apache-Lizenz 2.0); Level 10 mit Ausgang im Rahmen angepasst; Levels 9 und 11 eigene, inselfreie Labyrinthe. Keine Loesungen enthalten; kleinsteLoesung ist nur die Anzahl Bausteine.",
   "aufgaben": [
     {
       "id": "lab1",
@@ -20,7 +20,8 @@
         "bis": false,
         "verzweigung": false
       },
-      "maxBloecke": null
+      "maxBloecke": null,
+      "kleinsteLoesung": 2
     },
     {
       "id": "lab2",
@@ -42,7 +43,8 @@
         "verzweigung": false
       },
       "maxBloecke": null,
-      "hinweis": "Zum Drehen gibt es «rechts drehen» und «links drehen». Setzen Sie den Käfer zurück, wenn das Programm das Labyrinth nicht löst."
+      "hinweis": "Zum Drehen gibt es «rechts drehen» und «links drehen». Setzen Sie den Käfer zurück, wenn das Programm das Labyrinth nicht löst.",
+      "kleinsteLoesung": 5
     },
     {
       "id": "lab3",
@@ -64,7 +66,8 @@
         "verzweigung": false
       },
       "maxBloecke": 2,
-      "hinweis": "Mit «wiederhole bis Ziel» führen Sie einen Baustein mehr als einmal aus."
+      "hinweis": "Mit «wiederhole bis Ziel» führen Sie einen Baustein mehr als einmal aus.",
+      "kleinsteLoesung": 2
     },
     {
       "id": "lab4",
@@ -86,7 +89,8 @@
         "verzweigung": false
       },
       "maxBloecke": 5,
-      "hinweis": "Sie können mehr als einen Baustein in «wiederhole bis Ziel» legen."
+      "hinweis": "Sie können mehr als einen Baustein in «wiederhole bis Ziel» legen.",
+      "kleinsteLoesung": 5
     },
     {
       "id": "lab5",
@@ -108,7 +112,8 @@
         "verzweigung": false
       },
       "maxBloecke": 5,
-      "hinweis": "Bausteine ausserhalb von «wiederhole bis Ziel» werden nur einmal ausgeführt."
+      "hinweis": "Bausteine ausserhalb von «wiederhole bis Ziel» werden nur einmal ausgeführt.",
+      "kleinsteLoesung": 5
     },
     {
       "id": "lab6",
@@ -135,7 +140,8 @@
         "sonst": false
       },
       "maxBloecke": 5,
-      "hinweis": "Ein «falls»-Baustein macht etwas, wenn die Bedingung stimmt. Versuchen Sie, links abzubiegen, falls links ein Weg frei ist."
+      "hinweis": "Ein «falls»-Baustein macht etwas, wenn die Bedingung stimmt. Versuchen Sie, links abzubiegen, falls links ein Weg frei ist.",
+      "kleinsteLoesung": 4
     },
     {
       "id": "lab7",
@@ -164,7 +170,8 @@
         "sonst": false
       },
       "maxBloecke": 5,
-      "hinweis": "Wählen Sie in der Palette die Bedingung, die zum Weg passt: vorne, links oder rechts frei."
+      "hinweis": "Wählen Sie in der Palette die Bedingung, die zum Weg passt: vorne, links oder rechts frei.",
+      "kleinsteLoesung": 4
     },
     {
       "id": "lab8",
@@ -192,17 +199,18 @@
         ],
         "sonst": false
       },
-      "maxBloecke": 10
+      "maxBloecke": 10,
+      "kleinsteLoesung": 6
     },
     {
       "id": "lab9",
       "maxTiefe": 6,
       "titel": "9 · Kreuzungen",
       "stufe": "Falls-Sonst",
-      "text": "Hier gibt es viele Kreuzungen. Erreichen Sie das Ziel mit höchstens 7 Bausteinen.",
+      "text": "Hier gibt es viele Kreuzungen in allen Formen. Bringen Sie den Käfer zum Ausgang. Sie dürfen höchstens 10 Bausteine verwenden.",
       "feld": {
-        "karte": ["########", "#.....##", "##.#####", "Z......#", "#.#.#..#", ".....#.#", "#.#.#S.#", "########"],
-        "blick": "E"
+        "karte": ["#####Z#####", "#.#.......#", "#.###.#####", "#.......#.#", "#.#.#.###.#", "#.#.#.#.#.S", "###.###.#.#", "#...#.#...#", "###.#.#.#.#", "#.......#.#", "###########"],
+        "blick": "W"
       },
       "palette": {
         "befehle": [
@@ -220,17 +228,20 @@
         ],
         "sonst": true
       },
-      "maxBloecke": 7,
-      "hinweis": "Ein «falls … sonst»-Baustein führt entweder den einen oder den anderen Zweig aus. Die Bedingung wählen Sie in der Palette."
+      "maxBloecke": 10,
+      "kleinsteLoesung": 5,
+      "hinweise": [
+        "Ein «falls … sonst»-Baustein führt entweder den einen oder den anderen Zweig aus. Die Bedingung wählen Sie in der Palette."
+      ]
     },
     {
       "id": "lab10",
       "maxTiefe": 6,
       "titel": "10 · Der Wandfolger",
       "stufe": "Falls-Sonst",
-      "text": "Können Sie dieses komplizierte Labyrinth lösen? Folgen Sie der linken Wand. Erreichen Sie das Ziel mit höchstens 10 Bausteinen. Nur für Fortgeschrittene.",
+      "text": "Können Sie dieses verzwickte Labyrinth lösen? Folgen Sie der linken Wand bis zum Ausgang. Sie dürfen höchstens 10 Bausteine verwenden. Nur für Fortgeschrittene.",
       "feld": {
-        "karte": ["########", "#..#Z#.#", "#..#...#", "#.#.#.##", "#......#", "###.##.#", "#S...#.#", "########"],
+        "karte": ["####Z###", "#..#.#.#", "#..#...#", "#.#.#.##", "#......#", "###.##.#", "#S...#.#", "########"],
         "blick": "E"
       },
       "palette": {
@@ -249,7 +260,69 @@
         ],
         "sonst": true
       },
-      "maxBloecke": 10
+      "maxBloecke": 10,
+      "kleinsteLoesung": 5
+    },
+    {
+      "id": "lab11",
+      "maxTiefe": 6,
+      "titel": "11 · Jedes Labyrinth",
+      "stufe": "Allgemeine Lösung",
+      "text": "Jetzt gibt es viele Labyrinthe, und Sie wissen nicht, in welchem der Käfer landet. Bauen Sie ein Programm, das überall zum Ausgang findet: in den drei gezeigten, in drei verdeckten und in zufällig erzeugten Labyrinthen. Sie dürfen höchstens 12 Bausteine verwenden.",
+      "layouts": [
+        {
+          "karte": ["#####Z#####", "#.#.#.#.#.#", "#.#.#.#.#.#", "#.....#.#.#", "###.###.#.#", "#.....#...#", "#####.#.###", "S.........#", "###.#.###.#", "#...#...#.#", "###########"],
+          "blick": "E"
+        },
+        {
+          "karte": ["#######Z###", "#.#.#.....#", "#.#.###.###", "#.#.#.#...#", "#.#.#.#.###", "#.#.#.....#", "#.#.###.#.#", "#.......#.#", "#.#.#.#.###", "#.#.#.#...#", "#S#########"],
+          "blick": "N"
+        },
+        {
+          "karte": ["#####S#####", "#.#.....#.#", "#.#####.#.#", "#.........#", "###.#.#.###", "#...#.#...#", "#.#.#####.#", "#.#.....#.#", "#.###.#####", "#...#.....Z", "###########"],
+          "blick": "S"
+        }
+      ],
+      "verdeckt": [
+        {
+          "karte": ["###Z#######", "#...#.#...#", "#.###.#.###", "#.#...#...S", "#.###.#.###", "#.....#.#.#", "#.###.#.#.#", "#...#.....#", "###.#####.#", "#.......#.#", "###########"],
+          "blick": "W"
+        },
+        {
+          "karte": ["#Z#########", "#...#.#...#", "###.#.#.###", "#.........#", "###.#####.#", "#.....#...#", "#.#.#####.#", "#.#.#.....#", "#.#.###.#.#", "#.#.#...#.#", "#########S#"],
+          "blick": "N"
+        },
+        {
+          "karte": ["###########", "#.#.....#.#", "#.#####.#.#", "S.........#", "###.#.#####", "#.#.#...#.#", "#.###.###.#", "#.....#...#", "###.#####.#", "#.........#", "#########Z#"],
+          "blick": "E"
+        }
+      ],
+      "zufall": {
+        "anzahl": 10,
+        "raeume": 5
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": false,
+        "bis": true,
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "sonst": true
+      },
+      "maxBloecke": 12,
+      "kleinsteLoesung": 5,
+      "hinweise": [
+        "Der Käfer kennt den Plan nicht. Er merkt nur, ob vorne, links oder rechts ein Feld frei ist. Welche Regel bringt ihn in jedem dieser Labyrinthe zum Ausgang?",
+        "Stellen Sie sich vor, Sie gehen mit verbundenen Augen durch ein Labyrinth und lassen dabei immer eine Hand an der Wand."
+      ]
     }
   ]
 }

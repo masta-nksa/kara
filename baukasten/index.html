@@ -31,7 +31,8 @@
     <p id="aufgabeText"></p>
     <details class="bk-hinweis" id="hinweisBox">
       <summary>Hinweis anzeigen</summary>
-      <p id="hinweisText"></p>
+      <div id="hinweisListe"></div>
+      <button type="button" class="bk-knopf bk-tipp" id="knopfTipp">Noch ein Tipp</button>
     </details>
   </section>
 
@@ -61,6 +62,7 @@
 
     <section class="bk-lauf" aria-labelledby="laufTitel">
       <h2 id="laufTitel">Käfer-Feld</h2>
+      <div class="bk-layouts" id="layouts" role="group" aria-label="Labyrinthe" hidden></div>
       <div class="bk-feld" id="feld"></div>
       <p class="bk-feldinfo" id="feldInfo"></p>
 
@@ -69,11 +71,16 @@
         <button type="button" class="bk-knopf primaer" id="knopfStart">Start</button>
         <button type="button" class="bk-knopf" id="knopfSchritt">Einzelschritt</button>
         <button type="button" class="bk-knopf" id="knopfReset">Zurücksetzen</button>
+        <button type="button" class="bk-knopf" id="knopfAlle" hidden>Alle prüfen</button>
         <label class="bk-tempo">Tempo
           <input type="range" id="tempo" min="1" max="5" step="1" value="3" aria-valuetext="mittel">
           <span class="bk-tempo-skala" aria-hidden="true"><span>langsam</span><span>schnell</span></span>
         </label>
       </div>
+
+      <label class="bk-nebel-schalter" id="nebelSchalter" hidden>
+        <input type="checkbox" id="nebel"> Nebel: der Käfer sieht nur die Nachbarfelder
+      </label>
 
       <p class="bk-schritt" id="schrittInfo" aria-live="polite"></p>
       <div class="bk-meldung" id="meldung" role="status" aria-live="polite" hidden></div>
