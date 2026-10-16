@@ -1248,30 +1248,48 @@
     var id = "bk-nebel-" + (++nebelNr);
     var defs = svgEl("defs"), maske = svgEl("mask", { id: id, maskUnits: "userSpaceOnUse" });
     maske.append(svgEl("rect", { x: 0, y: 0, width: RAND + f.cols * Z + 4, height: f.rows * Z + RAND + 4, fill: "#fff" }));
-    var loecher = svgEl("g");
-    maske.append(loecher);
+    // Maske: weiss = Nebel, schwarz = frei. «gesehen»: schon besuchte Umgebung, leicht abgedunkelt;
+    // «loecher»: die aktuelle Umgebung des Käfers, ganz frei.
+    var gesehen = svgEl("g"), loecher = svgEl("g");
+    maske.append(gesehen, loecher);
     defs.append(maske);
     var decke = svgEl("rect", { x: RAND, y: 2, width: f.cols * Z, height: f.rows * Z, mask: "url(#" + id + ")" }, "bk-nebel");
     decke.style.display = "none";
     svg.append(defs, decke);
-    return { decke: decke, loecher: loecher };
+    return { decke: decke, gesehen: gesehen, loecher: loecher, felder: {} };
   }
 
   // Nebel, sobald eingeschaltet: auch vor dem Start ist nur die Umgebung des Käfers sichtbar.
+  // Was der Käfer seit dem Start gesehen hat, bleibt aufgedeckt (leicht abgedunkelt), bis
+  // «Zurücksetzen». Erreicht der Käfer das Ziel, verschwindet der Nebel ganz (nebelOffen).
   // x, y: neuer Ort des Käfers. Der Ort wird immer gemerkt, auch wenn der Nebel aus ist; sonst
   // stünde das Loch nach dem Einschalten an einer alten Stelle. Ohne x, y gilt der gemerkte Ort.
+  var NACHBARN = [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]];
   function nebelSetzen(x, y) {
     if (x != null) nebelOrt = [Math.round(x), Math.round(y)];
     if (!feldRef || !feldRef.nebel) return;
-    var n = feldRef.nebel, aktiv = nebelAn && !!aufg.feld.karte;
+    var n = feldRef.nebel, f = aufg.feld;
+    // Gesehenes immer merken (auch bei ausgeschaltetem Nebel), damit es beim Einschalten stimmt.
+    NACHBARN.forEach(function (v) {
+      var gx = nebelOrt[0] + v[0], gy = nebelOrt[1] + v[1], k = gx + "," + gy;
+      if (gx < 1 || gy < 1 || gx > f.cols || gy > f.rows || n.felder[k]) return;
+      n.felder[k] = true;
+      n.gesehen.append(svgEl("rect", { x: zx(gx), y: zy(gy), width: Z, height: Z, fill: "#3a3a3a" }));
+    });
+    var aktiv = nebelAn && !!f.karte && !nebelOffen;
     n.decke.style.display = aktiv ? "" : "none";
     if (!aktiv) return;
     n.loecher.textContent = "";
-    [[0, 0], [1, 0], [-1, 0], [0, 1], [0, -1]].forEach(function (v) {
+    NACHBARN.forEach(function (v) {
       n.loecher.append(svgEl("rect", { x: zx(nebelOrt[0] + v[0]), y: zy(nebelOrt[1] + v[1]), width: Z, height: Z, fill: "#000" }));
     });
   }
-  var nebelOrt = [1, 1];
+  function nebelVergessen() {
+    if (!feldRef || !feldRef.nebel) return;
+    feldRef.nebel.felder = {};
+    feldRef.nebel.gesehen.textContent = "";
+  }
+  var nebelOrt = [1, 1], nebelOffen = false;
 
   /* ---------- Mitfahrende Ansicht für grosse Karten ---------------------------
      Vor dem Start und nach «Zurücksetzen» zeigt das Feld die ganze Karte (Überblick). Sobald der
@@ -1382,6 +1400,8 @@
   function simReset() {
     clearTimeout(sim.timer);
     sim.laeuft = false; sim.lauf = null; sim.i = 0; sim.ende = false;
+    nebelOffen = false;
+    nebelVergessen();
     if (feldRef) {
       var f = aufg.feld;
       feldRef.spurFlaechen.textContent = "";
@@ -1471,6 +1491,9 @@
     sim.ende = true;
     knoepfe();
     $("schrittInfo").setAttribute("aria-live", "polite");
+    // Ziel erreicht: Nebel weg, das ganze Labyrinth mit dem gelaufenen Weg wird sichtbar.
+    var zf = E.zielfeld(aufg.ziel), l = sim.lauf;
+    if (l && l.ok && zf && l.end[0] === zf[0] && l.end[1] === zf[1]) { nebelOffen = true; nebelSetzen(); }
     bewerten(mehrereLayouts() ? pruefenAlle() : E.pruefe(aufg, prog));
   }
 
