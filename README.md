@@ -45,14 +45,18 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
 - Jede Aufgabe: Feld, Palette, Bausteinlimit, Ziel. **Keine Lösungen.**
 - Feld entweder mit `cols`, `rows`, `start`, `blick`, `hindernisse` oder als Zeichenkarte
   (`feld.karte`, oberste Zeile zuerst: `#` Mauer, `.` Weg, `S` Start, `Z` Ziel).
-- Palette: `befehle`, `wiederholung` (n-mal), `bis: true` («wiederhole bis Ziel»),
-  `verzweigung` mit `bedingungen` (`frei`, `freiLinks`, `freiRechts`), `sonst: false`
-  blendet den Sonst-Zweig aus.
+- Palette: `befehle` (`vor`, `rechts`, `links`, dazu für den Zähler `zaehlerPlus`,
+  `zaehlerMinus`, `zaehlerNull`), `wiederholung` (n-mal), `bis: true` («wiederhole bis Ziel»),
+  `verzweigung` mit `bedingungen` (`frei`, `freiLinks`, `freiRechts`, `zaehlerIstNull`),
+  `sonst: false` blendet den Sonst-Zweig aus.
+- Zähler: eine ganze Zahl, beim Start 0. Sobald eine Aufgabe Zähler-Bausteine anbietet, zeigt
+  das Käfer-Feld den aktuellen Wert an.
 - `maxTiefe` (Standard 3): wie viele Ebenen Wiederholungen und Verzweigungen ineinander
   stecken dürfen.
 - Mehrere Labyrinthe pro Aufgabe: `layouts` (sichtbar) und `verdeckt` (je `{karte, blick}`),
   dazu optional `zufall: {anzahl, raeume}` für zufällig erzeugte, inselfreie Labyrinthe
-  (Kartengrösse 2·raeume+1, Ein- und Ausgang als Lücken im Rahmen). Gelöst ist die Aufgabe
+  (Kartengrösse 2·raeume+1, Ein- und Ausgang als Lücken im Rahmen). Mit `inseln: k` öffnet der
+  Generator zusätzlich k Wände, so entstehen Inseln; der Start liegt dann im Inneren. Gelöst ist die Aufgabe
   erst, wenn der Käfer in allen den Ausgang findet. Gescheiterte verdeckte und zufällige
   Labyrinthe werden danach als Reiter sichtbar. «Alle prüfen» prüft ohne Animation.
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
@@ -69,6 +73,12 @@ Die Labyrinth-Karten und Bausteinlimits der Levels 1 bis 8 und 10 stammen aus
 [Blockly Games](https://github.com/google/blockly-games) (Maze, Apache-Lizenz 2.0); Level 10 hat
 den Ausgang im Rahmen. Level 9 («Kreuzungen») und 11 («Jedes Labyrinth») sind eigene,
 inselfreie Labyrinthe: Dort führt die Linke-Hand-Regel immer zum Ausgang.
+
+Die Reihe «Inseln und Pledge» (`aufgaben/inseln.json`) hat eigene Labyrinthe mit Inseln:
+«Die Insel» (die linke Hand läuft im Kreis, die rechte findet hinaus), «Zwei Inseln» (beide
+Hände scheitern; kein Programm mit bis zu 6 Bausteinen löst es) und «Jedes Labyrinth mit
+Inseln» (Pledge-Algorithmus; in den gezeigten und verdeckten Labyrinthen scheitern die
+Handregeln jeweils mindestens einmal, dazu zehn Zufallslabyrinthe mit Inseln).
 
 ## Im Browser gespeichert (`localStorage`)
 
