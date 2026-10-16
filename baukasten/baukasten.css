@@ -264,7 +264,7 @@ body.bk-zieht *{cursor:grabbing!important}
 .bk-zaehlwerk b{display:inline-block;min-width:2.4em;padding:1px 8px;text-align:center;color:var(--ink);background:var(--accent-soft);border-radius:var(--radius);font-variant-numeric:tabular-nums}
 /* Nebel */
 .bk-nebel{fill:var(--ground);opacity:.97;pointer-events:none}
-.bk-nebel-schalter{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--ink-soft);cursor:pointer}
+.bk-nebel-schalter{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--ink-soft);cursor:pointer;margin:-4px 0 10px}
 .bk-nebel-schalter[hidden]{display:none}
 .bk-nebel-schalter input{width:18px;height:18px;accent-color:var(--accent)}
 .bk-feld svg{display:block;width:100%;height:auto;max-width:420px}
@@ -283,6 +283,7 @@ body.bk-zieht *{cursor:grabbing!important}
 .bk-start{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:8px;fill:var(--ink-soft)}
 .bk-stosslinie{stroke:var(--no);stroke-width:4;stroke-linecap:round}
 .bk-kaefer{transition:transform var(--dauer,.3s) ease-in-out}
+.bk-welt,.bk-achsen{transition:transform var(--dauer,.3s) ease-in-out}
 .bk-kaefer .koerper{fill:var(--accent)}
 .bk-kaefer .bein,.bk-kaefer .fuehler{stroke:var(--accent);stroke-width:2;stroke-linecap:round}
 .bk-kaefer .naht{stroke:var(--surface);stroke-width:1.5}
@@ -327,7 +328,7 @@ body.bk-zieht *{cursor:grabbing!important}
 .bk-hilfe{margin:0;font-size:.85rem;color:var(--ink-soft);max-width:90ch}
 .bk-hilfe b{color:var(--ink)}
 
-@media (prefers-reduced-motion: reduce){.bk-kaefer{transition:none}}
+@media (prefers-reduced-motion: reduce){.bk-kaefer,.bk-welt,.bk-achsen{transition:none}}
 @media (max-width:560px){
   .bk{padding:20px 14px 48px}
   .bk-aufgaben ol{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}

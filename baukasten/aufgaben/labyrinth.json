@@ -322,7 +322,8 @@
       "hinweise": [
         "Der Käfer kennt den Plan nicht. Er merkt nur, ob vorne, links oder rechts ein Feld frei ist. Welche Regel bringt ihn in jedem dieser Labyrinthe zum Ausgang?",
         "Stellen Sie sich vor, Sie gehen mit verbundenen Augen durch ein Labyrinth und lassen dabei immer eine Hand an der Wand."
-      ]
+      ],
+      "nebel": true
     }
   ]
 }

@@ -17,7 +17,7 @@
   "use strict";
 
   var SPEICHER = "kara.challenges.v1";
-  var GRENZEN = { titel: 60, text: 400, layouts: 12, min: 5, max: 15, bloecke: 99, link: 20000 };
+  var GRENZEN = { titel: 60, text: 400, layouts: 12, min: 5, max: 25, bloecke: 99, link: 40000 };
 
   // Alle Bausteine: das freie Abschluss-Level und eigene Challenges bieten alles an.
   var PALETTE = {
