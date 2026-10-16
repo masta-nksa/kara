@@ -10,8 +10,10 @@
   var E = window.BaukastenEngine;
   var C = window.KaraChallenges || null;   // eigene Challenges (assets/challenges.js)
   var SPEICHER = "kara.baukasten.v1";
-  var TEMPO = [1100, 700, 420, 220, 90];
-  var TEMPO_TEXT = ["sehr langsam", "langsam", "mittel", "schnell", "sehr schnell"];
+  var TEMPO = [1100, 700, 420, 220, 90, 35, 10];
+  var TEMPO_TEXT = ["sehr langsam", "langsam", "mittel", "schnell", "sehr schnell", "blitzschnell", "Turbo"];
+  var TEMPO_NUR_BEWEGUNG = 6;      // ab dieser Stufe kosten nur Bewegungen Zeit (für grosse Labyrinthe)
+  var KAMERA_AB = 13, KAMERA_SICHT = 11;   // grössere Karten: Ansicht fährt mit, 11 × 11 Felder sichtbar
   var Z = 40, RAND = 20;                       // Zellgrösse und Randbreite (SVG-Einheiten)
   var SCREEN_DIR = { N: [0, -1], E: [1, 0], S: [0, 1], W: [-1, 0] };
   var WINKEL = { N: 0, E: 90, S: 180, W: 270 };
@@ -314,6 +316,7 @@
     $("hinweisBox").open = false;
     renderHinweise();
     challengeLeiste();
+    nebelFuerAufgabe();
     layout = { idx: 0, ergebnisse: {}, aufgedeckt: {}, zufall: [] };
     aufg.feld = aufg.felder[0].feld;
     aufg.ziel = aufg.felder[0].ziel;
@@ -1108,28 +1111,35 @@
     var svg = svgEl("svg", { viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": feldBeschreibung() });
     var x, y;
 
+    // Alles, was zum Feld gehört, liegt in «welt»; die Achsen liegen getrennt, damit sie bei der
+    // mitfahrenden Ansicht (grosse Karten) am Rand stehen bleiben und nur seitlich mitlaufen.
+    var welt = svgEl("g", {}, "bk-welt"), achseX = svgEl("g", {}, "bk-achsen"), achseY = svgEl("g", {}, "bk-achsen");
+    var rahmen = svgEl("g"), rahmenX = svgEl("g"), rahmenY = svgEl("g");
+    rahmen.append(welt); rahmenX.append(achseX); rahmenY.append(achseY);
+    svg.append(rahmen, rahmenX, rahmenY);
+
     for (y = 1; y <= f.rows; y++) {
       for (x = 1; x <= f.cols; x++) {
-        svg.append(svgEl("rect", { x: zx(x), y: zy(y), width: Z, height: Z }, "bk-zelle"));
+        welt.append(svgEl("rect", { x: zx(x), y: zy(y), width: Z, height: Z }, "bk-zelle"));
       }
     }
     for (x = 1; x <= f.cols; x++) {
       var tx = svgEl("text", { x: mx(x), y: f.rows * Z + 2 + 14 }, "bk-achse");
       tx.textContent = x;
-      svg.append(tx);
+      achseX.append(tx);
     }
     for (y = 1; y <= f.rows; y++) {
       var ty = svgEl("text", { x: RAND / 2, y: my(y) + 3.5 }, "bk-achse");
       ty.textContent = y;
-      svg.append(ty);
+      achseY.append(ty);
     }
 
     var spurFlaechen = svgEl("g"), ziel = svgEl("g"), spurLinien = svgEl("g"), hind = svgEl("g"), marken = svgEl("g");
-    svg.append(spurFlaechen);
+    welt.append(spurFlaechen);
 
     var st = svgEl("text", { x: zx(f.start[0]) + 3, y: zy(f.start[1]) + 9 }, "bk-start");
     st.textContent = "Start";
-    svg.append(st);
+    welt.append(st);
 
     function flagge(feld) {
       var cx = mx(feld[0]), cy = my(feld[1]);
@@ -1147,9 +1157,9 @@
       if (z.endfeld) flagge(z.endfeld);
     }
 
-    svg.append(spurLinien, hind);
-    var nebel = nebelBauen(svg, f);
-    svg.append(ziel);
+    welt.append(spurLinien, hind);
+    var nebel = nebelBauen(welt, f);
+    welt.append(ziel);
     // Hindernisse als Steinblöcke; Form und Helligkeit variieren leicht von Feld zu Feld.
     var RISSE = [
       "M{a} {b} l5 6 l-3 5 l6 7", "M{c} {b} l-4 7 l5 4 l-2 8", "M{a} {d} l7 -3 l3 5 l8 -2"
@@ -1165,7 +1175,7 @@
       );
       hind.append(g);
     });
-    svg.append(marken);
+    welt.append(marken);
 
     var k = svgEl("g", {}, "bk-kaefer");
     k.append(svgEl("circle", { cx: 0, cy: 0, r: 19 }, "bk-treffer"));   // unsichtbare Klickfläche (Versteck)
@@ -1175,7 +1185,7 @@
       // Eigenes Bild: bleibt aufrecht, nur der Zeiger am Rand dreht sich mit der Blickrichtung.
       bildGruppe = svgEl("g", {}, "bk-kaefer bk-kaefer-bild");
       bildGruppe.append(svgEl("image", { href: bildUrl, x: -16, y: -16, width: 32, height: 32 }));
-      svg.append(bildGruppe);
+      welt.append(bildGruppe);
       k.append(
         svgEl("circle", { cx: 0, cy: 0, r: 16.5 }, "bild-ring"),
         svgEl("polygon", { points: "0,-24 -6,-16 6,-16" }, "koerper")
@@ -1189,11 +1199,16 @@
       svgEl("circle", { cx: 0, cy: -12, r: 5.5 }, "koerper"),
       svgEl("line", { x1: 0, y1: -8, x2: 0, y2: 12 }, "naht")
     );
-    svg.append(k);
+    welt.append(k);
 
     feldBox.textContent = "";
     feldBox.append(svg);
-    feldRef = { svg: svg, spurFlaechen: spurFlaechen, spurLinien: spurLinien, marken: marken, kaefer: k, bild: bildGruppe, nebel: nebel };
+    feldRef = {
+      svg: svg, spurFlaechen: spurFlaechen, spurLinien: spurLinien, marken: marken, kaefer: k, bild: bildGruppe, nebel: nebel,
+      welt: welt, achseX: achseX, achseY: achseY, rahmen: rahmen, rahmenX: rahmenX, rahmenY: rahmenY,
+      W: W, H: H, kamera: f.cols > KAMERA_AB || f.rows > KAMERA_AB, kameraAn: false
+    };
+    if (feldRef.kamera) kameraVorbereiten(svg);
     $("nebelSchalter").hidden = !f.karte;
 
     var info = "Feld " + f.cols + " × " + f.rows + ". Start: Spalte " + f.start[0] + ", Zeile " + f.start[1] +
@@ -1211,13 +1226,21 @@
 
   /* ---------- Nebel: nur der Käfer und seine Nachbarfelder sind sichtbar ---------- */
 
-  var NEBEL_SPEICHER = "kara.baukasten.nebel", nebelNr = 0;
-  var nebelAn = false;
-  try { nebelAn = localStorage.getItem(NEBEL_SPEICHER) === "1"; } catch (e) { /* Standard: aus */ }
-  $("nebel").checked = nebelAn;
+  // Nebel je Aufgabe: Standard aus der Aufgabe («nebel: true»), die eigene Wahl wird je Aufgabe gemerkt.
+  var NEBEL_SPEICHER = "kara.baukasten.nebel.v2", nebelNr = 0;
+  var nebelAn = false, nebelWahl = {};
+  try {
+    var nw = JSON.parse(localStorage.getItem(NEBEL_SPEICHER) || "{}");
+    if (nw && typeof nw === "object" && !Array.isArray(nw)) nebelWahl = nw;
+  } catch (e) { /* Standard je Aufgabe */ }
+  function nebelFuerAufgabe() {
+    nebelAn = typeof nebelWahl[aufg.id] === "boolean" ? nebelWahl[aufg.id] : !!aufg.nebel;
+    $("nebel").checked = nebelAn;
+  }
   $("nebel").addEventListener("change", function () {
     nebelAn = $("nebel").checked;
-    try { localStorage.setItem(NEBEL_SPEICHER, nebelAn ? "1" : "0"); } catch (e) { /* nur für diese Seite */ }
+    nebelWahl[aufg.id] = nebelAn;
+    try { localStorage.setItem(NEBEL_SPEICHER, JSON.stringify(nebelWahl)); } catch (e) { /* nur für diese Seite */ }
     nebelSetzen();
   });
 
@@ -1234,10 +1257,10 @@
     return { decke: decke, loecher: loecher };
   }
 
-  // Nebel nur während eines Ablaufs (ab Start bis Zurücksetzen) und nur, wenn eingeschaltet.
+  // Nebel, sobald eingeschaltet: auch vor dem Start ist nur die Umgebung des Käfers sichtbar.
   function nebelSetzen(x, y) {
     if (!feldRef || !feldRef.nebel) return;
-    var n = feldRef.nebel, aktiv = nebelAn && !!sim.lauf && !!aufg.feld.karte;
+    var n = feldRef.nebel, aktiv = nebelAn && !!aufg.feld.karte;
     n.decke.style.display = aktiv ? "" : "none";
     if (!aktiv) return;
     if (x == null) { x = nebelOrt[0]; y = nebelOrt[1]; }
@@ -1249,8 +1272,67 @@
   }
   var nebelOrt = [1, 1];
 
+  /* ---------- Mitfahrende Ansicht für grosse Karten ---------------------------
+     Vor dem Start und nach «Zurücksetzen» zeigt das Feld die ganze Karte (Überblick). Sobald der
+     Käfer läuft, zeigt es einen Ausschnitt von KAMERA_SICHT × KAMERA_SICHT Feldern, der dem Käfer
+     folgt. Die Achsen bleiben am Rand und laufen nur in ihrer Richtung mit. */
+
+  function kameraVorbereiten(svg) {
+    var r = feldRef, f = aufg.feld;
+    r.vx = Math.min(KAMERA_SICHT, f.cols);
+    r.vy = Math.min(KAMERA_SICHT, f.rows);
+    r.VW = RAND + r.vx * Z + 4;
+    r.VH = r.vy * Z + RAND + 4;
+    var id = "bk-kam-" + (++nebelNr), defs = svgEl("defs");
+    function clip(name, x, y, w, h) {
+      var c = svgEl("clipPath", { id: id + name, clipPathUnits: "userSpaceOnUse" });
+      c.append(svgEl("rect", { x: x, y: y, width: w, height: h }));
+      defs.append(c);
+      return "url(#" + id + name + ")";
+    }
+    r.clipWelt = clip("w", RAND, 2, r.vx * Z, r.vy * Z);
+    r.clipX = clip("x", RAND, 0, r.vx * Z, r.VH);
+    r.clipY = clip("y", 0, 2, RAND, r.vy * Z);
+    svg.insertBefore(defs, svg.firstChild);
+    kameraAn(false);
+  }
+
+  // an = true: Ausschnitt um den Käfer; false: ganze Karte
+  function kameraAn(an) {
+    var r = feldRef;
+    if (!r || !r.kamera) return;
+    r.kameraAn = an;
+    r.svg.setAttribute("viewBox", an ? "0 0 " + r.VW + " " + r.VH : "0 0 " + r.W + " " + r.H);
+    r.svg.classList.toggle("bk-kamera", an);
+    [[r.rahmen, r.clipWelt], [r.rahmenX, r.clipX], [r.rahmenY, r.clipY]].forEach(function (p) {
+      if (an) p[0].setAttribute("clip-path", p[1]); else p[0].removeAttribute("clip-path");
+    });
+    if (!an) {
+      [r.welt, r.achseX, r.achseY].forEach(function (g) { g.style.transition = "none"; g.style.transform = ""; });
+      void r.svg.getBoundingClientRect();
+      [r.welt, r.achseX, r.achseY].forEach(function (g) { g.style.transition = ""; });
+    }
+  }
+
+  function kameraFolgen(x, y, ohneAnim) {
+    var r = feldRef, f = aufg.feld;
+    if (!r || !r.kamera || !r.kameraAn) return;
+    var ox = Math.max(0, Math.min((f.cols - r.vx) * Z, mx(x) - (RAND + r.vx * Z / 2)));
+    var oy = Math.max(0, Math.min((f.rows - r.vy) * Z, my(y) - (2 + r.vy * Z / 2)));
+    var teile = [[r.welt, -ox, -oy], [r.achseX, -ox, (r.vy - f.rows) * Z], [r.achseY, 0, -oy]];
+    teile.forEach(function (t) {
+      if (ohneAnim) t[0].style.transition = "none";
+      t[0].style.transform = "translate(" + t[1] + "px," + t[2] + "px)";
+    });
+    if (ohneAnim) {
+      void r.svg.getBoundingClientRect();
+      teile.forEach(function (t) { t[0].style.transition = ""; });
+    }
+  }
+
   function kaeferSetzen(x, y, winkel, ohneAnim) {
     nebelSetzen(x, y);
+    kameraFolgen(x, y, ohneAnim);
     var g = feldRef.kaefer;
     if (ohneAnim) g.style.transition = "none";
     var b = feldRef.bild;
@@ -1305,6 +1387,7 @@
       feldRef.spurLinien.textContent = "";
       feldRef.marken.textContent = "";
       feldRef.kaefer.classList.remove("fehler");
+      kameraAn(false);
       spurFlaeche(f.start[0], f.start[1]);
       sim.winkel = WINKEL[f.blick];
       dauerSetzen(300);
@@ -1328,6 +1411,7 @@
     sim.i = 0;
     sim.ende = false;
     nebelSetzen(aufg.feld.start[0], aufg.feld.start[1]);
+    if (feldRef && feldRef.kamera) { kameraAn(true); kameraFolgen(aufg.feld.start[0], aufg.feld.start[1], true); }
     return true;
   }
 
@@ -1370,6 +1454,9 @@
     var tr = sim.lauf.trace;
     if (sim.i >= tr.length) { abschluss(); return; }
     anwenden(tr[sim.i++]);
+    if (auto && Number(tempoEl.value) >= TEMPO_NUR_BEWEGUNG) {
+      while (sim.i < tr.length && tr[sim.i].typ !== "act" && tr[sim.i].typ !== "fehler") anwenden(tr[sim.i++]);
+    }
     if (sim.i >= tr.length) {
       if (auto) sim.timer = setTimeout(abschluss, tempoMs()); else abschluss();
       return;

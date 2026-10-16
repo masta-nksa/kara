@@ -70,7 +70,8 @@
         "Der Käfer läuft im Kreis, weil er einer Insel folgt. Er muss die Wand im richtigen Moment wieder verlassen.",
         "Idee: Gehen Sie in der Startrichtung geradeaus. Kommt eine Wand, drehen Sie links und folgen der Wand mit der rechten Hand. Zählen Sie dabei jede Drehung: links +1, rechts −1.",
         "Ist der Zähler wieder 0, schaut der Käfer wieder in die Startrichtung. Dann verlässt er die Wand und geht geradeaus weiter. So arbeitet der Pledge-Algorithmus."
-      ]
+      ],
+      "nebel": true
     },
     {
       "id": "pledge",
@@ -137,7 +138,8 @@
         "Ein Wandfolger allein reicht nicht: In manchen Labyrinthen führt die linke Hand im Kreis, in anderen die rechte.",
         "Erinnern Sie sich an «Zwei Inseln»: geradeaus in der Startrichtung, an der Wand entlang und die Drehungen zählen.",
         "Ist der Zähler wieder 0, schaut der Käfer wieder in die Startrichtung. Dann verlässt er die Wand und geht geradeaus weiter. So arbeitet der Pledge-Algorithmus."
-      ]
+      ],
+      "nebel": true
     }
   ]
 }

@@ -410,40 +410,44 @@
   // Rundgang, so entstehen freistehende Wandstücke (Inseln). Der Start liegt dann in einem Raum im
   // Inneren mit zufälliger Blickrichtung, der Ausgang bleibt eine Lücke im Rahmen.
   // Ohne opt ist das Ergebnis für jede Startzahl dasselbe wie bisher.
+  // raeume: Zahl (quadratisch) oder [Breite, Höhe] in Räumen, z. B. [12, 7] ergibt 25 × 15.
   function erzeugeLabyrinth(seed, raeume, opt) {
-    var r = zufall(seed), n = raeume || 5, g = 2 * n + 1, x, y;
+    var r = zufall(seed), nx, ny, x, y;
+    if (Array.isArray(raeume)) { nx = raeume[0]; ny = raeume[1]; } else { nx = ny = raeume || 5; }
+    var gx = 2 * nx + 1, gy = 2 * ny + 1;
     var m = [];
-    for (y = 0; y < g; y++) { m.push([]); for (x = 0; x < g; x++) m[y].push("#"); }
+    for (y = 0; y < gy; y++) { m.push([]); for (x = 0; x < gx; x++) m[y].push("#"); }
     var drin = {}, rand = [];
     function rein(cx, cy) {
       drin[cx + "," + cy] = true;
       m[2 * cy + 1][2 * cx + 1] = ".";
       [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(function (v) {
-        var nx = cx + v[0], ny = cy + v[1];
-        if (nx >= 0 && ny >= 0 && nx < n && ny < n && !drin[nx + "," + ny]) rand.push([nx, ny, cx, cy]);
+        var ax = cx + v[0], ay = cy + v[1];
+        if (ax >= 0 && ay >= 0 && ax < nx && ay < ny && !drin[ax + "," + ay]) rand.push([ax, ay, cx, cy]);
       });
     }
-    rein(Math.floor(r() * n), Math.floor(r() * n));
+    rein(Math.floor(r() * nx), Math.floor(r() * ny));
     while (rand.length) {
       var e = rand.splice(Math.floor(r() * rand.length), 1)[0];
       if (drin[e[0] + "," + e[1]]) continue;
       m[e[1] + e[3] + 1][e[0] + e[2] + 1] = ".";      // Wand zwischen den beiden Räumen öffnen
       rein(e[0], e[1]);
     }
+    // Lücke im Rahmen als [Zeile, Spalte]; oben/unten wählt eine Spalte, links/rechts eine Zeile.
     function luecke(seite) {
-      var k = 2 * Math.floor(r() * n) + 1;
-      return seite === 0 ? [0, k] : seite === 1 ? [k, g - 1] : seite === 2 ? [g - 1, k] : [k, 0];
+      var k = 2 * Math.floor(r() * (seite % 2 === 0 ? nx : ny)) + 1;
+      return seite === 0 ? [0, k] : seite === 1 ? [k, gx - 1] : seite === 2 ? [gy - 1, k] : [k, 0];
     }
     if (opt && opt.inseln) {
       var zu = [];
-      for (y = 1; y < g - 1; y++) for (x = 1; x < g - 1; x++) {
+      for (y = 1; y < gy - 1; y++) for (x = 1; x < gx - 1; x++) {
         if ((x % 2) !== (y % 2) && m[y][x] === "#") zu.push([y, x]);   // Wand genau zwischen zwei Räumen
       }
       for (var i = 0; i < opt.inseln && zu.length; i++) {
         var w = zu.splice(Math.floor(r() * zu.length), 1)[0];
         m[w[0]][w[1]] = ".";
       }
-      var sy = 2 * Math.floor(r() * n) + 1, sx = 2 * Math.floor(r() * n) + 1, blickI = "NESW".charAt(Math.floor(r() * 4));
+      var sy = 2 * Math.floor(r() * ny) + 1, sx = 2 * Math.floor(r() * nx) + 1, blickI = "NESW".charAt(Math.floor(r() * 4));
       var zi = luecke(Math.floor(r() * 4));
       m[sy][sx] = "S";
       m[zi[0]][zi[1]] = "Z";

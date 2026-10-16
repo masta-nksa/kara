@@ -68,8 +68,15 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
   Lösen. Die Bausteinlimits lassen bewusst auch weniger kompakte Lösungen zu.
 - «wiederhole bis Ziel» erkennt, wenn der Käfer im Kreis läuft (gleicher Ort, gleiche
   Blickrichtung zu Beginn eines Durchlaufs), und bricht dann sofort ab.
-- Nebel (Schalter beim Käfer-Feld, Standard aus): Während eines Ablaufs sind nur der Käfer,
-  seine vier Nachbarfelder und das Ziel sichtbar.
+- Nebel (Schalter direkt unter «Käfer-Feld»): Ist er eingeschaltet, sind nur der Käfer, seine vier
+  Nachbarfelder und das Ziel sichtbar, auch schon vor dem Start. Standard je Aufgabe mit
+  `nebel: true` (Level 11, «Zwei Inseln», «Jedes Labyrinth mit Inseln», Abschluss), sonst aus;
+  die eigene Wahl merkt sich der Browser je Aufgabe.
+- Grosse Karten (mehr als 13 Felder breit oder hoch): Vor dem Start zeigt das Feld die ganze
+  Karte, während des Ablaufs einen Ausschnitt von 11 × 11 Feldern, der dem Käfer folgt.
+- Tempo hat sieben Stufen; ab «blitzschnell» kosten nur Bewegungen Zeit.
+- Der Generator kann rechteckige Labyrinthe: `raeume` als `[Breite, Höhe]`, z. B. `[12, 7]`
+  ergibt 25 × 15.
 - Die Prüfung vergleicht das **Ergebnis** (Endfeld, besuchte Felder, Bausteinlimit), nie ein
   Muster. Lösungen und Tests gehören nicht in dieses Repo.
 
@@ -87,11 +94,11 @@ Handregeln jeweils mindestens einmal, dazu zehn Zufallslabyrinthe mit Inseln).
 ## Abschluss und eigene Challenges
 
 Die letzte Reihe («Abschluss und eigene Challenges», `lokal: true` in `reihen.json`) enthält das
-Abschluss-Level (`aufgaben/abschluss.json`: 13 × 13, mit und ohne Inseln, alle Bausteine) und
+Abschluss-Level (`aufgaben/abschluss.json`: 21 × 21 und 25 × 15, mit und ohne Inseln, alle Bausteine) und
 danach die Challenges, die in diesem Browser gespeichert sind.
 
 **Editor** (`editor/`): Raster bearbeiten (Mauer/Weg auch durch Ziehen, Start mit Blickrichtung,
-Ausgang am Rand), Grösse 7 bis 15, Zufallslabyrinthe mit und ohne Inseln, bis zu 12 Labyrinthe
+Ausgang am Rand), Grösse 7 bis 21, Zufallslabyrinthe mit und ohne Inseln, bis zu 12 Labyrinthe
 pro Challenge, einzelne als «verdeckt» markieren, Titel, Beschreibung, Bausteinlimit. Die
 Spielbarkeit (Start, Ausgang am Rand, Weg dazwischen) wird laufend geprüft. Der Entwurf bleibt
 im Browser. Bedienung auch per Tastatur (Pfeiltasten, Eingabetaste).
@@ -99,7 +106,7 @@ im Browser. Bedienung auch per Tastatur (Pfeiltasten, Eingabetaste).
 **Teilen ohne Server**: «Link kopieren» erzeugt `baukasten/?reihe=eigene#challenge=<Base64>`.
 Wer den Link öffnet, wird gefragt, ob die Challenge in den eigenen Browser übernommen werden
 soll; danach verschwindet der `#`-Teil aus der Adresszeile. Derselbe Link zweimal ergibt kein
-Duplikat (Kennung aus dem Inhalt). Eingelesene Daten werden streng geprüft (Grösse 5–15,
+Duplikat (Kennung aus dem Inhalt). Eingelesene Daten werden streng geprüft (Grösse 5–25,
 nur `#.SZ`, genau ein Start und ein Ausgang am Rand, Weg vorhanden, höchstens 12 Labyrinthe,
 Texte nur als reiner Text). «Verdeckt» ist eine Spielregel, kein Geheimnis: Wer den Link
 entschlüsselt, sieht alle Labyrinthe.
@@ -111,7 +118,7 @@ entschlüsselt, sieht alle Labyrinthe.
 | `kara.baukasten.v1` | gelöste Aufgaben (grüner Haken) |
 | `kara.baukasten.prog.v1` | Stand der Bausteine je Aufgabe; «Alles löschen» leert ihn |
 | `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
-| `kara.baukasten.nebel` | Nebel ein/aus |
+| `kara.baukasten.nebel.v2` | Nebel ein/aus, je Aufgabe (nur wenn selbst umgeschaltet) |
 | `kara.challenges.v1` | eigene und übernommene Challenges |
 | `kara.editor.entwurf.v1` | Entwurf im Editor |
 
