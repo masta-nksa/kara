@@ -347,24 +347,38 @@
 
   /* ---------- Eigene Challenges: Teilen, Bearbeiten, Entfernen ---------- */
 
+  // Jede Aufgabe lässt sich teilen: eingebaute als direkter Link auf die Aufgabe, eigene Challenges
+  // als Link mit der ganzen Challenge (für Leute, die sie noch nicht im Browser haben).
   function challengeLeiste() {
     var ch = aufg.challenge && C ? C.finde(aufg.id) : null;
-    $("challengeLeiste").hidden = !ch;
+    $("challengeLeiste").hidden = false;
+    $("chBearbeiten").hidden = $("chEntfernen").hidden = !ch;
     $("chLink").hidden = true;
     $("chMeldung").hidden = true;
     $("chBearbeiten").href = "../editor/?id=" + encodeURIComponent(aufg.id);
     $("editorLink").hidden = !(reihe && reihe.lokal);
   }
   function chMeldung(text) { $("chMeldung").textContent = text; $("chMeldung").hidden = !text; }
+  function aufgabenLink() {
+    var u = new URL(location.href);
+    u.search = "";
+    u.hash = "";
+    u.searchParams.set("reihe", reihe.id);
+    u.searchParams.set("aufgabe", aufg.id);
+    return u.href;
+  }
   $("chTeilen").addEventListener("click", function () {
-    var ch = C && C.finde(aufg.id);
-    if (!ch) return;
-    var url = C.link(ch, location.href), feld = $("chLink");
+    var ch = aufg.challenge && C ? C.finde(aufg.id) : null;
+    var url = ch ? C.link(ch, location.href) : aufgabenLink(), feld = $("chLink");
     feld.value = url;
     feld.hidden = false;
     feld.focus();
     feld.select();
-    var fertig = function (ok) { chMeldung(ok ? "Link kopiert. Wer ihn öffnet, kann die Challenge in den eigenen Browser übernehmen." : "Bitte den Link markieren und kopieren."); };
+    var fertig = function (ok) {
+      chMeldung(!ok ? "Bitte den Link markieren und kopieren."
+        : ch ? "Link kopiert. Wer ihn öffnet, kann die Challenge in den eigenen Browser übernehmen."
+          : "Link kopiert. Er öffnet genau diese Aufgabe.");
+    };
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(function () { fertig(true); }, function () { fertig(false); });
     else fertig(false);
   });
