@@ -1,0 +1,143 @@
+{
+  "hinweis": "Reihe «Inseln und Pledge» fuer den Baukasten. Eigene Labyrinthe mit Inseln (erzeugt mit erzeugeLabyrinth, Option inseln). Keine Loesungen enthalten; kleinsteLoesung ist nur die Anzahl Bausteine.",
+  "aufgaben": [
+    {
+      "id": "insel1",
+      "maxTiefe": 6,
+      "titel": "1 · Die Insel",
+      "stufe": "Handregeln",
+      "text": "In diesem Labyrinth steht ein Mauerstück frei, wie eine Insel. Probieren Sie Ihren Wandfolger aus dem letzten Labyrinth-Level: Mit welcher Hand kommt der Käfer zum Ausgang, mit welcher nicht? Sie dürfen höchstens 12 Bausteine verwenden.",
+      "feld": {
+        "karte": ["###########", "#.....#...#", "#.###.#.###", "#S#.#.....#", "#.#.###.###", "#.........#", "#.#######.#", "#.#.#.....#", "###.#.###.#", "#.....#...#", "###Z#######"],
+        "blick": "S"
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": false,
+        "bis": true,
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "sonst": true
+      },
+      "maxBloecke": 12,
+      "kleinsteLoesung": 5,
+      "hinweise": [
+        "Lassen Sie den Käfer mit der linken Hand an der Wand laufen und beobachten Sie, wo er hängen bleibt.",
+        "Die Wand links vom Start gehört zu einer Insel. Wer ihr folgt, umrundet sie endlos. Versuchen Sie es mit der anderen Hand."
+      ]
+    },
+    {
+      "id": "insel2",
+      "maxTiefe": 6,
+      "titel": "2 · Zwei Inseln",
+      "stufe": "Zähler",
+      "text": "Jetzt hilft keine Hand mehr: Wer der linken oder der rechten Wand folgt, läuft im Kreis. Neu hat der Käfer einen Zähler, den er hoch- und herunterzählen und prüfen kann. Er beginnt bei 0. Bringen Sie den Käfer zum Ausgang.",
+      "feld": {
+        "karte": ["#########Z#", "#.#.#...#.#", "#.#.#.#.#.#", "#.#...#.#.#", "#.#.#.#.#.#", "#.#.#S#...#", "#.#.#.#.###", "#.#.#.#...#", "#.#.#.#.###", "#.........#", "###########"],
+        "blick": "W"
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links",
+          "zaehlerPlus",
+          "zaehlerMinus",
+          "zaehlerNull"
+        ],
+        "wiederholung": false,
+        "bis": true,
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts",
+          "zaehlerIstNull"
+        ],
+        "sonst": true
+      },
+      "maxBloecke": null,
+      "kleinsteLoesung": 14,
+      "hinweise": [
+        "Der Käfer läuft im Kreis, weil er einer Insel folgt. Er muss die Wand im richtigen Moment wieder verlassen.",
+        "Idee: Gehen Sie in der Startrichtung geradeaus. Kommt eine Wand, drehen Sie links und folgen der Wand mit der rechten Hand. Zählen Sie dabei jede Drehung: links +1, rechts −1.",
+        "Ist der Zähler wieder 0, schaut der Käfer wieder in die Startrichtung. Dann verlässt er die Wand und geht geradeaus weiter. So arbeitet der Pledge-Algorithmus."
+      ]
+    },
+    {
+      "id": "pledge",
+      "maxTiefe": 6,
+      "titel": "3 · Jedes Labyrinth mit Inseln",
+      "stufe": "Allgemeine Lösung",
+      "text": "Ihr Programm muss jetzt in jedem Labyrinth zum Ausgang finden, auch mit Inseln: in den drei gezeigten, in drei verdeckten und in zufällig erzeugten. Der Ausgang liegt immer im Rahmen, der Start irgendwo im Inneren.",
+      "layouts": [
+        {
+          "karte": ["###########", "#....S....#", "#.#####.#.#", "#.........#", "#######.#.#", "#.#.......#", "#.#####.###", "Z.#.......#", "#.#.###.###", "#.........#", "###########"],
+          "blick": "W"
+        },
+        {
+          "karte": ["###########", "#.........#", "###.#.#.#.#", "#.....#.#.#", "#.#.#.#.#.#", "#...#.#S#.#", "#####.#.#.#", "#.....#...#", "#.#.#.###.#", "#.#...#...#", "#Z#########"],
+          "blick": "N"
+        },
+        {
+          "karte": ["###########", "#.........#", "#.#.#######", "#.........#", "#.#.###.###", "#.....#...#", "#.#.###.#.#", "#.#..S#.#.#", "#.#####.#.#", "#.........#", "###Z#######"],
+          "blick": "E"
+        }
+      ],
+      "verdeckt": [
+        {
+          "karte": ["###########", "#.#.....#.#", "#.#.###.#.#", "#.......#.#", "###.###.#.#", "#..S#.....#", "#.#.#.###.#", "#...#...#.#", "#.#.#.#.#.#", "#.#...#...#", "#########Z#"],
+          "blick": "S"
+        },
+        {
+          "karte": ["###########", "#....S..#.#", "#.#.###.#.#", "#.....#...#", "#.#####.###", "#.........#", "#.#######.#", "#.........#", "###.#.#.###", "#.....#...#", "#########Z#"],
+          "blick": "E"
+        },
+        {
+          "karte": ["###########", "#.#.......#", "#.###.###.#", "#...#..S..#", "#.###.#.#.#", "#...#.#...#", "#.#.#.###.#", "#.......#.#", "###.#.###.#", "#...#.....#", "#Z#########"],
+          "blick": "W"
+        }
+      ],
+      "zufall": {
+        "anzahl": 10,
+        "raeume": 5,
+        "inseln": 4
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links",
+          "zaehlerPlus",
+          "zaehlerMinus",
+          "zaehlerNull"
+        ],
+        "wiederholung": false,
+        "bis": true,
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts",
+          "zaehlerIstNull"
+        ],
+        "sonst": true
+      },
+      "maxBloecke": null,
+      "kleinsteLoesung": 14,
+      "hinweise": [
+        "Ein Wandfolger allein reicht nicht: In manchen Labyrinthen führt die linke Hand im Kreis, in anderen die rechte.",
+        "Erinnern Sie sich an «Zwei Inseln»: geradeaus in der Startrichtung, an der Wand entlang und die Drehungen zählen.",
+        "Ist der Zähler wieder 0, schaut der Käfer wieder in die Startrichtung. Dann verlässt er die Wand und geht geradeaus weiter. So arbeitet der Pledge-Algorithmus."
+      ]
+    }
+  ]
+}

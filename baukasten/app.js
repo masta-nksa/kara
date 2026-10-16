@@ -274,6 +274,9 @@
     tabsAktualisieren();
     adresseSetzen();
     renderPalette();
+    var p = aufg.palette;
+    $("zaehlwerk").hidden = !((p.befehle || []).some(function (c) { return /^zaehler/.test(c); }) ||
+      (p.bedingungen || []).indexOf("zaehlerIstNull") >= 0);
     renderLayouts();
     renderFeld();
     simReset();
@@ -349,7 +352,8 @@
     if (!z) return [];
     var seed = (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0, liste = [];
     for (var i = 0; i < z.anzahl; i++) {
-      var f = E.layoutVorbereiten(E.erzeugeLabyrinth(seed + i, z.raeume || 5), "Zufall " + (i + 1), false, "Zufall");
+      var karte = E.erzeugeLabyrinth(seed + i, z.raeume || 5, z.inseln ? { inseln: z.inseln } : undefined);
+      var f = E.layoutVorbereiten(karte, "Zufall " + (i + 1), false, "Zufall");
       f.zufall = true;
       liste.push(f);
     }
@@ -1217,6 +1221,7 @@
       kaeferSetzen(f.start[0], f.start[1], sim.winkel, true);
     }
     markiere(null);
+    $("zaehlwert").textContent = "0";
     schrittInfo("", false);
     meldungVerbergen();
     knoepfe();
@@ -1238,6 +1243,7 @@
 
   function anwenden(ev) {
     markiere(ev.pfad, ev.typ === "fehler");
+    if (ev.zaehler != null) $("zaehlwert").textContent = ev.zaehler;
     var text = "";
     if (ev.typ === "act") {
       sim.winkel = winkelNeu(sim.winkel, ev.d);
@@ -1246,7 +1252,7 @@
         spurFlaeche(ev.x, ev.y);
       }
       kaeferSetzen(ev.x, ev.y, sim.winkel, false);
-      text = E.BEFEHLE[ev.cmd].label;
+      text = E.BEFEHLE[ev.cmd].label + (/^zaehler/.test(ev.cmd) ? " → Zähler: " + ev.zaehler : "");
     } else if (ev.typ === "loop") {
       text = "wiederhole " + ev.n + "-mal – Durchlauf " + ev.durchlauf + " von " + ev.n;
     } else if (ev.typ === "until") {

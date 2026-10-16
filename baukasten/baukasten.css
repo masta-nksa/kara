@@ -123,6 +123,9 @@
 .bk-blk[data-ebene="3"]{--s:.78}
 .bk-blk[data-ebene="4"]{--s:.72}
 .bk-blk[data-ebene="5"]{--s:.68}
+/* Ab Ebene 3 wird es eng: weniger Innenabstand, kleineres Löschkreuz */
+.bk-act:is([data-ebene="2"],[data-ebene="3"],[data-ebene="4"],[data-ebene="5"]) > .bk-main{padding-left:6px;padding-right:2px}
+.bk-blk:is([data-ebene="2"],[data-ebene="3"],[data-ebene="4"],[data-ebene="5"]) .bk-del{width:26px;min-height:32px;font-size:1rem}
 .bk-blk.gewaehlt{outline:3px solid var(--accent);outline-offset:1px;z-index:2}
 .bk-blk.quelle{opacity:.35}
 
@@ -246,6 +249,10 @@ body.bk-zieht *{cursor:grabbing!important}
 .bk-lay-marke.ok{color:var(--ok);font-weight:700}
 .bk-lay-marke.fehl{color:var(--no);font-weight:700}
 .bk-lay-info{font-size:.8rem;color:var(--ink-soft);margin-left:4px}
+/* Zähler (Pledge) */
+.bk-zaehlwerk{margin:0 0 8px;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.88rem;color:var(--ink-soft)}
+.bk-zaehlwerk[hidden]{display:none}
+.bk-zaehlwerk b{display:inline-block;min-width:2.4em;padding:1px 8px;text-align:center;color:var(--ink);background:var(--accent-soft);border-radius:var(--radius);font-variant-numeric:tabular-nums}
 /* Nebel */
 .bk-nebel{fill:var(--ground);opacity:.97;pointer-events:none}
 .bk-nebel-schalter{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--ink-soft);cursor:pointer}

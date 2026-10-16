@@ -59,13 +59,18 @@
       }
     },
     rechts: { label: "rechts drehen", kurz: "↻ rechts", ausfuehren: function (z) { z.d = RECHTS[z.d]; } },
-    links: { label: "links drehen", kurz: "↺ links", ausfuehren: function (z) { z.d = LINKS[z.d]; } }
+    links: { label: "links drehen", kurz: "↺ links", ausfuehren: function (z) { z.d = LINKS[z.d]; } },
+    // Zähler (z. B. für den Pledge-Algorithmus): eine ganze Zahl, beim Start 0
+    zaehlerPlus: { label: "Zähler + 1", kurz: "Zähler +1", ausfuehren: function (z) { z.zaehler++; } },
+    zaehlerMinus: { label: "Zähler − 1", kurz: "Zähler −1", ausfuehren: function (z) { z.zaehler--; } },
+    zaehlerNull: { label: "Zähler auf 0", kurz: "Zähler := 0", ausfuehren: function (z) { z.zaehler = 0; } }
   };
 
   var BEDINGUNGEN = {
     frei: { label: "Feld vorne frei?", kurz: "vorne frei?", pruefen: frei },
     freiLinks: { label: "Feld links frei?", kurz: "links frei?", pruefen: function (z, ctx) { return freiRichtung(z, ctx, LINKS[z.d]); } },
-    freiRechts: { label: "Feld rechts frei?", kurz: "rechts frei?", pruefen: function (z, ctx) { return freiRichtung(z, ctx, RECHTS[z.d]); } }
+    freiRechts: { label: "Feld rechts frei?", kurz: "rechts frei?", pruefen: function (z, ctx) { return freiRichtung(z, ctx, RECHTS[z.d]); } },
+    zaehlerIstNull: { label: "Zähler = 0?", kurz: "Zähler = 0?", pruefen: function (z) { return z.zaehler === 0; } }
   };
 
   function gleich(a, b) { return a[0] === b[0] && a[1] === b[1]; }
@@ -257,12 +262,12 @@
     feld.hindernisse.forEach(function (h) { hind[h[0] + "," + h[1]] = true; });
     var ctx = { cols: feld.cols, rows: feld.rows, hind: hind };
     var zielFeld = (opts && opts.ziel) || null;
-    var z = { x: feld.start[0], y: feld.start[1], d: feld.blick, besucht: [[feld.start[0], feld.start[1]]] };
+    var z = { x: feld.start[0], y: feld.start[1], d: feld.blick, zaehler: 0, besucht: [[feld.start[0], feld.start[1]]] };
     var trace = [], schritte = 0, ereignisse = 0, fehler = null;
 
     function ereignis(typ, pfad, extra) {
       if (++ereignisse > EREIGNISLIMIT) throw { code: "limit" };
-      var e = { typ: typ, pfad: pfad, x: z.x, y: z.y, d: z.d };
+      var e = { typ: typ, pfad: pfad, x: z.x, y: z.y, d: z.d, zaehler: z.zaehler };
       for (var k in extra) e[k] = extra[k];
       trace.push(e);
     }
@@ -284,11 +289,11 @@
           for (var j = 0; j < b.body.length; j++) ausfuehren(b.body[j], pfad.concat(["body", j]));
         }
       } else if (b.t === "until") {
-        // Zu Beginn jedes Durchlaufs bestimmen Ort und Blickrichtung den weiteren Ablauf vollständig
+        // Zu Beginn jedes Durchlaufs bestimmen Ort, Blickrichtung und Zähler den weiteren Ablauf vollständig
         // (alle anderen Bausteine sind ohne Gedächtnis). Kommt ein Zustand wieder, läuft der Käfer im Kreis.
         var durchlauf = 0, gesehen = {};
         while (!zielFeld || z.x !== zielFeld[0] || z.y !== zielFeld[1]) {
-          var zust = z.x + "," + z.y + "," + z.d;
+          var zust = z.x + "," + z.y + "," + z.d + "," + z.zaehler;
           if (gesehen[zust]) {
             ereignis("fehler", pfad, { code: "kreis" });
             throw { code: "kreis" };
@@ -401,7 +406,11 @@
   // raeume × raeume Räumen, Kartengrösse 2·raeume+1. Eingang (Start) und Ausgang (Ziel) sind
   // Lücken im Rahmen auf zwei verschiedenen Seiten. Verfahren: zufälliges Prim, das viele
   // Abzweigungen erzeugt. Liefert ein Layout {karte, blick}.
-  function erzeugeLabyrinth(seed, raeume) {
+  // opt.inseln = k: danach k zusätzliche Wände zwischen Räumen öffnen. Jede Öffnung schliesst einen
+  // Rundgang, so entstehen freistehende Wandstücke (Inseln). Der Start liegt dann in einem Raum im
+  // Inneren mit zufälliger Blickrichtung, der Ausgang bleibt eine Lücke im Rahmen.
+  // Ohne opt ist das Ergebnis für jede Startzahl dasselbe wie bisher.
+  function erzeugeLabyrinth(seed, raeume, opt) {
     var r = zufall(seed), n = raeume || 5, g = 2 * n + 1, x, y;
     var m = [];
     for (y = 0; y < g; y++) { m.push([]); for (x = 0; x < g; x++) m[y].push("#"); }
@@ -421,12 +430,27 @@
       m[e[1] + e[3] + 1][e[0] + e[2] + 1] = ".";      // Wand zwischen den beiden Räumen öffnen
       rein(e[0], e[1]);
     }
-    // Seiten: 0 oben, 1 rechts, 2 unten, 3 links. Blick des Käfers zeigt vom Eingang ins Labyrinth.
-    var seiteS = Math.floor(r() * 4), seiteZ = (seiteS + 1 + Math.floor(r() * 3)) % 4;
     function luecke(seite) {
       var k = 2 * Math.floor(r() * n) + 1;
       return seite === 0 ? [0, k] : seite === 1 ? [k, g - 1] : seite === 2 ? [g - 1, k] : [k, 0];
     }
+    if (opt && opt.inseln) {
+      var zu = [];
+      for (y = 1; y < g - 1; y++) for (x = 1; x < g - 1; x++) {
+        if ((x % 2) !== (y % 2) && m[y][x] === "#") zu.push([y, x]);   // Wand genau zwischen zwei Räumen
+      }
+      for (var i = 0; i < opt.inseln && zu.length; i++) {
+        var w = zu.splice(Math.floor(r() * zu.length), 1)[0];
+        m[w[0]][w[1]] = ".";
+      }
+      var sy = 2 * Math.floor(r() * n) + 1, sx = 2 * Math.floor(r() * n) + 1, blickI = "NESW".charAt(Math.floor(r() * 4));
+      var zi = luecke(Math.floor(r() * 4));
+      m[sy][sx] = "S";
+      m[zi[0]][zi[1]] = "Z";
+      return { karte: m.map(function (z) { return z.join(""); }), blick: blickI };
+    }
+    // Seiten: 0 oben, 1 rechts, 2 unten, 3 links. Blick des Käfers zeigt vom Eingang ins Labyrinth.
+    var seiteS = Math.floor(r() * 4), seiteZ = (seiteS + 1 + Math.floor(r() * 3)) % 4;
     var s = luecke(seiteS), zl = luecke(seiteZ);
     m[s[0]][s[1]] = "S";
     m[zl[0]][zl[1]] = "Z";

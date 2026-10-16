@@ -12,6 +12,12 @@
       "titel": "Labyrinth",
       "untertitel": "Von geradeaus über Kreuzungen bis zum Programm, das in jedem Labyrinth den Ausgang findet",
       "dateien": ["aufgaben/labyrinth.json"]
+    },
+    {
+      "id": "inseln",
+      "titel": "Inseln und Pledge",
+      "untertitel": "Wenn die Hand an der Wand im Kreis führt: mit einem Zähler trotzdem zum Ausgang",
+      "dateien": ["aufgaben/inseln.json"]
     }
   ]
 }
