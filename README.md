@@ -69,7 +69,9 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
 - «wiederhole bis Ziel» erkennt, wenn der Käfer im Kreis läuft (gleicher Ort, gleiche
   Blickrichtung zu Beginn eines Durchlaufs), und bricht dann sofort ab.
 - Nebel (Schalter direkt unter «Käfer-Feld»): Ist er eingeschaltet, sind nur der Käfer, seine vier
-  Nachbarfelder und das Ziel sichtbar, auch schon vor dem Start. Standard je Aufgabe mit
+  Nachbarfelder und das Ziel sichtbar, auch schon vor dem Start. Was der Käfer seit dem Start
+  gesehen hat, bleibt aufgedeckt (leicht abgedunkelt). Erreicht er das Ziel, verschwindet der
+  Nebel; «Zurücksetzen» deckt wieder alles zu. Standard je Aufgabe mit
   `nebel: true` (Level 11, «Zwei Inseln», «Jedes Labyrinth mit Inseln», Abschluss), sonst aus;
   die eigene Wahl merkt sich der Browser je Aufgabe.
 - Grosse Karten (mehr als 13 Felder breit oder hoch): Vor dem Start zeigt das Feld die ganze
