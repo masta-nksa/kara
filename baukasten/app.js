@@ -8,7 +8,7 @@
   "use strict";
 
   var E = window.BaukastenEngine;
-  var SPEICHER = "checks.baukasten.v1";
+  var SPEICHER = "kara.baukasten.v1";
   var TEMPO = [1100, 700, 420, 220, 90];
   var TEMPO_TEXT = ["sehr langsam", "langsam", "mittel", "schnell", "sehr schnell"];
   var Z = 40, RAND = 20;                       // Zellgrösse und Randbreite (SVG-Einheiten)
@@ -20,11 +20,8 @@
   var palette = $("palette"), arbeit = $("arbeit"), korb = $("korb");
   var feldBox = $("feld"), meldungBox = $("meldung"), tempoEl = $("tempo");
 
-  var REIHEN = [
-    { id: "kaefer", titel: "Käfer-Aufgaben", datei: "aufgaben.json" },
-    { id: "labyrinth", titel: "Labyrinth", datei: "labyrinth.json" }
-  ];
-  var reihe = REIHEN[0], reihenCache = {};
+  var REIHEN = [];                 // aus reihen.json
+  var reihe = null, reihenCache = {};
   var aufgaben = [], aktuell = 0, aufg = null;
   var prog = [], undoStack = [];
   var zustand = {};                // pro Aufgabe: {prog, undo}
@@ -82,7 +79,17 @@
 
   /* ---------- Fortschritt (localStorage, immer mit try/catch) - */
 
-  var PROG_SPEICHER = "checks.baukasten.prog.v1";
+  var PROG_SPEICHER = "kara.baukasten.prog.v1";
+
+  // Einmalige Übernahme aus dem früheren Baukasten in masta-nksa/checks (gleiche Herkunft
+  // masta-nksa.github.io, darum im selben localStorage). Danach getrennte Schlüssel.
+  function uebernehmeAlt(neu, alt) {
+    try {
+      if (localStorage.getItem(neu) === null && localStorage.getItem(alt) !== null) localStorage.setItem(neu, localStorage.getItem(alt));
+    } catch (e) { /* ohne Speicher weiter */ }
+  }
+  uebernehmeAlt(SPEICHER, "checks.baukasten.v1");
+  uebernehmeAlt(PROG_SPEICHER, "checks.baukasten.prog.v1");
   var gespeicherteProgramme = {};
 
   function ladeProgramme() {
@@ -116,9 +123,22 @@
   var rule = $("pixelrule");
   for (var pi = 0; pi < 40; pi++) rule.append(document.createElement("i"));
 
-  var reiheParam = null;
-  try { reiheParam = new URLSearchParams(location.search).get("reihe"); } catch (e) { /* ohne Parameter weiter */ }
-  REIHEN.forEach(function (r) { if (r.id === reiheParam) reihe = r; });
+  var reiheParam = null, aufgabeParam = null;
+  try {
+    var such = new URLSearchParams(location.search);
+    reiheParam = such.get("reihe");
+    aufgabeParam = such.get("aufgabe");
+  } catch (e) { /* ohne Parameter weiter */ }
+
+  // Adresszeile zeigt Reihe und Aufgabe: Neuladen und Links aus der Übersicht landen am richtigen Ort.
+  function adresseSetzen() {
+    try {
+      var u = new URL(location.href);
+      u.searchParams.set("reihe", reihe.id);
+      u.searchParams.set("aufgabe", aufg.id);
+      history.replaceState(null, "", u.href);
+    } catch (e) { /* Adresszeile bleibt, wie sie ist */ }
+  }
 
   function ladeFehler(err, datei) {
     var box = el("div", "oops");
@@ -132,30 +152,39 @@
     console.error("[baukasten]", err);
   }
 
+  function holeJson(datei) {
+    return fetch(datei, { cache: "no-cache" })
+      .then(function (res) { if (!res.ok) throw new Error(datei + ": HTTP " + res.status); return res.json(); });
+  }
+
+  // Eine Reihe kann aus mehreren Dateien bestehen (reihen.json, Feld «dateien»): so lassen sich
+  // Reihen später zusammenlegen, ohne die Aufgaben-Dateien anzufassen.
   function ladeReihe(r) {
     if (reihenCache[r.id]) return Promise.resolve(reihenCache[r.id]);
-    return fetch(r.datei, { cache: "no-cache" })
-      .then(function (res) { if (!res.ok) throw new Error("HTTP " + res.status); return res.json(); })
-      .then(function (d) {
-        if (!d || !Array.isArray(d.aufgaben) || !d.aufgaben.length) throw new Error("Feld „aufgaben“ fehlt oder ist leer.");
-        reihenCache[r.id] = d.aufgaben.map(E.vorbereiten);
-        return reihenCache[r.id];
+    return Promise.all(r.dateien.map(holeJson)).then(function (teile) {
+      var liste = [];
+      teile.forEach(function (d, i) {
+        if (!d || !Array.isArray(d.aufgaben) || !d.aufgaben.length) throw new Error(r.dateien[i] + ": Feld „aufgaben“ fehlt oder ist leer.");
+        liste = liste.concat(d.aufgaben.map(E.vorbereiten));
       });
+      reihenCache[r.id] = liste;
+      return liste;
+    });
   }
 
   function zeigeReihe(r) {
     return ladeReihe(r).then(function (liste) {
       reihe = r;
       aufgaben = liste;
-      try {
-        var u = new URL(location.href);
-        if (r === REIHEN[0]) u.searchParams.delete("reihe"); else u.searchParams.set("reihe", r.id);
-        history.replaceState(null, "", u.href);
-      } catch (e) { /* Adresszeile bleibt, wie sie ist */ }
+      var start = 0;
+      if (aufgabeParam) {
+        liste.forEach(function (x, i) { if (x.id === aufgabeParam) start = i; });
+        aufgabeParam = null;
+      }
       reihenAktualisieren();
       baueTabs();
-      waehleAufgabe(0);
-    }).catch(function (err) { ladeFehler(err, r.datei); });
+      waehleAufgabe(start);
+    }).catch(function (err) { ladeFehler(err, r.dateien.join(", ")); });
   }
 
   function baueReihen() {
@@ -179,8 +208,14 @@
 
   ladeFortschritt();
   ladeProgramme();
-  baueReihen();
-  zeigeReihe(reihe);
+  holeJson("reihen.json").then(function (d) {
+    if (!d || !Array.isArray(d.reihen) || !d.reihen.length) throw new Error("reihen.json: Feld „reihen“ fehlt oder ist leer.");
+    REIHEN = d.reihen.filter(function (r) { return r && r.id && Array.isArray(r.dateien) && r.dateien.length; });
+    reihe = REIHEN[0];
+    REIHEN.forEach(function (r) { if (r.id === reiheParam) reihe = r; });
+    baueReihen();
+    return zeigeReihe(reihe);
+  }).catch(function (err) { ladeFehler(err, "reihen.json"); });
 
   /* ---------- Aufgabenwahl ---------------------------------- */
 
@@ -235,6 +270,7 @@
     $("hinweisText").textContent = aufg.hinweis || "";
 
     tabsAktualisieren();
+    adresseSetzen();
     renderPalette();
     renderFeld();
     simReset();

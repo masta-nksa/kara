@@ -3,153 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Self-Checks</title>
+<title>Kara Übersicht</title>
+<meta name="description" content="Den Käfer mit Struktogramm-Bausteinen programmieren: Grundlagen, Labyrinthe und eigene Challenges.">
 <link rel="icon" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="assets/check.css">
-<link rel="stylesheet" href="assets/index.css">
+<link rel="stylesheet" href="assets/basis.css">
+<link rel="stylesheet" href="assets/cockpit.css">
 </head>
 <body>
-<div class="wrap">
-  <header class="hero">
-    <span class="eyebrow">Informatik · Selbstkontrolle</span>
-    <h1>Self-Checks</h1>
-    <p class="lead">Kurze Multiple-Choice-Checks zum Selbstprüfen. Keine Anmeldung, keine Auswertung – die Antworten bleiben bei Ihnen.</p>
-    <div class="pixelrule" aria-hidden="true"></div>
+<main class="wrap">
+  <header>
+    <span class="eyebrow">Kara · Käfer programmieren</span>
+    <h1>Kara</h1>
+    <p class="lead">Programmieren Sie den Käfer mit Struktogramm-Bausteinen: zuerst kurze Aufgaben auf freiem Feld, dann Labyrinthe. Keine Anmeldung, nichts wird gesendet – Ihren Fortschritt merkt sich nur dieser Browser.</p>
+    <div class="pixelrule" id="pixelrule" aria-hidden="true"></div>
   </header>
-  <div id="liste"><p class="leer">Wird geladen …</p></div>
-</div>
 
-<!-- Optional: qrcode.min.js nach assets/ legen und die naechste Zeile entkommentieren,
-     dann zeigt die Uebersicht pro Check einen QR-Code zum Anbeamen.
-<script src="assets/qrcode.min.js"></script>
--->
-<script>
-(function () {
-  "use strict";
-  var liste = document.getElementById("liste");
+  <noscript><p class="oops">Diese Seite braucht JavaScript.</p></noscript>
 
-  var rule = document.querySelector(".pixelrule");
-  for (var i = 0; i < 40; i++) rule.append(document.createElement("i"));
+  <ol class="ck-reihen" id="reihen" aria-label="Reihen"></ol>
 
-  fetch("manifest.json", { cache: "no-cache" })
-    .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-    .then(render)
-    .catch(function (err) {
-      liste.innerHTML =
-        '<div class="oops"><h2>Übersicht nicht verfügbar</h2>' +
-        '<p><code>manifest.json</code> fehlt oder ist fehlerhaft.<br><code>' +
-        String(err.message || err) + '</code></p></div>';
-    });
-
-  function render(data) {
-    // Gruppen und Reihenfolge kommen aus manifest.json: thematisch gruppiert,
-    // von den Grundlagen zu den Anwendungen. Keine Lektionsnummern.
-    var themen = (data && data.themen) || [];
-    liste.textContent = "";
-    if (!themen.length) {
-      liste.innerHTML = '<p class="leer">Noch keine Checks eingetragen.</p>';
-      return;
-    }
-
-    // Pro Thema: erst die Lernseiten ("Zum Nachlesen"), dann die Checks
-    // ("Zum Selbstprüfen"), zuletzt die Werkzeuge ("Zum Ausprobieren").
-    // Fehlt eines der Arrays, entfaellt der Abschnitt – Themen mit nur
-    // Checks sehen aus wie bisher.
-    themen.forEach(function (t) {
-      var lernseiten = t.lernseiten || [];
-      var checks = t.checks || [];
-      var werkzeuge = t.werkzeuge || [];
-      if (!lernseiten.length && !checks.length && !werkzeuge.length) return;
-
-      var box = document.createElement("section");
-      box.className = "gruppe";
-
-      var h = document.createElement("h2");
-      h.textContent = t.gefaess ? t.thema + " · " + t.gefaess : t.thema;
-      box.append(h);
-
-      var mehrere = (lernseiten.length ? 1 : 0) + (checks.length ? 1 : 0) + (werkzeuge.length ? 1 : 0) > 1;
-
-      if (lernseiten.length) {
-        if (mehrere) box.append(abschnitt("Zum Nachlesen"));
-        box.append(kartenBauen(lernseiten, "Lernseite"));
-      }
-      if (checks.length) {
-        if (mehrere) box.append(abschnitt("Zum Selbstprüfen"));
-        box.append(kartenBauen(checks, null));
-      }
-      if (werkzeuge.length) {
-        if (mehrere) box.append(abschnitt("Zum Ausprobieren"));
-        box.append(kartenBauen(werkzeuge, "Werkzeug"));
-      }
-
-      liste.append(box);
-    });
-
-    function abschnitt(text) {
-      var p = document.createElement("p");
-      p.className = "subhead";
-      p.textContent = text;
-      return p;
-    }
-
-    function kartenBauen(items, kennzeichen) {
-      var karten = document.createElement("div");
-      karten.className = "karten";
-
-      items.forEach(function (c) {
-        var a = document.createElement("a");
-        a.className = "karte";
-        a.href = c.pfad;
-
-        var text = document.createElement("span");
-        text.className = "text";
-
-        if (kennzeichen) {
-          var eyebrow = document.createElement("span");
-          eyebrow.className = "eyebrow";
-          eyebrow.textContent = kennzeichen;
-          text.append(eyebrow);
-        }
-
-        var titel = document.createElement("span");
-        titel.className = "titel";
-        titel.textContent = c.titel || c.pfad;
-        text.append(titel);
-
-        if (c.untertitel) {
-          var unter = document.createElement("span");
-          unter.className = "unter";
-          unter.textContent = c.untertitel;
-          text.append(unter);
-        }
-
-        var pfeil = document.createElement("span");
-        pfeil.className = "pfeil";
-        pfeil.textContent = "→";
-
-        a.append(text, pfeil);
-
-        if (window.QRCode) {
-          var qr = document.createElement("span");
-          a.insertBefore(qr, pfeil);
-          try {
-            new window.QRCode(qr, {
-              text: new URL(c.pfad, location.href).href,
-              width: 56, height: 56
-            });
-          } catch (e) { qr.remove(); }
-        }
-
-        karten.append(a);
-      });
-
-      return karten;
-    }
-  }
-})();
-</script>
+  <footer class="ck-fuss">
+    <p>Labyrinth-Karten und Bausteinlimits der ersten zehn Levels nach
+      <a href="https://github.com/google/blockly-games">Blockly Games</a> (Google, Apache-Lizenz 2.0).</p>
+  </footer>
+</main>
+<script src="assets/cockpit.js"></script>
 </body>
 </html>

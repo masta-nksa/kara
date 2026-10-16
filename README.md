@@ -1,137 +1,83 @@
-# checks – Self-Check-Plattform
+# Kara – Käfer programmieren
 
-Statische Multiple-Choice-Selbstchecks für verschiedene Unterrichtsgefässe.
-Kein Build-Schritt, kein Jekyll – reines HTML/CSS/JS aus dem `main`-Branch.
+Den Käfer mit Struktogramm-Bausteinen programmieren: kurze Aufgaben auf freiem Feld,
+dann Labyrinthe. Reines HTML/CSS/JS ohne Build-Schritt und ohne Bibliotheken; es wird
+nichts gesendet, der Fortschritt bleibt im Browser.
 
-**Live:** <https://masta-nksa.github.io/checks/>
+**Live:** <https://masta-nksa.github.io/kara/>
 
-Pfadschema: ein Ordner pro Themengebiet, darin ein Ordner pro Check –
-`https://masta-nksa.github.io/checks/graphiken/pixel/`.
-Das Gefäss (FMS, Freifach, Gym) steht nicht im Pfad, sondern in `manifest.json`;
-so bleibt die URL kurz und gültig, auch wenn ein Thema das Gefäss wechselt.
+Hervorgegangen aus dem Struktogramm-Baukasten in
+[masta-nksa/checks](https://github.com/masta-nksa/checks) (Verlauf übernommen).
 
-Die Checks sind **thematisch** gruppiert und bewusst **nicht** an einzelne Lektionen
-gebunden – ein Check kann jederzeit und unabhängig vom Lektionsstand gelöst werden.
+## Aufbau
 
-## Neuen Check anlegen (drei Handgriffe)
+```
+index.html                Cockpit: Übersicht der Reihen mit Fortschritt
+assets/                   basis.css (Farben Hell/Dunkel, Schrift), cockpit.css/.js, favicon.svg
+baukasten/                der Baukasten
+  index.html, app.js      Oberfläche (Bausteine ziehen, Käfer-Feld, Ablauf)
+  engine.js               Interpreter, Prüfung und Programmbaum (reine Funktionen, ohne DOM)
+  figur.js                eigenes Bild statt Käfer (Easter Egg, siehe unten)
+  reihen.json             die Reihen, in der Reihenfolge des Cockpits
+  aufgaben/*.json         die Aufgaben je Reihe
+```
 
-1. Einen bestehenden Check-Ordner kopieren und umbenennen
-   (z. B. `graphiken/pixel/` → `zahlensysteme/binaer/`).
-2. `fragen.json` inhaltlich ersetzen.
-3. In `manifest.json` beim passenden Thema einen Eintrag ergänzen
-   (oder ein neues Thema anlegen).
+Aufruf einer Reihe bzw. Aufgabe: `baukasten/?reihe=labyrinth&aufgabe=lab3`.
+Die Adresszeile folgt der gewählten Aufgabe, Neuladen bleibt also am selben Ort.
 
-`index.html` im Check-Ordner wird **nie** angefasst – sie ist für alle Checks identisch
-und findet `assets/` selbst, unabhängig von der Ordnertiefe.
-
-## Format `fragen.json`
+## Reihen (`baukasten/reihen.json`)
 
 ```json
 {
-  "titel": "Pixel-Check",
-  "eyebrow": "FMS · Farben und Bilder",
-  "intro": "Sechs Fragen zu …",
-  "quellen": ["inf-schule.de/…"],
-  "fragen": [
-    {
-      "q": "Fragetext, einfaches HTML erlaubt (<i>, <b>)",
-      "opts": ["Option A", "Option B", "Option C"],
-      "a": 1,
-      "fb": "Begründung, wird nach dem Klick eingeblendet."
-    }
+  "reihen": [
+    { "id": "grundlagen", "titel": "Käfer-Grundlagen", "untertitel": "…",
+      "dateien": ["aufgaben/grundlagen.json"] }
   ]
 }
 ```
 
-- `a` = Nullindex der richtigen Option.
-- `opts` = 2 bis 4 Optionen; die Buchstaben A–D vergibt die Engine.
-- `quellen` und `eyebrow` sind optional. Im `eyebrow` steht das Thema, keine Lektionsnummer.
-- Datei als **UTF-8** speichern (Umlaute, «·», «→»).
+Eine Reihe kann mehrere Aufgaben-Dateien zusammenfassen (`dateien`). So lassen sich Reihen
+umordnen oder zusammenlegen, ohne die Aufgaben anzufassen. Aufgaben-IDs müssen über alle
+Reihen eindeutig sein (der Fortschritt hängt an der ID).
 
-## Format `manifest.json`
+## Aufgaben (`baukasten/aufgaben/*.json`)
 
-```json
-{
-  "themen": [
-    {
-      "thema": "Zahlensysteme",
-      "gefaess": "FMS",
-      "checks": [
-        {
-          "titel": "Binär-Check",
-          "untertitel": "Stellenwerte, Zweierpotenzen, Umrechnung",
-          "pfad": "zahlensysteme/binaer/"
-        }
-      ]
-    }
-  ]
-}
-```
+- Jede Aufgabe: Feld, Palette, Bausteinlimit, Ziel. **Keine Lösungen.**
+- Feld entweder mit `cols`, `rows`, `start`, `blick`, `hindernisse` oder als Zeichenkarte
+  (`feld.karte`, oberste Zeile zuerst: `#` Mauer, `.` Weg, `S` Start, `Z` Ziel).
+- Palette: `befehle`, `wiederholung` (n-mal), `bis: true` («wiederhole bis Ziel»),
+  `verzweigung` mit `bedingungen` (`frei`, `freiLinks`, `freiRechts`), `sonst: false`
+  blendet den Sonst-Zweig aus.
+- `maxTiefe` (Standard 3): wie viele Ebenen Wiederholungen und Verzweigungen ineinander
+  stecken dürfen.
+- Die Prüfung vergleicht das **Ergebnis** (Endfeld, besuchte Felder, Bausteinlimit), nie ein
+  Muster. Lösungen und Tests gehören nicht in dieses Repo.
 
-Die Reihenfolge der Themen und der Checks innerhalb eines Themas ist genau die
-Reihenfolge in dieser Datei – sinnvollerweise von den Grundlagen zu den Anwendungen.
-`gefaess` und `untertitel` sind optional.
+Die Labyrinth-Karten und Bausteinlimits der Levels 1 bis 10 stammen aus
+[Blockly Games](https://github.com/google/blockly-games) (Maze, Apache-Lizenz 2.0).
 
-Neben `checks` kennt ein Thema optional `lernseiten` («Zum Nachlesen») und
-`werkzeuge` («Zum Ausprobieren», Kennzeichnung «Werkzeug»). Ein Eintrag in
-`werkzeuge` hat dieselben Felder wie ein Check (`titel`, `untertitel`, `pfad`),
-verweist aber auf eine eigenständige Seite statt auf einen Fragenkatalog.
+## Im Browser gespeichert (`localStorage`)
 
-## Werkzeug: Struktogramm-Baukasten (Käfer)
+| Schlüssel | Inhalt |
+| --- | --- |
+| `kara.baukasten.v1` | gelöste Aufgaben (grüner Haken) |
+| `kara.baukasten.prog.v1` | Stand der Bausteine je Aufgabe; «Alles löschen» leert ihn |
+| `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
 
-`algorithmen/baukasten/` ist kein Check, sondern ein eigenes Werkzeug (reines
-HTML/CSS/JS, keine Bibliotheken, es wird nichts gesendet). Bausteine werden per
-Drag and Drop (Maus und Touch) oder per Antippen/Tastatur ins Struktogramm
-gesetzt; der Käfer führt das Programm auf einem Feld aus.
+Checks und Kara liegen unter derselben Adresse `masta-nksa.github.io` und teilen sich darum
+den `localStorage`. Beim ersten Besuch übernimmt Kara einmalig den Stand aus dem früheren
+Baukasten (`checks.baukasten.*`); danach sind die beiden getrennt.
 
-- `aufgaben.json`: die Aufgaben (Feld, Palette, Bausteinlimit, Ziel). **Keine Lösungen.**
-- `labyrinth.json`: zweite Reihe «Labyrinth» (10 Levels nach Blockly Games, Maze; Karten und
-  Bausteinlimits aus <https://github.com/google/blockly-games>, Apache-Lizenz 2.0), gleiches
-  Format. Aufruf direkt per `algorithmen/baukasten/?reihe=labyrinth`, sonst über die Reihenwahl
-  oben im Baukasten. Das Feld wird als Zeichenkarte angegeben (`feld.karte`, oberste Zeile zuerst:
-  `#` Mauer, `.` Weg, `S` Start, `Z` Ziel); Start und Ziel ergeben sich daraus.
-- Palette-Optionen (zusätzlich zu `befehle`, `wiederholung`, `verzweigung`): `bis: true` bietet
-  «wiederhole bis Ziel»; `bedingungen` (`frei`, `freiLinks`, `freiRechts`) legt fest, welche
-  «Feld … frei?»-Verzweigungen es gibt; `sonst: false` blendet den Sonst-Zweig aus.
-- Aufgabenfeld `maxTiefe` (Standard 3): wie viele Ebenen Wiederholungen und Verzweigungen
-  ineinander stecken dürfen. Die Labyrinth-Levels mit Verzweigung (6 bis 10) erlauben 6.
-- `engine.js`: Interpreter, Prüfung und Programmbaum als reine Funktionen (ohne DOM).
-  Befehle, Bedingungen und Ziel-Typen stehen in Tabellen und sind erweiterbar.
-- Die Prüfung vergleicht das **Ergebnis** (Endfeld, besuchte Felder, Bausteinlimit),
-  nie ein Muster. Lösungen und Tests gehören nicht in dieses Repo.
-- Gelöste Aufgaben merkt sich der Browser in `localStorage` (Schlüssel `checks.baukasten.v1`).
-- Easter Egg, versteckt: **Dreifachklick auf den Käfer** (drei Klicks innerhalb von 0,7 s) öffnet
-  das Figur-Menü (`figur.js`): «Foto aufnehmen» (Kamera-Vorschau mit Auslöser, am Computer wie am Handy; der Browser fragt
-  zuerst nach der Erlaubnis, ohne Kamera bleibt «Bild wählen») oder «Bild wählen»,
-  danach Zuschneiden in einem runden Ausschnitt (verschieben, zoomen, auch per Tastatur).
-  Gespeichert wird nur der kleine Ausschnitt (128 px) in `localStorage`
-  (`checks.baukasten.figur.v1`); das Foto wird nicht gesendet und danach verworfen. Das Bild
-  bleibt aufrecht, ein Zeiger am Rand zeigt die Blickrichtung. Ein weiterer Dreifachklick auf das
-  Bild öffnet das Menü wieder; dort entfernt «Zurück zum Käfer» das Bild.
-- Der Stand der Bausteine jeder Aufgabe bleibt im Browser erhalten (`checks.baukasten.prog.v1`),
-  auch nach Seitenwechsel oder Neuladen. «Alles löschen» leert die Aufgabe; «Rückgängig» holt
-  die Bausteine zurück, solange die Seite offen ist.
+## Easter Egg
 
-## Papierversion
+**Dreifachklick auf den Käfer** (drei Klicks innerhalb von 0,7 s) öffnet das Figur-Menü:
+«Foto aufnehmen» (Kamera-Vorschau mit Auslöser; der Browser fragt zuerst nach der Erlaubnis)
+oder «Bild wählen», danach Zuschneiden in einem runden Ausschnitt. Gespeichert wird nur der
+Ausschnitt; das Foto wird nicht gesendet und danach verworfen. «Zurück zum Käfer» entfernt das Bild.
 
-Check-Seite im Browser drucken (Strg+P). Die Druckansicht zeigt Ankreuzkästchen
-statt Farbflächen, blendet Begründungen und Zähler aus und hängt am Ende einen
-Lösungsschlüssel an. Damit entfällt die separate Word-Variante fürs OneNote.
+## GitHub Pages
 
-## OneNote
-
-OneNote führt kein JavaScript aus. In die OneNote-Seite kommt der **Link** auf den
-Check (optional zusätzlich ein QR-Code als Bild), nicht der HTML-Code.
-
-## QR-Codes auf der Übersicht
-
-Optional: eine `qrcode.min.js` (z. B. davidshimjs/qrcodejs) nach `assets/` legen.
-Die Übersichtsseite erkennt die Bibliothek selbst und zeigt dann pro Check einen QR-Code.
-Fehlt die Datei, bleibt die Übersicht unverändert funktionsfähig.
-
-## GitHub Pages einrichten
-
-Settings → Pages → Source: „Deploy from a branch“, Branch `main`, Ordner `/ (root)`.
+Settings → Pages → Source: «Deploy from a branch», Branch `main`, Ordner `/ (root)`.
 Repo öffentlich. Die leere Datei `.nojekyll` im Root muss bestehen bleiben.
 
 ## Lokal testen

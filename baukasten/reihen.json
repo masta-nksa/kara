@@ -1,0 +1,17 @@
+{
+  "hinweis": "Reihen fuer Cockpit und Baukasten, in dieser Reihenfolge. Eine Reihe kann mehrere Aufgaben-Dateien zusammenfassen (dateien).",
+  "reihen": [
+    {
+      "id": "grundlagen",
+      "titel": "Käfer-Grundlagen",
+      "untertitel": "Sequenz, Wiederholung, Verzweigung und Fehlersuche auf freiem Feld",
+      "dateien": ["aufgaben/grundlagen.json"]
+    },
+    {
+      "id": "labyrinth",
+      "titel": "Labyrinth",
+      "untertitel": "Zehn Levels nach Blockly Games: von geradeaus bis zum Wandfolger",
+      "dateien": ["aufgaben/labyrinth.json"]
+    }
+  ]
+}

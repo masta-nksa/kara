@@ -1,0 +1,84 @@
+/* ============================================================
+   basis.css – Farbtokens (Hell/Dunkel), Schrift und Grundlayout
+   für Cockpit und Baukasten. Übernommen aus masta-nksa/checks.
+   ============================================================ */
+:root{
+  --ground:#f2f4f3;
+  --surface:#ffffff;
+  --line:#d5dbd9;
+  --ink:#16201f;
+  --ink-soft:#5a6968;
+  --accent:#0f6b63;
+  --accent-soft:#d9ece9;
+  --ok:#1f7a4d;
+  --ok-soft:#dcefe3;
+  --no:#a3411f;
+  --no-soft:#f6e2da;
+  --radius:4px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#101615;
+    --surface:#182120;
+    --line:#2c3937;
+    --ink:#e8efed;
+    --ink-soft:#9aaba9;
+    --accent:#5fd3c4;
+    --accent-soft:#1d312f;
+    --ok:#66d29a;
+    --ok-soft:#172c22;
+    --no:#e8a084;
+    --no-soft:#2e1e18;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#101615;
+  --surface:#182120;
+  --line:#2c3937;
+  --ink:#e8efed;
+  --ink-soft:#9aaba9;
+  --accent:#5fd3c4;
+  --accent-soft:#1d312f;
+  --ok:#66d29a;
+  --ok-soft:#172c22;
+  --no:#e8a084;
+  --no-soft:#2e1e18;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.55;
+  font-size:16px;
+}
+.wrap{max-width:680px;margin:0 auto;padding:32px 20px 64px;display:flex;flex-direction:column;gap:24px}
+
+header{display:flex;flex-direction:column;gap:10px}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+}
+h1{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-weight:600;font-size:1.75rem;line-height:1.2;margin:0;text-wrap:balance;
+}
+.lead{margin:0;color:var(--ink-soft);max-width:56ch}
+
+.pixelrule{display:flex;gap:3px;height:10px}
+.pixelrule i{flex:1;background:var(--line);border-radius:1px}
+.pixelrule i:nth-child(3n+1){background:var(--accent);opacity:.75}
+.pixelrule i:nth-child(4n){opacity:.35}
+
+/* Fehlermeldung, falls eine Datei fehlt oder kaputt ist */
+.oops{
+  background:var(--surface);border:1px solid var(--no);border-left-width:3px;
+  border-radius:var(--radius);padding:16px 18px;
+}
+.oops h2{margin:0 0 6px;font-size:1rem;font-family:"IBM Plex Mono",ui-monospace,monospace}
+.oops p{margin:0;color:var(--ink-soft);font-size:.92rem}
+.oops code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.85em}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}

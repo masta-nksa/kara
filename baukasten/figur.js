@@ -9,7 +9,7 @@
 (function () {
   "use strict";
 
-  var SPEICHER = "checks.baukasten.figur.v1";
+  var SPEICHER = "kara.baukasten.figur.v1";
   var S = 320;              // Zeichenfläche (px, quadratisch)
   var R = 140;              // Radius des Ausschnitts
   var C = S / 2;            // Mittelpunkt
@@ -29,6 +29,9 @@
 
   function laden() {
     try {
+      // Einmalige Übernahme aus dem früheren Baukasten in masta-nksa/checks
+      var alt = localStorage.getItem("checks.baukasten.figur.v1");
+      if (localStorage.getItem(SPEICHER) === null && alt !== null) localStorage.setItem(SPEICHER, alt);
       var v = localStorage.getItem(SPEICHER);
       if (typeof v === "string" && /^data:image\/(png|webp|jpeg);base64,[A-Za-z0-9+\/=]+$/.test(v)) aktuell = v;
     } catch (e) { aktuell = null; }
