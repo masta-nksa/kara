@@ -1258,8 +1258,11 @@
 
   function nebelBauen(svg, f) {
     var id = "bk-nebel-" + (++nebelNr);
-    var defs = svgEl("defs"), maske = svgEl("mask", { id: id, maskUnits: "userSpaceOnUse" });
-    maske.append(svgEl("rect", { x: 0, y: 0, width: RAND + f.cols * Z + 4, height: f.rows * Z + RAND + 4, fill: "#fff" }));
+    var W = RAND + f.cols * Z + 4, H = f.rows * Z + RAND + 4;
+    // Masken-Bereich ausdrücklich auf die ganze Karte setzen: Ohne x/y/width/height gilt -10 % bis
+    // 110 % der Ansicht, und die ist bei der mitfahrenden Kamera kleiner als die Karte.
+    var defs = svgEl("defs"), maske = svgEl("mask", { id: id, maskUnits: "userSpaceOnUse", x: 0, y: 0, width: W, height: H });
+    maske.append(svgEl("rect", { x: 0, y: 0, width: W, height: H, fill: "#fff" }));
     // Maske: weiss = Nebel, schwarz = frei. «gesehen»: schon besuchte Umgebung, leicht abgedunkelt;
     // «loecher»: die aktuelle Umgebung des Käfers, ganz frei.
     var gesehen = svgEl("g"), loecher = svgEl("g");

@@ -6,7 +6,7 @@
       "maxTiefe": 6,
       "titel": "1 · Die Insel",
       "stufe": "Handregeln",
-      "text": "In diesem Labyrinth steht ein Mauerstück frei, wie eine Insel. Probieren Sie Ihren Wandfolger aus dem letzten Labyrinth-Level: Mit welcher Hand kommt der Käfer zum Ausgang, mit welcher nicht? Sie dürfen höchstens 12 Bausteine verwenden.",
+      "text": "In diesem Labyrinth steht ein Mauerstück frei, wie eine Insel. Probieren Sie Ihr Programm aus dem Labyrinth, das immer derselben Wand entlang läuft (einen «Wandfolger»): Mit welcher Hand kommt der Käfer zum Ausgang, mit welcher nicht? Sie dürfen höchstens 12 Bausteine verwenden.",
       "feld": {
         "karte": ["###########", "#.....#...#", "#.###.#.###", "#S#.#.....#", "#.#.###.###", "#.........#", "#.#######.#", "#.#.#.....#", "###.#.###.#", "#.....#...#", "###Z#######"],
         "blick": "S"
