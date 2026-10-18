@@ -61,7 +61,8 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
 - Mehrere Labyrinthe pro Aufgabe: `layouts` (sichtbar) und `verdeckt` (je `{karte, blick}`),
   dazu optional `zufall: {anzahl, raeume}` für zufällig erzeugte, inselfreie Labyrinthe
   (Kartengrösse 2·raeume+1, Ein- und Ausgang als Lücken im Rahmen). Mit `inseln: k` öffnet der
-  Generator zusätzlich k Wände, so entstehen Inseln; der Start liegt dann im Inneren. Gelöst ist die Aufgabe
+  Generator zusätzlich k Wände, so entstehen Inseln; der Start liegt dann im Inneren. Dasselbe ohne
+  Inseln mit `startInnen: true` (nutzt der Editor). Gelöst ist die Aufgabe
   erst, wenn der Käfer in allen den Ausgang findet. Gescheiterte verdeckte und zufällige
   Labyrinthe werden danach als Reiter sichtbar. «Alle prüfen» prüft ohne Animation.
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
@@ -86,7 +87,9 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
 Die Labyrinth-Karten und Bausteinlimits der Levels 1 bis 8 und 10 stammen aus
 [Blockly Games](https://github.com/google/blockly-games) (Maze, Apache-Lizenz 2.0); Level 10 hat
 den Ausgang im Rahmen. Level 9 («Kreuzungen») und 11 («Jedes Labyrinth») sind eigene,
-inselfreie Labyrinthe: Dort führt die Linke-Hand-Regel immer zum Ausgang.
+inselfreie Labyrinthe: Dort führt die Linke-Hand-Regel immer zum Ausgang. Level 10 heisst bewusst
+«Mehr Kreuzungen» und verrät die Strategie nicht im Aufgabentext, sondern erst im Hinweis
+(«Folgen Sie der linken Wand …»); den Begriff «Wandfolger» nennt erst «Die Insel».
 
 Die Reihe «Inseln und Pledge» (`aufgaben/inseln.json`) hat eigene Labyrinthe mit Inseln:
 «Die Insel» (die linke Hand läuft im Kreis, die rechte findet hinaus), «Zwei Inseln» (beide
@@ -101,16 +104,20 @@ Abschluss-Level (`aufgaben/abschluss.json`: 21 × 21 und 25 × 15, mit und ohne 
 danach die Challenges, die in diesem Browser gespeichert sind.
 
 **Editor** (`editor/`): Raster bearbeiten (Mauer/Weg auch durch Ziehen, Start mit Blickrichtung,
-Ausgang am Rand), Grösse 7 bis 21, Zufallslabyrinthe mit und ohne Inseln, bis zu 12 Labyrinthe
-pro Challenge, einzelne als «verdeckt» markieren, Titel, Beschreibung, Bausteinlimit. Die
-Spielbarkeit (Start, Ausgang am Rand, Weg dazwischen) wird laufend geprüft. Der Entwurf bleibt
+Ziel), Grösse 7 bis 21, Zufallslabyrinthe mit und ohne Inseln, bis zu 12 Labyrinthe
+pro Challenge, einzelne als «verdeckt» markieren, Titel, Beschreibung, Bausteinlimit. Der Rand
+bleibt Mauer, der Start liegt immer im Inneren. Das Ziel ist meist ein Ausgang am Rand (Lücke
+in der Mauer), darf aber auch im Inneren liegen; dann hilft die Handregel unter Umständen nicht.
+Die Spielbarkeit (Start innen, Rand geschlossen, Weg zum Ziel) wird laufend geprüft
+(`karteGrund(karte, true)`). Der Entwurf bleibt
 im Browser. Bedienung auch per Tastatur (Pfeiltasten, Eingabetaste).
 
 **Teilen ohne Server**: «Link kopieren» erzeugt `baukasten/?reihe=eigene#challenge=<Base64>`.
 Wer den Link öffnet, wird gefragt, ob die Challenge in den eigenen Browser übernommen werden
 soll; danach verschwindet der `#`-Teil aus der Adresszeile. Derselbe Link zweimal ergibt kein
 Duplikat (Kennung aus dem Inhalt). Eingelesene Daten werden streng geprüft (Grösse 5–25,
-nur `#.SZ`, genau ein Start und ein Ausgang am Rand, Weg vorhanden, höchstens 12 Labyrinthe,
+nur `#.SZ`, genau ein Start und ein Ziel, Weg vorhanden; ältere Links mit Start am Rand
+oder offenem Rand bleiben gültig, höchstens 12 Labyrinthe,
 Texte nur als reiner Text). «Verdeckt» ist eine Spielregel, kein Geheimnis: Wer den Link
 entschlüsselt, sieht alle Labyrinthe.
 

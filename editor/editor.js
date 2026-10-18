@@ -1,7 +1,7 @@
 /* ============================================================
    editor.js – Labyrinth-Editor
-   Raster bearbeiten (Mauer/Weg, Start mit Blickrichtung, Ausgang am
-   Rand), mehrere Labyrinthe pro Challenge, Speichern im Browser und
+   Raster bearbeiten (Mauer/Weg im Inneren, Start im Inneren mit Blickrichtung,
+   Ziel als Ausgang am Rand oder im Inneren; der Rand bleibt Mauer), mehrere Labyrinthe pro Challenge, Speichern im Browser und
    Teilen als Link. Prüfung und Link: assets/challenges.js.
    Der Entwurf bleibt im Browser, auch wenn die Seite verlassen wird.
    ============================================================ */
@@ -86,7 +86,7 @@
 
   function zellText(ch, l) { return ch === "S" ? PFEIL[l.blick] : ch === "Z" ? "⚑" : ""; }
   function zellLabel(r, c, ch, l) {
-    var was = ch === "#" ? "Mauer" : ch === "S" ? "Start, Blick nach " + BLICK_TEXT[l.blick] : ch === "Z" ? "Ausgang" : "Weg";
+    var was = ch === "#" ? "Mauer" : ch === "S" ? "Start, Blick nach " + BLICK_TEXT[l.blick] : ch === "Z" ? "Ziel" : "Weg";
     return "Zeile " + (r + 1) + ", Spalte " + (c + 1) + ": " + was;
   }
 
@@ -120,11 +120,11 @@
     b.setAttribute("aria-label", zellLabel(r, c, ch, l));
   }
 
-  function grundVon(l) { return C.karteGrund(karteVon(l)); }
+  function grundVon(l) { return C.karteGrund(karteVon(l), true); }
 
   function statusZeigen() {
     var grund = grundVon(aktivesLayout()), s = $("status");
-    s.textContent = grund ? "Noch nicht spielbar: " + grund : "Spielbar: Vom Start führt ein Weg zum Ausgang.";
+    s.textContent = grund ? "Noch nicht spielbar: " + grund : "Spielbar: Vom Start führt ein Weg zum Ziel.";
     s.className = "ed-status " + (grund ? "fehl" : "ok");
     renderReiter();
     entwurfSpeichern();
@@ -160,7 +160,7 @@
   var malen = null;   // {wert}
   function setzeWand(r, c, wert) {
     var l = aktivesLayout();
-    if (l.g[r][c] === "S" || l.g[r][c] === "Z" || l.g[r][c] === wert) return;
+    if (amRand(l, r, c) || l.g[r][c] === "S" || l.g[r][c] === "Z" || l.g[r][c] === wert) return;
     l.g[r][c] = wert;
     zelleAktualisieren(r, c);
   }
@@ -168,6 +168,10 @@
   function anwenden(r, c, erstes) {
     var l = aktivesLayout(), ch = l.g[r][c], w = werkzeug();
     if (w === "wand") {
+      if (erstes && amRand(l, r, c)) {
+        meldung("Der Rand bleibt Mauer. Einen Ausgang setzen Sie mit dem Werkzeug «Ziel».", true);
+        return;
+      }
       if (erstes) malen = { wert: ch === "#" ? "." : "#" };
       if (malen) setzeWand(r, c, malen.wert);
       return;
@@ -175,7 +179,8 @@
     if (w === "start") {
       if (ch === "S") l.blick = DREHEN[l.blick];
       else {
-        if (ch === "Z") { meldung("Hier liegt der Ausgang. Wählen Sie ein anderes Feld.", true); return; }
+        if (ch === "Z") { meldung("Hier liegt das Ziel. Wählen Sie ein anderes Feld.", true); return; }
+        if (amRand(l, r, c)) { meldung("Der Start liegt im Inneren, nicht am Rand.", true); return; }
         var s = finde(l, "S");
         if (s) { l.g[s[0]][s[1]] = "."; zelleAktualisieren(s[0], s[1]); }
         l.g[r][c] = "S";
@@ -183,10 +188,10 @@
       zelleAktualisieren(r, c);
       return;
     }
-    if (!amRand(l, r, c)) { meldung("Der Ausgang muss am Rand liegen: in der äussersten Zeile oder Spalte.", true); return; }
-    if (ch === "S") { meldung("Hier liegt der Start. Wählen Sie ein anderes Randfeld.", true); return; }
+    // Ziel: am Rand als Ausgang (Lücke in der Mauer) oder irgendwo im Inneren.
+    if (ch === "S") { meldung("Hier liegt der Start. Wählen Sie ein anderes Feld.", true); return; }
     var z = finde(l, "Z");
-    if (z) { l.g[z[0]][z[1]] = "#"; zelleAktualisieren(z[0], z[1]); }
+    if (z) { l.g[z[0]][z[1]] = amRand(l, z[0], z[1]) ? "#" : "."; zelleAktualisieren(z[0], z[1]); }
     l.g[r][c] = "Z";
     zelleAktualisieren(r, c);
   }
@@ -279,7 +284,7 @@
     var l = aktivesLayout(), n = l.g.length;
     if (!istLeer(l) && !confirm("Dieses Labyrinth durch ein zufälliges ersetzen?")) return;
     var seed = (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0, raeume = (n - 1) / 2;
-    var z = E.erzeugeLabyrinth(seed, raeume, inseln ? { inseln: Math.max(2, Math.round(raeume * 0.8)) } : undefined);
+    var z = E.erzeugeLabyrinth(seed, raeume, inseln ? { inseln: Math.max(2, Math.round(raeume * 0.8)) } : { startInnen: true });
     entwurf.layouts[entwurf.aktiv] = ausKarte(z.karte, z.blick, l.verdeckt);
     renderRaster();
   }
@@ -311,6 +316,10 @@
 
   function challenge() {
     angabenLesen();
+    entwurf.layouts.forEach(function (l, i) {
+      var grund = grundVon(l);
+      if (grund) throw new Error("Labyrinth " + (i + 1) + ": " + grund);
+    });
     return C.pruefen({
       titel: entwurf.titel, text: entwurf.text, maxBloecke: entwurf.maxBloecke,
       layouts: entwurf.layouts.map(function (l) { return { karte: karteVon(l), blick: l.blick, verdeckt: l.verdeckt }; })

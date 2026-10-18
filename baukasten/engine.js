@@ -438,7 +438,8 @@
       var k = 2 * Math.floor(r() * (seite % 2 === 0 ? nx : ny)) + 1;
       return seite === 0 ? [0, k] : seite === 1 ? [k, gx - 1] : seite === 2 ? [gy - 1, k] : [k, 0];
     }
-    if (opt && opt.inseln) {
+    // Mit Inseln oder startInnen liegt der Start in einem Raum im Inneren.
+    if (opt && (opt.inseln || opt.startInnen)) {
       var zu = [];
       for (y = 1; y < gy - 1; y++) for (x = 1; x < gx - 1; x++) {
         if ((x % 2) !== (y % 2) && m[y][x] === "#") zu.push([y, x]);   // Wand genau zwischen zwei Räumen

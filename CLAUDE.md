@@ -56,7 +56,13 @@ Abschluss und eigene Challenges (Abschluss-Level + lokale Challenges aus dem Edi
 Fertig: Steine, Verschachtelungstiefe, Easter Egg (eigenes Foto), Programme bleiben erhalten,
 mehrere/verdeckte/zufällige Labyrinthe, Zähler-Bausteine, Nebel mit Gedächtnis, grosse Karten
 mit Kamera, Tempo-Stufen, Editor mit Teilen per Base64-Link, Teilen-Link bei jeder Aufgabe,
-GoatCounter-Statistik.
+GoatCounter-Statistik. Seit 18.10.2026: Nebel auch mit mitfahrender Kamera (Masken-Bereich
+explizit), Level 10 «Mehr Kreuzungen» mit Linke-Hand-Tipp nur im Hinweis, Editor mit
+geschlossenem Rand, Start nur innen, Ziel auch im Inneren.
+
+Offen aus der Rückmeldung der Lehrperson (18.10.2026): alle Levels einheitlich mit Start im
+Inneren und Ausgang am Rand (Levels 1–9, 11, Abschluss-Layout 1 und Verdeckt 1, Zufall in
+lab11), Begriffe Labyrinth/Irrgarten (Labyrinth im engen Sinn ohne Verzweigungen).
 
 Offen, nicht entschieden: ob der Baukasten-Eintrag in `checks` auf Kara verlinken soll.
 Nur auf ausdrücklichen Wunsch ändern.

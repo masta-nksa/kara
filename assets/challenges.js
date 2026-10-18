@@ -8,7 +8,8 @@
    Format (v1, kurz gehalten, damit der Link kurz bleibt):
      {v:1, t:Titel, b:Beschreibung, m:Bausteinlimit|null,
       l:[{k:[Kartenzeilen], r:Blick, v:1 (verdeckt) | 0}]}
-   Kartenzeichen: «#» Mauer, «.» Weg, «S» Start, «Z» Ausgang (am Kartenrand).
+   Kartenzeichen: «#» Mauer, «.» Weg, «S» Start, «Z» Ziel (am Kartenrand als Ausgang oder im Inneren).
+   Der Editor verlangt zusätzlich einen geschlossenen Rand (karteGrund mit streng).
    ============================================================ */
 (function (root, factory) {
   if (typeof module === "object" && module.exports) module.exports = factory();
@@ -30,8 +31,10 @@
 
   function fehler(text) { return new Error(text); }
 
-  // Prüft eine Karte streng und liefert null (gültig) oder einen Grund (Text).
-  function karteGrund(karte) {
+  // Prüft eine Karte und liefert null (gültig) oder einen Grund (Text).
+  // streng (Editor): Der Rand ist ganz Mauer, bis auf ein Ziel dort; der Start liegt im Inneren.
+  // Ohne streng (geteilte Links, gespeicherte Challenges) bleiben ältere Karten gültig.
+  function karteGrund(karte, streng) {
     if (!Array.isArray(karte) || karte.length < GRENZEN.min || karte.length > GRENZEN.max) {
       return "Die Karte braucht " + GRENZEN.min + " bis " + GRENZEN.max + " Zeilen.";
     }
@@ -45,13 +48,20 @@
       for (c = 0; c < breite; c++) {
         var ch = karte[r].charAt(c);
         if (ch === "S") { if (s) return "Es darf nur einen Start geben."; s = [r, c]; }
-        if (ch === "Z") { if (z) return "Es darf nur einen Ausgang geben."; z = [r, c]; }
+        if (ch === "Z") { if (z) return "Es darf nur ein Ziel geben."; z = [r, c]; }
       }
     }
     if (!s) return "Der Start fehlt.";
-    if (!z) return "Der Ausgang fehlt.";
-    if (!(z[0] === 0 || z[1] === 0 || z[0] === karte.length - 1 || z[1] === breite - 1)) {
-      return "Der Ausgang muss am Rand liegen.";
+    if (!z) return "Das Ziel fehlt.";
+    if (streng) {
+      if (s[0] === 0 || s[1] === 0 || s[0] === karte.length - 1 || s[1] === breite - 1) return "Der Start muss im Inneren liegen.";
+      for (r = 0; r < karte.length; r++) {
+        for (c = 0; c < breite; c++) {
+          if ((r === 0 || c === 0 || r === karte.length - 1 || c === breite - 1) && karte[r].charAt(c) === ".") {
+            return "Der Rand muss ganz aus Mauer bestehen (ausser dem Ziel).";
+          }
+        }
+      }
     }
     // Erreichbarkeit: Breitensuche vom Start über freie Felder
     var gesehen = {}, schlange = [s];
@@ -66,7 +76,7 @@
         schlange.push([y, x]);
       });
     }
-    return "Vom Start führt kein Weg zum Ausgang.";
+    return "Vom Start führt kein Weg zum Ziel.";
   }
 
   // Wandelt Kurz- oder Langform in die geprüfte Langform um, sonst Fehler mit Grund.
@@ -193,7 +203,7 @@
     return {
       id: ch.id, challenge: true, eigen: ch.eigen,
       titel: "★ " + ch.titel, stufe: "Challenge",
-      text: (ch.text || "Bringen Sie den Käfer in jedem Labyrinth zum Ausgang.") +
+      text: (ch.text || "Bringen Sie den Käfer in jedem Labyrinth zum Ziel.") +
         (teile.length ? " Dazu kommen " + teile.join(" und ") + "." : "") +
         (ch.maxBloecke ? " Höchstens " + ch.maxBloecke + " Bausteine." : ""),
       layouts: sichtbar.map(function (l) { return { karte: l.karte, blick: l.blick }; }),

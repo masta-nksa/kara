@@ -237,9 +237,9 @@
     {
       "id": "lab10",
       "maxTiefe": 6,
-      "titel": "10 · Der Wandfolger",
+      "titel": "10 · Mehr Kreuzungen",
       "stufe": "Falls-Sonst",
-      "text": "Können Sie dieses verzwickte Labyrinth lösen? Folgen Sie der linken Wand bis zum Ausgang. Sie dürfen höchstens 10 Bausteine verwenden. Nur für Fortgeschrittene.",
+      "text": "Können Sie dieses verzwickte Labyrinth lösen? Sie dürfen höchstens 10 Bausteine verwenden. Nur für Fortgeschrittene.",
       "feld": {
         "karte": ["####Z###", "#..#.#.#", "#..#...#", "#.#.#.##", "#......#", "###.##.#", "#S...#.#", "########"],
         "blick": "E"
@@ -261,7 +261,10 @@
         "sonst": true
       },
       "maxBloecke": 10,
-      "kleinsteLoesung": 5
+      "kleinsteLoesung": 5,
+      "hinweise": [
+        "Folgen Sie der linken Wand bis zum Ausgang."
+      ]
     },
     {
       "id": "lab11",
