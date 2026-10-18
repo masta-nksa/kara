@@ -1,8 +1,9 @@
 # Kara – Käfer programmieren
 
 Den Käfer mit Struktogramm-Bausteinen programmieren: kurze Aufgaben auf freiem Feld,
-dann Labyrinthe. Reines HTML/CSS/JS ohne Build-Schritt und ohne Bibliotheken; es wird
-nichts gesendet, der Fortschritt bleibt im Browser.
+dann Labyrinthe, Inseln und eigene Challenges. Reines HTML/CSS/JS ohne Build-Schritt und
+ohne Bibliotheken. Fortschritt, Programme und Challenges bleiben im Browser; gesendet werden
+nur anonyme Seitenaufrufe an GoatCounter (siehe «Nutzungsstatistik»).
 
 **Live:** <https://masta-nksa.github.io/kara/>
 
@@ -141,6 +142,7 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | `kara.baukasten.nebel.v2` | Nebel ein/aus, je Aufgabe (nur wenn selbst umgeschaltet) |
 | `kara.challenges.v1` | eigene und übernommene Challenges |
 | `kara.editor.entwurf.v1` | Entwurf im Editor |
+| `kara.zaehler.aus` | Statistik für diesen Browser abgeschaltet (`?zaehler=aus`) |
 
 Checks und Kara liegen unter derselben Adresse `masta-nksa.github.io` und teilen sich darum
 den `localStorage`. Beim ersten Besuch übernimmt Kara einmalig den Stand aus dem früheren
@@ -164,3 +166,4 @@ Repo öffentlich. Die leere Datei `.nojekyll` im Root muss bestehen bleiben.
 python -m http.server 8000
 ```
 … und `http://localhost:8000/` öffnen.
+Lokal wird nichts gezählt.
