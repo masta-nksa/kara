@@ -451,13 +451,15 @@
     if (info.length) box.append(el("span", "bk-lay-info", "+ " + info.join(", ")));
   }
 
-  // Bei jeder Prüfung neue Zufallslabyrinthe (inselfrei, Ein- und Ausgang im Rahmen).
+  // Bei jeder Prüfung neue Zufallslabyrinthe, Ausgang im Rahmen. Mit «inseln» oder «startInnen»
+  // liegt der Start im Inneren, sonst ist auch er eine Lücke im Rahmen.
   function zufallsFelder() {
     var z = aufg.zufall;
     if (!z) return [];
     var seed = (Date.now() ^ Math.floor(Math.random() * 1e9)) >>> 0, liste = [];
+    var opt = z.inseln || z.startInnen ? { inseln: z.inseln || 0, startInnen: !!z.startInnen } : undefined;
     for (var i = 0; i < z.anzahl; i++) {
-      var karte = E.erzeugeLabyrinth(seed + i, z.raeume || 5, z.inseln ? { inseln: z.inseln } : undefined);
+      var karte = E.erzeugeLabyrinth(seed + i, z.raeume || 5, opt);
       var f = E.layoutVorbereiten(karte, "Zufall " + (i + 1), false, "Zufall");
       f.zufall = true;
       liste.push(f);

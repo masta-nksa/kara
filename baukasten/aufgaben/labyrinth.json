@@ -1,5 +1,5 @@
 {
-  "hinweis": "Labyrinth-Reihe fuer den Struktogramm-Baukasten (Kaefer). Levels 1 bis 8 mit Karten und Bausteinlimits nach Blockly Games, Maze (Apache-Lizenz 2.0); Level 10 mit Ausgang im Rahmen angepasst; Levels 9 und 11 eigene, inselfreie Labyrinthe. Keine Loesungen enthalten; kleinsteLoesung ist nur die Anzahl Bausteine.",
+  "hinweis": "Labyrinth-Reihe fuer den Struktogramm-Baukasten (Kaefer). Levels 1 bis 8 und 10 mit Karten und Bausteinlimits nach Blockly Games, Maze (Apache-Lizenz 2.0), angepasst: Start im Inneren, Ausgang im Rahmen (Levels 6 und 7 mit umgekehrtem und gespiegeltem Weg); Levels 9 und 11 eigene, inselfreie Labyrinthe. Keine Loesungen enthalten; kleinsteLoesung ist nur die Anzahl Bausteine.",
   "aufgaben": [
     {
       "id": "lab1",
@@ -7,7 +7,7 @@
       "stufe": "Sequenz",
       "text": "Verbinden Sie «vorwärts»-Bausteine, damit der Käfer das Ziel erreicht.",
       "feld": {
-        "karte": ["#######", "#######", "#######", "#######", "##S.Z##", "#######", "#######"],
+        "karte": ["#######", "#######", "#######", "#######", "####S.Z", "#######", "#######"],
         "blick": "E"
       },
       "palette": {
@@ -29,7 +29,7 @@
       "stufe": "Sequenz",
       "text": "Der Weg hat eine Kurve. Bringen Sie den Käfer mit «vorwärts» und den Dreh-Bausteinen ins Ziel.",
       "feld": {
-        "karte": ["########", "########", "########", "###.Z###", "##S.####", "########", "########", "########"],
+        "karte": ["########", "########", "########", "######.Z", "#####S.#", "########", "########", "########"],
         "blick": "E"
       },
       "palette": {
@@ -52,7 +52,7 @@
       "stufe": "Wiederholung",
       "text": "Der Weg ist lang und gerade. Erreichen Sie das Ende mit höchstens 2 Bausteinen.",
       "feld": {
-        "karte": ["########", "########", "########", "########", "#S....Z#", "########", "########", "########"],
+        "karte": ["########", "########", "########", "########", "##S....Z", "########", "########", "########"],
         "blick": "E"
       },
       "palette": {
@@ -73,9 +73,9 @@
       "id": "lab4",
       "titel": "4 · Treppe",
       "stufe": "Wiederholung",
-      "text": "Der Weg führt treppenartig nach oben. Erreichen Sie das Ziel mit höchstens 5 Bausteinen. Der Weg geht über Start und Ziel hinaus weiter: Es geht nur darum, vom Start zum Ziel zu kommen.",
+      "text": "Der Weg führt treppenartig nach oben. Erreichen Sie das Ziel mit höchstens 5 Bausteinen.",
       "feld": {
-        "karte": ["#######.", "######..", "#####Z.#", "####..##", "###..###", "##..####", "#S.#####", "..######"],
+        "karte": ["#####Z##", "####..##", "###..###", "##..####", "#S.#####", "########", "########", "########"],
         "blick": "E"
       },
       "palette": {
@@ -98,7 +98,7 @@
       "stufe": "Wiederholung",
       "text": "Der Weg biegt einmal ab. Erreichen Sie das Ziel mit höchstens 5 Bausteinen.",
       "feld": {
-        "karte": ["########", "#####Z##", "#####.##", "#####.##", "#####.##", "#####.##", "###S..##", "########"],
+        "karte": ["#####Z##", "#####.##", "#####.##", "#####.##", "#####.##", "###S..##", "########", "########"],
         "blick": "E"
       },
       "palette": {
@@ -120,9 +120,9 @@
       "maxTiefe": 6,
       "titel": "6 · Spirale",
       "stufe": "Verzweigung",
-      "text": "Der Weg windet sich nach innen. Erreichen Sie das Ziel mit höchstens 5 Bausteinen.",
+      "text": "Der Weg windet sich nach aussen. Erreichen Sie das Ziel mit höchstens 5 Bausteinen.",
       "feld": {
-        "karte": ["########", "########", "#.....##", "#.###.##", "#..Z#.##", "#####.##", "#S....##", "########"],
+        "karte": ["########", "########", "##.....#", "##.###.#", "##.#S..#", "##.#####", "##.....Z", "########"],
         "blick": "E"
       },
       "palette": {
@@ -150,8 +150,8 @@
       "stufe": "Verzweigung",
       "text": "Der Weg hat Abzweigungen. Erreichen Sie das Ziel mit höchstens 5 Bausteinen.",
       "feld": {
-        "karte": ["########", "#####..#", "#S....##", "#####..#", "#..Z#.##", "#.#.#.##", "#......#", "########"],
-        "blick": "E"
+        "karte": ["########", "#..#####", "##.....Z", "#..#####", "##.#S..#", "##.#.#.#", "#......#", "########"],
+        "blick": "S"
       },
       "palette": {
         "befehle": [
@@ -180,7 +180,7 @@
       "stufe": "Verzweigung",
       "text": "Der Weg ist verzweigt und führt einen Umweg. Erreichen Sie das Ziel mit höchstens 10 Bausteinen.",
       "feld": {
-        "karte": ["########", "########", "#....###", "#.##..##", "#...#.##", "###.#.##", "#S..#Z##", "########"],
+        "karte": ["########", "########", "#....###", "#.##..##", "#...#.##", "###.#.##", "#S..#.##", "#####Z##"],
         "blick": "E"
       },
       "palette": {
@@ -209,8 +209,8 @@
       "stufe": "Falls-Sonst",
       "text": "Hier gibt es viele Kreuzungen in allen Formen. Bringen Sie den Käfer zum Ausgang. Sie dürfen höchstens 10 Bausteine verwenden.",
       "feld": {
-        "karte": ["#####Z#####", "#.#.......#", "#.###.#####", "#.......#.#", "#.#.#.###.#", "#.#.#.#.#.S", "###.###.#.#", "#...#.#...#", "###.#.#.#.#", "#.......#.#", "###########"],
-        "blick": "W"
+        "karte": ["#####Z#####", "#.#.......#", "#.###.#####", "#.......#.#", "#.#.#.###.#", "#.#.#.#.#.#", "###.###.#.#", "#...#S#...#", "###.#.#.#.#", "#.......#.#", "###########"],
+        "blick": "S"
       },
       "palette": {
         "befehle": [
@@ -274,35 +274,36 @@
       "text": "Jetzt gibt es viele Labyrinthe, und Sie wissen nicht, in welchem der Käfer landet. Bauen Sie ein Programm, das überall zum Ausgang findet: in den drei gezeigten, in drei verdeckten und in zufällig erzeugten Labyrinthen. Sie dürfen höchstens 12 Bausteine verwenden.",
       "layouts": [
         {
-          "karte": ["#####Z#####", "#.#.#.#.#.#", "#.#.#.#.#.#", "#.....#.#.#", "###.###.#.#", "#.....#...#", "#####.#.###", "S.........#", "###.#.###.#", "#...#...#.#", "###########"],
-          "blick": "E"
+          "karte": ["#####Z#####", "#.#.#.#.#.#", "#.#.#.#.#.#", "#.....#.#.#", "###.###.#.#", "#....S#...#", "#####.#.###", "#.........#", "###.#.###.#", "#...#...#.#", "###########"],
+          "blick": "W"
         },
         {
-          "karte": ["#######Z###", "#.#.#.....#", "#.#.###.###", "#.#.#.#...#", "#.#.#.#.###", "#.#.#.....#", "#.#.###.#.#", "#.......#.#", "#.#.#.#.###", "#.#.#.#...#", "#S#########"],
+          "karte": ["#######Z###", "#.#.#.....#", "#.#.###.###", "#.#.#.#...#", "#.#.#.#.###", "#.#.#S....#", "#.#.###.#.#", "#.......#.#", "#.#.#.#.###", "#.#.#.#...#", "###########"],
           "blick": "N"
         },
         {
-          "karte": ["#####S#####", "#.#.....#.#", "#.#####.#.#", "#.........#", "###.#.#.###", "#...#.#...#", "#.#.#####.#", "#.#.....#.#", "#.###.#####", "#...#.....Z", "###########"],
-          "blick": "S"
+          "karte": ["###########", "#.#.....#.#", "#.#####.#.#", "#.........#", "###.#.#.###", "#...#S#...#", "#.#.#####.#", "#.#.....#.#", "#.###.#####", "#...#.....Z", "###########"],
+          "blick": "N"
         }
       ],
       "verdeckt": [
         {
-          "karte": ["###Z#######", "#...#.#...#", "#.###.#.###", "#.#...#...S", "#.###.#.###", "#.....#.#.#", "#.###.#.#.#", "#...#.....#", "###.#####.#", "#.......#.#", "###########"],
-          "blick": "W"
-        },
-        {
-          "karte": ["#Z#########", "#...#.#...#", "###.#.#.###", "#.........#", "###.#####.#", "#.....#...#", "#.#.#####.#", "#.#.#.....#", "#.#.###.#.#", "#.#.#...#.#", "#########S#"],
+          "karte": ["###Z#######", "#...#.#...#", "#.###.#.###", "#.#...#...#", "#.###.#.###", "#....S#.#.#", "#.###.#.#.#", "#...#.....#", "###.#####.#", "#.......#.#", "###########"],
           "blick": "N"
         },
         {
-          "karte": ["###########", "#.#.....#.#", "#.#####.#.#", "S.........#", "###.#.#####", "#.#.#...#.#", "#.###.###.#", "#.....#...#", "###.#####.#", "#.........#", "#########Z#"],
-          "blick": "E"
+          "karte": ["#Z#########", "#...#.#...#", "###.#.#.###", "#.........#", "###.#####.#", "#....S#...#", "#.#.#####.#", "#.#.#.....#", "#.#.###.#.#", "#.#.#...#.#", "###########"],
+          "blick": "W"
+        },
+        {
+          "karte": ["###########", "#.#.....#.#", "#.#####.#.#", "#.........#", "###.#.#####", "#.#.#S..#.#", "#.###.###.#", "#.....#...#", "###.#####.#", "#.........#", "#########Z#"],
+          "blick": "N"
         }
       ],
       "zufall": {
         "anzahl": 10,
-        "raeume": 5
+        "raeume": 5,
+        "startInnen": true
       },
       "palette": {
         "befehle": [
