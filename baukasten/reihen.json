@@ -32,7 +32,7 @@
     {
       "id": "ct",
       "titel": "Computational Thinking",
-      "untertitel": "Der Käfer als Rasenmäher: von einfach bis anspruchsvoll, mit den vier Denkfiguren zerlegen, Muster erkennen, abstrahieren, Algorithmus entwerfen",
+      "untertitel": "Der Käfer als MähTrix: von einfach bis anspruchsvoll, mit den vier Denkfiguren zerlegen, Muster erkennen, abstrahieren, Algorithmus entwerfen",
       "dateien": ["aufgaben/ct.json"],
       "abschnitte": [
         { "id": "einfach", "titel": "Einfach", "etikett": "Stufe: einfach",

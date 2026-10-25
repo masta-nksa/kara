@@ -6,7 +6,7 @@
       "titel": "1 · Der kleine Rasen",
       "stufe": "Einfach",
       "abschnitt": "einfach",
-      "text": "Der Käfer ist ein Rasenmäher: Er soll jedes Feld des Rasens (3 × 3, rundherum Mauer) befahren. Das Programm enthält schon die ersten Schritte. Bauen Sie den Rest dazu.",
+      "text": "Der Käfer ist MähTrix, der Mähroboter: Er soll jedes Feld des Rasens (3 × 3, rundherum Mauer) befahren. Das Programm enthält schon die ersten Schritte. Bauen Sie den Rest dazu.",
       "denkfigur": "Der Weg besteht aus drei Teilen: Bahn, Wende rechts, Wende links. Bauen Sie Teil für Teil an und starten Sie nach jedem Teil.",
       "feld": {
         "karte": ["#####", "#...#", "#...#", "#S..#", "#####"],
@@ -578,7 +578,7 @@
       "stufe": "Zusatz · Anspruchsvoll",
       "abschnitt": "fordernd",
       "zusatz": true,
-      "text": "Nicht jeder Garten ist ein Rechteck. Funktioniert Ihr Rasenmäher auch hier? Alle Bausteine, kein Limit.",
+      "text": "Nicht jeder Garten ist ein Rechteck. Funktioniert MähTrix auch hier? Alle Bausteine, kein Limit.",
       "denkfigur": "Spielen Sie Ihr Programm in Gedanken in einem L-förmigen Garten durch, bevor Sie starten. Wo könnte es scheitern?",
       "layouts": [
         {
@@ -643,7 +643,7 @@
         "erklaerung": "Gezielt die schwierigen Stellen suchen: Dort zeigen sich Fehler."
       },
       "frage": {
-        "text": "Was zeigt diese Aufgabe über Ihren Rasenmäher?",
+        "text": "Was zeigt diese Aufgabe über MähTrix?",
         "antworten": [
           "Er funktioniert nur in Rechtecken.",
           "Er funktioniert auch in manchen anderen Formen, weil er nur nach «Feld vorne frei?» fragt.",

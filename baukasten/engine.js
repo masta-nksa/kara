@@ -383,7 +383,7 @@
     return { feld: { karte: karte, cols: cols, rows: rows, start: start, hindernisse: hind, blick: blick || "E" }, zielFeld: ziel };
   }
 
-  // Ziel «alleWege»: alle Felder ohne Mauer besuchen (z. B. Rasenmäher). Wird zu «besucht».
+  // Ziel «alleWege»: alle Felder ohne Mauer besuchen (z. B. MähTrix). Wird zu «besucht».
   function alleWege(feld) {
     var mauer = feldMenge(feld.hindernisse), l = [];
     for (var x = 1; x <= feld.cols; x++) for (var y = 1; y <= feld.rows; y++) if (!mauer[x + "," + y]) l.push([x, y]);
