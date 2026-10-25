@@ -6,7 +6,7 @@
       "titel": "1 · Der kleine Rasen",
       "stufe": "Einfach",
       "abschnitt": "einfach",
-      "text": "Der Käfer ist ein Rasenmäher: Er soll jedes Feld des Rasens (3 × 3, rundherum Mauer) befahren. Das Programm enthält schon die erste Bahn. Ergänzen Sie: Wende, Bahn, Wende, Bahn.",
+      "text": "Der Käfer ist ein Rasenmäher: Er soll jedes Feld des Rasens (3 × 3, rundherum Mauer) befahren. Das Programm enthält schon die ersten Schritte. Bauen Sie den Rest dazu.",
       "denkfigur": "Der Weg besteht aus drei Teilen: Bahn, Wende rechts, Wende links. Bauen Sie Teil für Teil an und starten Sie nach jedem Teil.",
       "feld": {
         "karte": ["#####", "#...#", "#...#", "#S..#", "#####"],
@@ -47,19 +47,19 @@
         "erklaerung": "Kleine Teile lassen sich einzeln bauen und testen. Starten Sie nach jedem Teil."
       },
       "frage": {
-        "text": "In welche Teile haben Sie den Weg zerlegt?",
+        "text": "Woraus besteht Ihr Weg?",
         "antworten": [
-          "In einzelne Felder.",
-          "Bahn, Wende rechts, Bahn, Wende links, Bahn.",
-          "Gar nicht, alles ist ein Stück."
+          "Aus einem einzigen langen Befehl.",
+          "Aus Teilstücken, die sich einzeln bauen und testen lassen, zum Beispiel Bahnen und Wenden oder die Seiten einer Spirale.",
+          "Aus zufälligen Schritten."
         ],
         "richtig": "f89ec97c",
-        "erklaerung": "Genau das ist Zerlegen: ein grosses Problem in kleinere Teilprobleme aufteilen, die man einzeln lösen kann."
+        "erklaerung": "Genau. Es gibt mehrere Wege, aber jeder lässt sich in Teilstücke aufteilen, die man einzeln baut und testet."
       },
       "denkfiguren": [
         {
           "id": "zerlegen",
-          "warum": "Der Weg zerfällt in Bahnen und Wenden, die man einzeln baut und testet."
+          "warum": "Der Weg zerfällt in Teilstücke, zum Beispiel Bahnen und Wenden oder die Seiten einer Spirale. Jedes Teilstück lässt sich einzeln bauen und testen."
         }
       ]
     },
@@ -165,10 +165,6 @@
         {
           "id": "muster",
           "warum": "Kurze Seite, Ecke, lange Seite, Ecke kommt zweimal vor."
-        },
-        {
-          "id": "zerlegen",
-          "warum": "Der Ring zerfällt in Seiten und Ecken."
         }
       ]
     },
@@ -208,23 +204,23 @@
         "erklaerung": "Was mehrmals gleich vorkommt, passt in eine Wiederholung."
       },
       "frage": {
-        "text": "Welches Stück hat sich in Ihrem Programm wiederholt?",
+        "text": "Was hat sich in Ihrem Programm wiederholt?",
         "antworten": [
           "Nichts.",
-          "Nur «vorwärts».",
-          "Wende rechts, Bahn, Wende links, Bahn."
+          "Nur «links drehen».",
+          "Eine feste Folge, zum Beispiel Wende, Bahn, Wende, Bahn, die ich in eine Wiederholung gepackt habe."
         ],
         "richtig": "93fbce3a",
-        "erklaerung": "Genau. Und innen wiederholt sich in jeder Bahn noch einmal «vorwärts». Muster erkennen heisst: Gleiches finden und wiederholen."
+        "erklaerung": "Genau. Welche Folge es ist, hängt von Ihrem Weg ab. Muster erkennen heisst: Gleiches finden und mit einer Wiederholung kürzer schreiben."
       },
       "denkfiguren": [
         {
           "id": "muster",
-          "warum": "Wende rechts, Bahn, Wende links, Bahn wiederholt sich; in jeder Bahn wiederholt sich «vorwärts»."
+          "warum": "Eine Folge von Bahnen und Wenden (oder Seiten und Ecken) wiederholt sich, und in jeder Bahn wiederholt sich «vorwärts»."
         },
         {
           "id": "zerlegen",
-          "warum": "Bahn und Wende sind die Teile, aus denen das Muster besteht."
+          "warum": "Erst wenn der Weg in Teile zerlegt ist, sieht man, welche Teile gleich sind."
         }
       ]
     },
@@ -299,7 +295,7 @@
           "Nichts."
         ],
         "richtig": "f91fda6f",
-        "erklaerung": "Das ist Abstrahieren: Was sich ändert, bleibt draussen. «Bis zur Wand» passt überall."
+        "erklaerung": "Genau: Was sich von Garten zu Garten ändert, bleibt draussen. «Bis zur Wand» passt überall."
       },
       "denkfiguren": [
         {
@@ -307,8 +303,8 @@
           "warum": "«Bis zur Wand» statt einer festen Länge: So passt das Programm in jeden Garten."
         },
         {
-          "id": "muster",
-          "warum": "Das Paar aus Bahn und Wende wiederholt sich."
+          "id": "entwerfen",
+          "warum": "Die Wende fährt nur vorwärts, wenn das Feld frei ist. So stösst der Käfer in keinem Garten an."
         }
       ]
     },
@@ -318,7 +314,7 @@
       "stufe": "Mittel",
       "abschnitt": "mittel",
       "text": "Im Nebel sieht der Käfer nur seine Nachbarfelder. Reicht das Ihrem Programm?",
-      "denkfigur": "Welche Information braucht Ihr Programm wirklich? Alles andere haben Sie beim Abstrahieren schon weggelassen.",
+      "denkfigur": "Welche Information braucht Ihr Programm wirklich? Alles andere haben Sie schon weggelassen.",
       "layouts": [
         {
           "name": "Garten 1",
@@ -572,10 +568,6 @@
         {
           "id": "entwerfen",
           "warum": "Sonderfälle bedenken und prüfen: nur eine Bahn, nur eine Reihe, gerade Anzahl Bahnen, winzig."
-        },
-        {
-          "id": "abstrahieren",
-          "warum": "Die Wende geht nur vorwärts, wenn frei ist: So passt sie zu jeder Gartengrösse."
         }
       ]
     },
@@ -737,19 +729,19 @@
         "erklaerung": "Ein neues, kleines Teilproblem (zur Ecke fahren) plus eine Lösung, die Sie schon haben."
       },
       "frage": {
-        "text": "Welche Aussage passt zu Ihrer Lösung?",
+        "text": "Wie sind Sie vorgegangen?",
         "antworten": [
-          "Ich habe alles neu programmiert.",
+          "Ich habe alles neu programmiert, ohne Plan.",
           "Ich habe die Grösse des Gartens eingebaut.",
-          "Ich habe ein neues Teilproblem (zur Ecke fahren) mit einer fertigen Lösung kombiniert."
+          "Ich habe die Aufgabe in Teile zerlegt und eine Lösung verwendet, die ich schon hatte."
         ],
         "richtig": "e90499db",
-        "erklaerung": "So arbeiten Informatikerinnen und Informatiker: Bekannte Lösungen wiederverwenden und nur das Neue dazubauen."
+        "erklaerung": "So arbeitet man in der Informatik: bekannte Lösungen wiederverwenden und nur das Neue dazubauen."
       },
       "denkfiguren": [
         {
           "id": "zerlegen",
-          "warum": "Ein neues Teilproblem: zuerst in eine passende Ecke fahren."
+          "warum": "Ein neues Teilproblem: zuerst an einen passenden Ort fahren, dann mähen."
         },
         {
           "id": "entwerfen",

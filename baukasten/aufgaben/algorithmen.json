@@ -314,14 +314,14 @@
         "erklaerung": "In jedem Durchlauf entscheidet die Verzweigung neu: vorwärts oder drehen."
       },
       "frage": {
-        "text": "Wie oft hat der Käfer in Ihrem Programm entschieden?",
+        "text": "Die Verzweigung steckt in der Wiederholung. Was bedeutet das?",
         "antworten": [
-          "Einmal.",
-          "In jedem der 10 Durchläufe neu.",
-          "Gar nie."
+          "Der Käfer entscheidet nur einmal.",
+          "Der Käfer entscheidet in jedem Durchlauf neu, ob er vorwärts geht oder dreht.",
+          "Der Käfer entscheidet gar nie."
         ],
         "richtig": "39721e88",
-        "erklaerung": "Weil die Verzweigung in der Wiederholung steckt, entscheidet der Käfer bei jedem Durchlauf neu."
+        "erklaerung": "Richtig. So reagiert er bei jedem Schritt auf das, was vor ihm liegt. Das geht nur mit einer Verzweigung in der Wiederholung."
       }
     },
     {
