@@ -82,5 +82,7 @@ IDs. Neu in der Engine: «wiederhole solange …» (`while`, Abbruch «endet nie
 `zaehlerNichtNull`, Ziel `alleWege`, `felderWort`. Die CT-Reihe ist nach den vier Denkfiguren
 gegliedert (`abschnitte` in reihen.json): Lernpfad mit Blume je Denkfigur (auch im Cockpit),
 Etikett, Kasten «So hilft … hier» und Konzeptfrage (Auswahl, Schlüssel statt Klartext) je
-Aufgabe, Zusatzaufgaben mit ★. Vorbild: Kursmodus von masta-nksa/turtle. Die Lehrperson rechnet mit fünf Anforderungen
+Aufgabe, Zusatzaufgaben mit ★. Vorbild: Kursmodus von masta-nksa/turtle. Die Algorithmen-Reihe
+ist ebenso gegliedert: Bausteine und die fünf Anforderungen (je eigene Blume, sechs Farben), mit
+den Aufgaben «Nur rechts» (ausführbar) und «Biege ab» (eindeutig). Die Lehrperson rechnet mit fünf Anforderungen
 (mit Korrektheit); L1-Dossier und Algorithmus-Check in `checks` nennen noch vier.

@@ -48,7 +48,7 @@
         if (a.frage) l.push(!!fragen[a.id]);
       });
       var n = pflicht.filter(Boolean).length;
-      var f = el("figure", "ck-blume kb-farbe" + (k % 4));
+      var f = el("figure", "ck-blume kb-farbe" + (k % 6));
       f.append(window.KaraBlume.blume(pflicht, zusatz, k, 44), el("figcaption", null, x.titel));
       f.setAttribute("aria-label", x.titel + ": " + n + " von " + pflicht.length + " erledigt");
       box.append(f);

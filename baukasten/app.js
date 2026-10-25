@@ -329,14 +329,14 @@
       theorie.open = !aufgaben.some(function (a) { return geloest[a.id] || beantwortet[a.id]; });
       theorie.append(el("summary", null, reihe.abschnitteTitel || "Abschnitte"));
       ab.forEach(function (x, k) {
-        var p = el("p", "kb-farbe" + (k % 4));
+        var p = el("p", "kb-farbe" + (k % 6));
         p.append(el("b", null, x.titel + ": "), document.createTextNode(x.text || ""));
         theorie.append(p);
       });
       pfad.append(theorie);
       var gruppen = el("div", "bk-gruppen");
       ab.forEach(function (x, k) {
-        var g = el("section", "bk-gruppe kb-farbe" + (k % 4));
+        var g = el("section", "bk-gruppe kb-farbe" + (k % 6));
         g.dataset.abschnitt = x.id;
         var kopf = el("div", "bk-gruppe-kopf");
         var text = el("div");
@@ -434,13 +434,13 @@
     var ab = abschnittVon(aufg), box = $("etiketten");
     if (!box) return;
     box.textContent = "";
-    if (ab) box.append(el("span", "bk-etikett kb-farbe" + (ab.nr % 4), (reihe.abschnittWort || "Denkfigur") + ": " + ab.a.titel));
+    if (ab) box.append(el("span", "bk-etikett kb-farbe" + (ab.nr % 6), ab.a.etikett || "Denkfigur: " + ab.a.titel));
     if (aufg.zusatz) box.append(el("span", "bk-etikett zusatz", "★ Zusatzaufgabe"));
     box.hidden = !box.childNodes.length;
     var df = $("denkfigurBox");
     df.hidden = !aufg.denkfigur;
-    df.className = "bk-denkfigur" + (ab ? " kb-farbe" + (ab.nr % 4) : "");
-    $("denkfigurTitel").textContent = ab ? "So hilft «" + ab.a.titel + "» hier" : "So gehen Sie vor";
+    df.className = "bk-denkfigur" + (ab ? " kb-farbe" + (ab.nr % 6) : "");
+    $("denkfigurTitel").textContent = reihe.kastenTitel || (ab ? "So hilft «" + ab.a.titel + "» hier" : "So gehen Sie vor");
     $("denkfigurText").textContent = aufg.denkfigur || "";
   }
 

@@ -46,7 +46,9 @@ Eine Reihe kann mehrere Aufgaben-Dateien zusammenfassen (`dateien`). So lassen s
 umordnen oder zusammenlegen, ohne die Aufgaben anzufassen. Aufgaben-IDs müssen über alle
 Reihen eindeutig sein (der Fortschritt hängt an der ID).
 
-Mit `abschnitte` (Liste von `{id, titel, text}`) und `abschnitteTitel` gliedert sich eine Reihe
+Mit `abschnitte` (Liste von `{id, titel, text}`, optional `etikett` wie «Anforderung: allgemein»;
+Standard «Denkfigur: …»), `abschnitteTitel` und optional `kastenTitel` (Titel des Kastens zur
+Aufgabe; Standard «So hilft «…» hier») gliedert sich eine Reihe
 in Abschnitte, z. B. die vier Denkfiguren des Computational Thinking. Der Baukasten zeigt dann
 statt der Aufgabenleiste einen Lernpfad: oben aufklappbar die Erklärungen (offen, solange in der
 Reihe noch nichts gelöst ist), darunter je Abschnitt eine Spalte mit Blume, Stand und Aufgaben.
@@ -123,18 +125,24 @@ Handregeln jeweils mindestens einmal, dazu zehn Zufallslabyrinthe mit Inseln).
 
 Die Reihen «Algorithmen» (`aufgaben/algorithmen.json`) und «Computational Thinking»
 (`aufgaben/ct.json`) begleiten zwei Papier-Dossiers: Zuerst wird eine Lektion lang auf Papier
-gearbeitet, in der nächsten Lektion folgen dieselben Felder in Kara. «Algorithmen» beginnt mit
-Kopien der Grundlagen-Aufgaben (eigene IDs `alg-…`; die Reihe «Käfer-Grundlagen» bleibt
-unverändert, weil sie auch in einem anderen Fach genutzt wird). Danach folgt je eine Aufgabe zu
-den Anforderungen: «Bis zur Wand» (solange), «Hört nie auf» (endlich), «Drei Räume» (allgemein)
-und «Räume, die Sie nicht sehen» (korrekt, mit verdeckten Sonderfällen). «Computational
-Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`) und ist nach den vier Denkfiguren
-gegliedert (`abschnitte`): Zerlegen (kleiner Rasen, zwei Rasenstücke), Muster erkennen (Bahn und
-Wende, um den Teich), Abstrahieren (drei Gärten, Mähen im Nebel, ★ Teiche jeder Grösse) und
-Algorithmus entwerfen (unbekannte Gärten mit Sonderfällen, ★ krumme Gärten, ★ irgendwo im
-Garten). Jede Aufgabe nennt ihre Denkfigur, sagt, wie sie hier hilft, und hat eine
-Konzeptfrage. In «Algorithmen» folgen drei Zusatzaufgaben (Z1–Z3). In beiden Reihen werden die
-Zusatzaufgaben immer offener: zuletzt alle Bausteine, kein Limit, kein Tipp.
+gearbeitet, in der nächsten Lektion folgen dieselben Felder in Kara. «Algorithmen» ist in die
+Bausteine und die fünf Anforderungen gegliedert (`abschnitte`): Bausteine (Zum Ziel, Das Quadrat,
+Hindernisse umgehen, Bis zur Wand, ★ Die Treppe; Kopien der Grundlagen mit eigenen IDs `alg-…`,
+die Reihe «Käfer-Grundlagen» bleibt unverändert, weil sie auch in einem anderen Fach genutzt
+wird), ausführbar («Nur rechts»: ohne «links drehen»), eindeutig («Biege ab»: eine vage
+Wegbeschreibung festlegen), allgemein («Drei Räume», ★ Treppen jeder Grösse), endlich («Hört nie
+auf», ★ Gleich weit) und korrekt («Den Fehler finden», «Räume, die Sie nicht sehen» mit
+verdeckten Sonderfällen, ★ Räume mit Säulen).
+
+«Computational Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`) und ist nach den vier
+Denkfiguren gegliedert (`abschnitte`): Zerlegen (kleiner Rasen, zwei Rasenstücke), Muster
+erkennen (Bahn und Wende, um den Teich), Abstrahieren (drei Gärten, Mähen im Nebel, ★ Teiche
+jeder Grösse) und Algorithmus entwerfen (unbekannte Gärten mit Sonderfällen, ★ krumme Gärten,
+★ irgendwo im Garten).
+
+In beiden Reihen nennt jede Aufgabe ihren Abschnitt, sagt in einem Kasten, worauf es ankommt,
+und hat eine Konzeptfrage. Die Zusatzaufgaben werden immer offener: zuletzt alle Bausteine, kein
+Limit, kein Tipp.
 
 ## Abschluss und eigene Challenges
 
