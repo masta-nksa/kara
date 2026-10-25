@@ -70,6 +70,8 @@ Labyrinthe einheitlich mit Start im Inneren und Ausgang als einzige Lücke im Ra
 und 11, Abschluss, Zufall in lab11 mit `startInnen`); «Spirale» und «Abzweigungen» mit
 umgedrehtem, gespiegeltem Weg. Neue Karten so halten.
 
+Seit 25.10.2026: Der CT-Käfer heisst «MähTrix» (der Mähroboter), nicht mehr «Rasenmäher»; Kara ist immer der Käfer. Variablen mit der Kiste-Analogie (Wert liegt in der Kiste, auf der Kiste steht der Name), ohne sie auszuerklären. Ein einzelner Struktogramm-Kasten heisst «Anweisung». Papier-Dossiers ohne Namenszeile und ohne «Lektion n», mit «Lernziele» statt «Heute».
+
 Offen aus der Rückmeldung der Lehrperson (18.10.2026): Begriffe Labyrinth/Irrgarten
 (Labyrinth im engen Sinn ohne Verzweigungen). Texte nicht ohne Entscheid umbenennen.
 
