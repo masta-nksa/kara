@@ -500,6 +500,49 @@
     return { karte: m.map(function (z) { return z.join(""); }), blick: ["S", "W", "N", "E"][seiteS] };
   }
 
+  /* ---------- Programm als Code (Python-ähnlich) ------------ */
+
+  var CODE_BEFEHL = {
+    vor: "vor()", rechts: "rechts()", links: "links()",
+    zaehlerPlus: "zaehler = zaehler + 1", zaehlerMinus: "zaehler = zaehler - 1", zaehlerNull: "zaehler = 0"
+  };
+  var CODE_BEDINGUNG = {
+    frei: "vorne_frei()", freiLinks: "links_frei()", freiRechts: "rechts_frei()",
+    zaehlerIstNull: "zaehler == 0", zaehlerNichtNull: "zaehler != 0"
+  };
+  var CODE_VARIABLE = ["i", "j", "k", "m", "n"];
+
+  // Dasselbe Programm als Text in einer Programmiersprache: Beschreibung als Code statt Struktogramm.
+  function alsCode(prog) {
+    var zeilen = [], zaehler = false;
+    (function schreiben(liste, tiefe) {
+      var ein = new Array(tiefe + 1).join("    ");
+      if (!liste.length) { zeilen.push(ein + "pass"); return; }
+      liste.forEach(function (b) {
+        if (b.t === "act") {
+          if (/^zaehler/.test(b.cmd)) zaehler = true;
+          zeilen.push(ein + (CODE_BEFEHL[b.cmd] || b.cmd));
+        } else if (b.t === "loop") {
+          zeilen.push(ein + "for " + CODE_VARIABLE[Math.min(tiefe, 4)] + " in range(" + b.n + "):");
+          schreiben(b.body, tiefe + 1);
+        } else if (b.t === "until") {
+          zeilen.push(ein + "while not am_ziel():");
+          schreiben(b.body, tiefe + 1);
+        } else if (b.t === "while" || b.t === "if") {
+          if (/^zaehler/.test(b.cond)) zaehler = true;
+          zeilen.push(ein + (b.t === "while" ? "while " : "if ") + (CODE_BEDINGUNG[b.cond] || b.cond) + ":");
+          schreiben(b.t === "while" ? b.body : b.yes, tiefe + 1);
+          if (b.t === "if" && b.no.length) {
+            zeilen.push(ein + "else:");
+            schreiben(b.no, tiefe + 1);
+          }
+        }
+      });
+    })(prog, 0);
+    if (!prog.length) return "# Noch keine Bausteine";
+    return (zaehler ? "zaehler = 0\n" : "") + zeilen.join("\n");
+  }
+
   /* ---------- Konzeptfragen -------------------------------- */
 
   // Die richtige Antwort steht nicht im Klartext in der Aufgabe, sondern als Schlüssel
@@ -580,6 +623,6 @@
     kannEinfuegen: kannEinfuegen, zuTief: zuTief, einfuegen: einfuegen, entfernen: entfernen, verschieben: verschieben,
     run: run, pruefe: pruefe, pruefeLayout: pruefeLayout, bausteineText: bausteineText, vorbereiten: vorbereiten,
     zielfeld: zielfeld, karteLesen: karteLesen, layoutVorbereiten: layoutVorbereiten, alleWege: alleWege,
-    zufall: zufall, erzeugeLabyrinth: erzeugeLabyrinth, frageSchluessel: frageSchluessel, frageRichtig: frageRichtig
+    zufall: zufall, erzeugeLabyrinth: erzeugeLabyrinth, frageSchluessel: frageSchluessel, frageRichtig: frageRichtig, alsCode: alsCode
   };
 });
