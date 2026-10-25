@@ -68,10 +68,10 @@
       "titel": "2 · Zwei Rasenstücke",
       "stufe": "Einfach",
       "abschnitt": "einfach",
-      "text": "Zwei Rasenstücke, verbunden durch einen schmalen Weg oben. Der Käfer soll alle Felder befahren, auch den Weg.",
+      "text": "Zwei gleiche Rasenstücke, unten verbunden durch einen schmalen Weg. Der Käfer soll alle Felder befahren, auch den Weg.",
       "denkfigur": "Zerlegen Sie in drei Teilprobleme: Rasen A mähen, zum Rasen B fahren, Rasen B mähen. Lösen Sie eines nach dem anderen und starten Sie nach jedem Teil.",
       "feld": {
-        "karte": ["#########", "#.......#", "#..###..#", "#S.###..#", "#########"],
+        "karte": ["#########", "#..###..#", "#..###..#", "#S......#", "#########"],
         "blick": "N"
       },
       "palette": {
@@ -87,7 +87,7 @@
       "ziel": {
         "typ": "alleWege"
       },
-      "hinweis": "Nach Rasen A steht der Käfer unten. Für den Weg muss er zuerst wieder nach oben.",
+      "hinweis": "Beide Rasenstücke werden gleich gemäht: Bahn hinauf, Wende, Bahn hinunter.",
       "strategie": {
         "text": "Womit beginnen Sie?",
         "antworten": [
@@ -111,7 +111,7 @@
       "denkfiguren": [
         {
           "id": "zerlegen",
-          "warum": "Drei Teilprobleme: Rasen A mähen, zum Rasen B fahren, Rasen B mähen."
+          "warum": "Drei Teilprobleme: Rasen A mähen, zum Rasen B fahren, Rasen B mähen. Rasen A und B sind dasselbe Teilproblem."
         }
       ]
     },
@@ -173,10 +173,10 @@
       "titel": "4 · Bahn und Wende",
       "stufe": "Mittel",
       "abschnitt": "mittel",
-      "text": "Ein grösserer Rasen (5 × 5), aber höchstens 14 Bausteine.",
+      "text": "Ein Rasen mit 4 Bahnen, unten rechts ein Gartentor. Mähen Sie alles und fahren Sie am Schluss durchs Tor hinaus. Höchstens 12 Bausteine.",
       "denkfigur": "Schreiben Sie den Weg zuerst mit den Namen der Teile auf: Bahn, Wende rechts, Bahn, … Welches Stück kommt mehrmals gleich vor? Das gehört in eine Wiederholung.",
       "feld": {
-        "karte": ["#######", "#.....#", "#.....#", "#.....#", "#.....#", "#S....#", "#######"],
+        "karte": ["#######", "#....##", "#....##", "#....##", "#....##", "#S....#", "#######"],
         "blick": "N"
       },
       "palette": {
@@ -188,11 +188,11 @@
         "wiederholung": true,
         "verzweigung": false
       },
-      "maxBloecke": 14,
+      "maxBloecke": 12,
       "ziel": {
         "typ": "alleWege"
       },
-      "hinweis": "Nach der ersten Bahn kommt zweimal dasselbe: Wende rechts, Bahn, Wende links, Bahn.",
+      "hinweis": "Bahn, Wende rechts, Bahn, Wende links: Wie oft kommt das vor?",
       "strategie": {
         "text": "Das Bausteinlimit ist knapp. Was hilft?",
         "antworten": [
@@ -208,7 +208,7 @@
         "antworten": [
           "Nichts.",
           "Nur «links drehen».",
-          "Eine feste Folge, zum Beispiel Wende, Bahn, Wende, Bahn, die ich in eine Wiederholung gepackt habe."
+          "Eine feste Folge, zum Beispiel Bahn, Wende rechts, Bahn, Wende links, die ich in eine Wiederholung gepackt habe."
         ],
         "richtig": "93fbce3a",
         "erklaerung": "Genau. Welche Folge es ist, hängt von Ihrem Weg ab. Muster erkennen heisst: Gleiches finden und mit einer Wiederholung kürzer schreiben."
@@ -216,13 +216,14 @@
       "denkfiguren": [
         {
           "id": "muster",
-          "warum": "Eine Folge von Bahnen und Wenden (oder Seiten und Ecken) wiederholt sich, und in jeder Bahn wiederholt sich «vorwärts»."
+          "warum": "Bahn, Wende rechts, Bahn, Wende links wiederholt sich, und in jeder Bahn wiederholt sich «vorwärts»."
         },
         {
           "id": "zerlegen",
           "warum": "Erst wenn der Weg in Teile zerlegt ist, sieht man, welche Teile gleich sind."
         }
-      ]
+      ],
+      "kleinsteLoesung": 11
     },
     {
       "id": "ct-gaerten",

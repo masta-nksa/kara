@@ -161,7 +161,8 @@ endlich («Hört nie auf», ★ Gleich weit) und korrekt («Den Fehler finden»,
 sehen» mit verdeckten Sonderfällen, ★ Räume mit Säulen).
 
 «Computational Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`). Die Aufgaben steigen
-an: einfach (kleiner Rasen, zwei Rasenstücke, um den Teich), mittel (Bahn und Wende, drei Gärten,
+an: einfach (kleiner Rasen, zwei gleiche Rasenstücke, um den Teich), mittel (Bahn und Wende mit
+4 Bahnen und Tor, sodass «Bahn, Wende rechts, Bahn, Wende links» ohne Rest aufgeht, drei Gärten,
 Mähen im Nebel, ★ Teiche jeder Grösse) und anspruchsvoll (unbekannte Gärten mit Sonderfällen,
 ★ krumme Gärten, ★ irgendwo im Garten). Die Denkfiguren (zerlegen, Muster erkennen,
 abstrahieren, Algorithmus entwerfen) kommen in vielen Aufgaben vor; welche entscheidend waren,

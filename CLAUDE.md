@@ -92,7 +92,9 @@ nach Lösung und Reflexion (Blume je Denkfigur); Name und Erklärung einer Denkf
 zwei gelösten und reflektierten Aufgaben dazu freigeschaltet (je Denkfigur 2–3 Pflichtaufgaben).
 Navigation wie im Turtle-Kurs: Aufgaben als Stationen, «‹ Zurück / Weiter ›» in der Karte; andere
 Reihen sind im Baukasten nicht verlinkt (jede Reihe für sich, Einstieg über die Übersicht).
-Reflexionsfragen so formulieren, dass verschiedene Lösungswege passen (z. B. Bahnen oder Spirale). Vorbild: Kursmodus von masta-nksa/turtle. Die Algorithmen-Reihe
+Reflexionsfragen so formulieren, dass verschiedene Lösungswege passen (z. B. Bahnen oder Spirale).
+Felder der einfachen und mittleren Aufgaben so gestalten, dass sauberes Zerlegen und ein Muster ohne
+Rest aufgehen (z. B. «Bahn und Wende»: 4 Bahnen und ein Tor, «Zwei Rasenstücke»: zwei gleiche Rasen). Vorbild: Kursmodus von masta-nksa/turtle. Die Algorithmen-Reihe
 ist ebenso gegliedert: «Beschreiben» (Prosa, Struktogramm, Code; dazu «Als Code anzeigen») und
 die fünf Anforderungen (je eigene Blume, sechs Farben), mit «Nur rechts» (ausführbar), «Biege ab»
 und «Bei der Kreuzung» (eindeutig) sowie den Zusatzaufgaben «Vom Code zum Struktogramm», «Nur
