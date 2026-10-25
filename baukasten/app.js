@@ -166,6 +166,7 @@
       var u = new URL(location.href);
       u.searchParams.set("reihe", reihe.id);
       u.searchParams.set("aufgabe", aufg.id);
+      u.searchParams.delete("v");             // nur fürs Neuladen ohne Zwischenspeicher
       history.replaceState(null, "", u.href);
     } catch (e) { /* Adresszeile bleibt, wie sie ist */ }
   }
@@ -1464,6 +1465,26 @@
     }
 
     var spurFlaechen = svgEl("g"), ziel = svgEl("g"), spurLinien = svgEl("g"), hind = svgEl("g"), marken = svgEl("g");
+    // Ziel «alle Felder befahren» (Rasenmäher): jedes Feld ist Rasen; befahrene Felder sind gemäht.
+    var rasen = null;
+    if (z.alleWege) {
+      rasen = {};
+      var rasenGruppe = svgEl("g", {}, "bk-rasen");
+      z.felder.forEach(function (c) {
+        var g = svgEl("g", {}, "bk-rasenfeld");
+        g.append(svgEl("rect", { x: zx(c[0]) + 1, y: zy(c[1]) + 1, width: Z - 2, height: Z - 2 }, "bk-rasen-flaeche"));
+        // drei Grasbüschel je Feld, leicht versetzt; sie wiegen sich mit unterschiedlicher Verzögerung
+        [[11, 31], [22, 25], [31, 33]].forEach(function (p, i) {
+          var bx = zx(c[0]) + p[0], by = zy(c[1]) + p[1];
+          var b = svgEl("path", { d: "M" + bx + " " + by + " l-3 -8 M" + bx + " " + by + " l0 -10 M" + bx + " " + by + " l3 -8" }, "bk-halme");
+          b.style.animationDelay = (-((c[0] * 7 + c[1] * 3 + i * 5) % 10) * 0.3) + "s";
+          g.append(b);
+        });
+        rasen[c[0] + "," + c[1]] = g;
+        rasenGruppe.append(g);
+      });
+      welt.append(rasenGruppe);
+    }
     welt.append(spurFlaechen);
 
     var st = svgEl("text", { x: zx(f.start[0]) + 3, y: zy(f.start[1]) + 9 }, "bk-start");
@@ -1478,7 +1499,7 @@
     if (z.typ === "endfeld") {
       ziel.append(svgEl("rect", { x: zx(z.feld[0]) + 3, y: zy(z.feld[1]) + 3, width: Z - 6, height: Z - 6 }, "bk-zielzelle"));
       flagge(z.feld);
-    } else if (z.typ === "besucht") {
+    } else if (z.typ === "besucht" && !z.alleWege) {
       z.felder.forEach(function (c) {
         ziel.append(svgEl("rect", { x: zx(c[0]) + 3, y: zy(c[1]) + 3, width: Z - 6, height: Z - 6 }, "bk-zielzelle"));
         ziel.append(svgEl("circle", { cx: mx(c[0]) + 11, cy: my(c[1]) + 11, r: 2.5 }, "bk-zielpunkt"));
@@ -1533,7 +1554,7 @@
     feldBox.textContent = "";
     feldBox.append(svg);
     feldRef = {
-      svg: svg, spurFlaechen: spurFlaechen, spurLinien: spurLinien, marken: marken, kaefer: k, bild: bildGruppe, nebel: nebel,
+      svg: svg, spurFlaechen: spurFlaechen, spurLinien: spurLinien, marken: marken, kaefer: k, bild: bildGruppe, nebel: nebel, rasen: rasen,
       welt: welt, achseX: achseX, achseY: achseY, rahmen: rahmen, rahmenX: rahmenX, rahmenY: rahmenY,
       W: W, H: H, kamera: f.cols > KAMERA_AB || f.rows > KAMERA_AB, kameraAn: false
     };
@@ -1696,6 +1717,8 @@
 
   function spurFlaeche(x, y) {
     feldRef.spurFlaechen.append(svgEl("circle", { cx: mx(x), cy: my(y), r: 3.5 }, "bk-spurpunkt"));
+    var g = feldRef.rasen && feldRef.rasen[x + "," + y];
+    if (g) g.classList.add("gemaeht");
   }
 
   /* ---------- Ablauf ---------------------------------------- */
@@ -1739,6 +1762,7 @@
       var f = aufg.feld;
       feldRef.spurFlaechen.textContent = "";
       feldRef.spurLinien.textContent = "";
+      if (feldRef.rasen) for (var rk in feldRef.rasen) feldRef.rasen[rk].classList.remove("gemaeht");
       feldRef.marken.textContent = "";
       feldRef.kaefer.classList.remove("fehler");
       kameraAn(false);

@@ -109,7 +109,9 @@ der Reflexion nur die Begründung. Das Cockpit zeigt dieselben Blumen, verborgen
 - `kleinsteLoesung`: Anzahl Bausteine der kleinsten bekannten Lösung; erscheint erst nach dem
   Lösen. Die Bausteinlimits lassen bewusst auch weniger kompakte Lösungen zu.
 - Ziel `{"typ": "alleWege"}`: Der Käfer muss jedes Feld ohne Mauer befahren (Rasenmäher). Gilt
-  auch für `layouts` und `verdeckt`; die Karten brauchen dann kein `Z`.
+  auch für `layouts` und `verdeckt`; die Karten brauchen dann kein `Z`. Das Feld zeigt dann Rasen:
+  hohes Gras wiegt sich leicht (nicht bei «Bewegung reduzieren»), befahrene Felder werden kurz
+  gemäht; «Zurücksetzen» lässt das Gras wieder wachsen. Der Rasen liegt unter dem Nebel.
 - `felderWort`: Wie die Felder einer Aufgabe mit mehreren Karten heissen, als Einzahl, Mehrzahl
   und Mehrzahl im Dativ, z. B. `["Garten", "Gärten", "Gärten"]` («Der Käfer schafft 2 von 3
   Gärten»). Ohne Angabe: Labyrinth.
