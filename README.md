@@ -62,7 +62,7 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
   dazu optional `zufall: {anzahl, raeume}` für zufällig erzeugte, inselfreie Labyrinthe
   (Kartengrösse 2·raeume+1, Ein- und Ausgang als Lücken im Rahmen). Mit `inseln: k` öffnet der
   Generator zusätzlich k Wände, so entstehen Inseln; der Start liegt dann im Inneren. Dasselbe ohne
-  Inseln mit `startInnen: true` (nutzt der Editor). Gelöst ist die Aufgabe
+  Inseln mit `startInnen: true` (nutzen Level 11 und der Editor). Gelöst ist die Aufgabe
   erst, wenn der Käfer in allen den Ausgang findet. Gescheiterte verdeckte und zufällige
   Labyrinthe werden danach als Reiter sichtbar. «Alle prüfen» prüft ohne Animation.
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
@@ -84,10 +84,15 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
 - Die Prüfung vergleicht das **Ergebnis** (Endfeld, besuchte Felder, Bausteinlimit), nie ein
   Muster. Lösungen und Tests gehören nicht in dieses Repo.
 
-Die Labyrinth-Karten und Bausteinlimits der Levels 1 bis 8 und 10 stammen aus
-[Blockly Games](https://github.com/google/blockly-games) (Maze, Apache-Lizenz 2.0); Level 10 hat
-den Ausgang im Rahmen. Level 9 («Kreuzungen») und 11 («Jedes Labyrinth») sind eigene,
-inselfreie Labyrinthe: Dort führt die Linke-Hand-Regel immer zum Ausgang. Level 10 heisst bewusst
+In allen Labyrinthen liegt der Start im Inneren und der Ausgang (`Z`) als einzige Lücke im
+sonst geschlossenen Rand: Es geht darum, aus dem Labyrinth herauszufinden, ein Eingang am Rand
+wäre ein leicht zu findender Ausgang. Die Labyrinth-Karten und Bausteinlimits der Levels 1 bis 8
+und 10 stammen aus [Blockly Games](https://github.com/google/blockly-games) (Maze,
+Apache-Lizenz 2.0), angepasst: In den Levels 1 bis 5 und 8 ist der Gang verschoben oder bis an
+den Rand verlängert; in «Spirale» (6) und «Abzweigungen» (7) ist der Weg umgedreht und
+gespiegelt (Start beim früheren Ziel, gleiche Bedingung und kleinste Lösung wie im Original).
+Level 9 («Kreuzungen») und 11 («Jedes Labyrinth») sind eigene,
+inselfreie Labyrinthe: Dort führt die Linke-Hand-Regel auch vom Start im Inneren immer zum Ausgang. Level 10 heisst bewusst
 «Mehr Kreuzungen» und verrät die Strategie nicht im Aufgabentext, sondern erst im Hinweis
 («Folgen Sie der linken Wand …»); den Begriff «Wandfolger» nennt erst «Die Insel».
 
@@ -100,7 +105,7 @@ Handregeln jeweils mindestens einmal, dazu zehn Zufallslabyrinthe mit Inseln).
 ## Abschluss und eigene Challenges
 
 Die letzte Reihe («Abschluss und eigene Challenges», `lokal: true` in `reihen.json`) enthält das
-Abschluss-Level (`aufgaben/abschluss.json`: 21 × 21 und 25 × 15, mit und ohne Inseln, alle Bausteine) und
+Abschluss-Level (`aufgaben/abschluss.json`: 21 × 21 und 25 × 15, mit und ohne Inseln, Start immer im Inneren, alle Bausteine) und
 danach die Challenges, die in diesem Browser gespeichert sind.
 
 **Editor** (`editor/`): Raster bearbeiten (Mauer/Weg auch durch Ziehen, Start mit Blickrichtung,

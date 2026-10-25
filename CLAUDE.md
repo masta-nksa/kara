@@ -58,11 +58,13 @@ mehrere/verdeckte/zufällige Labyrinthe, Zähler-Bausteine, Nebel mit Gedächtni
 mit Kamera, Tempo-Stufen, Editor mit Teilen per Base64-Link, Teilen-Link bei jeder Aufgabe,
 GoatCounter-Statistik. Seit 18.10.2026: Nebel auch mit mitfahrender Kamera (Masken-Bereich
 explizit), Level 10 «Mehr Kreuzungen» mit Linke-Hand-Tipp nur im Hinweis, Editor mit
-geschlossenem Rand, Start nur innen, Ziel auch im Inneren.
+geschlossenem Rand, Start nur innen, Ziel auch im Inneren. Ebenfalls seit 18.10.2026: alle
+Labyrinthe einheitlich mit Start im Inneren und Ausgang als einzige Lücke im Rand (Levels 1–9
+und 11, Abschluss, Zufall in lab11 mit `startInnen`); «Spirale» und «Abzweigungen» mit
+umgedrehtem, gespiegeltem Weg. Neue Karten so halten.
 
-Offen aus der Rückmeldung der Lehrperson (18.10.2026): alle Levels einheitlich mit Start im
-Inneren und Ausgang am Rand (Levels 1–9, 11, Abschluss-Layout 1 und Verdeckt 1, Zufall in
-lab11), Begriffe Labyrinth/Irrgarten (Labyrinth im engen Sinn ohne Verzweigungen).
+Offen aus der Rückmeldung der Lehrperson (18.10.2026): Begriffe Labyrinth/Irrgarten
+(Labyrinth im engen Sinn ohne Verzweigungen). Texte nicht ohne Entscheid umbenennen.
 
 Offen, nicht entschieden: ob der Baukasten-Eintrag in `checks` auf Kara verlinken soll.
 Nur auf ausdrücklichen Wunsch ändern.
