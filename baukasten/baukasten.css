@@ -10,11 +10,16 @@
   --stein-kante:#4b5653;
   --stein-licht:#97a5a2;
   --rahmen:1.5px;
+  --gras:#cfe6b9;--gras-halm:#4f9636;--gras-kurz:#e9f3de;--gras-stoppel:#a9c993;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){--hl:#2c6860;--stein:#3b4745;--stein-kante:#27312f;--stein-licht:#5d6d6a}
 }
 :root[data-theme="dark"]{--hl:#2c6860;--stein:#3b4745;--stein-kante:#27312f;--stein-licht:#5d6d6a}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--gras:#2c4a25;--gras-halm:#76c35c;--gras-kurz:#223020;--gras-stoppel:#4d6b41}
+}
+:root[data-theme="dark"]{--gras:#2c4a25;--gras-halm:#76c35c;--gras-kurz:#223020;--gras-stoppel:#4d6b41}
 
 .bk{max-width:1120px;margin:0 auto;padding:28px 20px 64px;display:flex;flex-direction:column;gap:20px}
 .bk-kopf-seite{gap:10px}
@@ -346,6 +351,15 @@ body.bk-zieht *{cursor:grabbing!important}
 .bk-zelle{fill:var(--surface);stroke:var(--line);stroke-width:1}
 .bk-spurpunkt{fill:var(--accent);opacity:.6}
 .bk-zielzelle{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:4 3}
+/* Rasen (Ziel «alle Felder befahren»): hohes Gras wiegt sich, befahrene Felder sind kurz gemäht */
+.bk-rasen-flaeche{fill:var(--gras);transition:fill .4s}
+.bk-halme{stroke:var(--gras-halm);stroke-width:2;stroke-linecap:round;fill:none;transform-box:fill-box;transform-origin:50% 100%;transition:transform .35s ease-out,stroke .4s}
+.gemaeht .bk-rasen-flaeche{fill:var(--gras-kurz)}
+.gemaeht .bk-halme{transform:scaleY(.25);stroke:var(--gras-stoppel);animation:none}
+@media (prefers-reduced-motion: no-preference){
+  .bk-rasenfeld:not(.gemaeht) .bk-halme{animation:bk-wiegen 2.6s ease-in-out infinite}
+}
+@keyframes bk-wiegen{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
 .bk-zielpunkt,.bk-flagge{fill:var(--accent)}
 .bk-flaggenmast{stroke:var(--accent);stroke-width:2}
 .bk-stein-block{fill:var(--stein);stroke:var(--stein-kante);stroke-width:1.5}
