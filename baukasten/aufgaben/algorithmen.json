@@ -1,0 +1,981 @@
+{
+  "hinweis": "Reihe «Algorithmen» fuer den Baukasten: Bausteine, Struktogramme und die fuenf Anforderungen. Aufgaben 1-5 sind Kopien der Grundlagen, angepasst ans Dossier. Keine Loesungen enthalten.",
+  "aufgaben": [
+    {
+      "id": "alg-ziel",
+      "titel": "1 · Zum Ziel",
+      "stufe": "Sequenz",
+      "abschnitt": "bausteine",
+      "text": "Bringen Sie den Käfer zum Zielfeld. Er kennt nur drei Befehle: vorwärts, rechts drehen, links drehen. Alles andere kann er nicht ausführen.",
+      "denkfigur": "Befehle, die einfach nacheinander ausgeführt werden, bilden eine Sequenz. Zählen Sie die Felder und schreiben Sie die Befehle der Reihe nach.",
+      "feld": {
+        "cols": 6,
+        "rows": 6,
+        "start": [
+          1,
+          1
+        ],
+        "blick": "N",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": false,
+        "verzweigung": false
+      },
+      "maxBloecke": null,
+      "ziel": {
+        "typ": "endfeld",
+        "feld": [
+          3,
+          4
+        ]
+      },
+      "hinweis": "Zählen Sie die Felder: erst geradeaus, dann um die Ecke.",
+      "frage": {
+        "text": "Wie heisst der Baustein, bei dem die Schritte einfach nacheinander ablaufen?",
+        "antworten": [
+          "Sequenz",
+          "Verzweigung",
+          "Wiederholung"
+        ],
+        "richtig": "d094e1b5",
+        "erklaerung": "Genau. Eine Verzweigung wählt je nach Bedingung einen Weg, eine Wiederholung führt Schritte mehrmals aus."
+      }
+    },
+    {
+      "id": "alg-quadrat",
+      "titel": "2 · Das Quadrat",
+      "stufe": "Wiederholung",
+      "abschnitt": "bausteine",
+      "text": "Das ist Aufgabe 4 aus dem Dossier (Situation A). Bauen Sie das Struktogramm nach und prüfen Sie, ob Ihr eingezeichneter Weg stimmt. Höchstens 4 Bausteine.",
+      "denkfigur": "Welche Schritte wiederholen sich? Packen Sie sie in eine Wiederholung.",
+      "feld": {
+        "cols": 7,
+        "rows": 7,
+        "start": [
+          2,
+          2
+        ],
+        "blick": "N",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "maxBloecke": 4,
+      "kleinsteLoesung": 4,
+      "ziel": {
+        "typ": "besucht",
+        "felder": [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "nurDiese": true,
+        "endfeld": [
+          2,
+          2
+        ]
+      },
+      "hinweis": "Welche Schritte wiederholen sich? Ein Quadrat hat vier gleiche Seiten.",
+      "frage": {
+        "text": "Woran erkennen Sie im Struktogramm eine Wiederholung?",
+        "antworten": [
+          "Am Dreieck mit «Ja» und «Nein».",
+          "Am Kopf «wiederhole …»: Was eingerückt darunter steht, wird wiederholt.",
+          "Daran, dass mehrere Kästen untereinander stehen."
+        ],
+        "richtig": "bc75fbaa",
+        "erklaerung": "Richtig. Das Dreieck gehört zur Verzweigung, Kästen untereinander sind eine Sequenz."
+      }
+    },
+    {
+      "id": "alg-treppe",
+      "titel": "★ Die Treppe",
+      "stufe": "Zusatz · Wiederholung",
+      "abschnitt": "bausteine",
+      "zusatz": true,
+      "text": "Der Käfer soll die Treppe über alle markierten Felder hinaufsteigen und oben rechts enden. Höchstens 5 Bausteine: Schreiben Sie es kürzer, wie die Flaschen im Dossier.",
+      "denkfigur": "Eine Stufe hat vier Schritte. Statt sie fünfmal aufzuschreiben, wiederholen Sie sie.",
+      "feld": {
+        "cols": 6,
+        "rows": 6,
+        "start": [
+          1,
+          1
+        ],
+        "blick": "N",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "maxBloecke": 5,
+      "kleinsteLoesung": 5,
+      "ziel": {
+        "typ": "besucht",
+        "felder": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            5
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            6,
+            6
+          ]
+        ],
+        "nurDiese": true,
+        "endfeld": [
+          6,
+          6
+        ]
+      },
+      "hinweis": "Eine Stufe besteht aus vier Schritten. Wie oft kommt sie vor?",
+      "frage": {
+        "text": "Was ändert sich am Struktogramm, wenn die Treppe 50 statt 5 Stufen hat?",
+        "antworten": [
+          "Es braucht zehnmal mehr Bausteine.",
+          "Man braucht zusätzlich eine Verzweigung.",
+          "Nur die Zahl im Kopf der Wiederholung."
+        ],
+        "richtig": "ae7a13bf",
+        "erklaerung": "Genau wie bei den 120 Flaschen im Dossier: Die kurze Fassung ändert nur eine Zahl."
+      }
+    },
+    {
+      "id": "alg-hindernis",
+      "titel": "3 · Hindernisse umgehen",
+      "stufe": "Verzweigung",
+      "abschnitt": "bausteine",
+      "text": "Das ist Aufgabe 5 aus dem Dossier. Wiederholen Sie 10-mal: Ist das Feld vorne frei, geht der Käfer vorwärts, sonst dreht er sich nach rechts. Endet er dort, wo Sie es im Dossier vorausgesagt haben? Höchstens 4 Bausteine.",
+      "denkfigur": "In jedem Durchlauf entscheidet die Verzweigung neu: vorwärts, wenn frei, sonst drehen.",
+      "feld": {
+        "cols": 5,
+        "rows": 5,
+        "start": [
+          1,
+          1
+        ],
+        "blick": "N",
+        "hindernisse": [
+          [
+            1,
+            4
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            5,
+            3
+          ]
+        ]
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": true
+      },
+      "maxBloecke": 4,
+      "kleinsteLoesung": 4,
+      "ziel": {
+        "typ": "endfeld",
+        "feld": [
+          3,
+          2
+        ]
+      },
+      "hinweis": "Die Verzweigung gehört in die Wiederholung.",
+      "frage": {
+        "text": "Was macht eine Verzweigung?",
+        "antworten": [
+          "Sie führt Befehle mehrmals aus.",
+          "Je nach Bedingung führt sie den einen oder den anderen Zweig aus.",
+          "Sie hält das Programm an."
+        ],
+        "richtig": "39721e88",
+        "erklaerung": "Richtig. Ist die Bedingung erfüllt, gilt der Ja-Zweig (links), sonst der Nein-Zweig (rechts)."
+      }
+    },
+    {
+      "id": "alg-wand",
+      "titel": "4 · Bis zur Wand",
+      "stufe": "Wiederholung mit Bedingung",
+      "abschnitt": "bausteine",
+      "text": "Der Käfer soll in jedem Gang bis zur Flagge an der Wand laufen. Die Gänge sind verschieden lang, das Programm ist dasselbe. Neu: «wiederhole solange Feld vorne frei». Höchstens 3 Bausteine.",
+      "denkfigur": "Die Länge des Gangs kennen Sie nicht. Die Wiederholung soll laufen, solange vorne frei ist.",
+      "layouts": [
+        {
+          "name": "Gang 1",
+          "karte": ["#######", "#S...Z#", "#######"],
+          "blick": "E"
+        },
+        {
+          "name": "Gang 2",
+          "karte": ["##########", "#S......Z#", "##########"],
+          "blick": "E"
+        },
+        {
+          "name": "Gang 3",
+          "karte": ["#####", "#S.Z#", "#####"],
+          "blick": "E"
+        }
+      ],
+      "felderWort": [
+        "Gang",
+        "Gänge",
+        "Gängen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": false
+      },
+      "maxBloecke": 3,
+      "kleinsteLoesung": 2,
+      "hinweis": "Mit «wiederhole n-mal» müssen Sie die Länge kennen. Mit «solange» nicht.",
+      "frage": {
+        "text": "Wann nimmt man «wiederhole solange …» statt «wiederhole n-mal»?",
+        "antworten": [
+          "Wenn man nicht im Voraus weiss, wie oft es nötig ist.",
+          "Wenn man genau weiss, wie oft es nötig ist.",
+          "Nur zusammen mit einer Verzweigung."
+        ],
+        "richtig": "0fab5967",
+        "erklaerung": "Genau. «Rühre, bis der Teig glatt ist» aus dem Dossier ist so eine Wiederholung mit Bedingung."
+      }
+    },
+    {
+      "id": "alg-nurrechts",
+      "titel": "5 · Nur rechts",
+      "stufe": "ausführbar",
+      "abschnitt": "ausfuehrbar",
+      "text": "Dieser Käfer kann nicht mehr links drehen. Er kennt nur noch vorwärts und rechts drehen. Bringen Sie ihn trotzdem zur Flagge.",
+      "denkfigur": "Ein Plan ist nur ausführbar, wenn er aus Befehlen besteht, die der Käfer kennt. Wie ersetzen Sie «links drehen» durch Befehle, die er hat?",
+      "feld": {
+        "cols": 5,
+        "rows": 5,
+        "start": [
+          1,
+          1
+        ],
+        "blick": "E",
+        "hindernisse": [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "maxBloecke": null,
+      "kleinsteLoesung": 6,
+      "ziel": {
+        "typ": "endfeld",
+        "feld": [
+          3,
+          4
+        ]
+      },
+      "hinweis": "Drei Vierteldrehungen nach rechts schauen in dieselbe Richtung wie eine nach links.",
+      "frage": {
+        "text": "Warum ist «links drehen» für diesen Käfer kein ausführbarer Schritt?",
+        "antworten": [
+          "Weil er dabei an die Wand stösst.",
+          "Weil er den Befehl nicht kennt. Ein Plan darf nur Befehle enthalten, die der Ausführende kennt.",
+          "Weil links drehen länger dauert als rechts drehen."
+        ],
+        "richtig": "6efe00b2",
+        "erklaerung": "Genau wie beim Roboter in Lektion 1: «Gehe zum Ziel» kannte er nicht. Unbekanntes muss man in bekannte Befehle übersetzen."
+      }
+    },
+    {
+      "id": "alg-abbiegen",
+      "titel": "6 · Biege ab",
+      "stufe": "eindeutig",
+      "abschnitt": "eindeutig",
+      "text": "Jemand beschreibt den Weg so: «Geh bis zur Mauer, dann biege ab und geh noch ein Stück.» Das reicht dem Käfer nicht. Bauen Sie den Weg zur Flagge als Struktogramm: Dabei müssen Sie festlegen, wohin und wie weit.",
+      "denkfigur": "Eine Anweisung ist eindeutig, wenn kein Spielraum bleibt. Welche Fragen lässt «biege ab und geh ein Stück» offen?",
+      "feld": {
+        "cols": 6,
+        "rows": 6,
+        "start": [
+          3,
+          1
+        ],
+        "blick": "N",
+        "hindernisse": [
+          [
+            2,
+            5
+          ],
+          [
+            3,
+            5
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "maxBloecke": null,
+      "kleinsteLoesung": 5,
+      "ziel": {
+        "typ": "endfeld",
+        "feld": [
+          1,
+          4
+        ]
+      },
+      "frage": {
+        "text": "Welche Anweisung ist eindeutig?",
+        "antworten": [
+          "«Biege ab und geh ein Stück.»",
+          "«Geh ungefähr bis zur Flagge.»",
+          "«Drehe dich nach links und geh 2 Felder vorwärts.»"
+        ],
+        "richtig": "ecf43662",
+        "erklaerung": "Richtig. Nur hier sind Richtung und Länge festgelegt. In einem Struktogramm ist das immer so: Jeder Baustein sagt genau, was geschieht."
+      }
+    },
+    {
+      "id": "alg-raeume",
+      "titel": "7 · Drei Räume",
+      "stufe": "allgemein",
+      "abschnitt": "allgemein",
+      "text": "Eingabe: ein Raum mit dem Käfer. Verarbeitung: Ihr Programm. Ausgabe: der Käfer in der Ecke oben rechts. Ein einziges Programm soll in allen drei Räumen funktionieren. Höchstens 7 Bausteine.",
+      "denkfigur": "Ein Programm für alle Räume: Es darf keine Längen enthalten, die nur in einem Raum stimmen.",
+      "layouts": [
+        {
+          "name": "Raum 1",
+          "karte": ["#######", "#....Z#", "#.....#", "#.S...#", "#.....#", "#######"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 2",
+          "karte": ["##########", "#.......Z#", "#........#", "#........#", "#........#", "#........#", "#..S.....#", "##########"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 3",
+          "karte": ["#####", "#..Z#", "#...#", "#...#", "#.S.#", "#...#", "#...#", "#...#", "#####"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Raum",
+        "Räume",
+        "Räumen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei"
+        ]
+      },
+      "maxBloecke": 7,
+      "kleinsteLoesung": 4,
+      "hinweis": "Zerlegen Sie den Weg: zuerst bis zur oberen Wand, dann bis zur rechten.",
+      "frage": {
+        "text": "Was heisst «allgemein»?",
+        "antworten": [
+          "Jeder Schritt ist genau festgelegt.",
+          "Der Algorithmus hat möglichst wenige Schritte.",
+          "Der Algorithmus löst alle Aufgaben derselben Art, nicht nur einen Einzelfall."
+        ],
+        "richtig": "ab41f65e",
+        "erklaerung": "Richtig. Wer nur «7 + 4» rechnen kann, kann noch nicht addieren. Die erste Antwort beschreibt «eindeutig»."
+      }
+    },
+    {
+      "id": "alg-treppen",
+      "titel": "★ Treppen jeder Grösse",
+      "stufe": "Zusatz · allgemein",
+      "abschnitt": "allgemein",
+      "zusatz": true,
+      "text": "Der Käfer steigt die Treppe hinauf bis zur Flagge. Die Stufen sind verschieden hoch und breit. Alle Bausteine, kein Limit.",
+      "denkfigur": "Die Treppen sind verschieden hoch und breit. Was ist bei jeder Stufe gleich?",
+      "layouts": [
+        {
+          "name": "Treppe 1",
+          "karte": ["######", "###.Z#", "##..##", "#..###", "#S####", "######"],
+          "blick": "N"
+        },
+        {
+          "name": "Treppe 2",
+          "karte": ["###########", "#######..Z#", "#####...###", "###...#####", "#...#######", "#S#########", "###########"],
+          "blick": "N"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Treppe 3",
+          "karte": ["#####", "##.Z#", "##.##", "##.##", "#..##", "#.###", "#.###", "#S###", "#####"],
+          "blick": "N"
+        },
+        {
+          "name": "Treppe 4",
+          "karte": ["##################", "#############...Z#", "#############.####", "##########....####", "##########.#######", "#######....#######", "#######.##########", "####....##########", "####.#############", "#....#############", "#.################", "#S################", "##################"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Treppe",
+        "Treppen",
+        "Treppen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "bis": true,
+        "solange": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ]
+      },
+      "maxBloecke": null,
+      "frage": {
+        "text": "Ihr Programm steigt jede dieser Treppen hinauf. Welche Anforderung zeigt das vor allem?",
+        "antworten": [
+          "ausführbar",
+          "allgemein",
+          "eindeutig"
+        ],
+        "richtig": "009e5486",
+        "erklaerung": "Genau: Es löst nicht nur eine Treppe, sondern alle Treppen dieser Art."
+      }
+    },
+    {
+      "id": "alg-endlos",
+      "titel": "8 · Hört nie auf",
+      "stufe": "endlich",
+      "abschnitt": "endlich",
+      "text": "Der Käfer soll bis zur Flagge an der Wand laufen. Dieses Programm hört aber nie auf. Starten Sie es und lesen Sie die Meldung. Ändern Sie so wenig wie möglich, damit es endet.",
+      "denkfigur": "Eine Wiederholung muss irgendwann aufhören. Was im Rumpf bringt den Käfer der Wand näher, was bringt ihn zurück?",
+      "feld": {
+        "cols": 6,
+        "rows": 3,
+        "start": [
+          1,
+          2
+        ],
+        "blick": "E",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": false,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": false
+      },
+      "startprogramm": [
+        {
+          "t": "while",
+          "cond": "frei",
+          "body": [
+            {
+              "t": "act",
+              "cmd": "vor"
+            },
+            {
+              "t": "act",
+              "cmd": "links"
+            },
+            {
+              "t": "act",
+              "cmd": "links"
+            },
+            {
+              "t": "act",
+              "cmd": "vor"
+            },
+            {
+              "t": "act",
+              "cmd": "links"
+            },
+            {
+              "t": "act",
+              "cmd": "links"
+            }
+          ]
+        }
+      ],
+      "maxBloecke": null,
+      "ziel": {
+        "typ": "endfeld",
+        "feld": [
+          6,
+          2
+        ]
+      },
+      "hinweis": "Eine Wiederholung mit Bedingung endet nur, wenn sich im Rumpf etwas ändert, das die Bedingung irgendwann falsch macht.",
+      "frage": {
+        "text": "Wann endet «wiederhole solange Feld vorne frei»?",
+        "antworten": [
+          "Nach höchstens zehn Durchläufen.",
+          "Sobald das Feld vorne nicht mehr frei ist. Dazu muss der Rumpf den Käfer der Wand näher bringen.",
+          "Sobald sich der Käfer dreht."
+        ],
+        "richtig": "69554b07",
+        "erklaerung": "Richtig. Ändert der Rumpf nichts an der Bedingung, läuft die Wiederholung endlos. Ein Algorithmus muss aber endlich sein."
+      }
+    },
+    {
+      "id": "alg-zaehler",
+      "titel": "★ Gleich weit",
+      "stufe": "Zusatz · endlich",
+      "abschnitt": "endlich",
+      "zusatz": true,
+      "text": "Der Käfer läuft nach oben bis zur Wand und zählt dabei seine Schritte. Dann dreht er nach rechts und geht genau gleich viele Schritte weiter. Dort steht die Flagge. Der Zähler ist sein Merkzettel, wie z im Dossier.",
+      "denkfigur": "Damit «solange Zähler ≠ 0» endet, muss der Zähler in jedem Durchlauf kleiner werden.",
+      "layouts": [
+        {
+          "name": "Raum 1",
+          "karte": ["#########", "#....Z..#", "#.......#", "#.......#", "#.S.....#", "#########"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 2",
+          "karte": ["##########", "#.....Z..#", "#........#", "#........#", "#........#", "#........#", "#S.......#", "##########"],
+          "blick": "N"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Raum 3",
+          "karte": ["###########", "#.....Z...#", "#.........#", "#...S.....#", "###########"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 4",
+          "karte": ["############", "#.......Z..#", "#..........#", "#..........#", "#..........#", "#..........#", "#..........#", "#..........#", "#S.........#", "############"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Raum",
+        "Räume",
+        "Räumen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links",
+          "zaehlerPlus",
+          "zaehlerMinus"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei",
+          "zaehlerNichtNull"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "zaehlerIstNull"
+        ]
+      },
+      "maxBloecke": 9,
+      "kleinsteLoesung": 7,
+      "hinweis": "Beim Hinaufgehen: Zähler + 1. Beim Weitergehen: Zähler − 1, solange er nicht 0 ist.",
+      "frage": {
+        "text": "Warum endet «solange Zähler ≠ 0: vorwärts, Zähler − 1»?",
+        "antworten": [
+          "Weil der Zähler in jedem Durchlauf kleiner wird und irgendwann 0 ist.",
+          "Weil der Käfer an die Wand stösst.",
+          "Weil der Zähler am Anfang 0 ist."
+        ],
+        "richtig": "dea3f0d4",
+        "erklaerung": "Genau. Jeder Durchlauf bringt den Zähler einen Schritt näher an 0, darum ist die Wiederholung endlich."
+      }
+    },
+    {
+      "id": "alg-fehler",
+      "titel": "9 · Den Fehler finden",
+      "stufe": "Testen",
+      "abschnitt": "korrekt",
+      "text": "Dieses Struktogramm sollte das Quadrat aus Aufgabe 2 ablaufen, tut es aber nicht. Starten Sie es, beobachten Sie den Käfer, und beheben Sie den Fehler.",
+      "denkfigur": "Testen: Starten Sie das Programm, beobachten Sie den Käfer und vergleichen Sie mit dem Ziel. Wo weicht er ab?",
+      "feld": {
+        "cols": 7,
+        "rows": 7,
+        "start": [
+          2,
+          2
+        ],
+        "blick": "N",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "startprogramm": [
+        {
+          "t": "loop",
+          "n": 3,
+          "body": [
+            {
+              "t": "act",
+              "cmd": "vor"
+            },
+            {
+              "t": "act",
+              "cmd": "vor"
+            },
+            {
+              "t": "act",
+              "cmd": "rechts"
+            }
+          ]
+        }
+      ],
+      "maxBloecke": 4,
+      "kleinsteLoesung": 4,
+      "ziel": {
+        "typ": "besucht",
+        "felder": [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "nurDiese": true,
+        "endfeld": [
+          2,
+          2
+        ]
+      },
+      "hinweis": "Wo hört der Käfer zu früh auf?",
+      "frage": {
+        "text": "Wie finden Sie einen Fehler in einem Programm am besten?",
+        "antworten": [
+          "Möglichst viele Bausteine hinzufügen.",
+          "Das Programm laufen lassen, beobachten und mit dem Ziel vergleichen.",
+          "Alles löschen und neu beginnen."
+        ],
+        "richtig": "a8aa6674",
+        "erklaerung": "Richtig. Testen und Beobachten zeigt, wo das Programm vom Ziel abweicht. Dort liegt der Fehler."
+      }
+    },
+    {
+      "id": "alg-unbekannt",
+      "titel": "10 · Räume, die Sie nicht sehen",
+      "stufe": "korrekt",
+      "abschnitt": "korrekt",
+      "text": "Jetzt soll der Käfer in die Ecke oben links. Sie sehen zwei Räume, geprüft wird in sechs. Ein korrekter Algorithmus funktioniert für alle Eingaben, nicht nur für die, die man kennt. Höchstens 8 Bausteine.",
+      "denkfigur": "Korrekt heisst: für alle zulässigen Eingaben. Denken Sie an Sonderfälle: ein sehr grosser Raum, der Käfer schon an der Wand, ein ganz schmaler Raum.",
+      "layouts": [
+        {
+          "name": "Raum 1",
+          "karte": ["########", "#Z.....#", "#......#", "#......#", "#..S...#", "#......#", "########"],
+          "blick": "E"
+        },
+        {
+          "name": "Raum 2",
+          "karte": ["######", "#Z...#", "#....#", "#....#", "#.S..#", "#....#", "#....#", "######"],
+          "blick": "E"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Grosser Raum",
+          "karte": ["#####################", "#Z..................#", "#...................#", "#...................#", "#...................#", "#...................#", "#...................#", "#...................#", "#...........S.......#", "#...................#", "#...................#", "#...................#", "#####################"],
+          "blick": "E"
+        },
+        {
+          "name": "Start oben",
+          "karte": ["#######", "#Z.S..#", "#.....#", "#.....#", "#.....#", "#######"],
+          "blick": "E"
+        },
+        {
+          "name": "Start links",
+          "karte": ["########", "#Z.....#", "#......#", "#S.....#", "########"],
+          "blick": "E"
+        },
+        {
+          "name": "Schmal",
+          "karte": ["###", "#Z#", "#.#", "#.#", "#S#", "#.#", "###"],
+          "blick": "E"
+        }
+      ],
+      "felderWort": [
+        "Raum",
+        "Räume",
+        "Räumen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei"
+        ]
+      },
+      "maxBloecke": 8,
+      "kleinsteLoesung": 4,
+      "hinweis": "Was ist, wenn der Raum viel grösser ist? Was, wenn der Käfer schon an der Wand steht?",
+      "frage": {
+        "text": "Wann ist ein Algorithmus korrekt?",
+        "antworten": [
+          "Wenn er für alle zulässigen Eingaben das richtige Ergebnis liefert.",
+          "Wenn er bei einem Beispiel funktioniert.",
+          "Wenn er möglichst wenige Bausteine hat."
+        ],
+        "richtig": "7fde0e2d",
+        "erklaerung": "Genau. Ein gelungenes Beispiel zeigt nur, dass dieses eine klappt. Sonderfälle finden die meisten Fehler."
+      }
+    },
+    {
+      "id": "alg-saeulen",
+      "titel": "★ Räume mit Säulen",
+      "stufe": "Zusatz · korrekt",
+      "abschnitt": "korrekt",
+      "zusatz": true,
+      "text": "Der Käfer soll in die Ecke oben rechts. Im Raum stehen Säulen. Alle Bausteine, kein Limit, kein Tipp.",
+      "denkfigur": "Probieren Sie Ihre Idee zuerst in Gedanken an einer Stelle aus, an der zwei Säulen nah beieinander stehen.",
+      "layouts": [
+        {
+          "name": "Raum 1",
+          "karte": ["########", "#.....Z#", "#......#", "##...#.#", "#......#", "##S..#.#", "########"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 2",
+          "karte": ["##########", "#.......Z#", "#..#.#...#", "#.#......#", "#........#", "#.......##", "#.#S.#.#.#", "##########"],
+          "blick": "N"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Raum 3",
+          "karte": ["############", "#.........Z#", "#..#..#..#.#", "#........#.#", "#..#....##.#", "#.#.......##", "#.........##", "#S......##.#", "############"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 4",
+          "karte": ["#######", "#....Z#", "#..#..#", "#.....#", "#.#...#", "#.....#", "#.....#", "#.#.#.#", "#.....#", "#...S.#", "#######"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Raum",
+        "Räume",
+        "Räumen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "bis": true,
+        "solange": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ]
+      },
+      "maxBloecke": null,
+      "frage": {
+        "text": "Ihr Programm schafft alle Räume mit Säulen. Wie könnten Sie es noch härter prüfen?",
+        "antworten": [
+          "Gar nicht, es ist sicher korrekt.",
+          "Es schneller laufen lassen.",
+          "Räume ausdenken, in denen es scheitern könnte, zum Beispiel mit zwei Säulen nebeneinander."
+        ],
+        "richtig": "b8b2a6c8",
+        "erklaerung": "Richtig. Prüfen heisst, gezielt nach Fällen zu suchen, in denen der Algorithmus scheitern könnte."
+      }
+    }
+  ]
+}

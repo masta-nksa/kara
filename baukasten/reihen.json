@@ -8,6 +8,45 @@
       "dateien": ["aufgaben/grundlagen.json"]
     },
     {
+      "id": "algorithmen",
+      "titel": "Algorithmen",
+      "untertitel": "Bausteine, Struktogramme und die fünf Anforderungen: ausführbar, eindeutig, allgemein, endlich, korrekt",
+      "dateien": ["aufgaben/algorithmen.json"],
+      "abschnitteTitel": "Die Bausteine und die fünf Anforderungen an einen Algorithmus",
+      "kastenTitel": "Worauf es hier ankommt",
+      "abschnitte": [
+        { "id": "bausteine", "titel": "Bausteine", "etikett": "Baustein",
+          "text": "Jeder Algorithmus besteht aus drei Bausteinen: Sequenz (Schritte nacheinander), Verzweigung (je nach Bedingung der eine oder der andere Weg) und Wiederholung (n-mal oder solange eine Bedingung gilt)." },
+        { "id": "ausfuehrbar", "titel": "Ausführbar", "etikett": "Anforderung: ausführbar",
+          "text": "Der Ausführende kann jeden Schritt ausführen. Ein Plan darf nur Befehle enthalten, die er kennt." },
+        { "id": "eindeutig", "titel": "Eindeutig", "etikett": "Anforderung: eindeutig",
+          "text": "Jeder Schritt und die Reihenfolge sind genau festgelegt, auch bei Verzweigungen und Wiederholungen. Es bleibt kein Spielraum wie «wie weit?» oder «wohin?»." },
+        { "id": "allgemein", "titel": "Allgemein", "etikett": "Anforderung: allgemein",
+          "text": "Der Algorithmus löst nicht nur einen Einzelfall, sondern alle Aufgaben derselben Art." },
+        { "id": "endlich", "titel": "Endlich", "etikett": "Anforderung: endlich",
+          "text": "Der Algorithmus kommt nach endlich vielen Schritten zu einem Ende. Jede Wiederholung muss irgendwann aufhören." },
+        { "id": "korrekt", "titel": "Korrekt", "etikett": "Anforderung: korrekt",
+          "text": "Der Algorithmus liefert für alle zulässigen Eingaben das richtige Ergebnis. Tests mit Beispielen und Sonderfällen helfen, Fehler zu finden." }
+      ]
+    },
+    {
+      "id": "ct",
+      "titel": "Computational Thinking",
+      "untertitel": "Der Käfer als Rasenmäher: zerlegen, Muster erkennen, abstrahieren, Algorithmus entwerfen",
+      "dateien": ["aufgaben/ct.json"],
+      "abschnitteTitel": "Die vier Denkfiguren des Computational Thinking",
+      "abschnitte": [
+        { "id": "zerlegen", "titel": "Zerlegen",
+          "text": "Ein grosses Problem in kleinere Teilprobleme aufteilen, die man einzeln lösen kann. Oft hilft es, zuerst eine einfachere Version zu lösen." },
+        { "id": "muster", "titel": "Muster erkennen",
+          "text": "Gleiches erkennen, das sich wiederholt. Dieselben Schritte lassen sich dann mehrmals verwenden, im Struktogramm mit einer Wiederholung." },
+        { "id": "abstrahieren", "titel": "Abstrahieren",
+          "text": "Unwichtige Einzelheiten weglassen und nur das Wesentliche behalten. So passt eine Lösung für viele Fälle, zum Beispiel «bis zur Wand» statt «4 Felder»." },
+        { "id": "entwerfen", "titel": "Algorithmus entwerfen",
+          "text": "Die Lösung in eindeutige Schritte mit fester Reihenfolge fassen und prüfen: Stimmt das Ergebnis immer? Sind alle Fälle bedacht, auch Sonderfälle?" }
+      ]
+    },
+    {
       "id": "labyrinth",
       "titel": "Labyrinth",
       "untertitel": "Von geradeaus über Kreuzungen bis zum Programm, das in jedem Labyrinth den Ausgang findet",

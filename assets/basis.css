@@ -82,3 +82,21 @@ h1{
 .oops code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.85em}
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+
+/* Fortschritts-Blumen (assets/blume.js) */
+:root{--blume0:#d9603b;--blume1:#c99a12;--blume2:#3f9a68;--blume3:#3f78c4;--blume4:#9a5cc0;--blume5:#1f9aa8}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--blume0:#f08a66;--blume1:#e8c25a;--blume2:#6fcf98;--blume3:#7fa9ec;--blume4:#c79be6;--blume5:#5fcfda}
+}
+:root[data-theme="dark"]{--blume0:#f08a66;--blume1:#e8c25a;--blume2:#6fcf98;--blume3:#7fa9ec;--blume4:#c79be6;--blume5:#5fcfda}
+.kb-farbe0{--blume:var(--blume0)}.kb-farbe1{--blume:var(--blume1)}
+.kb-farbe2{--blume:var(--blume2)}.kb-farbe3{--blume:var(--blume3)}
+.kb-farbe4{--blume:var(--blume4)}.kb-farbe5{--blume:var(--blume5)}
+.kb-blume{flex:none;overflow:visible}
+.kb-blatt{fill:var(--surface);stroke:var(--blume);stroke-width:3}
+.kb-blatt.zusatz{stroke-dasharray:5 4}
+.kb-blatt.voll{fill:var(--blume)}
+.kb-blatt.zusatz.voll{stroke-dasharray:none;opacity:.8}
+.kb-mitte{fill:var(--surface);stroke:var(--ink-soft);stroke-width:3}
+.kb-mitte.voll{fill:var(--blume);stroke:var(--ink)}
+@media (prefers-reduced-motion: no-preference){.kb-blatt{transition:fill .3s}}

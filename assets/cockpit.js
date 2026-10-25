@@ -28,6 +28,34 @@
     } catch (e) { return {}; }
   }
 
+  // Richtig beantwortete Konzeptfragen (Baukasten): {aufgabenId: 1}
+  function beantwortet() {
+    try {
+      var d = JSON.parse(localStorage.getItem("kara.baukasten.fragen.v1") || "{}");
+      return d && typeof d === "object" && !Array.isArray(d) ? d : {};
+    } catch (e) { return {}; }
+  }
+
+  // Je Abschnitt (z. B. Denkfigur) eine Blume: gelöste Aufgaben und beantwortete Fragen sind Blätter.
+  function blumen(r, aufgaben, fertig, fragen) {
+    var box = el("div", "ck-blumen");
+    r.abschnitte.forEach(function (x, k) {
+      var pflicht = [], zusatz = [];
+      aufgaben.forEach(function (a) {
+        if (a.abschnitt !== x.id) return;
+        var l = a.zusatz ? zusatz : pflicht;
+        l.push(!!fertig[a.id]);
+        if (a.frage) l.push(!!fragen[a.id]);
+      });
+      var n = pflicht.filter(Boolean).length;
+      var f = el("figure", "ck-blume kb-farbe" + (k % 6));
+      f.append(window.KaraBlume.blume(pflicht, zusatz, k, 44), el("figcaption", null, x.titel));
+      f.setAttribute("aria-label", x.titel + ": " + n + " von " + pflicht.length + " erledigt");
+      box.append(f);
+    });
+    return box;
+  }
+
   function holeJson(datei) {
     return fetch(datei, { cache: "no-cache" })
       .then(function (r) { if (!r.ok) throw new Error(datei + ": HTTP " + r.status); return r.json(); });
@@ -61,6 +89,7 @@
     balken.append(fuell);
     stand.append(balken, el("span", "ck-zahl", n + " von " + aufgaben.length + " gelöst"));
     li.append(stand);
+    if (Array.isArray(r.abschnitte) && r.abschnitte.length && window.KaraBlume) li.append(blumen(r, aufgaben, fertig, beantwortet()));
     requestAnimationFrame(function () { fuell.style.width = (aufgaben.length ? 100 * n / aufgaben.length : 0) + "%"; });
 
     var ul = el("ul", "ck-aufgaben");

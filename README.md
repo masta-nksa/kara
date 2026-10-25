@@ -1,8 +1,8 @@
 # Kara – Käfer programmieren
 
 Den Käfer mit Struktogramm-Bausteinen programmieren: kurze Aufgaben auf freiem Feld,
-dann Labyrinthe, Inseln und eigene Challenges. Reines HTML/CSS/JS ohne Build-Schritt und
-ohne Bibliotheken. Fortschritt, Programme und Challenges bleiben im Browser; gesendet werden
+Algorithmen und Computational Thinking, dann Labyrinthe, Inseln und eigene Challenges.
+Reines HTML/CSS/JS ohne Build-Schritt und ohne Bibliotheken. Fortschritt, Programme und Challenges bleiben im Browser; gesendet werden
 nur anonyme Seitenaufrufe an GoatCounter (siehe «Nutzungsstatistik»).
 
 **Live:** <https://masta-nksa.github.io/kara/>
@@ -15,6 +15,7 @@ Hervorgegangen aus dem Struktogramm-Baukasten in
 ```
 index.html                Cockpit: Übersicht der Reihen mit Fortschritt
 assets/                   basis.css (Farben Hell/Dunkel, Schrift), cockpit.css/.js, favicon.svg,
+                          blume.js (Fortschritt je Abschnitt als Blume),
                           challenges.js (eigene Challenges: prüfen, Link, Speicher)
 editor/                   Labyrinth-Editor für eigene Challenges
 baukasten/                der Baukasten
@@ -45,6 +46,16 @@ Eine Reihe kann mehrere Aufgaben-Dateien zusammenfassen (`dateien`). So lassen s
 umordnen oder zusammenlegen, ohne die Aufgaben anzufassen. Aufgaben-IDs müssen über alle
 Reihen eindeutig sein (der Fortschritt hängt an der ID).
 
+Mit `abschnitte` (Liste von `{id, titel, text}`, optional `etikett` wie «Anforderung: allgemein»;
+Standard «Denkfigur: …»), `abschnitteTitel` und optional `kastenTitel` (Titel des Kastens zur
+Aufgabe; Standard «So hilft «…» hier») gliedert sich eine Reihe
+in Abschnitte, z. B. die vier Denkfiguren des Computational Thinking. Der Baukasten zeigt dann
+statt der Aufgabenleiste einen Lernpfad: oben aufklappbar die Erklärungen (offen, solange in der
+Reihe noch nichts gelöst ist), darunter je Abschnitt eine Spalte mit Blume, Stand und Aufgaben.
+Jede gelöste Aufgabe und jede richtig beantwortete Konzeptfrage öffnet ein Blütenblatt;
+Zusatzaufgaben geben kleinere, gestrichelte Blätter. Sind alle Pflichtblätter offen, füllt sich
+die Mitte. Das Cockpit zeigt die Blumen ebenfalls.
+
 ## Aufgaben (`baukasten/aufgaben/*.json`)
 
 - Jede Aufgabe: Feld, Palette, Bausteinlimit, Ziel. **Keine Lösungen.**
@@ -52,8 +63,12 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
   (`feld.karte`, oberste Zeile zuerst: `#` Mauer, `.` Weg, `S` Start, `Z` Ziel).
 - Palette: `befehle` (`vor`, `rechts`, `links`, dazu für den Zähler `zaehlerPlus`,
   `zaehlerMinus`, `zaehlerNull`), `wiederholung` (n-mal), `bis: true` («wiederhole bis Ziel»),
-  `verzweigung` mit `bedingungen` (`frei`, `freiLinks`, `freiRechts`, `zaehlerIstNull`),
-  `sonst: false` blendet den Sonst-Zweig aus.
+  `solange` mit einer Liste von Bedingungen («wiederhole solange Feld vorne frei», je Bedingung ein
+  Baustein), `verzweigung` mit `bedingungen` (`frei`, `freiLinks`, `freiRechts`, `zaehlerIstNull`,
+  `zaehlerNichtNull`), `sonst: false` blendet den Sonst-Zweig aus.
+- «wiederhole solange …» prüft die Bedingung vor jedem Durchlauf. Steht der Käfer zu Beginn eines
+  Durchlaufs wieder gleich da (Ort, Blick, Zähler) und gilt die Bedingung noch, endet die Schleife
+  nie: Der Lauf bricht mit «Die Wiederholung endet nie» ab.
 - Zähler: eine ganze Zahl, beim Start 0. Sobald eine Aufgabe Zähler-Bausteine anbietet, zeigt
   das Käfer-Feld den aktuellen Wert an.
 - `maxTiefe` (Standard 3): wie viele Ebenen Wiederholungen und Verzweigungen ineinander
@@ -65,9 +80,20 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
   Inseln mit `startInnen: true` (nutzen Level 11 und der Editor). Gelöst ist die Aufgabe
   erst, wenn der Käfer in allen den Ausgang findet. Gescheiterte verdeckte und zufällige
   Labyrinthe werden danach als Reiter sichtbar. «Alle prüfen» prüft ohne Animation.
+- Für Reihen mit Abschnitten: `abschnitt` (id des Abschnitts; Etikett über der Aufgabe),
+  `zusatz: true` (★, gestrichelt, zählt nicht als Pflicht; «Nächste Aufgabe» überspringt sie),
+  `denkfigur` (Kasten «So hilft … hier» unter dem Aufgabentext) und `frage`:
+  `{text, antworten: [...], richtig, erklaerung}`. `richtig` ist ein Schlüssel aus
+  `frageSchluessel(id, Nummer)` (engine.js), keine Klartext-Antwort. Eine falsche Wahl zeigt
+  die Erklärung des Abschnitts, eine richtige die `erklaerung`.
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
 - `kleinsteLoesung`: Anzahl Bausteine der kleinsten bekannten Lösung; erscheint erst nach dem
   Lösen. Die Bausteinlimits lassen bewusst auch weniger kompakte Lösungen zu.
+- Ziel `{"typ": "alleWege"}`: Der Käfer muss jedes Feld ohne Mauer befahren (Rasenmäher). Gilt
+  auch für `layouts` und `verdeckt`; die Karten brauchen dann kein `Z`.
+- `felderWort`: Wie die Felder einer Aufgabe mit mehreren Karten heissen, als Einzahl, Mehrzahl
+  und Mehrzahl im Dativ, z. B. `["Garten", "Gärten", "Gärten"]` («Der Käfer schafft 2 von 3
+  Gärten»). Ohne Angabe: Labyrinth.
 - «wiederhole bis Ziel» erkennt, wenn der Käfer im Kreis läuft (gleicher Ort, gleiche
   Blickrichtung zu Beginn eines Durchlaufs), und bricht dann sofort ab.
 - Nebel (Schalter direkt unter «Käfer-Feld»): Ist er eingeschaltet, sind nur der Käfer, seine vier
@@ -101,6 +127,27 @@ Die Reihe «Inseln und Pledge» (`aufgaben/inseln.json`) hat eigene Labyrinthe m
 Hände scheitern; kein Programm mit bis zu 6 Bausteinen löst es) und «Jedes Labyrinth mit
 Inseln» (Pledge-Algorithmus; in den gezeigten und verdeckten Labyrinthen scheitern die
 Handregeln jeweils mindestens einmal, dazu zehn Zufallslabyrinthe mit Inseln).
+
+Die Reihen «Algorithmen» (`aufgaben/algorithmen.json`) und «Computational Thinking»
+(`aufgaben/ct.json`) begleiten zwei Papier-Dossiers: Zuerst wird eine Lektion lang auf Papier
+gearbeitet, in der nächsten Lektion folgen dieselben Felder in Kara. «Algorithmen» ist in die
+Bausteine und die fünf Anforderungen gegliedert (`abschnitte`): Bausteine (Zum Ziel, Das Quadrat,
+Hindernisse umgehen, Bis zur Wand, ★ Die Treppe; Kopien der Grundlagen mit eigenen IDs `alg-…`,
+die Reihe «Käfer-Grundlagen» bleibt unverändert, weil sie auch in einem anderen Fach genutzt
+wird), ausführbar («Nur rechts»: ohne «links drehen»), eindeutig («Biege ab»: eine vage
+Wegbeschreibung festlegen), allgemein («Drei Räume», ★ Treppen jeder Grösse), endlich («Hört nie
+auf», ★ Gleich weit) und korrekt («Den Fehler finden», «Räume, die Sie nicht sehen» mit
+verdeckten Sonderfällen, ★ Räume mit Säulen).
+
+«Computational Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`) und ist nach den vier
+Denkfiguren gegliedert (`abschnitte`): Zerlegen (kleiner Rasen, zwei Rasenstücke), Muster
+erkennen (Bahn und Wende, um den Teich), Abstrahieren (drei Gärten, Mähen im Nebel, ★ Teiche
+jeder Grösse) und Algorithmus entwerfen (unbekannte Gärten mit Sonderfällen, ★ krumme Gärten,
+★ irgendwo im Garten).
+
+In beiden Reihen nennt jede Aufgabe ihren Abschnitt, sagt in einem Kasten, worauf es ankommt,
+und hat eine Konzeptfrage. Die Zusatzaufgaben werden immer offener: zuletzt alle Bausteine, kein
+Limit, kein Tipp.
 
 ## Abschluss und eigene Challenges
 
@@ -152,6 +199,7 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | `kara.baukasten.prog.v1` | Stand der Bausteine je Aufgabe; «Alles löschen» leert ihn |
 | `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
 | `kara.baukasten.nebel.v2` | Nebel ein/aus, je Aufgabe (nur wenn selbst umgeschaltet) |
+| `kara.baukasten.fragen.v1` | richtig beantwortete Konzeptfragen (`{aufgabenId: 1}`) |
 | `kara.challenges.v1` | eigene und übernommene Challenges |
 | `kara.editor.entwurf.v1` | Entwurf im Editor |
 | `kara.zaehler.aus` | Statistik für diesen Browser abgeschaltet (`?zaehler=aus`) |

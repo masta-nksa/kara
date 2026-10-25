@@ -25,10 +25,23 @@
   <div class="bk-reihen" id="reihen" role="group" aria-label="Aufgabenreihe"></div>
 
   <nav class="bk-aufgaben" aria-label="Aufgaben"><ol id="aufgabenListe"></ol></nav>
+  <nav class="bk-lernpfad" id="lernpfad" aria-label="Aufgaben nach Abschnitten" hidden></nav>
 
   <section class="bk-aufgabe" aria-labelledby="aufgabeTitel">
+    <div class="bk-etiketten" id="etiketten" hidden></div>
     <h2 id="aufgabeTitel"></h2>
     <p id="aufgabeText"></p>
+    <div class="bk-denkfigur" id="denkfigurBox" hidden>
+      <p class="bk-denkfigur-titel" id="denkfigurTitel"></p>
+      <p id="denkfigurText"></p>
+    </div>
+    <fieldset class="bk-frage" id="frageBox" hidden>
+      <legend>Konzeptfrage</legend>
+      <p class="bk-frage-text" id="frageText"></p>
+      <div class="bk-frage-antworten" id="frageAntworten"></div>
+      <button type="button" class="bk-knopf" id="knopfFrage">Antwort prüfen</button>
+      <p class="bk-frage-rueck" id="frageRueck" role="status" aria-live="polite" hidden></p>
+    </fieldset>
     <details class="bk-hinweis" id="hinweisBox">
       <summary>Hinweis anzeigen</summary>
       <div id="hinweisListe"></div>
@@ -158,6 +171,7 @@
 <script src="engine.js"></script>
 <script src="../assets/challenges.js"></script>
 <script src="figur.js"></script>
+<script src="../assets/blume.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

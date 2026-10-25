@@ -7,6 +7,7 @@
      {t:"act",  cmd:"vor"|"rechts"|"links"}
      {t:"loop", n:1..99, body:[...]}
      {t:"until", body:[...]}                   wiederhole bis das Zielfeld erreicht ist
+     {t:"while", cond:..., body:[...]}         wiederhole solange die Bedingung gilt
      {t:"if",   cond:"frei"|"freiLinks"|"freiRechts", yes:[...], no:[...], sonst?:false}
        sonst:false = Verzweigung ohne Sonst-Zweig («no» bleibt leer)
 
@@ -37,6 +38,7 @@
     limit: "Das Programm läuft zu lange (mehr als " + SCHRITTLIMIT + " Schritte) und wurde angehalten.",
     leer: "Das Struktogramm ist leer. Ziehen Sie zuerst Bausteine hinein.",
     unbekannt: "Das Programm enthält einen unbekannten Baustein.",
+    endlos: "Die Wiederholung endet nie: Zu Beginn eines Durchlaufs steht der Käfer wieder am gleichen Ort, schaut in die gleiche Richtung, und die Bedingung gilt immer noch.",
     kreis: "Der Käfer läuft im Kreis: Er steht wieder am gleichen Ort, schaut in die gleiche Richtung und hat das Ziel nicht erreicht."
   };
 
@@ -66,11 +68,13 @@
     zaehlerNull: { label: "Zähler auf 0", kurz: "Zähler := 0", ausfuehren: function (z) { z.zaehler = 0; } }
   };
 
+  // solange: Text für «wiederhole solange …»
   var BEDINGUNGEN = {
-    frei: { label: "Feld vorne frei?", kurz: "vorne frei?", pruefen: frei },
-    freiLinks: { label: "Feld links frei?", kurz: "links frei?", pruefen: function (z, ctx) { return freiRichtung(z, ctx, LINKS[z.d]); } },
-    freiRechts: { label: "Feld rechts frei?", kurz: "rechts frei?", pruefen: function (z, ctx) { return freiRichtung(z, ctx, RECHTS[z.d]); } },
-    zaehlerIstNull: { label: "Zähler = 0?", kurz: "Zähler = 0?", pruefen: function (z) { return z.zaehler === 0; } }
+    frei: { label: "Feld vorne frei?", kurz: "vorne frei?", solange: "Feld vorne frei", pruefen: frei },
+    freiLinks: { label: "Feld links frei?", kurz: "links frei?", solange: "Feld links frei", pruefen: function (z, ctx) { return freiRichtung(z, ctx, LINKS[z.d]); } },
+    freiRechts: { label: "Feld rechts frei?", kurz: "rechts frei?", solange: "Feld rechts frei", pruefen: function (z, ctx) { return freiRichtung(z, ctx, RECHTS[z.d]); } },
+    zaehlerIstNull: { label: "Zähler = 0?", kurz: "Zähler = 0?", solange: "Zähler = 0", pruefen: function (z) { return z.zaehler === 0; } },
+    zaehlerNichtNull: { label: "Zähler ≠ 0?", kurz: "Zähler ≠ 0?", solange: "Zähler ≠ 0", pruefen: function (z) { return z.zaehler !== 0; } }
   };
 
   function gleich(a, b) { return a[0] === b[0] && a[1] === b[1]; }
@@ -111,7 +115,7 @@
     var n = 0;
     prog.forEach(function (b) {
       n += 1;
-      if (b.t === "loop" || b.t === "until") n += zaehleBausteine(b.body);
+      if (b.t === "loop" || b.t === "until" || b.t === "while") n += zaehleBausteine(b.body);
       else if (b.t === "if") n += zaehleBausteine(b.yes) + zaehleBausteine(b.no);
     });
     return n;
@@ -122,7 +126,7 @@
     var m = 0;
     liste.forEach(function (b) {
       var h = 0;
-      if (b.t === "loop" || b.t === "until") h = 1 + tiefe(b.body);
+      if (b.t === "loop" || b.t === "until" || b.t === "while") h = 1 + tiefe(b.body);
       else if (b.t === "if") h = 1 + Math.max(tiefe(b.yes), tiefe(b.no));
       if (h > m) m = h;
     });
@@ -148,6 +152,10 @@
         } else if (b.t === "until") {
           if (!Array.isArray(b.body)) fehler = "Wiederholung ohne Inhalt.";
           else pruefen(b.body);
+        } else if (b.t === "while") {
+          if (!BEDINGUNGEN[b.cond]) fehler = "Unbekannte Bedingung: " + b.cond;
+          else if (!Array.isArray(b.body)) fehler = "Wiederholung ohne Inhalt.";
+          else pruefen(b.body);
         } else if (b.t === "if") {
           if (!BEDINGUNGEN[b.cond]) fehler = "Unbekannte Bedingung: " + b.cond;
           else if (!Array.isArray(b.yes) || !Array.isArray(b.no)) fehler = "Verzweigung ohne Zweige.";
@@ -165,6 +173,7 @@
     if (typ === "act") return { t: "act", cmd: cmd };
     if (typ === "loop") return { t: "loop", n: 2, body: [] };
     if (typ === "until") return { t: "until", body: [] };
+    if (typ === "while") return { t: "while", cond: cmd || "frei", body: [] };
     var b = { t: "if", cond: cmd || "frei", yes: [], no: [] };
     if (sonst === false) b.sonst = false;
     return b;
@@ -302,6 +311,24 @@
           ereignis("until", pfad, { durchlauf: ++durchlauf });
           for (var u = 0; u < b.body.length; u++) ausfuehren(b.body[u], pfad.concat(["body", u]));
         }
+      } else if (b.t === "while") {
+        // Wie bei «bis Ziel»: Kommt zu Beginn eines Durchlaufs ein Zustand wieder, endet die Schleife nie.
+        var bedW = BEDINGUNGEN[b.cond];
+        if (!bedW) throw { code: "unbekannt" };
+        var dw = 0, gesW = {};
+        for (;;) {
+          var jaW = bedW.pruefen(z, ctx);
+          ereignis("while", pfad, { durchlauf: dw + 1, ja: jaW, cond: b.cond });
+          if (!jaW) break;
+          var zw = z.x + "," + z.y + "," + z.d + "," + z.zaehler;
+          if (gesW[zw]) {
+            ereignis("fehler", pfad, { code: "endlos" });
+            throw { code: "endlos" };
+          }
+          gesW[zw] = true;
+          dw++;
+          for (var w = 0; w < b.body.length; w++) ausfuehren(b.body[w], pfad.concat(["body", w]));
+        }
       } else if (b.t === "if") {
         var bed = BEDINGUNGEN[b.cond];
         if (!bed) throw { code: "unbekannt" };
@@ -356,9 +383,18 @@
     return { feld: { karte: karte, cols: cols, rows: rows, start: start, hindernisse: hind, blick: blick || "E" }, zielFeld: ziel };
   }
 
+  // Ziel «alleWege»: alle Felder ohne Mauer besuchen (z. B. Rasenmäher). Wird zu «besucht».
+  function alleWege(feld) {
+    var mauer = feldMenge(feld.hindernisse), l = [];
+    for (var x = 1; x <= feld.cols; x++) for (var y = 1; y <= feld.rows; y++) if (!mauer[x + "," + y]) l.push([x, y]);
+    return { typ: "besucht", felder: l, alleWege: true };
+  }
+
   // Ein Layout (Karte mit Start und Ziel) für die Prüfung vorbereiten: {name, feld, ziel, verdeckt}.
-  function layoutVorbereiten(layout, name, verdeckt, wo) {
+  // zielTyp «alleWege»: Ziel sind alle Wegfelder, die Karte braucht dann kein «Z».
+  function layoutVorbereiten(layout, name, verdeckt, wo, zielTyp) {
     var k = karteLesen(layout.karte, layout.blick, wo);
+    if (zielTyp === "alleWege") return { name: layout.name || name, feld: k.feld, ziel: alleWege(k.feld), verdeckt: !!verdeckt };
     if (!k.zielFeld) throw new Error("Karte ohne Ziel (" + wo + ").");
     return { name: layout.name || name, feld: k.feld, ziel: { typ: "endfeld", feld: k.zielFeld }, verdeckt: !!verdeckt };
   }
@@ -370,11 +406,13 @@
   //  - sonst: Feld mit cols/rows/start/hindernisse und eigenem «ziel» (unverändert).
   function vorbereiten(aufgabe) {
     var a = klonen(aufgabe);
+    var zt = a.ziel && a.ziel.typ;
     if (Array.isArray(a.layouts) && a.layouts.length) {
-      a.felder = a.layouts.map(function (l, i) { return layoutVorbereiten(l, "Layout " + (i + 1), false, a.id + ", Layout " + (i + 1)); })
-        .concat((a.verdeckt || []).map(function (l, i) { return layoutVorbereiten(l, "Verdeckt " + (i + 1), true, a.id + ", verdeckt " + (i + 1)); }));
+      a.felder = a.layouts.map(function (l, i) { return layoutVorbereiten(l, "Layout " + (i + 1), false, a.id + ", Layout " + (i + 1), zt); })
+        .concat((a.verdeckt || []).map(function (l, i) { return layoutVorbereiten(l, "Verdeckt " + (i + 1), true, a.id + ", verdeckt " + (i + 1), zt); }));
     } else if (a.feld && a.feld.karte) {
       var k = karteLesen(a.feld.karte, a.feld.blick, a.id);
+      if (zt === "alleWege") a.ziel = alleWege(k.feld);
       if (!a.ziel) {
         if (!k.zielFeld) throw new Error("Karte ohne Ziel (" + a.id + ").");
         a.ziel = { typ: "endfeld", feld: k.zielFeld };
@@ -462,6 +500,19 @@
     return { karte: m.map(function (z) { return z.join(""); }), blick: ["S", "W", "N", "E"][seiteS] };
   }
 
+  /* ---------- Konzeptfragen -------------------------------- */
+
+  // Die richtige Antwort steht nicht im Klartext in der Aufgabe, sondern als Schlüssel
+  // (FNV-1a über Aufgaben-ID und Antwortnummer). Eine Spielregel, kein Geheimnis.
+  function frageSchluessel(id, i) {
+    var s = "kara:" + id + ":" + i, h = 0x811c9dc5;
+    for (var k = 0; k < s.length; k++) { h ^= s.charCodeAt(k); h = Math.imul(h, 0x01000193) >>> 0; }
+    return ("0000000" + h.toString(16)).slice(-8);
+  }
+  function frageRichtig(aufgabe, i) {
+    return !!(aufgabe.frage && aufgabe.frage.richtig === frageSchluessel(aufgabe.id, i));
+  }
+
   function bausteineText(n, max) {
     return max == null ? "Bausteine: " + n : "Bausteine: " + n + " von höchstens " + max;
   }
@@ -509,7 +560,9 @@
     if (fehl.length) {
       if (felder.length === 1) { res.grund = fehl[0].grund; res.text = fehl[0].text; return res; }
       res.grund = "layouts";
-      res.text = "Der Käfer schafft " + (felder.length - fehl.length) + " von " + felder.length + " Labyrinthen.";
+      // felderWort: Einzahl, Mehrzahl, Mehrzahl im Dativ, z. B. ["Garten", "Gärten", "Gärten"]; Standard Labyrinth.
+      var wort = (aufgabe.felderWort || ["Labyrinth", "Labyrinthe", "Labyrinthen"])[2];
+      res.text = "Der Käfer schafft " + (felder.length - fehl.length) + " von " + felder.length + " " + wort + ".";
       return res;
     }
     res.ok = true; res.grund = "ok"; res.text = "Geschafft. Der Käfer hat die Aufgabe gelöst.";
@@ -524,7 +577,7 @@
     neuerBlock: neuerBlock, listeAt: listeAt, blockAt: blockAt, istPraefix: istPraefix,
     kannEinfuegen: kannEinfuegen, zuTief: zuTief, einfuegen: einfuegen, entfernen: entfernen, verschieben: verschieben,
     run: run, pruefe: pruefe, pruefeLayout: pruefeLayout, bausteineText: bausteineText, vorbereiten: vorbereiten,
-    zielfeld: zielfeld, karteLesen: karteLesen, layoutVorbereiten: layoutVorbereiten,
-    zufall: zufall, erzeugeLabyrinth: erzeugeLabyrinth
+    zielfeld: zielfeld, karteLesen: karteLesen, layoutVorbereiten: layoutVorbereiten, alleWege: alleWege,
+    zufall: zufall, erzeugeLabyrinth: erzeugeLabyrinth, frageSchluessel: frageSchluessel, frageRichtig: frageRichtig
   };
 });

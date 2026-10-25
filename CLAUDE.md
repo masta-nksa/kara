@@ -34,6 +34,8 @@ Diese Datei sammelt Arbeitsweise, Konventionen und den aktuellen Stand.
 - Entwicklung auf Branch `claude/great-newton-a6bhbk`, jeweils frisch von `main`
   (`git fetch origin main && git checkout -B claude/great-newton-a6bhbk FETCH_HEAD`).
 - Commit, Push, Pull Request; gemergt wird, wenn die Lehrperson es sagt.
+- Ist auf diesem Branch noch ein PR offen, neue Arbeit auf einem eigenen Branch von `main`
+  beginnen (z. B. `claude/algorithmen-ct`), sonst landet sie im offenen PR.
 - Vor grösseren Erweiterungen zuerst einen Plan vorlegen und besprechen.
 
 ## Testen
@@ -48,10 +50,15 @@ Chromium unter `/opt/pw-browsers/chromium`. Bewährt: alle Aufgaben laden, Progr
 «Alle prüfen», Editor-Link in zweitem Kontext importieren, Nebel/Kamera-Positionen, Handy-Breite
 (kein horizontales Scrollen), Zähler mit abgefangenen Anfragen an `nksa.goatcounter.com`
 (`localStorage["kara.zaehler.test"]="1"` schaltet das Zählen lokal ein).
+Auf dem Windows-Rechner der Lehrperson gibt es kein Playwright: dort mit `python -m http.server
+8123` und dem eingebauten Browser der Desktop-App testen (Programme über
+`localStorage["kara.baukasten.prog.v1"]` einfügen). Läuft der Bereich im Hintergrund, bremst der
+Browser die Animation stark; dann mit «Einzelschritt» oder «Alle prüfen» prüfen.
 
 ## Stand (Oktober 2026)
 
-Reihen: Grundlagen · Labyrinth (lab1–lab11) · Inseln und Pledge (insel1, insel2, pledge) ·
+Reihen: Grundlagen · Algorithmen (alg-…) · Computational Thinking (ct-…) · Labyrinth (lab1–lab11) ·
+Inseln und Pledge (insel1, insel2, pledge) ·
 Abschluss und eigene Challenges (Abschluss-Level + lokale Challenges aus dem Editor).
 Fertig: Steine, Verschachtelungstiefe, Easter Egg (eigenes Foto), Programme bleiben erhalten,
 mehrere/verdeckte/zufällige Labyrinthe, Zähler-Bausteine, Nebel mit Gedächtnis, grosse Karten
@@ -68,3 +75,16 @@ Offen aus der Rückmeldung der Lehrperson (18.10.2026): Begriffe Labyrinth/Irrga
 
 Offen, nicht entschieden: ob der Baukasten-Eintrag in `checks` auf Kara verlinken soll.
 Nur auf ausdrücklichen Wunsch ändern.
+
+Seit 25.10.2026: Reihen «Algorithmen» und «Computational Thinking» zu zwei Papier-Dossiers der
+Lehrperson (L2_Dossier_kompakt, CT_Dossier im OneDrive-Ordner Algorithmen_FMS/word); Papier und
+Kara zeigen dieselben Felder, bei Änderungen beides anpassen. «Käfer-Grundlagen» bleibt
+unverändert (wird in einem anderen Fach genutzt); die Algorithmen-Reihe hat Kopien mit eigenen
+IDs. Neu in der Engine: «wiederhole solange …» (`while`, Abbruch «endet nie»), Bedingung
+`zaehlerNichtNull`, Ziel `alleWege`, `felderWort`. Die CT-Reihe ist nach den vier Denkfiguren
+gegliedert (`abschnitte` in reihen.json): Lernpfad mit Blume je Denkfigur (auch im Cockpit),
+Etikett, Kasten «So hilft … hier» und Konzeptfrage (Auswahl, Schlüssel statt Klartext) je
+Aufgabe, Zusatzaufgaben mit ★. Vorbild: Kursmodus von masta-nksa/turtle. Die Algorithmen-Reihe
+ist ebenso gegliedert: Bausteine und die fünf Anforderungen (je eigene Blume, sechs Farben), mit
+den Aufgaben «Nur rechts» (ausführbar) und «Biege ab» (eindeutig). Die Lehrperson rechnet mit fünf Anforderungen
+(mit Korrektheit); L1-Dossier und Algorithmus-Check in `checks` nennen noch vier.
