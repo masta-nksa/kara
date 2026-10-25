@@ -100,6 +100,8 @@
 .bk-code{margin-top:10px;font-size:.9rem}
 .bk-code summary{cursor:pointer;min-height:40px;display:flex;align-items:center;width:max-content;color:var(--ink-soft)}
 .bk-code-hilfe{margin:0 0 6px;font-size:.82rem;color:var(--ink-soft)}
+.bk-aufgabe-code{margin:10px 0 0;padding:10px 12px;background:var(--ground);border:1px solid var(--line);border-radius:var(--radius);overflow-x:auto;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.88rem;line-height:1.5}
+.bk-aufgabe-code[hidden]{display:none}
 .bk-code pre{margin:0;padding:10px 12px;background:var(--ground);border:1px solid var(--line);border-radius:var(--radius);overflow-x:auto;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.85rem;line-height:1.5}
 
 /* Theorie zu den Abschnitten, Etiketten und Fragen */
