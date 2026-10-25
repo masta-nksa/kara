@@ -99,6 +99,8 @@ Cockpit zeigt dieselben Blumen.
   Denkfiguren entscheidend waren und weshalb. Beide Fragen: `{text, antworten: [...],
   richtig, erklaerung}`. `richtig` ist ein Schlüssel aus `frageSchluessel(id, Nummer)` bzw.
   `frageSchluessel(id + "/strategie", Nummer)` (engine.js), keine Klartext-Antwort.
+- `code`: Programmtext, der unter dem Aufgabentext mit Zeilen und Einrückung erscheint (z. B.
+  «Vom Code zum Struktogramm»).
 - Unter dem Struktogramm zeigt «Als Code anzeigen» dasselbe Programm als Python-ähnlichen Code
   (`alsCode` in engine.js): Prosa, Diagramm und Code als drei Beschreibungen desselben Algorithmus.
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
@@ -147,13 +149,14 @@ Die Reihen «Algorithmen» (`aufgaben/algorithmen.json`) und «Computational Thi
 (`aufgaben/ct.json`) begleiten zwei Papier-Dossiers: Zuerst wird eine Lektion lang auf Papier
 gearbeitet, in der nächsten Lektion folgen dieselben Felder in Kara. Die Aufgabentexte in Kara
 verweisen nicht aufs Dossier: Beides lässt sich unabhängig voneinander lösen. «Algorithmen» ist in die
-Bausteine und die fünf Anforderungen gegliedert (`abschnitte`): Bausteine (Zum Ziel, Das Quadrat,
-Hindernisse umgehen, Bis zur Wand, ★ Die Treppe; Kopien der Grundlagen mit eigenen IDs `alg-…`,
-die Reihe «Käfer-Grundlagen» bleibt unverändert, weil sie auch in einem anderen Fach genutzt
-wird), ausführbar («Nur rechts»: ohne «links drehen»), eindeutig («Biege ab»: eine vage
-Wegbeschreibung festlegen), allgemein («Drei Räume», ★ Treppen jeder Grösse), endlich («Hört nie
-auf», ★ Gleich weit) und korrekt («Den Fehler finden», «Räume, die Sie nicht sehen» mit
-verdeckten Sonderfällen, ★ Räume mit Säulen).
+Bausteine und die fünf Anforderungen gegliedert (`abschnitte`): Beschreiben (Zum Ziel, Das Quadrat,
+Hindernisse umgehen, Bis zur Wand, ★ Die Treppe, ★ Vom Code zum Struktogramm; die ersten sind
+Kopien der Grundlagen mit eigenen IDs `alg-…`, die Reihe «Käfer-Grundlagen» bleibt unverändert,
+weil sie auch in einem anderen Fach genutzt wird), ausführbar («Nur rechts», ★ Nur links),
+eindeutig («Biege ab», «Bei der Kreuzung»: eine vage Wegbeschreibung passt auf vier Wege),
+allgemein («Drei Räume», ★ Vorne rechts mit wechselnder Blickrichtung, ★ Treppen jeder Grösse),
+endlich («Hört nie auf», ★ Gleich weit) und korrekt («Den Fehler finden», «Räume, die Sie nicht
+sehen» mit verdeckten Sonderfällen, ★ Räume mit Säulen).
 
 «Computational Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`). Die Aufgaben steigen
 an: einfach (kleiner Rasen, zwei Rasenstücke, um den Teich), mittel (Bahn und Wende, drei Gärten,

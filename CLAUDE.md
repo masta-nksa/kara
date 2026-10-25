@@ -91,6 +91,7 @@ geordnet (einfach, mittel, anspruchsvoll); welche Denkfiguren entscheidend waren
 nach Lösung und Reflexion (Blume je Denkfigur). Navigation wie im Turtle-Kurs: Reihen als Kreise,
 Aufgaben als Stationen, «‹ Zurück / Weiter ›» in der Karte. Vorbild: Kursmodus von masta-nksa/turtle. Die Algorithmen-Reihe
 ist ebenso gegliedert: «Beschreiben» (Prosa, Struktogramm, Code; dazu «Als Code anzeigen») und
-die fünf Anforderungen (je eigene Blume, sechs Farben), mit
-den Aufgaben «Nur rechts» (ausführbar) und «Biege ab» (eindeutig). Die Lehrperson rechnet mit fünf Anforderungen
+die fünf Anforderungen (je eigene Blume, sechs Farben), mit «Nur rechts» (ausführbar), «Biege ab»
+und «Bei der Kreuzung» (eindeutig) sowie den Zusatzaufgaben «Vom Code zum Struktogramm», «Nur
+links» und «Vorne rechts». Die Lehrperson rechnet mit fünf Anforderungen
 (mit Korrektheit); L1-Dossier und Algorithmus-Check in `checks` nennen noch vier.

@@ -507,6 +507,9 @@
     $("aufgabeOrt").textContent = reihe.titel + (abA ? " · " + abA.a.titel : "") + " · " + (aktuell + 1) + " von " + aufgaben.length;
     $("aufgabeName").textContent = aufg.titel;
     $("aufgabeText").textContent = aufg.text;
+    // Code zur Aufgabe (z. B. «Vom Code zum Struktogramm»), mit Zeilen und Einrückung
+    $("aufgabeCode").textContent = aufg.code || "";
+    $("aufgabeCode").hidden = !aufg.code;
     renderDenkfigur();
     renderFrage("strategie");
     renderFrage("frage");

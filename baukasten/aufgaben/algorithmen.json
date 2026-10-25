@@ -390,6 +390,102 @@
       }
     },
     {
+      "id": "alg-code",
+      "titel": "★ Vom Code zum Struktogramm",
+      "stufe": "Zusatz · beschreiben",
+      "abschnitt": "beschreiben",
+      "zusatz": true,
+      "text": "Dieses Programm ist als Code geschrieben. Bauen Sie es als Struktogramm nach. Der Käfer soll genau den markierten Weg laufen und auf der Flagge enden. Höchstens 5 Bausteine.",
+      "code": "while vorne_frei():\n    vor()\nlinks()\nfor i in range(2):\n    vor()",
+      "denkfigur": "«while vorne_frei():» ist «wiederhole solange Feld vorne frei», «for i in range(2):» ist «wiederhole 2-mal». Was eingerückt darunter steht, gehört in den Rumpf.",
+      "feld": {
+        "cols": 6,
+        "rows": 5,
+        "start": [
+          1,
+          1
+        ],
+        "blick": "E",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": false
+      },
+      "maxBloecke": 5,
+      "kleinsteLoesung": 5,
+      "ziel": {
+        "typ": "besucht",
+        "felder": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            6,
+            1
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            6,
+            3
+          ]
+        ],
+        "nurDiese": true,
+        "endfeld": [
+          6,
+          3
+        ]
+      },
+      "strategie": {
+        "text": "Wie übersetzen Sie Code in ein Struktogramm?",
+        "antworten": [
+          "Das Programm neu erfinden.",
+          "Nur die Befehle übernehmen und die Wiederholungen weglassen.",
+          "Zeile für Zeile: Jede Zeile wird ein Baustein, was eingerückt ist, kommt in den Rumpf."
+        ],
+        "richtig": "fecc5745",
+        "erklaerung": "Code und Struktogramm beschreiben denselben Algorithmus, nur anders aufgeschrieben."
+      },
+      "frage": {
+        "text": "Woran erkennen Sie im Code, was zu einer Wiederholung gehört?",
+        "antworten": [
+          "An der Einrückung unter der Zeile mit dem Doppelpunkt.",
+          "An den Klammern hinter «vor».",
+          "Am Wort «vor»."
+        ],
+        "richtig": "f99d4288",
+        "erklaerung": "Richtig. Im Struktogramm zeigt der Rahmen dasselbe: Was im Rumpf steht, wird wiederholt. Mit «Als Code anzeigen» können Sie Ihr Struktogramm mit dem Code vergleichen."
+      }
+    },
+    {
       "id": "alg-nurrechts",
       "titel": "5 · Nur rechts",
       "stufe": "ausführbar",
@@ -455,11 +551,76 @@
       }
     },
     {
+      "id": "alg-nurlinks",
+      "titel": "★ Nur links",
+      "stufe": "Zusatz · ausführbar",
+      "abschnitt": "ausfuehrbar",
+      "zusatz": true,
+      "text": "Jetzt fehlt dem Käfer «rechts drehen». Er kennt nur noch vorwärts und links drehen. Bringen Sie ihn trotzdem zur Flagge.",
+      "denkfigur": "Drei Vierteldrehungen nach links schauen in dieselbe Richtung wie eine nach rechts.",
+      "feld": {
+        "cols": 5,
+        "rows": 5,
+        "start": [
+          1,
+          1
+        ],
+        "blick": "N",
+        "hindernisse": [
+          [
+            2,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ]
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "maxBloecke": null,
+      "kleinsteLoesung": 6,
+      "ziel": {
+        "typ": "endfeld",
+        "feld": [
+          4,
+          3
+        ]
+      },
+      "strategie": {
+        "text": "Wie kommt der Käfer ohne «rechts drehen» nach rechts?",
+        "antworten": [
+          "Indem er rückwärts fährt.",
+          "Mit Befehlen, die er kennt: dreimal «links drehen».",
+          "Gar nicht."
+        ],
+        "richtig": "59c9267f",
+        "erklaerung": "Was der Käfer nicht kennt, übersetzen Sie in Befehle, die er kennt."
+      },
+      "frage": {
+        "text": "Was zeigen «Nur rechts» und «Nur links» zusammen?",
+        "antworten": [
+          "Der Käfer braucht immer beide Drehungen.",
+          "Mit einer einzigen Drehrichtung erreicht er jede Richtung, man muss nur richtig übersetzen.",
+          "Links und rechts drehen sind dasselbe."
+        ],
+        "richtig": "9a6c1044",
+        "erklaerung": "Genau. Ein Plan ist ausführbar, wenn er nur Befehle enthält, die der Ausführende kennt. Fehlt einer, lässt er sich oft aus anderen zusammensetzen."
+      }
+    },
+    {
       "id": "alg-abbiegen",
       "titel": "6 · Biege ab",
       "stufe": "eindeutig",
       "abschnitt": "eindeutig",
-      "text": "Jemand beschreibt den Weg so: «Geh bis zur Mauer, dann biege ab und geh noch ein Stück.» Das reicht dem Käfer nicht. Bauen Sie den Weg zur Flagge als Struktogramm: Dabei müssen Sie festlegen, wohin und wie weit.",
+      "text": "Jemand beschreibt den Weg so: «Geh bis zur Mauer, dann biege ab und geh noch ein Stück.» Links oder rechts? Wie weit ist «ein Stück»? Der Käfer kann nicht raten. Die Flagge zeigt, was gemeint war: Bauen Sie den Weg als eindeutiges Struktogramm.",
       "denkfigur": "Eine Anweisung ist eindeutig, wenn kein Spielraum bleibt. Welche Fragen lässt «biege ab und geh ein Stück» offen?",
       "feld": {
         "cols": 6,
@@ -524,8 +685,51 @@
       }
     },
     {
+      "id": "alg-kreuzung",
+      "titel": "7 · Bei der Kreuzung",
+      "stufe": "eindeutig",
+      "abschnitt": "eindeutig",
+      "text": "Die Wegbeschreibung lautet: «Geh geradeaus und bieg bei der Kreuzung ab, bis es nicht mehr weitergeht.» Hier gibt es zwei Kreuzungen mit je zwei Richtungen. Die Beschreibung passt auf vier Wege, aber nur einer führt zur Flagge. Bauen Sie diesen Weg als eindeutiges Struktogramm.",
+      "denkfigur": "Zählen Sie die Felder bis zur richtigen Kreuzung und legen Sie die Richtung fest. Erst dann ist der Weg eindeutig.",
+      "feld": {
+        "karte": ["#########", "####.####", "#......Z#", "####.####", "####.####", "#.......#", "####.####", "####S####", "#########"],
+        "blick": "N"
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "maxBloecke": null,
+      "kleinsteLoesung": 5,
+      "strategie": {
+        "text": "Was ist an «bieg bei der Kreuzung ab» unklar?",
+        "antworten": [
+          "Wie schnell der Käfer fahren soll.",
+          "Bei welcher Kreuzung und in welche Richtung.",
+          "Nichts, die Beschreibung genügt."
+        ],
+        "richtig": "c93f5244",
+        "erklaerung": "Die Beschreibung passt auf mehrere Wege. Ein Algorithmus muss genau einen festlegen."
+      },
+      "frage": {
+        "text": "Was musste Ihr Struktogramm festlegen, das in der Beschreibung fehlte?",
+        "antworten": [
+          "Nur die Richtung.",
+          "Nichts.",
+          "Welche Kreuzung, welche Richtung und wie weit."
+        ],
+        "richtig": "9fa842a6",
+        "erklaerung": "Genau. Eine Anweisung ist erst eindeutig, wenn kein Spielraum bleibt. Im Struktogramm ist jeder Schritt festgelegt; in Alltagssprache bleibt oft offen, was gemeint ist."
+      }
+    },
+    {
       "id": "alg-raeume",
-      "titel": "7 · Drei Räume",
+      "titel": "8 · Drei Räume",
       "stufe": "allgemein",
       "abschnitt": "allgemein",
       "text": "Eingabe: ein Raum mit dem Käfer. Verarbeitung: Ihr Programm. Ausgabe: der Käfer in der Ecke oben rechts. Ein einziges Programm soll in allen drei Räumen funktionieren. Höchstens 7 Bausteine.",
@@ -589,6 +793,86 @@
         ],
         "richtig": "ab41f65e",
         "erklaerung": "Genau. Allgemein heisst: Es löst alle Aufgaben derselben Art, nicht nur einen Einzelfall."
+      }
+    },
+    {
+      "id": "alg-vorne-rechts",
+      "titel": "★ Vorne rechts",
+      "stufe": "Zusatz · allgemein",
+      "abschnitt": "allgemein",
+      "zusatz": true,
+      "text": "In jedem Raum schaut der Käfer in eine andere Richtung. Die Flagge steht immer in der Ecke vorne rechts, von ihm aus gesehen. Ein Programm für alle Räume, höchstens 7 Bausteine.",
+      "denkfigur": "Denken Sie wie der Käfer: «vorne» und «rechts» gelten von ihm aus, nicht von oben auf der Karte.",
+      "layouts": [
+        {
+          "name": "Raum 1",
+          "karte": ["#######", "#.....#", "#.....#", "#.S...#", "#....Z#", "#######"],
+          "blick": "E"
+        },
+        {
+          "name": "Raum 2",
+          "karte": ["########", "#......#", "#......#", "#...S..#", "#......#", "#Z.....#", "########"],
+          "blick": "S"
+        },
+        {
+          "name": "Raum 3",
+          "karte": ["######", "#Z...#", "#....#", "#.S..#", "#....#", "#....#", "#....#", "######"],
+          "blick": "W"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Raum 4",
+          "karte": ["#########", "#......Z#", "#..S....#", "#.......#", "#########"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 5",
+          "karte": ["#####", "#...#", "#...#", "#.S.#", "#...#", "#...#", "#...#", "#..Z#", "#####"],
+          "blick": "E"
+        }
+      ],
+      "felderWort": [
+        "Raum",
+        "Räume",
+        "Räumen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei"
+        ]
+      },
+      "maxBloecke": 7,
+      "kleinsteLoesung": 4,
+      "strategie": {
+        "text": "Der Käfer schaut in jedem Raum woanders hin. Was hilft?",
+        "antworten": [
+          "Für jeden Raum herausfinden, wo oben ist.",
+          "Wie der Käfer denken: «vorne» und «rechts» sind von ihm aus gesehen.",
+          "Die Flagge suchen, bis er sie findet."
+        ],
+        "richtig": "cdaa20a7",
+        "erklaerung": "Von ihm aus gesehen ist der Weg in jedem Raum derselbe: bis zur Wand, rechts drehen, bis zur Wand."
+      },
+      "frage": {
+        "text": "Warum funktioniert dasselbe Programm, obwohl der Käfer überall woanders hinschaut?",
+        "antworten": [
+          "Weil der Käfer weiss, wo oben ist.",
+          "Weil alle Räume gleich gross sind.",
+          "Weil «vorwärts» und «rechts drehen» immer von ihm aus gelten und die Flagge immer vorne rechts steht."
+        ],
+        "richtig": "68d86f85",
+        "erklaerung": "Genau. Der Käfer hat keinen Kompass. «Immer in die Ecke oben rechts» ginge darum bei beliebiger Blickrichtung nicht, «vorne rechts» dagegen schon."
       }
     },
     {
@@ -672,7 +956,7 @@
     },
     {
       "id": "alg-endlos",
-      "titel": "8 · Hört nie auf",
+      "titel": "9 · Hört nie auf",
       "stufe": "endlich",
       "abschnitt": "endlich",
       "text": "Der Käfer soll bis zur Flagge an der Wand laufen. Dieses Programm hört aber nie auf. Starten Sie es und lesen Sie die Meldung. Ändern Sie so wenig wie möglich, damit es endet.",
@@ -843,7 +1127,7 @@
     },
     {
       "id": "alg-fehler",
-      "titel": "9 · Den Fehler finden",
+      "titel": "10 · Den Fehler finden",
       "stufe": "Testen",
       "abschnitt": "korrekt",
       "text": "Dieses Struktogramm sollte das Quadrat aus Aufgabe 2 ablaufen, tut es aber nicht. Starten Sie es, beobachten Sie den Käfer, und beheben Sie den Fehler.",
@@ -955,7 +1239,7 @@
     },
     {
       "id": "alg-unbekannt",
-      "titel": "10 · Räume, die Sie nicht sehen",
+      "titel": "11 · Räume, die Sie nicht sehen",
       "stufe": "korrekt",
       "abschnitt": "korrekt",
       "text": "Jetzt soll der Käfer in die Ecke oben links. Sie sehen zwei Räume, geprüft wird in sechs. Ein korrekter Algorithmus funktioniert für alle Eingaben, nicht nur für die, die man kennt. Höchstens 8 Bausteine.",
