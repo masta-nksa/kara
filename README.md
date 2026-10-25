@@ -15,6 +15,7 @@ Hervorgegangen aus dem Struktogramm-Baukasten in
 ```
 index.html                Cockpit: Übersicht der Reihen mit Fortschritt
 assets/                   basis.css (Farben Hell/Dunkel, Schrift), cockpit.css/.js, favicon.svg,
+                          blume.js (Fortschritt je Abschnitt als Blume),
                           challenges.js (eigene Challenges: prüfen, Link, Speicher)
 editor/                   Labyrinth-Editor für eigene Challenges
 baukasten/                der Baukasten
@@ -45,6 +46,14 @@ Eine Reihe kann mehrere Aufgaben-Dateien zusammenfassen (`dateien`). So lassen s
 umordnen oder zusammenlegen, ohne die Aufgaben anzufassen. Aufgaben-IDs müssen über alle
 Reihen eindeutig sein (der Fortschritt hängt an der ID).
 
+Mit `abschnitte` (Liste von `{id, titel, text}`) und `abschnitteTitel` gliedert sich eine Reihe
+in Abschnitte, z. B. die vier Denkfiguren des Computational Thinking. Der Baukasten zeigt dann
+statt der Aufgabenleiste einen Lernpfad: oben aufklappbar die Erklärungen (offen, solange in der
+Reihe noch nichts gelöst ist), darunter je Abschnitt eine Spalte mit Blume, Stand und Aufgaben.
+Jede gelöste Aufgabe und jede richtig beantwortete Konzeptfrage öffnet ein Blütenblatt;
+Zusatzaufgaben geben kleinere, gestrichelte Blätter. Sind alle Pflichtblätter offen, füllt sich
+die Mitte. Das Cockpit zeigt die Blumen ebenfalls.
+
 ## Aufgaben (`baukasten/aufgaben/*.json`)
 
 - Jede Aufgabe: Feld, Palette, Bausteinlimit, Ziel. **Keine Lösungen.**
@@ -69,6 +78,12 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
   Inseln mit `startInnen: true` (nutzt der Editor). Gelöst ist die Aufgabe
   erst, wenn der Käfer in allen den Ausgang findet. Gescheiterte verdeckte und zufällige
   Labyrinthe werden danach als Reiter sichtbar. «Alle prüfen» prüft ohne Animation.
+- Für Reihen mit Abschnitten: `abschnitt` (id des Abschnitts; Etikett über der Aufgabe),
+  `zusatz: true` (★, gestrichelt, zählt nicht als Pflicht; «Nächste Aufgabe» überspringt sie),
+  `denkfigur` (Kasten «So hilft … hier» unter dem Aufgabentext) und `frage`:
+  `{text, antworten: [...], richtig, erklaerung}`. `richtig` ist ein Schlüssel aus
+  `frageSchluessel(id, Nummer)` (engine.js), keine Klartext-Antwort. Eine falsche Wahl zeigt
+  die Erklärung des Abschnitts, eine richtige die `erklaerung`.
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
 - `kleinsteLoesung`: Anzahl Bausteine der kleinsten bekannten Lösung; erscheint erst nach dem
   Lösen. Die Bausteinlimits lassen bewusst auch weniger kompakte Lösungen zu.
@@ -113,10 +128,13 @@ Kopien der Grundlagen-Aufgaben (eigene IDs `alg-…`; die Reihe «Käfer-Grundla
 unverändert, weil sie auch in einem anderen Fach genutzt wird). Danach folgt je eine Aufgabe zu
 den Anforderungen: «Bis zur Wand» (solange), «Hört nie auf» (endlich), «Drei Räume» (allgemein)
 und «Räume, die Sie nicht sehen» (korrekt, mit verdeckten Sonderfällen). «Computational
-Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`): Der kleine Rasen (zerlegen), Bahn und
-Wende (Muster), drei Gärten (abstrahieren), unbekannte Gärten mit Sonderfällen (prüfen) und
-Mähen im Nebel. In beiden Reihen folgen drei Zusatzaufgaben (Z1–Z3), die immer offener werden:
-zuletzt alle Bausteine, kein Limit, kein Tipp.
+Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`) und ist nach den vier Denkfiguren
+gegliedert (`abschnitte`): Zerlegen (kleiner Rasen, zwei Rasenstücke), Muster erkennen (Bahn und
+Wende, um den Teich), Abstrahieren (drei Gärten, Mähen im Nebel, ★ Teiche jeder Grösse) und
+Algorithmus entwerfen (unbekannte Gärten mit Sonderfällen, ★ krumme Gärten, ★ irgendwo im
+Garten). Jede Aufgabe nennt ihre Denkfigur, sagt, wie sie hier hilft, und hat eine
+Konzeptfrage. In «Algorithmen» folgen drei Zusatzaufgaben (Z1–Z3). In beiden Reihen werden die
+Zusatzaufgaben immer offener: zuletzt alle Bausteine, kein Limit, kein Tipp.
 
 ## Abschluss und eigene Challenges
 
@@ -168,6 +186,7 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | `kara.baukasten.prog.v1` | Stand der Bausteine je Aufgabe; «Alles löschen» leert ihn |
 | `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
 | `kara.baukasten.nebel.v2` | Nebel ein/aus, je Aufgabe (nur wenn selbst umgeschaltet) |
+| `kara.baukasten.fragen.v1` | richtig beantwortete Konzeptfragen (`{aufgabenId: 1}`) |
 | `kara.challenges.v1` | eigene und übernommene Challenges |
 | `kara.editor.entwurf.v1` | Entwurf im Editor |
 | `kara.zaehler.aus` | Statistik für diesen Browser abgeschaltet (`?zaehler=aus`) |

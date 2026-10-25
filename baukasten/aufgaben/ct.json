@@ -5,7 +5,9 @@
       "id": "ct-klein",
       "titel": "1 · Der kleine Rasen",
       "stufe": "Zerlegen",
+      "abschnitt": "zerlegen",
       "text": "Der Käfer ist ein Rasenmäher: Er soll jedes Feld des Rasens (3 × 3, rundherum Mauer) befahren. Das Programm enthält schon die erste Bahn. Ergänzen Sie: Wende, Bahn, Wende, Bahn.",
+      "denkfigur": "Der Weg besteht aus drei Teilen: Bahn, Wende rechts, Wende links. Bauen Sie Teil für Teil an und starten Sie nach jedem Teil.",
       "feld": {
         "karte": ["#####", "#...#", "#...#", "#S..#", "#####"],
         "blick": "N"
@@ -33,13 +35,61 @@
       "ziel": {
         "typ": "alleWege"
       },
-      "hinweis": "Eine Wende nach rechts: rechts drehen, vorwärts, rechts drehen."
+      "hinweis": "Eine Wende nach rechts: rechts drehen, vorwärts, rechts drehen.",
+      "frage": {
+        "text": "Was bedeutet «Zerlegen»?",
+        "antworten": [
+          "Ein grosses Problem in kleinere Teilprobleme aufteilen, die man einzeln lösen kann.",
+          "Etwas, das mehrmals vorkommt, mit einer Wiederholung kürzer schreiben.",
+          "Unwichtige Einzelheiten weglassen und nur das Wesentliche behalten."
+        ],
+        "richtig": "f99ecb0f",
+        "erklaerung": "Genau. Die zweite Antwort beschreibt «Muster erkennen», die dritte «Abstrahieren»."
+      }
+    },
+    {
+      "id": "ct-zwei",
+      "titel": "2 · Zwei Rasenstücke",
+      "stufe": "Zerlegen",
+      "abschnitt": "zerlegen",
+      "text": "Zwei Rasenstücke, verbunden durch einen schmalen Weg oben. Der Käfer soll alle Felder befahren, auch den Weg.",
+      "denkfigur": "Zerlegen Sie in drei Teilprobleme: Rasen A mähen, zum Rasen B fahren, Rasen B mähen. Lösen Sie eines nach dem anderen und starten Sie nach jedem Teil.",
+      "feld": {
+        "karte": ["#########", "#.......#", "#..###..#", "#S.###..#", "#########"],
+        "blick": "N"
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "maxBloecke": null,
+      "ziel": {
+        "typ": "alleWege"
+      },
+      "hinweis": "Nach Rasen A steht der Käfer unten. Für den Weg muss er zuerst wieder nach oben.",
+      "frage": {
+        "text": "Warum lohnt es sich, ein Problem in Teilprobleme zu zerlegen?",
+        "antworten": [
+          "Weil das Programm dann weniger Bausteine braucht.",
+          "Weil man jedes Teilproblem einzeln lösen und testen kann.",
+          "Weil der Käfer dann schneller fährt."
+        ],
+        "richtig": "1d9107ac",
+        "erklaerung": "Kleine Teile sind übersichtlich: Man löst sie nacheinander und findet Fehler schneller. Weniger Bausteine bringt erst das Erkennen von Mustern."
+      }
     },
     {
       "id": "ct-muster",
-      "titel": "2 · Bahn und Wende",
+      "titel": "3 · Bahn und Wende",
       "stufe": "Muster erkennen",
-      "text": "Ein grösserer Rasen (5 × 5, wie im Dossier), aber höchstens 14 Bausteine. Welche Folge von Bahnen und Wenden wiederholt sich?",
+      "abschnitt": "muster",
+      "text": "Ein grösserer Rasen (5 × 5, wie im Dossier), aber höchstens 14 Bausteine.",
+      "denkfigur": "Schreiben Sie den Weg zuerst mit den Namen der Teile auf: Bahn, Wende rechts, Bahn, … Welches Stück kommt mehrmals gleich vor? Das gehört in eine Wiederholung.",
       "feld": {
         "karte": ["#######", "#.....#", "#.....#", "#.....#", "#.....#", "#S....#", "#######"],
         "blick": "N"
@@ -57,13 +107,62 @@
       "ziel": {
         "typ": "alleWege"
       },
-      "hinweis": "Nach der ersten Bahn kommt zweimal dasselbe: Wende rechts, Bahn, Wende links, Bahn."
+      "hinweis": "Nach der ersten Bahn kommt zweimal dasselbe: Wende rechts, Bahn, Wende links, Bahn.",
+      "frage": {
+        "text": "Woran erkennen Sie ein Muster in Ihrem Programm?",
+        "antworten": [
+          "Das Programm hat sehr viele Bausteine.",
+          "Der Käfer fährt im Kreis.",
+          "Eine Folge von Bausteinen kommt mehrmals gleich vor."
+        ],
+        "richtig": "93fbce3a",
+        "erklaerung": "Eine gleiche Folge lässt sich in eine Wiederholung packen. Viele Bausteine sind höchstens ein Hinweis darauf, dass ein Muster versteckt ist."
+      }
+    },
+    {
+      "id": "ct-teich-fest",
+      "titel": "4 · Um den Teich",
+      "stufe": "Muster erkennen",
+      "abschnitt": "muster",
+      "text": "Mitten im Garten liegt ein Teich. Mähen Sie den Rasenring rund um den Teich (aussen 6 × 4 Felder). Höchstens 8 Bausteine.",
+      "denkfigur": "Gehen Sie den Weg in Gedanken ab: kurze Seite, Ecke, lange Seite, Ecke … Wie oft wiederholt sich das?",
+      "feld": {
+        "karte": ["########", "#......#", "#.####.#", "#.####.#", "#S.....#", "########"],
+        "blick": "N"
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "maxBloecke": 8,
+      "kleinsteLoesung": 7,
+      "ziel": {
+        "typ": "alleWege"
+      },
+      "hinweis": "Eine Wiederholung darf in einer anderen Wiederholung stecken.",
+      "frage": {
+        "text": "Welches Muster steckt im Weg um den Teich?",
+        "antworten": [
+          "Viermal dieselbe Seite mit einer Ecke.",
+          "Zweimal: kurze Seite, Ecke, lange Seite, Ecke.",
+          "Kein Muster, alle Seiten sind verschieden lang."
+        ],
+        "richtig": "373955f7",
+        "erklaerung": "Gegenüberliegende Seiten sind gleich lang. Darum kommt das Paar aus kurzer und langer Seite genau zweimal vor."
+      }
     },
     {
       "id": "ct-gaerten",
-      "titel": "3 · Drei Gärten",
+      "titel": "5 · Drei Gärten",
       "stufe": "Abstrahieren",
-      "text": "Drei Gärten, ein Programm. Die Grösse ist ein Detail, das Sie weglassen: Eine Bahn geht nicht «5 Felder weit», sondern «bis zur Wand». Höchstens 16 Bausteine.",
+      "abschnitt": "abstrahieren",
+      "text": "Drei Gärten, ein Programm. Höchstens 16 Bausteine.",
+      "denkfigur": "Was ist in allen drei Gärten gleich, was ändert sich? Lassen Sie weg, was sich ändert: Eine Bahn geht nicht «5 Felder weit», sondern «bis zur Wand».",
       "layouts": [
         {
           "name": "Garten 1",
@@ -109,13 +208,155 @@
       "ziel": {
         "typ": "alleWege"
       },
-      "hinweis": "Die Wende darf nur vorwärts gehen, wenn das Feld frei ist."
+      "hinweis": "Die Wende darf nur vorwärts gehen, wenn das Feld frei ist.",
+      "frage": {
+        "text": "Was ist beim Rasenmäher eine Abstraktion?",
+        "antworten": [
+          "«Fahre bis zur Wand» statt «Fahre 4 Felder».",
+          "Jeden Garten mit einem eigenen Programm mähen.",
+          "Die Felder zählen und die Zahl ins Programm schreiben."
+        ],
+        "richtig": "f81fd8dc",
+        "erklaerung": "Die Länge ist ein Detail, das sich von Garten zu Garten ändert. «Bis zur Wand» lässt es weg und passt darum überall."
+      }
+    },
+    {
+      "id": "ct-nebel",
+      "titel": "6 · Mähen im Nebel",
+      "stufe": "Abstrahieren",
+      "abschnitt": "abstrahieren",
+      "text": "Im Nebel sieht der Käfer nur seine Nachbarfelder. Reicht das Ihrem Programm?",
+      "denkfigur": "Welche Information braucht Ihr Programm wirklich? Alles andere haben Sie beim Abstrahieren schon weggelassen.",
+      "layouts": [
+        {
+          "name": "Garten 1",
+          "karte": ["#################", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#S..............#", "#################"],
+          "blick": "N"
+        },
+        {
+          "name": "Garten 2",
+          "karte": ["##########", "#........#", "#........#", "#........#", "#........#", "#S.......#", "##########"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Garten",
+        "Gärten",
+        "Gärten"
+      ],
+      "nebel": true,
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ]
+      },
+      "maxBloecke": 16,
+      "ziel": {
+        "typ": "alleWege"
+      },
+      "frage": {
+        "text": "Warum funktioniert Ihr Programm auch im Nebel?",
+        "antworten": [
+          "Es kennt die Grösse des Gartens im Voraus.",
+          "Es merkt sich alle Felder, die schon gemäht sind.",
+          "Es fragt nur «Feld vorne frei?» und braucht keine Übersicht über den ganzen Garten."
+        ],
+        "richtig": "bc46696c",
+        "erklaerung": "Ihr Algorithmus kommt mit einer einzigen Information aus: Ist das Feld vorne frei? Eine Karte des Gartens braucht er nicht."
+      }
+    },
+    {
+      "id": "ct-teich",
+      "titel": "★ Teiche jeder Grösse",
+      "stufe": "Zusatz · Abstrahieren",
+      "abschnitt": "abstrahieren",
+      "zusatz": true,
+      "text": "Teiche in verschiedenen Grössen, und der Käfer startet nicht immer in der Ecke. Alle Bausteine, kein Limit.",
+      "denkfigur": "Was bleibt bei allen Teichen gleich, egal wie gross sie sind und wo der Käfer startet?",
+      "layouts": [
+        {
+          "name": "Teich 1",
+          "karte": ["#######", "#.....#", "#.###.#", "#.###.#", "#S....#", "#######"],
+          "blick": "N"
+        },
+        {
+          "name": "Teich 2",
+          "karte": ["##########", "#........#", "#.######.#", "#.######.#", "#.######.#", "#.######.#", "#S.......#", "##########"],
+          "blick": "N"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Teich 3",
+          "karte": ["#####", "#...#", "#.#.#", "#S..#", "#####"],
+          "blick": "N"
+        },
+        {
+          "name": "Teich 4",
+          "karte": ["##############", "#............#", "#.##########.#", "#S##########.#", "#.##########.#", "#............#", "##############"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Teich",
+        "Teiche",
+        "Teichen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ]
+      },
+      "maxBloecke": null,
+      "ziel": {
+        "typ": "alleWege"
+      },
+      "frage": {
+        "text": "Was haben alle Teiche gemeinsam?",
+        "antworten": [
+          "Alle Seiten sind gleich lang.",
+          "Der Weg geht der Wand entlang, an jeder Ecke wird gleich gedreht.",
+          "Der Käfer startet immer in einer Ecke."
+        ],
+        "richtig": "1568e520",
+        "erklaerung": "Darum passt «solange vorne frei: vorwärts», dann eine Drehung. Länge und Startplatz sind Details, die Sie weglassen können."
+      }
     },
     {
       "id": "ct-unbekannt",
-      "titel": "4 · Unbekannte Gärten",
-      "stufe": "Algorithmus prüfen",
-      "text": "Sie sehen zwei Gärten, geprüft wird in sechs, darunter Sonderfälle. Überlegen Sie zuerst: Welche Gärten könnten Ihr Programm aus Aufgabe 3 überlisten?",
+      "titel": "7 · Unbekannte Gärten",
+      "stufe": "Algorithmus entwerfen",
+      "abschnitt": "entwerfen",
+      "text": "Sie sehen zwei Gärten, geprüft wird in sechs, darunter Sonderfälle. Höchstens 16 Bausteine.",
+      "denkfigur": "Spielen Sie Ihr Programm vor dem Prüfen in Gedanken an den Sonderfällen aus dem Dossier durch: nur eine Bahn, nur eine Reihe, gerade Anzahl Bahnen, winzig.",
       "layouts": [
         {
           "name": "Garten 1",
@@ -178,118 +419,26 @@
       "ziel": {
         "typ": "alleWege"
       },
-      "hinweis": "Gerade oder ungerade Anzahl Bahnen? Nur eine Bahn? Nur eine Reihe?"
-    },
-    {
-      "id": "ct-nebel",
-      "titel": "5 · Mähen im Nebel",
-      "stufe": "Abstrahieren",
-      "text": "Im Nebel sieht der Käfer nur seine Nachbarfelder. Reicht das? Welche Information braucht Ihr Programm wirklich?",
-      "layouts": [
-        {
-          "name": "Garten 1",
-          "karte": ["#################", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#S..............#", "#################"],
-          "blick": "N"
-        },
-        {
-          "name": "Garten 2",
-          "karte": ["##########", "#........#", "#........#", "#........#", "#........#", "#S.......#", "##########"],
-          "blick": "N"
-        }
-      ],
-      "felderWort": [
-        "Garten",
-        "Gärten",
-        "Gärten"
-      ],
-      "nebel": true,
-      "palette": {
-        "befehle": [
-          "vor",
-          "rechts",
-          "links"
+      "hinweis": "Gerade oder ungerade Anzahl Bahnen? Nur eine Bahn? Nur eine Reihe?",
+      "frage": {
+        "text": "Ihr Programm mäht alle Gärten, die Sie sehen. Ist es damit korrekt?",
+        "antworten": [
+          "Ja: Was bei den sichtbaren Gärten klappt, klappt überall.",
+          "Nicht unbedingt: Korrekt ist es erst, wenn es für alle zulässigen Gärten stimmt. Darum prüft man Sonderfälle.",
+          "Nein: Ein Programm mit Wiederholungen ist nie ganz korrekt."
         ],
-        "wiederholung": true,
-        "solange": [
-          "frei",
-          "freiLinks",
-          "freiRechts"
-        ],
-        "verzweigung": true,
-        "bedingungen": [
-          "frei",
-          "freiLinks",
-          "freiRechts"
-        ]
-      },
-      "maxBloecke": 16,
-      "ziel": {
-        "typ": "alleWege"
-      }
-    },
-    {
-      "id": "ct-teich",
-      "titel": "Z1 · Um den Teich",
-      "stufe": "Zusatz · offen",
-      "text": "Mitten im Garten liegt ein Teich. Der Käfer soll den Rasen rund um den Teich mähen. Alle Bausteine, kein Limit.",
-      "layouts": [
-        {
-          "name": "Teich 1",
-          "karte": ["#######", "#.....#", "#.###.#", "#.###.#", "#S....#", "#######"],
-          "blick": "N"
-        },
-        {
-          "name": "Teich 2",
-          "karte": ["##########", "#........#", "#.######.#", "#.######.#", "#.######.#", "#.######.#", "#S.......#", "##########"],
-          "blick": "N"
-        }
-      ],
-      "verdeckt": [
-        {
-          "name": "Teich 3",
-          "karte": ["#####", "#...#", "#.#.#", "#S..#", "#####"],
-          "blick": "N"
-        },
-        {
-          "name": "Teich 4",
-          "karte": ["##############", "#............#", "#.##########.#", "#S##########.#", "#.##########.#", "#............#", "##############"],
-          "blick": "N"
-        }
-      ],
-      "felderWort": [
-        "Teich",
-        "Teiche",
-        "Teichen"
-      ],
-      "palette": {
-        "befehle": [
-          "vor",
-          "rechts",
-          "links"
-        ],
-        "wiederholung": true,
-        "solange": [
-          "frei",
-          "freiLinks",
-          "freiRechts"
-        ],
-        "verzweigung": true,
-        "bedingungen": [
-          "frei",
-          "freiLinks",
-          "freiRechts"
-        ]
-      },
-      "maxBloecke": null,
-      "ziel": {
-        "typ": "alleWege"
+        "richtig": "bdd37b2f",
+        "erklaerung": "Tests mit Beispielen zeigen Fehler, beweisen aber nicht, dass es keine gibt. Sonderfälle wie «nur eine Bahn» finden die meisten Fehler."
       }
     },
     {
       "id": "ct-krumm",
-      "titel": "Z2 · Krumme Gärten",
-      "stufe": "Zusatz · offen",
+      "titel": "★ Krumme Gärten",
+      "stufe": "Zusatz · Algorithmus prüfen",
+      "abschnitt": "entwerfen",
+      "zusatz": true,
       "text": "Nicht jeder Garten ist ein Rechteck. Funktioniert Ihr Rasenmäher auch hier? Alle Bausteine, kein Limit.",
+      "denkfigur": "Spielen Sie Ihr Programm in Gedanken in einem L-förmigen Garten durch, bevor Sie starten. Wo könnte es scheitern?",
       "layouts": [
         {
           "name": "Garten L",
@@ -341,13 +490,26 @@
       "maxBloecke": null,
       "ziel": {
         "typ": "alleWege"
+      },
+      "frage": {
+        "text": "Ihr Rasenmäher klappt in allen Rechtecken. Was ist der beste nächste Schritt?",
+        "antworten": [
+          "Nichts mehr tun: Rechtecke genügen.",
+          "Ungewöhnliche Gärten ausprobieren, um Fehler zu finden.",
+          "Das Programm länger machen, damit es sicherer wird."
+        ],
+        "richtig": "ab22c0df",
+        "erklaerung": "Prüfen heisst: gezielt Fälle suchen, in denen der Algorithmus scheitern könnte. Wer nur bekannte Fälle testet, findet keine neuen Fehler."
       }
     },
     {
       "id": "ct-irgendwo",
-      "titel": "Z3 · Irgendwo im Garten",
-      "stufe": "Zusatz · frei",
+      "titel": "★ Irgendwo im Garten",
+      "stufe": "Zusatz · Algorithmus entwerfen",
+      "abschnitt": "entwerfen",
+      "zusatz": true,
       "text": "Der Käfer steht irgendwo im Garten und schaut irgendwohin. Er soll trotzdem alles mähen. Alle Bausteine, kein Limit, kein Tipp.",
+      "denkfigur": "Entwerfen Sie mit allen vier Denkfiguren: Welche Teilprobleme gibt es? Welche Lösung haben Sie schon?",
       "layouts": [
         {
           "name": "Garten 1",
@@ -399,6 +561,16 @@
       "maxBloecke": null,
       "ziel": {
         "typ": "alleWege"
+      },
+      "frage": {
+        "text": "Welche Zerlegung passt zu dieser Aufgabe?",
+        "antworten": [
+          "Zuerst in eine passende Ecke fahren, dann wie bisher mähen.",
+          "Jedes Feld einzeln anfahren.",
+          "Zuerst die Mitte mähen, dann den Rand."
+        ],
+        "richtig": "eb049d01",
+        "erklaerung": "So nutzen Sie Ihren fertigen Rasenmäher wieder: ein neues, kleines Teilproblem (zur Ecke fahren) plus eine Lösung, die Sie schon haben."
       }
     }
   ]

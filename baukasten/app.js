@@ -136,6 +136,18 @@
     try { localStorage.setItem(SPEICHER, JSON.stringify({ geloest: geloest })); } catch (e) { /* ohne Speicher weiter */ }
   }
 
+  // Richtig beantwortete Konzeptfragen: {aufgabenId: 1}
+  var FRAGEN_SPEICHER = "kara.baukasten.fragen.v1", beantwortet = {};
+  function ladeFragen() {
+    try {
+      var d = JSON.parse(localStorage.getItem(FRAGEN_SPEICHER) || "{}");
+      if (d && typeof d === "object" && !Array.isArray(d)) beantwortet = d;
+    } catch (e) { beantwortet = {}; }
+  }
+  function speichereFragen() {
+    try { localStorage.setItem(FRAGEN_SPEICHER, JSON.stringify(beantwortet)); } catch (e) { /* ohne Speicher weiter */ }
+  }
+
   /* ---------- Start ----------------------------------------- */
 
   var rule = $("pixelrule");
@@ -271,6 +283,7 @@
   if (window.BaukastenFigur) window.BaukastenFigur.onChange = function () { if (aufg) { renderFeld(); simReset(); } };
 
   ladeFortschritt();
+  ladeFragen();
   ladeProgramme();
   importieren().then(function () { return holeJson("reihen.json"); }).then(function (d) {
     if (!d || !Array.isArray(d.reihen) || !d.reihen.length) throw new Error("reihen.json: Feld „reihen“ fehlt oder ist leer.");
@@ -283,29 +296,92 @@
 
   /* ---------- Aufgabenwahl ---------------------------------- */
 
+  function tabKnopf(a, i) {
+    var b = el("button", "bk-tab" + (a.zusatz ? " zusatz" : ""));
+    b.type = "button";
+    b.dataset.i = i;
+    b.append(el("span", null, a.titel));
+    b.append(el("span", "haken"));
+    b.addEventListener("click", function () { waehleAufgabe(i); });
+    return b;
+  }
+
+  // Abschnitte der Reihe (z. B. die vier Denkfiguren), nur wenn reihen.json sie nennt.
+  // Ohne die Elemente (z. B. alte index.html noch im Cache) bleibt alles wie bisher.
+  function abschnitte() { return $("lernpfad") && Array.isArray(reihe.abschnitte) && reihe.abschnitte.length ? reihe.abschnitte : null; }
+  function abschnittVon(a) {
+    var l = abschnitte() || [];
+    for (var k = 0; k < l.length; k++) if (l[k].id === a.abschnitt) return { nr: k, a: l[k] };
+    return null;
+  }
+
   function baueTabs() {
-    var ol = $("aufgabenListe");
+    var ol = $("aufgabenListe"), pfad = $("lernpfad"), ab = abschnitte();
     ol.textContent = "";
-    aufgaben.forEach(function (a, i) {
-      var li = el("li");
-      var b = el("button", "bk-tab");
-      b.type = "button";
-      b.dataset.i = i;
-      b.append(el("span", null, a.titel));
-      b.append(el("span", "haken"));
-      b.addEventListener("click", function () { waehleAufgabe(i); });
-      li.append(b);
-      ol.append(li);
-    });
+    ol.parentNode.hidden = !!ab;
+    if (pfad) { pfad.textContent = ""; pfad.hidden = !ab; }
+    if (!ab) {
+      aufgaben.forEach(function (a, i) { var li = el("li"); li.append(tabKnopf(a, i)); ol.append(li); });
+    } else {
+      // Theorie zuerst: was die Abschnitte bedeuten
+      var theorie = el("details", "bk-theorie");
+      // Offen, solange in dieser Reihe noch nichts gelöst ist: zuerst die Begriffe
+      theorie.open = !aufgaben.some(function (a) { return geloest[a.id] || beantwortet[a.id]; });
+      theorie.append(el("summary", null, reihe.abschnitteTitel || "Abschnitte"));
+      ab.forEach(function (x, k) {
+        var p = el("p", "kb-farbe" + (k % 4));
+        p.append(el("b", null, x.titel + ": "), document.createTextNode(x.text || ""));
+        theorie.append(p);
+      });
+      pfad.append(theorie);
+      var gruppen = el("div", "bk-gruppen");
+      ab.forEach(function (x, k) {
+        var g = el("section", "bk-gruppe kb-farbe" + (k % 4));
+        g.dataset.abschnitt = x.id;
+        var kopf = el("div", "bk-gruppe-kopf");
+        var text = el("div");
+        text.append(el("h3", null, x.titel), el("span", "bk-gruppe-stand"));
+        kopf.append(el("span", "bk-gruppe-blume"), text);
+        var liste = el("ol");
+        aufgaben.forEach(function (a, i) {
+          if (a.abschnitt !== x.id) return;
+          var li = el("li");
+          li.append(tabKnopf(a, i));
+          liste.append(li);
+        });
+        g.append(kopf, liste);
+        gruppen.append(g);
+      });
+      pfad.append(gruppen);
+    }
     tabsAktualisieren();
   }
 
   function tabsAktualisieren() {
-    Array.prototype.forEach.call($("aufgabenListe").querySelectorAll(".bk-tab"), function (b, i) {
-      var a = aufgaben[i], fertig = !!geloest[a.id];
+    Array.prototype.forEach.call(document.querySelectorAll("#aufgabenListe .bk-tab, #lernpfad .bk-tab"), function (b) {
+      var i = Number(b.dataset.i), a = aufgaben[i], fertig = !!geloest[a.id];
       b.setAttribute("aria-current", i === aktuell ? "true" : "false");
       b.querySelector(".haken").textContent = fertig ? "✓" : "";
-      b.setAttribute("aria-label", a.titel + (fertig ? ", gelöst" : ""));
+      b.setAttribute("aria-label", a.titel + (a.zusatz ? ", Zusatzaufgabe" : "") + (fertig ? ", gelöst" : "") +
+        (a.frage ? (beantwortet[a.id] ? ", Frage beantwortet" : ", Frage offen") : ""));
+    });
+    var ab = abschnitte();
+    if (!ab || !window.KaraBlume) return;
+    // Je Abschnitt eine Blume: jede gelöste Aufgabe und jede richtig beantwortete Frage ist ein Blatt.
+    Array.prototype.forEach.call($("lernpfad").querySelectorAll(".bk-gruppe"), function (g) {
+      var k = ab.map(function (x) { return x.id; }).indexOf(g.dataset.abschnitt), pflicht = [], zusatz = [];
+      aufgaben.forEach(function (a) {
+        if (a.abschnitt !== g.dataset.abschnitt) return;
+        var liste = a.zusatz ? zusatz : pflicht;
+        liste.push(!!geloest[a.id]);
+        if (a.frage) liste.push(!!beantwortet[a.id]);
+      });
+      var n = pflicht.filter(Boolean).length, nz = zusatz.filter(Boolean).length;
+      var halter = g.querySelector(".bk-gruppe-blume");
+      halter.textContent = "";
+      halter.append(window.KaraBlume.blume(pflicht, zusatz, k, 52));
+      g.querySelector(".bk-gruppe-stand").textContent = n + " von " + pflicht.length + (zusatz.length ? " · ★ " + nz + " von " + zusatz.length : "");
+      g.setAttribute("aria-label", ab[k].titel + ": " + n + " von " + pflicht.length + " erledigt" + (zusatz.length ? ", Zusatz " + nz + " von " + zusatz.length : ""));
     });
   }
 
@@ -328,6 +404,8 @@
 
     $("aufgabeTitel").textContent = aufg.titel;
     $("aufgabeText").textContent = aufg.text;
+    renderDenkfigur();
+    renderFrage();
     tippStufe = 1;
     $("hinweisBox").open = false;
     renderHinweise();
@@ -349,6 +427,80 @@
     simReset();
     renderBau();
   }
+
+  /* ---------- Abschnitt (Denkfigur) und Konzeptfrage -------- */
+
+  function renderDenkfigur() {
+    var ab = abschnittVon(aufg), box = $("etiketten");
+    if (!box) return;
+    box.textContent = "";
+    if (ab) box.append(el("span", "bk-etikett kb-farbe" + (ab.nr % 4), (reihe.abschnittWort || "Denkfigur") + ": " + ab.a.titel));
+    if (aufg.zusatz) box.append(el("span", "bk-etikett zusatz", "★ Zusatzaufgabe"));
+    box.hidden = !box.childNodes.length;
+    var df = $("denkfigurBox");
+    df.hidden = !aufg.denkfigur;
+    df.className = "bk-denkfigur" + (ab ? " kb-farbe" + (ab.nr % 4) : "");
+    $("denkfigurTitel").textContent = ab ? "So hilft «" + ab.a.titel + "» hier" : "So gehen Sie vor";
+    $("denkfigurText").textContent = aufg.denkfigur || "";
+  }
+
+  function renderFrage() {
+    var f = aufg.frage, box = $("frageBox");
+    if (!box) return;
+    box.hidden = !f;
+    if (!f) return;
+    $("frageText").textContent = f.text;
+    var liste = $("frageAntworten"), name = "frage-" + aufg.id;
+    liste.textContent = "";
+    f.antworten.forEach(function (t, k) {
+      var lab = el("label", "bk-antwort"), inp = el("input");
+      inp.type = "radio";
+      inp.name = name;
+      inp.value = k;
+      inp.addEventListener("change", function () { $("frageRueck").hidden = true; });
+      lab.append(inp, el("span", null, t));
+      liste.append(lab);
+    });
+    var rueck = $("frageRueck");
+    rueck.hidden = true;
+    rueck.className = "bk-frage-rueck";
+    if (beantwortet[aufg.id]) {
+      // Schon richtig beantwortet: Antwort markieren und Erklärung zeigen
+      f.antworten.forEach(function (t, k) { if (E.frageRichtig(aufg, k)) liste.querySelectorAll("input")[k].checked = true; });
+      frageRueckmeldung(true);
+    }
+  }
+
+  function frageRueckmeldung(richtig) {
+    var rueck = $("frageRueck"), ab = abschnittVon(aufg);
+    rueck.hidden = false;
+    rueck.className = "bk-frage-rueck " + (richtig ? "ok" : "fehler");
+    rueck.textContent = "";
+    if (richtig) {
+      rueck.append(el("strong", null, "Richtig. "), document.createTextNode(aufg.frage.erklaerung || ""));
+    } else {
+      rueck.append(el("strong", null, "Noch nicht. "),
+        document.createTextNode(ab ? "Lesen Sie nochmals, was «" + ab.a.titel + "» heisst: " + ab.a.text : "Lesen Sie die Antworten nochmals genau."));
+    }
+  }
+
+  if ($("knopfFrage")) $("knopfFrage").addEventListener("click", function () {
+    var gewaehlt = $("frageAntworten").querySelector("input:checked");
+    if (!gewaehlt) {
+      var rueck = $("frageRueck");
+      rueck.hidden = false;
+      rueck.className = "bk-frage-rueck";
+      rueck.textContent = "Wählen Sie zuerst eine Antwort.";
+      return;
+    }
+    var richtig = E.frageRichtig(aufg, Number(gewaehlt.value));
+    if (richtig && !beantwortet[aufg.id]) {
+      beantwortet[aufg.id] = 1;
+      speichereFragen();
+      tabsAktualisieren();
+    }
+    frageRueckmeldung(richtig);
+  });
 
   /* ---------- Hinweise (gestuft: jeder weitere Tipp erst auf Klick) - */
 
@@ -1538,10 +1690,13 @@
       speichereFortschritt();
       tabsAktualisieren();
       var knopf = null;
-      if (aktuell < aufgaben.length - 1) {
+      // Nach einer Pflichtaufgabe geht es zur nächsten Pflichtaufgabe; Zusatzaufgaben wählt man selbst.
+      var naechste = aktuell + 1;
+      if (!aufg.zusatz) while (naechste < aufgaben.length && aufgaben[naechste].zusatz) naechste++;
+      if (naechste < aufgaben.length) {
         knopf = el("button", "bk-knopf primaer", "Nächste Aufgabe");
         knopf.type = "button";
-        knopf.addEventListener("click", function () { waehleAufgabe(aktuell + 1); window.scrollTo({ top: 0, behavior: "smooth" }); });
+        knopf.addEventListener("click", function () { waehleAufgabe(naechste); window.scrollTo({ top: 0, behavior: "smooth" }); });
       }
       var wo = res.ergebnisse.length > 1 && aufg.felderWort
         ? "Der Käfer schafft es in allen " + res.ergebnisse.length + " " + aufg.felderWort[2] + ". "
@@ -1550,7 +1705,8 @@
           (aufg.zufall ? ", davon " + aufg.zufall.anzahl + " zufällig erzeugt" : "") + ". "
         : "Der Käfer hat die Aufgabe gelöst. ";
       meldungZeigen("ok", "Geschafft", wo + E.bausteineText(res.bloecke, res.max) + "." + kleinsteText(res.bloecke) +
-        (knopf ? "" : " Das war die letzte Aufgabe."), knopf);
+        (knopf ? "" : aufgaben.some(function (a) { return a.zusatz && !geloest[a.id]; })
+          ? " Das war die letzte Pflichtaufgabe. Weiter geht es mit den Zusatzaufgaben (★)." : " Das war die letzte Aufgabe."), knopf);
     } else if (res.grund === "bloecke" && res.zielErreicht) {
       meldungZeigen("fehler", "Fast", "Der Käfer löst die Aufgabe, aber: " + res.text + " Geht es mit weniger?");
     } else if (res.grund === "layouts") {

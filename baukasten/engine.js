@@ -500,6 +500,19 @@
     return { karte: m.map(function (z) { return z.join(""); }), blick: ["S", "W", "N", "E"][seiteS] };
   }
 
+  /* ---------- Konzeptfragen -------------------------------- */
+
+  // Die richtige Antwort steht nicht im Klartext in der Aufgabe, sondern als Schlüssel
+  // (FNV-1a über Aufgaben-ID und Antwortnummer). Eine Spielregel, kein Geheimnis.
+  function frageSchluessel(id, i) {
+    var s = "kara:" + id + ":" + i, h = 0x811c9dc5;
+    for (var k = 0; k < s.length; k++) { h ^= s.charCodeAt(k); h = Math.imul(h, 0x01000193) >>> 0; }
+    return ("0000000" + h.toString(16)).slice(-8);
+  }
+  function frageRichtig(aufgabe, i) {
+    return !!(aufgabe.frage && aufgabe.frage.richtig === frageSchluessel(aufgabe.id, i));
+  }
+
   function bausteineText(n, max) {
     return max == null ? "Bausteine: " + n : "Bausteine: " + n + " von höchstens " + max;
   }
@@ -565,6 +578,6 @@
     kannEinfuegen: kannEinfuegen, zuTief: zuTief, einfuegen: einfuegen, entfernen: entfernen, verschieben: verschieben,
     run: run, pruefe: pruefe, pruefeLayout: pruefeLayout, bausteineText: bausteineText, vorbereiten: vorbereiten,
     zielfeld: zielfeld, karteLesen: karteLesen, layoutVorbereiten: layoutVorbereiten, alleWege: alleWege,
-    zufall: zufall, erzeugeLabyrinth: erzeugeLabyrinth
+    zufall: zufall, erzeugeLabyrinth: erzeugeLabyrinth, frageSchluessel: frageSchluessel, frageRichtig: frageRichtig
   };
 });

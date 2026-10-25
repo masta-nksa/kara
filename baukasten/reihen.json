@@ -17,7 +17,18 @@
       "id": "ct",
       "titel": "Computational Thinking",
       "untertitel": "Der Käfer als Rasenmäher: zerlegen, Muster erkennen, abstrahieren, Algorithmus entwerfen",
-      "dateien": ["aufgaben/ct.json"]
+      "dateien": ["aufgaben/ct.json"],
+      "abschnitteTitel": "Die vier Denkfiguren des Computational Thinking",
+      "abschnitte": [
+        { "id": "zerlegen", "titel": "Zerlegen",
+          "text": "Ein grosses Problem in kleinere Teilprobleme aufteilen, die man einzeln lösen kann. Oft hilft es, zuerst eine einfachere Version zu lösen." },
+        { "id": "muster", "titel": "Muster erkennen",
+          "text": "Gleiches erkennen, das sich wiederholt. Dieselben Schritte lassen sich dann mehrmals verwenden, im Struktogramm mit einer Wiederholung." },
+        { "id": "abstrahieren", "titel": "Abstrahieren",
+          "text": "Unwichtige Einzelheiten weglassen und nur das Wesentliche behalten. So passt eine Lösung für viele Fälle, zum Beispiel «bis zur Wand» statt «4 Felder»." },
+        { "id": "entwerfen", "titel": "Algorithmus entwerfen",
+          "text": "Die Lösung in eindeutige Schritte mit fester Reihenfolge fassen und prüfen: Stimmt das Ergebnis immer? Sind alle Fälle bedacht, auch Sonderfälle?" }
+      ]
     },
     {
       "id": "labyrinth",
