@@ -1,0 +1,719 @@
+{
+  "hinweis": "Reihe «Algorithmen» fuer den Baukasten: Bausteine, Struktogramme und die fuenf Anforderungen. Aufgaben 1-5 sind Kopien der Grundlagen, angepasst ans Dossier. Keine Loesungen enthalten.",
+  "aufgaben": [
+    {
+      "id": "alg-ziel",
+      "titel": "1 · Zum Ziel",
+      "stufe": "Sequenz · ausführbar",
+      "text": "Bringen Sie den Käfer zum Zielfeld. Er kennt nur drei Befehle: vorwärts, rechts drehen, links drehen. Alles andere kann er nicht ausführen.",
+      "feld": {
+        "cols": 6,
+        "rows": 6,
+        "start": [
+          1,
+          1
+        ],
+        "blick": "N",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": false,
+        "verzweigung": false
+      },
+      "maxBloecke": null,
+      "ziel": {
+        "typ": "endfeld",
+        "feld": [
+          3,
+          4
+        ]
+      },
+      "hinweis": "Zählen Sie die Felder: erst geradeaus, dann um die Ecke."
+    },
+    {
+      "id": "alg-quadrat",
+      "titel": "2 · Das Quadrat",
+      "stufe": "Wiederholung",
+      "text": "Das ist Aufgabe 4 aus dem Dossier (Situation A). Bauen Sie das Struktogramm nach und prüfen Sie, ob Ihr eingezeichneter Weg stimmt. Höchstens 4 Bausteine.",
+      "feld": {
+        "cols": 7,
+        "rows": 7,
+        "start": [
+          2,
+          2
+        ],
+        "blick": "N",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "maxBloecke": 4,
+      "kleinsteLoesung": 4,
+      "ziel": {
+        "typ": "besucht",
+        "felder": [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "nurDiese": true,
+        "endfeld": [
+          2,
+          2
+        ]
+      },
+      "hinweis": "Welche Schritte wiederholen sich? Ein Quadrat hat vier gleiche Seiten."
+    },
+    {
+      "id": "alg-treppe",
+      "titel": "3 · Die Treppe",
+      "stufe": "Wiederholung · kürzer",
+      "text": "Der Käfer soll die Treppe über alle markierten Felder hinaufsteigen und oben rechts enden. Höchstens 5 Bausteine: Schreiben Sie es kürzer, wie die Flaschen im Dossier.",
+      "feld": {
+        "cols": 6,
+        "rows": 6,
+        "start": [
+          1,
+          1
+        ],
+        "blick": "N",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "maxBloecke": 5,
+      "kleinsteLoesung": 5,
+      "ziel": {
+        "typ": "besucht",
+        "felder": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            3,
+            3
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            5,
+            5
+          ],
+          [
+            5,
+            6
+          ],
+          [
+            6,
+            6
+          ]
+        ],
+        "nurDiese": true,
+        "endfeld": [
+          6,
+          6
+        ]
+      },
+      "hinweis": "Eine Stufe besteht aus vier Schritten. Wie oft kommt sie vor?"
+    },
+    {
+      "id": "alg-hindernis",
+      "titel": "4 · Hindernisse umgehen",
+      "stufe": "Verzweigung",
+      "text": "Das ist Aufgabe 5 aus dem Dossier. Wiederholen Sie 10-mal: Ist das Feld vorne frei, geht der Käfer vorwärts, sonst dreht er sich nach rechts. Endet er dort, wo Sie es im Dossier vorausgesagt haben? Höchstens 4 Bausteine.",
+      "feld": {
+        "cols": 5,
+        "rows": 5,
+        "start": [
+          1,
+          1
+        ],
+        "blick": "N",
+        "hindernisse": [
+          [
+            1,
+            4
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            5,
+            3
+          ]
+        ]
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": true
+      },
+      "maxBloecke": 4,
+      "kleinsteLoesung": 4,
+      "ziel": {
+        "typ": "endfeld",
+        "feld": [
+          3,
+          2
+        ]
+      },
+      "hinweis": "Die Verzweigung gehört in die Wiederholung."
+    },
+    {
+      "id": "alg-fehler",
+      "titel": "5 · Den Fehler finden",
+      "stufe": "Testen",
+      "text": "Dieses Struktogramm sollte das Quadrat aus Aufgabe 2 ablaufen, tut es aber nicht. Starten Sie es, beobachten Sie den Käfer, und beheben Sie den Fehler.",
+      "feld": {
+        "cols": 7,
+        "rows": 7,
+        "start": [
+          2,
+          2
+        ],
+        "blick": "N",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "startprogramm": [
+        {
+          "t": "loop",
+          "n": 3,
+          "body": [
+            {
+              "t": "act",
+              "cmd": "vor"
+            },
+            {
+              "t": "act",
+              "cmd": "vor"
+            },
+            {
+              "t": "act",
+              "cmd": "rechts"
+            }
+          ]
+        }
+      ],
+      "maxBloecke": 4,
+      "kleinsteLoesung": 4,
+      "ziel": {
+        "typ": "besucht",
+        "felder": [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            4,
+            3
+          ],
+          [
+            4,
+            2
+          ],
+          [
+            3,
+            2
+          ]
+        ],
+        "nurDiese": true,
+        "endfeld": [
+          2,
+          2
+        ]
+      },
+      "hinweis": "Wo hört der Käfer zu früh auf?"
+    },
+    {
+      "id": "alg-wand",
+      "titel": "6 · Bis zur Wand",
+      "stufe": "Wiederholung mit Bedingung",
+      "text": "Der Käfer soll in jedem Gang bis zur Flagge an der Wand laufen. Die Gänge sind verschieden lang, das Programm ist dasselbe. Neu: «wiederhole solange Feld vorne frei». Höchstens 3 Bausteine.",
+      "layouts": [
+        {
+          "name": "Gang 1",
+          "karte": ["#######", "#S...Z#", "#######"],
+          "blick": "E"
+        },
+        {
+          "name": "Gang 2",
+          "karte": ["##########", "#S......Z#", "##########"],
+          "blick": "E"
+        },
+        {
+          "name": "Gang 3",
+          "karte": ["#####", "#S.Z#", "#####"],
+          "blick": "E"
+        }
+      ],
+      "felderWort": [
+        "Gang",
+        "Gänge",
+        "Gängen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": false
+      },
+      "maxBloecke": 3,
+      "kleinsteLoesung": 2,
+      "hinweis": "Mit «wiederhole n-mal» müssen Sie die Länge kennen. Mit «solange» nicht."
+    },
+    {
+      "id": "alg-endlos",
+      "titel": "7 · Hört nie auf",
+      "stufe": "endlich",
+      "text": "Der Käfer soll bis zur Flagge an der Wand laufen. Dieses Programm hört aber nie auf. Starten Sie es und lesen Sie die Meldung. Ändern Sie so wenig wie möglich, damit es endet.",
+      "feld": {
+        "cols": 6,
+        "rows": 3,
+        "start": [
+          1,
+          2
+        ],
+        "blick": "E",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": false,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": false
+      },
+      "startprogramm": [
+        {
+          "t": "while",
+          "cond": "frei",
+          "body": [
+            {
+              "t": "act",
+              "cmd": "vor"
+            },
+            {
+              "t": "act",
+              "cmd": "links"
+            },
+            {
+              "t": "act",
+              "cmd": "links"
+            },
+            {
+              "t": "act",
+              "cmd": "vor"
+            },
+            {
+              "t": "act",
+              "cmd": "links"
+            },
+            {
+              "t": "act",
+              "cmd": "links"
+            }
+          ]
+        }
+      ],
+      "maxBloecke": null,
+      "ziel": {
+        "typ": "endfeld",
+        "feld": [
+          6,
+          2
+        ]
+      },
+      "hinweis": "Eine Wiederholung mit Bedingung endet nur, wenn sich im Rumpf etwas ändert, das die Bedingung irgendwann falsch macht."
+    },
+    {
+      "id": "alg-raeume",
+      "titel": "8 · Drei Räume",
+      "stufe": "allgemein",
+      "text": "Eingabe: ein Raum mit dem Käfer. Verarbeitung: Ihr Programm. Ausgabe: der Käfer in der Ecke oben rechts. Ein einziges Programm soll in allen drei Räumen funktionieren. Höchstens 7 Bausteine.",
+      "layouts": [
+        {
+          "name": "Raum 1",
+          "karte": ["#######", "#....Z#", "#.....#", "#.S...#", "#.....#", "#######"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 2",
+          "karte": ["##########", "#.......Z#", "#........#", "#........#", "#........#", "#........#", "#..S.....#", "##########"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 3",
+          "karte": ["#####", "#..Z#", "#...#", "#...#", "#.S.#", "#...#", "#...#", "#...#", "#####"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Raum",
+        "Räume",
+        "Räumen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei"
+        ]
+      },
+      "maxBloecke": 7,
+      "kleinsteLoesung": 4,
+      "hinweis": "Zerlegen Sie den Weg: zuerst bis zur oberen Wand, dann bis zur rechten."
+    },
+    {
+      "id": "alg-unbekannt",
+      "titel": "9 · Räume, die Sie nicht sehen",
+      "stufe": "korrekt",
+      "text": "Jetzt soll der Käfer in die Ecke oben links. Sie sehen zwei Räume, geprüft wird in sechs. Ein korrekter Algorithmus funktioniert für alle Eingaben, nicht nur für die, die man kennt. Höchstens 8 Bausteine.",
+      "layouts": [
+        {
+          "name": "Raum 1",
+          "karte": ["########", "#Z.....#", "#......#", "#......#", "#..S...#", "#......#", "########"],
+          "blick": "E"
+        },
+        {
+          "name": "Raum 2",
+          "karte": ["######", "#Z...#", "#....#", "#....#", "#.S..#", "#....#", "#....#", "######"],
+          "blick": "E"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Grosser Raum",
+          "karte": ["#####################", "#Z..................#", "#...................#", "#...................#", "#...................#", "#...................#", "#...................#", "#...................#", "#...........S.......#", "#...................#", "#...................#", "#...................#", "#####################"],
+          "blick": "E"
+        },
+        {
+          "name": "Start oben",
+          "karte": ["#######", "#Z.S..#", "#.....#", "#.....#", "#.....#", "#######"],
+          "blick": "E"
+        },
+        {
+          "name": "Start links",
+          "karte": ["########", "#Z.....#", "#......#", "#S.....#", "########"],
+          "blick": "E"
+        },
+        {
+          "name": "Schmal",
+          "karte": ["###", "#Z#", "#.#", "#.#", "#S#", "#.#", "###"],
+          "blick": "E"
+        }
+      ],
+      "felderWort": [
+        "Raum",
+        "Räume",
+        "Räumen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei"
+        ]
+      },
+      "maxBloecke": 8,
+      "kleinsteLoesung": 4,
+      "hinweis": "Was ist, wenn der Raum viel grösser ist? Was, wenn der Käfer schon an der Wand steht?"
+    },
+    {
+      "id": "alg-zaehler",
+      "titel": "Z1 · Gleich weit",
+      "stufe": "Zusatz · Merkzettel",
+      "text": "Der Käfer läuft nach oben bis zur Wand und zählt dabei seine Schritte. Dann dreht er nach rechts und geht genau gleich viele Schritte weiter. Dort steht die Flagge. Der Zähler ist sein Merkzettel, wie z im Dossier.",
+      "layouts": [
+        {
+          "name": "Raum 1",
+          "karte": ["#########", "#....Z..#", "#.......#", "#.......#", "#.S.....#", "#########"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 2",
+          "karte": ["##########", "#.....Z..#", "#........#", "#........#", "#........#", "#........#", "#S.......#", "##########"],
+          "blick": "N"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Raum 3",
+          "karte": ["###########", "#.....Z...#", "#.........#", "#...S.....#", "###########"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 4",
+          "karte": ["############", "#.......Z..#", "#..........#", "#..........#", "#..........#", "#..........#", "#..........#", "#..........#", "#S.........#", "############"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Raum",
+        "Räume",
+        "Räumen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links",
+          "zaehlerPlus",
+          "zaehlerMinus"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei",
+          "zaehlerNichtNull"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "zaehlerIstNull"
+        ]
+      },
+      "maxBloecke": 9,
+      "kleinsteLoesung": 7,
+      "hinweis": "Beim Hinaufgehen: Zähler + 1. Beim Weitergehen: Zähler − 1, solange er nicht 0 ist."
+    },
+    {
+      "id": "alg-treppen",
+      "titel": "Z2 · Treppen jeder Grösse",
+      "stufe": "Zusatz · offen",
+      "text": "Der Käfer steigt die Treppe hinauf bis zur Flagge. Die Stufen sind verschieden hoch und breit. Alle Bausteine, kein Limit.",
+      "layouts": [
+        {
+          "name": "Treppe 1",
+          "karte": ["######", "###.Z#", "##..##", "#..###", "#S####", "######"],
+          "blick": "N"
+        },
+        {
+          "name": "Treppe 2",
+          "karte": ["###########", "#######..Z#", "#####...###", "###...#####", "#...#######", "#S#########", "###########"],
+          "blick": "N"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Treppe 3",
+          "karte": ["#####", "##.Z#", "##.##", "##.##", "#..##", "#.###", "#.###", "#S###", "#####"],
+          "blick": "N"
+        },
+        {
+          "name": "Treppe 4",
+          "karte": ["##################", "#############...Z#", "#############.####", "##########....####", "##########.#######", "#######....#######", "#######.##########", "####....##########", "####.#############", "#....#############", "#.################", "#S################", "##################"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Treppe",
+        "Treppen",
+        "Treppen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "bis": true,
+        "solange": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ]
+      },
+      "maxBloecke": null
+    },
+    {
+      "id": "alg-saeulen",
+      "titel": "Z3 · Räume mit Säulen",
+      "stufe": "Zusatz · frei",
+      "text": "Der Käfer soll in die Ecke oben rechts. Im Raum stehen Säulen. Alle Bausteine, kein Limit, kein Tipp.",
+      "layouts": [
+        {
+          "name": "Raum 1",
+          "karte": ["########", "#.....Z#", "#......#", "##...#.#", "#......#", "##S..#.#", "########"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 2",
+          "karte": ["##########", "#.......Z#", "#..#.#...#", "#.#......#", "#........#", "#.......##", "#.#S.#.#.#", "##########"],
+          "blick": "N"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Raum 3",
+          "karte": ["############", "#.........Z#", "#..#..#..#.#", "#........#.#", "#..#....##.#", "#.#.......##", "#.........##", "#S......##.#", "############"],
+          "blick": "N"
+        },
+        {
+          "name": "Raum 4",
+          "karte": ["#######", "#....Z#", "#..#..#", "#.....#", "#.#...#", "#.....#", "#.....#", "#.#.#.#", "#.....#", "#...S.#", "#######"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Raum",
+        "Räume",
+        "Räumen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "bis": true,
+        "solange": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ]
+      },
+      "maxBloecke": null
+    }
+  ]
+}

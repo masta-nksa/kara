@@ -1,0 +1,405 @@
+{
+  "hinweis": "Reihe «Computational Thinking» fuer den Baukasten: der Kaefer als Rasenmaeher (Ziel alleWege). Keine Loesungen enthalten.",
+  "aufgaben": [
+    {
+      "id": "ct-klein",
+      "titel": "1 · Der kleine Rasen",
+      "stufe": "Zerlegen",
+      "text": "Der Käfer ist ein Rasenmäher: Er soll jedes Feld des Rasens (3 × 3, rundherum Mauer) befahren. Das Programm enthält schon die erste Bahn. Ergänzen Sie: Wende, Bahn, Wende, Bahn.",
+      "feld": {
+        "karte": ["#####", "#...#", "#...#", "#S..#", "#####"],
+        "blick": "N"
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": false,
+        "verzweigung": false
+      },
+      "startprogramm": [
+        {
+          "t": "act",
+          "cmd": "vor"
+        },
+        {
+          "t": "act",
+          "cmd": "vor"
+        }
+      ],
+      "maxBloecke": null,
+      "ziel": {
+        "typ": "alleWege"
+      },
+      "hinweis": "Eine Wende nach rechts: rechts drehen, vorwärts, rechts drehen."
+    },
+    {
+      "id": "ct-muster",
+      "titel": "2 · Bahn und Wende",
+      "stufe": "Muster erkennen",
+      "text": "Ein grösserer Rasen (5 × 5, wie im Dossier), aber höchstens 14 Bausteine. Welche Folge von Bahnen und Wenden wiederholt sich?",
+      "feld": {
+        "karte": ["#######", "#.....#", "#.....#", "#.....#", "#.....#", "#S....#", "#######"],
+        "blick": "N"
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "maxBloecke": 14,
+      "ziel": {
+        "typ": "alleWege"
+      },
+      "hinweis": "Nach der ersten Bahn kommt zweimal dasselbe: Wende rechts, Bahn, Wende links, Bahn."
+    },
+    {
+      "id": "ct-gaerten",
+      "titel": "3 · Drei Gärten",
+      "stufe": "Abstrahieren",
+      "text": "Drei Gärten, ein Programm. Die Grösse ist ein Detail, das Sie weglassen: Eine Bahn geht nicht «5 Felder weit», sondern «bis zur Wand». Höchstens 16 Bausteine.",
+      "layouts": [
+        {
+          "name": "Garten 1",
+          "karte": ["#####", "#...#", "#...#", "#...#", "#S..#", "#####"],
+          "blick": "N"
+        },
+        {
+          "name": "Garten 2",
+          "karte": ["#######", "#.....#", "#.....#", "#.....#", "#.....#", "#.....#", "#S....#", "#######"],
+          "blick": "N"
+        },
+        {
+          "name": "Garten 3",
+          "karte": ["#########", "#.......#", "#.......#", "#S......#", "#########"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Garten",
+        "Gärten",
+        "Gärten"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ]
+      },
+      "maxBloecke": 16,
+      "ziel": {
+        "typ": "alleWege"
+      },
+      "hinweis": "Die Wende darf nur vorwärts gehen, wenn das Feld frei ist."
+    },
+    {
+      "id": "ct-unbekannt",
+      "titel": "4 · Unbekannte Gärten",
+      "stufe": "Algorithmus prüfen",
+      "text": "Sie sehen zwei Gärten, geprüft wird in sechs, darunter Sonderfälle. Überlegen Sie zuerst: Welche Gärten könnten Ihr Programm aus Aufgabe 3 überlisten?",
+      "layouts": [
+        {
+          "name": "Garten 1",
+          "karte": ["######", "#....#", "#....#", "#....#", "#....#", "#S...#", "######"],
+          "blick": "N"
+        },
+        {
+          "name": "Garten 2",
+          "karte": ["########", "#......#", "#......#", "#S.....#", "########"],
+          "blick": "N"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Eine Bahn",
+          "karte": ["###", "#.#", "#.#", "#.#", "#.#", "#.#", "#S#", "###"],
+          "blick": "N"
+        },
+        {
+          "name": "Eine Reihe",
+          "karte": ["#########", "#S......#", "#########"],
+          "blick": "N"
+        },
+        {
+          "name": "Gross",
+          "karte": ["##############", "#............#", "#............#", "#............#", "#............#", "#............#", "#............#", "#............#", "#............#", "#S...........#", "##############"],
+          "blick": "N"
+        },
+        {
+          "name": "Winzig",
+          "karte": ["####", "#..#", "#S.#", "####"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Garten",
+        "Gärten",
+        "Gärten"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ]
+      },
+      "maxBloecke": 16,
+      "ziel": {
+        "typ": "alleWege"
+      },
+      "hinweis": "Gerade oder ungerade Anzahl Bahnen? Nur eine Bahn? Nur eine Reihe?"
+    },
+    {
+      "id": "ct-nebel",
+      "titel": "5 · Mähen im Nebel",
+      "stufe": "Abstrahieren",
+      "text": "Im Nebel sieht der Käfer nur seine Nachbarfelder. Reicht das? Welche Information braucht Ihr Programm wirklich?",
+      "layouts": [
+        {
+          "name": "Garten 1",
+          "karte": ["#################", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#...............#", "#S..............#", "#################"],
+          "blick": "N"
+        },
+        {
+          "name": "Garten 2",
+          "karte": ["##########", "#........#", "#........#", "#........#", "#........#", "#S.......#", "##########"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Garten",
+        "Gärten",
+        "Gärten"
+      ],
+      "nebel": true,
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ]
+      },
+      "maxBloecke": 16,
+      "ziel": {
+        "typ": "alleWege"
+      }
+    },
+    {
+      "id": "ct-teich",
+      "titel": "Z1 · Um den Teich",
+      "stufe": "Zusatz · offen",
+      "text": "Mitten im Garten liegt ein Teich. Der Käfer soll den Rasen rund um den Teich mähen. Alle Bausteine, kein Limit.",
+      "layouts": [
+        {
+          "name": "Teich 1",
+          "karte": ["#######", "#.....#", "#.###.#", "#.###.#", "#S....#", "#######"],
+          "blick": "N"
+        },
+        {
+          "name": "Teich 2",
+          "karte": ["##########", "#........#", "#.######.#", "#.######.#", "#.######.#", "#.######.#", "#S.......#", "##########"],
+          "blick": "N"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Teich 3",
+          "karte": ["#####", "#...#", "#.#.#", "#S..#", "#####"],
+          "blick": "N"
+        },
+        {
+          "name": "Teich 4",
+          "karte": ["##############", "#............#", "#.##########.#", "#S##########.#", "#.##########.#", "#............#", "##############"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Teich",
+        "Teiche",
+        "Teichen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ]
+      },
+      "maxBloecke": null,
+      "ziel": {
+        "typ": "alleWege"
+      }
+    },
+    {
+      "id": "ct-krumm",
+      "titel": "Z2 · Krumme Gärten",
+      "stufe": "Zusatz · offen",
+      "text": "Nicht jeder Garten ist ein Rechteck. Funktioniert Ihr Rasenmäher auch hier? Alle Bausteine, kein Limit.",
+      "layouts": [
+        {
+          "name": "Garten L",
+          "karte": ["#######", "#..####", "#..####", "#..####", "#.....#", "#.....#", "#S....#", "#######"],
+          "blick": "N"
+        },
+        {
+          "name": "Garten Stufen",
+          "karte": ["#######", "#####.#", "#####.#", "###...#", "###...#", "#.....#", "#S....#", "#######"],
+          "blick": "N"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Garten T",
+          "karte": ["#######", "#.....#", "#.....#", "#S....#", "##..###", "##..###", "#######"],
+          "blick": "N"
+        },
+        {
+          "name": "Garten U",
+          "karte": ["########", "#..##..#", "#..##..#", "#..##..#", "#..##..#", "#S.....#", "########"],
+          "blick": "N"
+        }
+      ],
+      "felderWort": [
+        "Garten",
+        "Gärten",
+        "Gärten"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ]
+      },
+      "maxBloecke": null,
+      "ziel": {
+        "typ": "alleWege"
+      }
+    },
+    {
+      "id": "ct-irgendwo",
+      "titel": "Z3 · Irgendwo im Garten",
+      "stufe": "Zusatz · frei",
+      "text": "Der Käfer steht irgendwo im Garten und schaut irgendwohin. Er soll trotzdem alles mähen. Alle Bausteine, kein Limit, kein Tipp.",
+      "layouts": [
+        {
+          "name": "Garten 1",
+          "karte": ["########", "#......#", "#......#", "#..S...#", "#......#", "#......#", "########"],
+          "blick": "N"
+        },
+        {
+          "name": "Garten 2",
+          "karte": ["#########", "#.......#", "#.......#", "#....S..#", "#.......#", "#########"],
+          "blick": "W"
+        }
+      ],
+      "verdeckt": [
+        {
+          "name": "Garten 3",
+          "karte": ["###########", "#.........#", "#.S.......#", "#.........#", "#.........#", "#.........#", "#.........#", "#.........#", "###########"],
+          "blick": "S"
+        },
+        {
+          "name": "Garten 4",
+          "karte": ["######", "#....#", "#....#", "#....#", "#....#", "#....#", "#....#", "#....#", "#...S#", "######"],
+          "blick": "E"
+        }
+      ],
+      "felderWort": [
+        "Garten",
+        "Gärten",
+        "Gärten"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ],
+        "verzweigung": true,
+        "bedingungen": [
+          "frei",
+          "freiLinks",
+          "freiRechts"
+        ]
+      },
+      "maxBloecke": null,
+      "ziel": {
+        "typ": "alleWege"
+      }
+    }
+  ]
+}

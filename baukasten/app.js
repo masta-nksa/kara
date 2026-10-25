@@ -74,13 +74,18 @@
     if (b.t === "act") return E.BEFEHLE[b.cmd].label;
     if (b.t === "loop") return "wiederhole " + b.n + "-mal";
     if (b.t === "until") return BIS_LABEL;
+    if (b.t === "while") return solangeLabel(b.cond);
     return E.BEDINGUNGEN[b.cond].label;
   }
+  function solangeLabel(cond) { return "wiederhole solange " + E.BEDINGUNGEN[cond || "frei"].solange; }
+  // Wort für die Felder einer Aufgabe: [Einzahl, Mehrzahl, Mehrzahl im Dativ]
+  function felderWort() { return aufg.felderWort || ["Labyrinth", "Labyrinthe", "Labyrinthen"]; }
   function quelleLabel(q) {
     if (q.quelle === "block") return blockLabel(E.blockAt(prog, q.adr));
     if (q.typ === "act") return E.BEFEHLE[q.cmd].label;
     if (q.typ === "loop") return "wiederhole n-mal";
     if (q.typ === "until") return BIS_LABEL;
+    if (q.typ === "while") return solangeLabel(q.cmd);
     return E.BEDINGUNGEN[q.cmd || "frei"].label;
   }
   // Verzweigungen sind standardmässig mit Sonst-Zweig; Aufgaben können «sonst: false» verlangen.
@@ -88,7 +93,7 @@
   function quelleBlock(q) {
     return q.quelle === "block" ? E.blockAt(prog, q.adr) : neuerBlock(q);
   }
-  function istBehaelterMitBody(b) { return b.t === "loop" || b.t === "until"; }
+  function istBehaelterMitBody(b) { return b.t === "loop" || b.t === "until" || b.t === "while"; }
 
   /* ---------- Fortschritt (localStorage, immer mit try/catch) - */
 
@@ -338,7 +343,7 @@
     renderPalette();
     var p = aufg.palette;
     $("zaehlwerk").hidden = !((p.befehle || []).some(function (c) { return /^zaehler/.test(c); }) ||
-      (p.bedingungen || []).indexOf("zaehlerIstNull") >= 0);
+      (p.bedingungen || []).concat(p.solange || []).some(function (c) { return /^zaehler/.test(c); }));
     renderLayouts();
     renderFeld();
     simReset();
@@ -414,7 +419,10 @@
   function sichtbareFelder() {
     return aufg.felder.filter(function (f) { return !f.verdeckt || layout.aufgedeckt[f.name]; }).concat(layout.zufall);
   }
-  function kurzName(f) { return f.name.replace("Layout ", "").replace("Verdeckt ", "V").replace("Zufall ", "Z"); }
+  function kurzName(f) {
+    var n = f.name.replace("Layout ", "").replace("Verdeckt ", "V").replace("Zufall ", "Z");
+    return aufg.felderWort && !f.verdeckt ? n.replace(aufg.felderWort[0] + " ", "") : n;
+  }
 
   function layoutSetzen(i) {
     var liste = sichtbareFelder();
@@ -430,6 +438,7 @@
     var box = $("layouts");
     var mehr = mehrereLayouts();
     box.hidden = !mehr;
+    box.setAttribute("aria-label", felderWort()[1]);
     $("knopfAlle").hidden = !mehr;
     box.textContent = "";
     if (!mehr) return;
@@ -481,7 +490,7 @@
   }
 
   var GRUND_KURZ = {
-    anstoss: "stösst an", kreis: "läuft im Kreis", limit: "läuft zu lange",
+    anstoss: "stösst an", kreis: "läuft im Kreis", endlos: "endet nie", limit: "läuft zu lange",
     endfeld: "kommt nicht zum Ausgang", fehlend: "verpasst Felder", zusaetzlich: "zu viele Felder"
   };
 
@@ -503,6 +512,9 @@
     });
     if (p.wiederholung) palette.append(chip({ typ: "loop" }, "wiederhole n-mal", "bk-pal-loop"));
     if (p.bis) palette.append(chip({ typ: "until" }, BIS_LABEL, "bk-pal-loop"));
+    (p.solange || []).forEach(function (c) {
+      if (E.BEDINGUNGEN[c]) palette.append(chip({ typ: "while", cmd: c }, solangeLabel(c), "bk-pal-loop"));
+    });
     if (p.verzweigung) {
       (p.bedingungen || ["frei"]).forEach(function (c) {
         if (E.BEDINGUNGEN[c]) palette.append(chip({ typ: "if", cmd: c }, E.BEDINGUNGEN[c].label, "bk-pal-if"));
@@ -604,7 +616,7 @@
     var m = 1;
     liste.forEach(function (b) {
       var g = 1;
-      if (b.t === "loop" || b.t === "until") g = gewicht(b.body);
+      if (b.t === "loop" || b.t === "until" || b.t === "while") g = gewicht(b.body);
       else if (b.t === "if") g = gewicht(b.yes) + gewicht(b.no);
       if (g > m) m = g;
     });
@@ -623,10 +635,12 @@
       return blk;
     }
 
-    if (b.t === "until") {
+    if (b.t === "until" || b.t === "while") {
       blk.classList.add("bk-loop");
       var kopfU = el("div", "bk-kopf grab");
-      kopfU.append(mainBtn(b, adr, laenge, BIS_LABEL), el("span", "bk-spacer"), delBtn());
+      var bedU = b.t === "while" ? E.BEDINGUNGEN[b.cond] : null;
+      var textU = !bedU ? BIS_LABEL : ebene >= 2 ? "solange " + bedU.kurz.replace("?", "") : blockLabel(b);
+      kopfU.append(mainBtn(b, adr, laenge, textU), el("span", "bk-spacer"), delBtn());
       blk.append(kopfU);
       var rumpfU = el("div", "bk-rumpf");
       rumpfU.append(el("div", "bk-balken grab"), renderZone(b.body, adr.concat(["body"])));
@@ -1105,11 +1119,12 @@
     var t = "Käfer-Feld mit " + f.cols + " Spalten und " + f.rows + " Zeilen. Start in Spalte " + f.start[0] + ", Zeile " + f.start[1] +
       ", Blick nach " + E.BLICK_TEXT[f.blick] + ". ";
     if (f.karte) {
-      t += "Labyrinth, freie Felder je Zeile von oben nach unten: " + freieFelderText(f) + ". ";
+      t += felderWort()[0] + ", freie Felder je Zeile von oben nach unten: " + freieFelderText(f) + ". ";
     } else if (f.hindernisse.length) {
       t += "Hindernisse: " + f.hindernisse.map(function (h) { return "Spalte " + h[0] + ", Zeile " + h[1]; }).join("; ") + ". ";
     }
     if (z.typ === "endfeld") t += "Ziel: Spalte " + z.feld[0] + ", Zeile " + z.feld[1] + ".";
+    else if (z.alleWege) t += "Ziel: jedes freie Feld befahren.";
     else {
       t += "Markierte Felder: " + z.felder.map(function (h) { return "Spalte " + h[0] + ", Zeile " + h[1]; }).join("; ") + ".";
       if (z.endfeld) t += " Endfeld: Spalte " + z.endfeld[0] + ", Zeile " + z.endfeld[1] + ".";
@@ -1226,8 +1241,9 @@
     var info = "Feld " + f.cols + " × " + f.rows + ". Start: Spalte " + f.start[0] + ", Zeile " + f.start[1] +
       ", Blick nach " + E.BLICK_TEXT[f.blick] + ". ";
     info += z.typ === "endfeld" ? "Ziel: das Feld mit der Flagge."
+      : z.alleWege ? "Ziel: jedes freie Feld befahren."
       : "Ziel: alle gestrichelt markierten Felder besuchen" + (z.endfeld ? ", Ende auf dem Feld mit der Flagge." : ".");
-    if (mehrereLayouts()) info = "Labyrinth «" + sichtbareFelder()[layout.idx].name + "». " + info;
+    if (mehrereLayouts()) info = (aufg.felderWort ? "" : "Labyrinth ") + "«" + sichtbareFelder()[layout.idx].name + "». " + info;
     $("feldInfo").textContent = info;
   }
 
@@ -1467,11 +1483,13 @@
       text = "wiederhole " + ev.n + "-mal – Durchlauf " + ev.durchlauf + " von " + ev.n;
     } else if (ev.typ === "until") {
       text = BIS_LABEL + " – Durchlauf " + ev.durchlauf;
+    } else if (ev.typ === "while") {
+      text = solangeLabel(ev.cond) + "? " + (ev.ja ? "Ja – Durchlauf " + ev.durchlauf : "Nein – fertig");
     } else if (ev.typ === "if") {
       text = E.BEDINGUNGEN[ev.cond || "frei"].label + " → " + (ev.ja ? "Ja" : "Nein");
-    } else if (ev.code === "kreis") {
+    } else if (ev.code === "kreis" || ev.code === "endlos") {
       feldRef.kaefer.classList.add("fehler");
-      text = "Der Käfer läuft im Kreis.";
+      text = ev.code === "kreis" ? "Der Käfer läuft im Kreis." : "Die Wiederholung endet nie.";
     } else {
       var dr = SCREEN_DIR[ev.d], cx = mx(ev.x), cy = my(ev.y), h = Z / 2;
       var ex = cx + dr[0] * h, ey = cy + dr[1] * h;
@@ -1508,7 +1526,8 @@
     $("schrittInfo").setAttribute("aria-live", "polite");
     // Ziel erreicht: Nebel weg, das ganze Labyrinth mit dem gelaufenen Weg wird sichtbar.
     var zf = E.zielfeld(aufg.ziel), l = sim.lauf;
-    if (l && l.ok && zf && l.end[0] === zf[0] && l.end[1] === zf[1]) { nebelOffen = true; nebelSetzen(); }
+    var alleBefahren = aufg.ziel.alleWege && l && l.ok && !E.ZIELTYPEN.besucht(aufg.ziel, l);
+    if (l && l.ok && (alleBefahren || (zf && l.end[0] === zf[0] && l.end[1] === zf[1]))) { nebelOffen = true; nebelSetzen(); }
     bewerten(mehrereLayouts() ? pruefenAlle() : E.pruefe(aufg, prog));
   }
 
@@ -1524,7 +1543,9 @@
         knopf.type = "button";
         knopf.addEventListener("click", function () { waehleAufgabe(aktuell + 1); window.scrollTo({ top: 0, behavior: "smooth" }); });
       }
-      var wo = res.ergebnisse.length > 1
+      var wo = res.ergebnisse.length > 1 && aufg.felderWort
+        ? "Der Käfer schafft es in allen " + res.ergebnisse.length + " " + aufg.felderWort[2] + ". "
+        : res.ergebnisse.length > 1
         ? "Der Käfer findet in allen " + res.ergebnisse.length + " Labyrinthen zum Ausgang" +
           (aufg.zufall ? ", davon " + aufg.zufall.anzahl + " zufällig erzeugt" : "") + ". "
         : "Der Käfer hat die Aufgabe gelöst. ";
@@ -1538,7 +1559,7 @@
         (fehl.length > 6 ? " und " + (fehl.length - 6) + " weitere" : "");
       var neuSichtbar = fehl.some(function (r) { return r.verdeckt || r.zufall; });
       meldungZeigen("fehler", null, res.text + " Nicht geschafft: " + liste + "." +
-        (neuSichtbar ? " Gescheiterte verdeckte und zufällige Labyrinthe sind jetzt oben als Reiter zu sehen." : ""));
+        (neuSichtbar ? " Gescheiterte verdeckte" + (aufg.zufall ? " und zufällige " : " ") + felderWort()[1] + " sind jetzt oben als Reiter zu sehen." : ""));
     } else {
       meldungZeigen("fehler", null, res.text);
     }

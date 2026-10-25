@@ -8,6 +8,18 @@
       "dateien": ["aufgaben/grundlagen.json"]
     },
     {
+      "id": "algorithmen",
+      "titel": "Algorithmen",
+      "untertitel": "Bausteine, Struktogramme und die fünf Anforderungen: ausführbar, eindeutig, allgemein, endlich, korrekt",
+      "dateien": ["aufgaben/algorithmen.json"]
+    },
+    {
+      "id": "ct",
+      "titel": "Computational Thinking",
+      "untertitel": "Der Käfer als Rasenmäher: zerlegen, Muster erkennen, abstrahieren, Algorithmus entwerfen",
+      "dateien": ["aufgaben/ct.json"]
+    },
+    {
       "id": "labyrinth",
       "titel": "Labyrinth",
       "untertitel": "Von geradeaus über Kreuzungen bis zum Programm, das in jedem Labyrinth den Ausgang findet",

@@ -1,8 +1,8 @@
 # Kara – Käfer programmieren
 
 Den Käfer mit Struktogramm-Bausteinen programmieren: kurze Aufgaben auf freiem Feld,
-dann Labyrinthe, Inseln und eigene Challenges. Reines HTML/CSS/JS ohne Build-Schritt und
-ohne Bibliotheken. Fortschritt, Programme und Challenges bleiben im Browser; gesendet werden
+Algorithmen und Computational Thinking, dann Labyrinthe, Inseln und eigene Challenges.
+Reines HTML/CSS/JS ohne Build-Schritt und ohne Bibliotheken. Fortschritt, Programme und Challenges bleiben im Browser; gesendet werden
 nur anonyme Seitenaufrufe an GoatCounter (siehe «Nutzungsstatistik»).
 
 **Live:** <https://masta-nksa.github.io/kara/>
@@ -52,8 +52,12 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
   (`feld.karte`, oberste Zeile zuerst: `#` Mauer, `.` Weg, `S` Start, `Z` Ziel).
 - Palette: `befehle` (`vor`, `rechts`, `links`, dazu für den Zähler `zaehlerPlus`,
   `zaehlerMinus`, `zaehlerNull`), `wiederholung` (n-mal), `bis: true` («wiederhole bis Ziel»),
-  `verzweigung` mit `bedingungen` (`frei`, `freiLinks`, `freiRechts`, `zaehlerIstNull`),
-  `sonst: false` blendet den Sonst-Zweig aus.
+  `solange` mit einer Liste von Bedingungen («wiederhole solange Feld vorne frei», je Bedingung ein
+  Baustein), `verzweigung` mit `bedingungen` (`frei`, `freiLinks`, `freiRechts`, `zaehlerIstNull`,
+  `zaehlerNichtNull`), `sonst: false` blendet den Sonst-Zweig aus.
+- «wiederhole solange …» prüft die Bedingung vor jedem Durchlauf. Steht der Käfer zu Beginn eines
+  Durchlaufs wieder gleich da (Ort, Blick, Zähler) und gilt die Bedingung noch, endet die Schleife
+  nie: Der Lauf bricht mit «Die Wiederholung endet nie» ab.
 - Zähler: eine ganze Zahl, beim Start 0. Sobald eine Aufgabe Zähler-Bausteine anbietet, zeigt
   das Käfer-Feld den aktuellen Wert an.
 - `maxTiefe` (Standard 3): wie viele Ebenen Wiederholungen und Verzweigungen ineinander
@@ -68,6 +72,11 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
 - `kleinsteLoesung`: Anzahl Bausteine der kleinsten bekannten Lösung; erscheint erst nach dem
   Lösen. Die Bausteinlimits lassen bewusst auch weniger kompakte Lösungen zu.
+- Ziel `{"typ": "alleWege"}`: Der Käfer muss jedes Feld ohne Mauer befahren (Rasenmäher). Gilt
+  auch für `layouts` und `verdeckt`; die Karten brauchen dann kein `Z`.
+- `felderWort`: Wie die Felder einer Aufgabe mit mehreren Karten heissen, als Einzahl, Mehrzahl
+  und Mehrzahl im Dativ, z. B. `["Garten", "Gärten", "Gärten"]` («Der Käfer schafft 2 von 3
+  Gärten»). Ohne Angabe: Labyrinth.
 - «wiederhole bis Ziel» erkennt, wenn der Käfer im Kreis läuft (gleicher Ort, gleiche
   Blickrichtung zu Beginn eines Durchlaufs), und bricht dann sofort ab.
 - Nebel (Schalter direkt unter «Käfer-Feld»): Ist er eingeschaltet, sind nur der Käfer, seine vier
@@ -96,6 +105,18 @@ Die Reihe «Inseln und Pledge» (`aufgaben/inseln.json`) hat eigene Labyrinthe m
 Hände scheitern; kein Programm mit bis zu 6 Bausteinen löst es) und «Jedes Labyrinth mit
 Inseln» (Pledge-Algorithmus; in den gezeigten und verdeckten Labyrinthen scheitern die
 Handregeln jeweils mindestens einmal, dazu zehn Zufallslabyrinthe mit Inseln).
+
+Die Reihen «Algorithmen» (`aufgaben/algorithmen.json`) und «Computational Thinking»
+(`aufgaben/ct.json`) begleiten zwei Papier-Dossiers: Zuerst wird eine Lektion lang auf Papier
+gearbeitet, in der nächsten Lektion folgen dieselben Felder in Kara. «Algorithmen» beginnt mit
+Kopien der Grundlagen-Aufgaben (eigene IDs `alg-…`; die Reihe «Käfer-Grundlagen» bleibt
+unverändert, weil sie auch in einem anderen Fach genutzt wird). Danach folgt je eine Aufgabe zu
+den Anforderungen: «Bis zur Wand» (solange), «Hört nie auf» (endlich), «Drei Räume» (allgemein)
+und «Räume, die Sie nicht sehen» (korrekt, mit verdeckten Sonderfällen). «Computational
+Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`): Der kleine Rasen (zerlegen), Bahn und
+Wende (Muster), drei Gärten (abstrahieren), unbekannte Gärten mit Sonderfällen (prüfen) und
+Mähen im Nebel. In beiden Reihen folgen drei Zusatzaufgaben (Z1–Z3), die immer offener werden:
+zuletzt alle Bausteine, kein Limit, kein Tipp.
 
 ## Abschluss und eigene Challenges
 
