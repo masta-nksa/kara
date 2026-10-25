@@ -46,12 +46,12 @@ Eine Reihe kann mehrere Aufgaben-Dateien zusammenfassen (`dateien`). So lassen s
 umordnen oder zusammenlegen, ohne die Aufgaben anzufassen. Aufgaben-IDs müssen über alle
 Reihen eindeutig sein (der Fortschritt hängt an der ID).
 
-Der Baukasten zeigt oben einen schmalen Lernpfad wie im Turtle-Kurs: die Reihen als Kreise (der
-Ring zeigt den Anteil gelöster Pflichtaufgaben, `kurz` ersetzt die Nummer im Kreis), daneben Titel
-und Stand, darunter die Aufgaben als Stationen auf einer Linie (✓ gelöst, Ring = aktuelle Aufgabe,
+Der Baukasten zeigt oben einen schmalen Lernpfad wie im Turtle-Kurs: Titel und Stand der Reihe,
+darunter die Aufgaben als Stationen auf einer Linie (✓ gelöst, Ring = aktuelle Aufgabe,
 ★ Zusatzaufgabe etwas erhöht und gestrichelt; Titel beim Darüberfahren). Auf dem Handy lassen sich
-beide Zeilen waagrecht wischen. Die Aufgabenkarte nennt den Ort («Reihe · Abschnitt · 2 von 10»)
-und hat «‹ Zurück / Weiter ›»; am Ende einer Reihe heisst es «Nächste Reihe ›».
+die Stationen waagrecht wischen. Die Aufgabenkarte nennt den Ort («Reihe · Abschnitt · 2 von 10»)
+und hat «‹ Zurück / Weiter ›». Andere Reihen sind im Baukasten bewusst nicht verlinkt: Jede Reihe
+steht für sich und wird über die Übersicht geöffnet.
 
 Mit `abschnitte` (Liste von `{id, titel, text}`, optional `etikett` wie «Anforderung: allgemein»;
 Standard «Denkfigur: …») gliedern sich die Stationen in Abschnitte; `abschnitteTitel` ist der Titel
@@ -61,8 +61,10 @@ den Fortschritt: Aufgabe gelöst, Vorher-Frage und Reflexion richtig beantwortet
 Blatt; Zusatzaufgaben geben kleinere, gestrichelte Blätter; sind alle Pflichtblätter offen, füllt
 sich die Mitte. Mit `denkfiguren` (gleiches Format) und `denkfigurenTitel` zeigt der Pfad statt
 dessen eine Blume je Denkfigur, und die Erklärungen gelten den Denkfiguren. Ein Blatt öffnet sich,
-wenn eine Aufgabe, in der diese Denkfigur entscheidend war, gelöst und reflektiert ist. Das
-Cockpit zeigt dieselben Blumen.
+wenn eine Aufgabe, in der diese Denkfigur entscheidend war, gelöst und reflektiert ist. Die
+Denkfiguren sind anfangs verborgen («?»): Name und Erklärung erscheinen erst, wenn zwei solche
+Aufgaben gelöst und reflektiert sind (`FREISCHALTEN` in app.js); vorher nennt die Rückmeldung nach
+der Reflexion nur die Begründung. Das Cockpit zeigt dieselben Blumen, verborgene ohne Namen.
 
 ## Aufgaben (`baukasten/aufgaben/*.json`)
 

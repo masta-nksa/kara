@@ -287,8 +287,6 @@
     REIHEN.forEach(function (r) { if (r.id === reiheParam) reihe = r; });
     return zeigeReihe(reihe).then(function () {
       if (importHinweis) meldungZeigen("fehler", null, importHinweis);
-      // Die übrigen Reihen im Hintergrund laden, damit ihre Kreise den Fortschritt zeigen.
-      REIHEN.forEach(function (r) { if (!r.lokal) ladeReihe(r).then(pfadZeigen, function () { /* nur Anzeige */ }); });
     });
   }).catch(function (err) { ladeFehler(err, "reihen.json"); });
 
@@ -321,23 +319,10 @@
 
   function pfadZeigen() {
     if (!reihe || !aufg) return;
-    // Reihen als Kreise mit Ring für den Anteil gelöster Pflichtaufgaben
-    var box = $("einheiten"), U = 2 * Math.PI * 16;
+    // Kopf: nur die eigene Reihe. Andere Reihen sind hier nicht verlinkt, jede Reihe steht für sich
+    // (Einstieg über die Übersicht).
+    var box = $("einheiten");
     box.textContent = "";
-    REIHEN.forEach(function (r, i) {
-      var s = stand(r), anteil = s.von ? s.n / s.von : 0;
-      var b = el("button", "bk-einheit");
-      b.type = "button";
-      b.setAttribute("aria-current", r === reihe ? "true" : "false");
-      b.dataset.titel = r.titel + (s.von ? " · " + s.n + "/" + s.von : "");
-      b.setAttribute("aria-label", r.titel + (s.von ? ", " + s.n + " von " + s.von + " gelöst" : ""));
-      b.innerHTML = '<svg viewBox="0 0 38 38" aria-hidden="true"><circle class="grund" cx="19" cy="19" r="16"/>' +
-        (anteil ? '<circle class="ring" cx="19" cy="19" r="16" stroke-dasharray="' + (U * anteil).toFixed(1) + " " + U.toFixed(1) + '"/>' : "") + "</svg>";
-      b.append(el("span", null, r.kurz || String(i + 1)));
-      b.addEventListener("click", function () { if (r !== reihe) zeigeReihe(r); });
-      schildAn(b);
-      box.append(b);
-    });
     var s = stand(reihe), t = el("div", "bk-einheit-titel");
     t.append(el("b", null, reihe.titel));
     if (reihe.untertitel) { t.append(el("small", null, reihe.untertitel)); t.title = reihe.titel + ": " + reihe.untertitel; }
@@ -379,20 +364,18 @@
     });
     // Denkfiguren (CT): je eine Blume. Ein Blatt öffnet sich, wenn eine Aufgabe, in der diese Denkfigur
     // entscheidend war, gelöst und reflektiert ist. Welche das sind, zeigt sich erst danach.
+    // Verborgen bleibt eine Denkfigur, bis genug Aufgaben dazu gelöst und reflektiert sind.
     var dz = $("denkfigurenZeile");
     dz.textContent = "";
     dz.hidden = !reihe.denkfiguren;
     (reihe.denkfiguren || []).forEach(function (x, k) {
-      var pf = [], zu = [];
-      aufgaben.forEach(function (a) {
-        if (!(a.denkfiguren || []).some(function (d) { return d.id === x.id; })) return;
-        (a.zusatz ? zu : pf).push(!!(geloest[a.id] && beantwortet[a.id]));
-      });
-      var f = el("span", "bk-denkfigur-blume kb-farbe" + (k % 6));
+      var st = denkfigurStand(x), pf = st.pf, zu = st.zu, offen = st.frei;
+      var f = el("span", "bk-denkfigur-blume kb-farbe" + (k % 6) + (offen ? "" : " verborgen"));
       if (window.KaraBlume) f.append(window.KaraBlume.blume(pf, zu, k, 26));
-      f.append(el("span", null, x.titel));
-      var n = pf.concat(zu).filter(Boolean).length;
-      f.dataset.titel = x.titel + ": " + n + " von " + (pf.length + zu.length) + " Aufgaben gelöst und reflektiert";
+      f.append(el("span", null, offen ? x.titel : "?"));
+      var n = st.n;
+      f.dataset.titel = offen ? x.titel + ": " + n + " von " + (pf.length + zu.length) + " Aufgaben gelöst und reflektiert"
+        : "Noch verborgen: " + n + " von " + FREISCHALTEN + " Aufgaben gelöst und reflektiert";
       f.setAttribute("aria-label", f.dataset.titel);
       f.tabIndex = 0;
       schildAn(f);
@@ -407,21 +390,41 @@
     // Erklärungen der Abschnitte (offen, solange in der Reihe noch nichts gelöst ist)
     var th = $("theorie"), begriffe = reihe.denkfiguren || ab;
     th.hidden = !begriffe;
-    if (begriffe && th.dataset.reihe !== reihe.id) {
-      th.dataset.reihe = reihe.id;
-      th.open = !aufgaben.some(function (a) { return geloest[a.id] || beantwortet[a.id]; });
-      $("theorieTitel").textContent = reihe.denkfigurenTitel || reihe.abschnitteTitel || "Abschnitte";
+    if (begriffe) {
+      if (th.dataset.reihe !== reihe.id) {
+        th.dataset.reihe = reihe.id;
+        th.open = !aufgaben.some(function (a) { return geloest[a.id] || beantwortet[a.id]; });
+      }
+      var frei = reihe.denkfiguren ? begriffe.filter(function (x) { return denkfigurStand(x).frei; }).length : begriffe.length;
+      $("theorieTitel").textContent = (reihe.denkfigurenTitel || reihe.abschnitteTitel || "Abschnitte") +
+        (reihe.denkfiguren ? " (" + frei + " von " + begriffe.length + " freigeschaltet)" : "");
       var tx = $("theorieText");
       tx.textContent = "";
       begriffe.forEach(function (x, k) {
         var p = el("p", "kb-farbe" + (k % 6));
-        p.append(el("b", null, x.titel + ": "), document.createTextNode(x.text || ""));
+        if (reihe.denkfiguren && !denkfigurStand(x).frei) {
+          p.className += " verborgen";
+          p.append(el("b", null, "? "), document.createTextNode("Noch verborgen. Lösen und reflektieren Sie weitere Aufgaben, dann erscheint hier eine weitere Denkfigur."));
+        } else p.append(el("b", null, x.titel + ": "), document.createTextNode(x.text || ""));
         tx.append(p);
       });
     }
     navigationAktualisieren();
   }
   function tabsAktualisieren() { pfadZeigen(); }
+
+  // Denkfiguren (CT): Wie viele Aufgaben, in denen sie entscheidend war, sind gelöst und reflektiert?
+  // Ab FREISCHALTEN solchen Aufgaben ist sie freigeschaltet (Name und Erklärung sichtbar).
+  var FREISCHALTEN = 2;
+  function denkfigurStand(x) {
+    var pf = [], zu = [];
+    aufgaben.forEach(function (a) {
+      if (!(a.denkfiguren || []).some(function (d) { return d.id === x.id; })) return;
+      (a.zusatz ? zu : pf).push(!!(geloest[a.id] && beantwortet[a.id]));
+    });
+    var n = pf.concat(zu).filter(Boolean).length;
+    return { pf: pf, zu: zu, n: n, frei: n >= Math.min(FREISCHALTEN, pf.length + zu.length) && n > 0 };
+  }
 
   // Titel als Schild über Station oder Reihe (Maus und Tastatur)
   var schild = $("schild");
@@ -450,7 +453,8 @@
     if (!aufg.zusatz) while (n < aufgaben.length && aufgaben[n].zusatz) n++;
     return n < aufgaben.length ? n : -1;
   }
-  function naechsteReihe() { var k = REIHEN.indexOf(reihe); return k >= 0 && k < REIHEN.length - 1 ? REIHEN[k + 1] : null; }
+  // Jede Reihe steht für sich: kein Sprung in die nächste Reihe.
+  function naechsteReihe() { return null; }
   function reflexionOffen() { return !!(aufg.frage && geloest[aufg.id] && !beantwortet[aufg.id]); }
 
   // Weiter erst, wenn die Reflexion beantwortet ist; sonst ein Hinweis bei der Frage.
@@ -588,8 +592,15 @@
     liste.forEach(function (d) {
       var nr = (reihe.denkfiguren || []).map(function (x) { return x.id; }).indexOf(d.id);
       var x = (reihe.denkfiguren || [])[nr];
+      var st = x ? denkfigurStand(x) : { frei: true, n: 0 };
       var p = el("p", "kb-farbe" + (Math.max(nr, 0) % 6));
-      p.append(el("span", "bk-etikett", x ? x.titel : d.id), document.createTextNode(" " + d.warum));
+      if (st.frei) {
+        p.append(el("span", "bk-etikett", x ? x.titel : d.id), document.createTextNode(" " + d.warum));
+        if (x && st.n === FREISCHALTEN) p.append(el("span", "bk-neu", " Neu freigeschaltet: Die Erklärung steht oben bei den Denkfiguren."));
+      } else {
+        p.className += " verborgen";
+        p.append(el("span", "bk-etikett", "?"), document.createTextNode(" " + d.warum + " Wie diese Denkfigur heisst, erfahren Sie nach einer weiteren Aufgabe dazu."));
+      }
       box.append(p);
     });
   }

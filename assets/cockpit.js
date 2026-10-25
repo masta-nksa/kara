@@ -55,9 +55,12 @@
         if (a.frage) l.push(!!fragen[a.id]);
       });
       var n = pflicht.filter(Boolean).length;
+      // Denkfiguren erscheinen erst mit Namen, wenn sie im Baukasten freigeschaltet sind (2 Aufgaben).
+      var alle = pflicht.concat(zusatz), na = alle.filter(Boolean).length;
+      var frei = !mitDF || (na > 0 && na >= Math.min(2, alle.length));
       var f = el("figure", "ck-blume kb-farbe" + (k % 6));
-      f.append(window.KaraBlume.blume(pflicht, zusatz, k, 44), el("figcaption", null, x.titel));
-      f.setAttribute("aria-label", x.titel + ": " + n + " von " + pflicht.length + " erledigt");
+      f.append(window.KaraBlume.blume(pflicht, zusatz, k, 44), el("figcaption", null, frei ? x.titel : "?"));
+      f.setAttribute("aria-label", frei ? x.titel + ": " + n + " von " + pflicht.length + " erledigt" : "Denkfigur noch verborgen");
       box.append(f);
     });
     return box;
