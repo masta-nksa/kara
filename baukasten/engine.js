@@ -509,8 +509,10 @@
     for (var k = 0; k < s.length; k++) { h ^= s.charCodeAt(k); h = Math.imul(h, 0x01000193) >>> 0; }
     return ("0000000" + h.toString(16)).slice(-8);
   }
-  function frageRichtig(aufgabe, i) {
-    return !!(aufgabe.frage && aufgabe.frage.richtig === frageSchluessel(aufgabe.id, i));
+  // art «strategie»: die Frage vor dem Lösen (Schlüssel über «id/strategie»), sonst die Reflexion danach.
+  function frageRichtig(aufgabe, i, art) {
+    var f = art === "strategie" ? aufgabe.strategie : aufgabe.frage;
+    return !!(f && f.richtig === frageSchluessel(art === "strategie" ? aufgabe.id + "/strategie" : aufgabe.id, i));
   }
 
   function bausteineText(n, max) {

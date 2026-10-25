@@ -36,15 +36,25 @@
         "typ": "alleWege"
       },
       "hinweis": "Eine Wende nach rechts: rechts drehen, vorwärts, rechts drehen.",
-      "frage": {
-        "text": "Was bedeutet «Zerlegen»?",
+      "strategie": {
+        "text": "Wie gehen Sie diese Aufgabe am besten an?",
         "antworten": [
-          "Ein grosses Problem in kleinere Teilprobleme aufteilen, die man einzeln lösen kann.",
-          "Etwas, das mehrmals vorkommt, mit einer Wiederholung kürzer schreiben.",
-          "Unwichtige Einzelheiten weglassen und nur das Wesentliche behalten."
+          "Alle Befehle auf einmal einfügen und erst am Schluss starten.",
+          "Den Weg in Teile zerlegen (Bahn, Wende, Bahn …) und Teil für Teil bauen.",
+          "Zuerst eine Wiederholung bauen, auch wenn noch nicht klar ist, was sich wiederholt."
         ],
-        "richtig": "f99ecb0f",
-        "erklaerung": "Genau. Die zweite Antwort beschreibt «Muster erkennen», die dritte «Abstrahieren»."
+        "richtig": "a36d1817",
+        "erklaerung": "Kleine Teile lassen sich einzeln bauen und testen. Starten Sie nach jedem Teil."
+      },
+      "frage": {
+        "text": "In welche Teile haben Sie den Weg zerlegt?",
+        "antworten": [
+          "In einzelne Felder.",
+          "Bahn, Wende rechts, Bahn, Wende links, Bahn.",
+          "Gar nicht, alles ist ein Stück."
+        ],
+        "richtig": "f89ec97c",
+        "erklaerung": "Genau das ist Zerlegen: ein grosses Problem in kleinere Teilprobleme aufteilen, die man einzeln lösen kann."
       }
     },
     {
@@ -72,15 +82,25 @@
         "typ": "alleWege"
       },
       "hinweis": "Nach Rasen A steht der Käfer unten. Für den Weg muss er zuerst wieder nach oben.",
-      "frage": {
-        "text": "Warum lohnt es sich, ein Problem in Teilprobleme zu zerlegen?",
+      "strategie": {
+        "text": "Womit beginnen Sie?",
         "antworten": [
-          "Weil das Programm dann weniger Bausteine braucht.",
-          "Weil man jedes Teilproblem einzeln lösen und testen kann.",
-          "Weil der Käfer dann schneller fährt."
+          "Mit Teilproblemen: Rasen A mähen, zum Rasen B fahren, Rasen B mähen.",
+          "Mit dem ganzen Weg auf einmal.",
+          "Mit dem kürzesten Programm, das mir einfällt."
         ],
-        "richtig": "1d9107ac",
-        "erklaerung": "Kleine Teile sind übersichtlich: Man löst sie nacheinander und findet Fehler schneller. Weniger Bausteine bringt erst das Erkennen von Mustern."
+        "richtig": "56ec9574",
+        "erklaerung": "Lösen und testen Sie ein Teilproblem nach dem anderen."
+      },
+      "frage": {
+        "text": "In wie viele Teilprobleme haben Sie die Aufgabe zerlegt?",
+        "antworten": [
+          "Drei: Rasen A, der Weg, Rasen B.",
+          "Eines.",
+          "So viele wie Felder."
+        ],
+        "richtig": "1e91093f",
+        "erklaerung": "Jedes Teilproblem liess sich für sich lösen und testen. Darum lohnt sich Zerlegen."
       }
     },
     {
@@ -88,7 +108,7 @@
       "titel": "3 · Bahn und Wende",
       "stufe": "Muster erkennen",
       "abschnitt": "muster",
-      "text": "Ein grösserer Rasen (5 × 5, wie im Dossier), aber höchstens 14 Bausteine.",
+      "text": "Ein grösserer Rasen (5 × 5), aber höchstens 14 Bausteine.",
       "denkfigur": "Schreiben Sie den Weg zuerst mit den Namen der Teile auf: Bahn, Wende rechts, Bahn, … Welches Stück kommt mehrmals gleich vor? Das gehört in eine Wiederholung.",
       "feld": {
         "karte": ["#######", "#.....#", "#.....#", "#.....#", "#.....#", "#S....#", "#######"],
@@ -108,15 +128,25 @@
         "typ": "alleWege"
       },
       "hinweis": "Nach der ersten Bahn kommt zweimal dasselbe: Wende rechts, Bahn, Wende links, Bahn.",
-      "frage": {
-        "text": "Woran erkennen Sie ein Muster in Ihrem Programm?",
+      "strategie": {
+        "text": "Das Bausteinlimit ist knapp. Was hilft?",
         "antworten": [
-          "Das Programm hat sehr viele Bausteine.",
-          "Der Käfer fährt im Kreis.",
-          "Eine Folge von Bausteinen kommt mehrmals gleich vor."
+          "Möglichst viele «vorwärts» hintereinander setzen.",
+          "Eine Verzweigung einbauen.",
+          "Den Weg mit den Namen der Teile aufschreiben und schauen, welches Stück mehrmals vorkommt."
+        ],
+        "richtig": "1e0e7b61",
+        "erklaerung": "Was mehrmals gleich vorkommt, passt in eine Wiederholung."
+      },
+      "frage": {
+        "text": "Welches Stück hat sich in Ihrem Programm wiederholt?",
+        "antworten": [
+          "Nichts.",
+          "Nur «vorwärts».",
+          "Wende rechts, Bahn, Wende links, Bahn."
         ],
         "richtig": "93fbce3a",
-        "erklaerung": "Eine gleiche Folge lässt sich in eine Wiederholung packen. Viele Bausteine sind höchstens ein Hinweis darauf, dass ein Muster versteckt ist."
+        "erklaerung": "Genau. Und innen wiederholt sich in jeder Bahn noch einmal «vorwärts». Muster erkennen heisst: Gleiches finden und wiederholen."
       }
     },
     {
@@ -145,6 +175,16 @@
         "typ": "alleWege"
       },
       "hinweis": "Eine Wiederholung darf in einer anderen Wiederholung stecken.",
+      "strategie": {
+        "text": "Was lohnt sich vor dem Bauen?",
+        "antworten": [
+          "Den Weg einmal in Gedanken abgehen und auf gleiche Seiten achten.",
+          "Jede Seite einzeln programmieren, ohne auf Gleiches zu achten.",
+          "So viele «vorwärts» wie möglich einfügen und dann kürzen."
+        ],
+        "richtig": "45dd280b",
+        "erklaerung": "Kurze Seite, Ecke, lange Seite, Ecke … Gleiches lässt sich wiederholen."
+      },
       "frage": {
         "text": "Welches Muster steckt im Weg um den Teich?",
         "antworten": [
@@ -209,15 +249,25 @@
         "typ": "alleWege"
       },
       "hinweis": "Die Wende darf nur vorwärts gehen, wenn das Feld frei ist.",
-      "frage": {
-        "text": "Was ist beim Rasenmäher eine Abstraktion?",
+      "strategie": {
+        "text": "Drei verschiedene Gärten, ein Programm. Was hilft?",
         "antworten": [
-          "«Fahre bis zur Wand» statt «Fahre 4 Felder».",
-          "Jeden Garten mit einem eigenen Programm mähen.",
-          "Die Felder zählen und die Zahl ins Programm schreiben."
+          "Für jeden Garten die Felder zählen.",
+          "Weglassen, was sich ändert: Eine Bahn geht «bis zur Wand», nicht «5 Felder weit».",
+          "Das Programm für den grössten Garten schreiben."
         ],
-        "richtig": "f81fd8dc",
-        "erklaerung": "Die Länge ist ein Detail, das sich von Garten zu Garten ändert. «Bis zur Wand» lässt es weg und passt darum überall."
+        "richtig": "22a0d190",
+        "erklaerung": "Was sich von Garten zu Garten ändert, gehört nicht ins Programm."
+      },
+      "frage": {
+        "text": "Was haben Sie weggelassen, damit das Programm in allen drei Gärten passt?",
+        "antworten": [
+          "Die Wenden.",
+          "Die Länge und die Anzahl der Bahnen.",
+          "Nichts."
+        ],
+        "richtig": "f91fda6f",
+        "erklaerung": "Das ist Abstrahieren: Was sich ändert, bleibt draussen. «Bis zur Wand» passt überall."
       }
     },
     {
@@ -268,15 +318,25 @@
       "ziel": {
         "typ": "alleWege"
       },
-      "frage": {
-        "text": "Warum funktioniert Ihr Programm auch im Nebel?",
+      "strategie": {
+        "text": "Was braucht Ihr Programm wirklich vom Garten?",
         "antworten": [
-          "Es kennt die Grösse des Gartens im Voraus.",
-          "Es merkt sich alle Felder, die schon gemäht sind.",
-          "Es fragt nur «Feld vorne frei?» und braucht keine Übersicht über den ganzen Garten."
+          "Eine Karte des ganzen Gartens.",
+          "Die Anzahl Felder.",
+          "Nur die Antwort auf «Feld vorne frei?»."
         ],
-        "richtig": "bc46696c",
-        "erklaerung": "Ihr Algorithmus kommt mit einer einzigen Information aus: Ist das Feld vorne frei? Eine Karte des Gartens braucht er nicht."
+        "richtig": "169d2a8b",
+        "erklaerung": "Probieren Sie Ihr Programm aus «Drei Gärten» einfach aus."
+      },
+      "frage": {
+        "text": "Was mussten Sie an Ihrem Programm für den Nebel ändern?",
+        "antworten": [
+          "Nichts: Es fragt nur «Feld vorne frei?» und braucht keine Karte.",
+          "Die Grösse des Gartens einbauen.",
+          "Neue Bausteine verwenden."
+        ],
+        "richtig": "be466c92",
+        "erklaerung": "Ihr Algorithmus kommt mit einer einzigen Information aus. Alles andere haben Sie beim Abstrahieren weggelassen."
       }
     },
     {
@@ -339,6 +399,16 @@
       "ziel": {
         "typ": "alleWege"
       },
+      "strategie": {
+        "text": "Wie gehen Sie vor?",
+        "antworten": [
+          "Für jeden Teich ein eigenes Programm schreiben.",
+          "Überlegen, was bei allen Teichen gleich ist, und nur das programmieren.",
+          "Die Teiche zuerst ausmessen."
+        ],
+        "richtig": "24049aeb",
+        "erklaerung": "Länge und Startplatz ändern sich, die Art des Wegs nicht."
+      },
       "frage": {
         "text": "Was haben alle Teiche gemeinsam?",
         "antworten": [
@@ -356,7 +426,7 @@
       "stufe": "Algorithmus entwerfen",
       "abschnitt": "entwerfen",
       "text": "Sie sehen zwei Gärten, geprüft wird in sechs, darunter Sonderfälle. Höchstens 16 Bausteine.",
-      "denkfigur": "Spielen Sie Ihr Programm vor dem Prüfen in Gedanken an den Sonderfällen aus dem Dossier durch: nur eine Bahn, nur eine Reihe, gerade Anzahl Bahnen, winzig.",
+      "denkfigur": "Spielen Sie Ihr Programm vor dem Prüfen in Gedanken an Sonderfällen durch: nur eine Bahn, nur eine Reihe, eine gerade Anzahl Bahnen, ein winziger Garten.",
       "layouts": [
         {
           "name": "Garten 1",
@@ -420,6 +490,16 @@
         "typ": "alleWege"
       },
       "hinweis": "Gerade oder ungerade Anzahl Bahnen? Nur eine Bahn? Nur eine Reihe?",
+      "strategie": {
+        "text": "Was tun Sie, bevor Sie «Alle prüfen» drücken?",
+        "antworten": [
+          "Nichts, die Prüfung zeigt es ja.",
+          "Das Programm möglichst kurz machen.",
+          "Sonderfälle ausdenken und im Kopf durchspielen: nur eine Bahn, nur eine Reihe, eine gerade Anzahl Bahnen, ein winziger Garten."
+        ],
+        "richtig": "41f84f89",
+        "erklaerung": "Wer Sonderfälle vorher durchspielt, findet Fehler, bevor die Prüfung sie zeigt."
+      },
       "frage": {
         "text": "Ihr Programm mäht alle Gärten, die Sie sehen. Ist es damit korrekt?",
         "antworten": [
@@ -491,15 +571,25 @@
       "ziel": {
         "typ": "alleWege"
       },
-      "frage": {
-        "text": "Ihr Rasenmäher klappt in allen Rechtecken. Was ist der beste nächste Schritt?",
+      "strategie": {
+        "text": "Wie prüfen Sie Ihr Programm für krumme Gärten am besten?",
         "antworten": [
-          "Nichts mehr tun: Rechtecke genügen.",
-          "Ungewöhnliche Gärten ausprobieren, um Fehler zu finden.",
-          "Das Programm länger machen, damit es sicherer wird."
+          "Im Kopf an der Ecke eines L-förmigen Gartens durchspielen, wo es scheitern könnte.",
+          "Einfach starten und hoffen.",
+          "Das Programm verdoppeln."
+        ],
+        "richtig": "7a03a253",
+        "erklaerung": "Gezielt die schwierigen Stellen suchen: Dort zeigen sich Fehler."
+      },
+      "frage": {
+        "text": "Was zeigt diese Aufgabe über Ihren Rasenmäher?",
+        "antworten": [
+          "Er funktioniert nur in Rechtecken.",
+          "Er funktioniert auch in manchen anderen Formen, weil er nur nach «Feld vorne frei?» fragt.",
+          "Er ist zu lang."
         ],
         "richtig": "ab22c0df",
-        "erklaerung": "Prüfen heisst: gezielt Fälle suchen, in denen der Algorithmus scheitern könnte. Wer nur bekannte Fälle testet, findet keine neuen Fehler."
+        "erklaerung": "Prüfen mit ungewöhnlichen Fällen zeigt, wie weit ein Algorithmus trägt und wo er an Grenzen kommt."
       }
     },
     {
@@ -562,15 +652,25 @@
       "ziel": {
         "typ": "alleWege"
       },
-      "frage": {
+      "strategie": {
         "text": "Welche Zerlegung passt zu dieser Aufgabe?",
         "antworten": [
-          "Zuerst in eine passende Ecke fahren, dann wie bisher mähen.",
           "Jedes Feld einzeln anfahren.",
+          "Zuerst in eine passende Ecke fahren, dann wie bisher mähen.",
           "Zuerst die Mitte mähen, dann den Rand."
         ],
-        "richtig": "eb049d01",
-        "erklaerung": "So nutzen Sie Ihren fertigen Rasenmäher wieder: ein neues, kleines Teilproblem (zur Ecke fahren) plus eine Lösung, die Sie schon haben."
+        "richtig": "b3bbe6c1",
+        "erklaerung": "Ein neues, kleines Teilproblem (zur Ecke fahren) plus eine Lösung, die Sie schon haben."
+      },
+      "frage": {
+        "text": "Welche Aussage passt zu Ihrer Lösung?",
+        "antworten": [
+          "Ich habe alles neu programmiert.",
+          "Ich habe die Grösse des Gartens eingebaut.",
+          "Ich habe ein neues Teilproblem (zur Ecke fahren) mit einer fertigen Lösung kombiniert."
+        ],
+        "richtig": "e90499db",
+        "erklaerung": "So arbeiten Informatikerinnen und Informatiker: Bekannte Lösungen wiederverwenden und nur das Neue dazubauen."
       }
     }
   ]

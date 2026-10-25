@@ -78,13 +78,14 @@ Nur auf ausdrücklichen Wunsch ändern.
 
 Seit 25.10.2026: Reihen «Algorithmen» und «Computational Thinking» zu zwei Papier-Dossiers der
 Lehrperson (L2_Dossier_kompakt, CT_Dossier im OneDrive-Ordner Algorithmen_FMS/word); Papier und
-Kara zeigen dieselben Felder, bei Änderungen beides anpassen. «Käfer-Grundlagen» bleibt
+Kara zeigen dieselben Felder, bei Änderungen beides anpassen. Kara-Texte verweisen nie aufs
+Dossier (auch nicht auf «Lektion 1»): Die Aufgaben müssen für sich allein lösbar sein. «Käfer-Grundlagen» bleibt
 unverändert (wird in einem anderen Fach genutzt); die Algorithmen-Reihe hat Kopien mit eigenen
 IDs. Neu in der Engine: «wiederhole solange …» (`while`, Abbruch «endet nie»), Bedingung
 `zaehlerNichtNull`, Ziel `alleWege`, `felderWort`. Die CT-Reihe ist nach den vier Denkfiguren
 gegliedert (`abschnitte` in reihen.json): Lernpfad mit Blume je Denkfigur (auch im Cockpit),
-Etikett, Kasten «So hilft … hier» und Konzeptfrage (Auswahl, Schlüssel statt Klartext) je
-Aufgabe, Zusatzaufgaben mit ★. Vorbild: Kursmodus von masta-nksa/turtle. Die Algorithmen-Reihe
+Etikett, Vorher-Frage zur Strategie, Strategie nur als erster Tipp (nie offen in der Aufgabe) und
+Reflexionsfrage erst nach dem Lösen (Auswahl, Schlüssel statt Klartext), Zusatzaufgaben mit ★. Vorbild: Kursmodus von masta-nksa/turtle. Die Algorithmen-Reihe
 ist ebenso gegliedert: Bausteine und die fünf Anforderungen (je eigene Blume, sechs Farben), mit
 den Aufgaben «Nur rechts» (ausführbar) und «Biege ab» (eindeutig). Die Lehrperson rechnet mit fünf Anforderungen
 (mit Korrektheit); L1-Dossier und Algorithmus-Check in `checks` nennen noch vier.

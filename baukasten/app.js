@@ -363,7 +363,7 @@
       b.setAttribute("aria-current", i === aktuell ? "true" : "false");
       b.querySelector(".haken").textContent = fertig ? "✓" : "";
       b.setAttribute("aria-label", a.titel + (a.zusatz ? ", Zusatzaufgabe" : "") + (fertig ? ", gelöst" : "") +
-        (a.frage ? (beantwortet[a.id] ? ", Frage beantwortet" : ", Frage offen") : ""));
+        (a.frage ? (beantwortet[a.id] ? ", Reflexion beantwortet" : ", Reflexion offen") : ""));
     });
     var ab = abschnitte();
     if (!ab || !window.KaraBlume) return;
@@ -374,6 +374,7 @@
         if (a.abschnitt !== g.dataset.abschnitt) return;
         var liste = a.zusatz ? zusatz : pflicht;
         liste.push(!!geloest[a.id]);
+        if (a.strategie) liste.push(!!beantwortet[a.id + "/strategie"]);
         if (a.frage) liste.push(!!beantwortet[a.id]);
       });
       var n = pflicht.filter(Boolean).length, nz = zusatz.filter(Boolean).length;
@@ -405,7 +406,8 @@
     $("aufgabeTitel").textContent = aufg.titel;
     $("aufgabeText").textContent = aufg.text;
     renderDenkfigur();
-    renderFrage();
+    renderFrage("strategie");
+    renderFrage("frage");
     tippStufe = 1;
     $("hinweisBox").open = false;
     renderHinweise();
@@ -437,75 +439,86 @@
     if (ab) box.append(el("span", "bk-etikett kb-farbe" + (ab.nr % 6), ab.a.etikett || "Denkfigur: " + ab.a.titel));
     if (aufg.zusatz) box.append(el("span", "bk-etikett zusatz", "★ Zusatzaufgabe"));
     box.hidden = !box.childNodes.length;
-    var df = $("denkfigurBox");
-    df.hidden = !aufg.denkfigur;
-    df.className = "bk-denkfigur" + (ab ? " kb-farbe" + (ab.nr % 6) : "");
-    $("denkfigurTitel").textContent = reihe.kastenTitel || (ab ? "So hilft «" + ab.a.titel + "» hier" : "So gehen Sie vor");
-    $("denkfigurText").textContent = aufg.denkfigur || "";
   }
 
-  function renderFrage() {
-    var f = aufg.frage, box = $("frageBox");
+  // art «strategie»: Frage vor dem Lösen, «frage»: Reflexion, sichtbar erst nach dem Lösen.
+  function frageSchluessel(art) { return art === "strategie" ? aufg.id + "/strategie" : aufg.id; }
+  function renderFrage(art) {
+    var f = aufg[art], box = $(art + "Box");
     if (!box) return;
     box.hidden = !f;
     if (!f) return;
-    $("frageText").textContent = f.text;
-    var liste = $("frageAntworten"), name = "frage-" + aufg.id;
+    var offen = art === "strategie" || !!geloest[aufg.id];
+    $(art + "Knopf").hidden = !offen;
+    $(art + "Text").textContent = offen ? f.text : "Die Reflexionsfrage erscheint, sobald der Käfer die Aufgabe gelöst hat.";
+    $(art + "Text").classList.toggle("bk-frage-wartet", !offen);
+    var liste = $(art + "Antworten"), name = art + "-" + aufg.id, rueck = $(art + "Rueck");
     liste.textContent = "";
+    rueck.hidden = true;
+    rueck.className = "bk-frage-rueck";
+    if (!offen) return;
     f.antworten.forEach(function (t, k) {
       var lab = el("label", "bk-antwort"), inp = el("input");
       inp.type = "radio";
       inp.name = name;
       inp.value = k;
-      inp.addEventListener("change", function () { $("frageRueck").hidden = true; });
+      inp.addEventListener("change", function () { rueck.hidden = true; });
       lab.append(inp, el("span", null, t));
       liste.append(lab);
     });
-    var rueck = $("frageRueck");
-    rueck.hidden = true;
-    rueck.className = "bk-frage-rueck";
-    if (beantwortet[aufg.id]) {
+    if (beantwortet[frageSchluessel(art)]) {
       // Schon richtig beantwortet: Antwort markieren und Erklärung zeigen
-      f.antworten.forEach(function (t, k) { if (E.frageRichtig(aufg, k)) liste.querySelectorAll("input")[k].checked = true; });
-      frageRueckmeldung(true);
+      f.antworten.forEach(function (t, k) { if (E.frageRichtig(aufg, k, art)) liste.querySelectorAll("input")[k].checked = true; });
+      frageRueckmeldung(art, true);
     }
   }
 
-  function frageRueckmeldung(richtig) {
-    var rueck = $("frageRueck"), ab = abschnittVon(aufg);
+  function frageRueckmeldung(art, richtig) {
+    var rueck = $(art + "Rueck"), ab = abschnittVon(aufg);
     rueck.hidden = false;
     rueck.className = "bk-frage-rueck " + (richtig ? "ok" : "fehler");
     rueck.textContent = "";
     if (richtig) {
-      rueck.append(el("strong", null, "Richtig. "), document.createTextNode(aufg.frage.erklaerung || ""));
+      rueck.append(el("strong", null, "Richtig. "), document.createTextNode(aufg[art].erklaerung || ""));
+    } else if (art === "strategie") {
+      rueck.append(el("strong", null, "Noch nicht. "), document.createTextNode("Lesen Sie die Aufgabe nochmals. Wenn Sie nicht weiterkommen: «Hinweis anzeigen»."));
     } else {
       rueck.append(el("strong", null, "Noch nicht. "),
         document.createTextNode(ab ? "Lesen Sie nochmals, was «" + ab.a.titel + "» heisst: " + ab.a.text : "Lesen Sie die Antworten nochmals genau."));
     }
   }
 
-  if ($("knopfFrage")) $("knopfFrage").addEventListener("click", function () {
-    var gewaehlt = $("frageAntworten").querySelector("input:checked");
-    if (!gewaehlt) {
-      var rueck = $("frageRueck");
-      rueck.hidden = false;
-      rueck.className = "bk-frage-rueck";
-      rueck.textContent = "Wählen Sie zuerst eine Antwort.";
-      return;
-    }
-    var richtig = E.frageRichtig(aufg, Number(gewaehlt.value));
-    if (richtig && !beantwortet[aufg.id]) {
-      beantwortet[aufg.id] = 1;
-      speichereFragen();
-      tabsAktualisieren();
-    }
-    frageRueckmeldung(richtig);
+  ["strategie", "frage"].forEach(function (art) {
+    if (!$(art + "Knopf")) return;
+    $(art + "Knopf").addEventListener("click", function () {
+      var gewaehlt = $(art + "Antworten").querySelector("input:checked");
+      if (!gewaehlt) {
+        var rueck = $(art + "Rueck");
+        rueck.hidden = false;
+        rueck.className = "bk-frage-rueck";
+        rueck.textContent = "Wählen Sie zuerst eine Antwort.";
+        return;
+      }
+      var richtig = E.frageRichtig(aufg, Number(gewaehlt.value), art);
+      if (richtig && !beantwortet[frageSchluessel(art)]) {
+        beantwortet[frageSchluessel(art)] = 1;
+        speichereFragen();
+        tabsAktualisieren();
+      }
+      frageRueckmeldung(art, richtig);
+    });
   });
 
   /* ---------- Hinweise (gestuft: jeder weitere Tipp erst auf Klick) - */
 
   var tippStufe = 1;
-  function hinweisListe() { return aufg.hinweise || (aufg.hinweis ? [aufg.hinweis] : []); }
+  // Der Strategie-Tipp («denkfigur») kommt als erster Tipp, nicht schon offen in der Aufgabe.
+  function hinweisListe() {
+    var l = aufg.hinweise || (aufg.hinweis ? [aufg.hinweis] : []), ab = abschnittVon(aufg);
+    if (!aufg.denkfigur) return l;
+    var vor = reihe.kastenTitel ? reihe.kastenTitel + ": " : ab ? "So hilft «" + ab.a.titel + "»: " : "";
+    return [vor + aufg.denkfigur].concat(l);
+  }
   function renderHinweise() {
     var liste = hinweisListe(), box = $("hinweisListe");
     $("hinweisBox").hidden = !liste.length;
@@ -1688,6 +1701,7 @@
   function bewerten(res) {
     if (res.ok) {
       geloest[aufg.id] = Math.min(res.bloecke, geloest[aufg.id] || res.bloecke);
+      renderFrage("frage");
       statistik("geloest", true);
       speichereFortschritt();
       tabsAktualisieren();
