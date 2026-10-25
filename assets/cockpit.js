@@ -45,6 +45,7 @@
         if (a.abschnitt !== x.id) return;
         var l = a.zusatz ? zusatz : pflicht;
         l.push(!!fertig[a.id]);
+        if (a.strategie) l.push(!!fragen[a.id + "/strategie"]);
         if (a.frage) l.push(!!fragen[a.id]);
       });
       var n = pflicht.filter(Boolean).length;

@@ -31,22 +31,25 @@
     <div class="bk-etiketten" id="etiketten" hidden></div>
     <h2 id="aufgabeTitel"></h2>
     <p id="aufgabeText"></p>
-    <div class="bk-denkfigur" id="denkfigurBox" hidden>
-      <p class="bk-denkfigur-titel" id="denkfigurTitel"></p>
-      <p id="denkfigurText"></p>
-    </div>
-    <fieldset class="bk-frage" id="frageBox" hidden>
-      <legend>Konzeptfrage</legend>
-      <p class="bk-frage-text" id="frageText"></p>
-      <div class="bk-frage-antworten" id="frageAntworten"></div>
-      <button type="button" class="bk-knopf" id="knopfFrage">Antwort prüfen</button>
-      <p class="bk-frage-rueck" id="frageRueck" role="status" aria-live="polite" hidden></p>
+    <fieldset class="bk-frage" id="strategieBox" hidden>
+      <legend>Vorher: Wie gehen Sie vor?</legend>
+      <p class="bk-frage-text" id="strategieText"></p>
+      <div class="bk-frage-antworten" id="strategieAntworten"></div>
+      <button type="button" class="bk-knopf" id="strategieKnopf">Antwort prüfen</button>
+      <p class="bk-frage-rueck" id="strategieRueck" role="status" aria-live="polite" hidden></p>
     </fieldset>
     <details class="bk-hinweis" id="hinweisBox">
       <summary>Hinweis anzeigen</summary>
       <div id="hinweisListe"></div>
       <button type="button" class="bk-knopf bk-tipp" id="knopfTipp">Noch ein Tipp</button>
     </details>
+    <fieldset class="bk-frage" id="frageBox" hidden>
+      <legend>Nachher: Reflexion</legend>
+      <p class="bk-frage-text" id="frageText"></p>
+      <div class="bk-frage-antworten" id="frageAntworten"></div>
+      <button type="button" class="bk-knopf" id="frageKnopf">Antwort prüfen</button>
+      <p class="bk-frage-rueck" id="frageRueck" role="status" aria-live="polite" hidden></p>
+    </fieldset>
     <div class="bk-challenge" id="challengeLeiste" hidden>
       <button type="button" class="bk-knopf" id="chTeilen">Link zum Teilen kopieren</button>
       <a class="bk-knopf" id="chBearbeiten" href="../editor/">Im Editor bearbeiten</a>

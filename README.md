@@ -47,12 +47,12 @@ umordnen oder zusammenlegen, ohne die Aufgaben anzufassen. Aufgaben-IDs müssen 
 Reihen eindeutig sein (der Fortschritt hängt an der ID).
 
 Mit `abschnitte` (Liste von `{id, titel, text}`, optional `etikett` wie «Anforderung: allgemein»;
-Standard «Denkfigur: …»), `abschnitteTitel` und optional `kastenTitel` (Titel des Kastens zur
-Aufgabe; Standard «So hilft «…» hier») gliedert sich eine Reihe
+Standard «Denkfigur: …»), `abschnitteTitel` und optional `kastenTitel` (Vorsatz des Strategie-Tipps; Standard
+«So hilft «…»:») gliedert sich eine Reihe
 in Abschnitte, z. B. die vier Denkfiguren des Computational Thinking. Der Baukasten zeigt dann
 statt der Aufgabenleiste einen Lernpfad: oben aufklappbar die Erklärungen (offen, solange in der
 Reihe noch nichts gelöst ist), darunter je Abschnitt eine Spalte mit Blume, Stand und Aufgaben.
-Jede gelöste Aufgabe und jede richtig beantwortete Konzeptfrage öffnet ein Blütenblatt;
+Jede gelöste Aufgabe und jede richtig beantwortete Frage (vorher und nachher) öffnet ein Blütenblatt;
 Zusatzaufgaben geben kleinere, gestrichelte Blätter. Sind alle Pflichtblätter offen, füllt sich
 die Mitte. Das Cockpit zeigt die Blumen ebenfalls.
 
@@ -82,10 +82,12 @@ die Mitte. Das Cockpit zeigt die Blumen ebenfalls.
   Labyrinthe werden danach als Reiter sichtbar. «Alle prüfen» prüft ohne Animation.
 - Für Reihen mit Abschnitten: `abschnitt` (id des Abschnitts; Etikett über der Aufgabe),
   `zusatz: true` (★, gestrichelt, zählt nicht als Pflicht; «Nächste Aufgabe» überspringt sie),
-  `denkfigur` (Kasten «So hilft … hier» unter dem Aufgabentext) und `frage`:
-  `{text, antworten: [...], richtig, erklaerung}`. `richtig` ist ein Schlüssel aus
-  `frageSchluessel(id, Nummer)` (engine.js), keine Klartext-Antwort. Eine falsche Wahl zeigt
-  die Erklärung des Abschnitts, eine richtige die `erklaerung`.
+  `denkfigur` (Strategie-Tipp: erscheint als erster Hinweis, nicht offen in der Aufgabe),
+  `strategie` (Frage «Vorher: Wie gehen Sie vor?», gleich bei der Aufgabe) und `frage`
+  («Nachher: Reflexion», erst sichtbar, wenn die Aufgabe gelöst ist; die Antwort nennt, was die
+  Lösung gezeigt hat, z. B. das gefundene Muster). Beide Fragen: `{text, antworten: [...],
+  richtig, erklaerung}`. `richtig` ist ein Schlüssel aus `frageSchluessel(id, Nummer)` bzw.
+  `frageSchluessel(id + "/strategie", Nummer)` (engine.js), keine Klartext-Antwort.
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
 - `kleinsteLoesung`: Anzahl Bausteine der kleinsten bekannten Lösung; erscheint erst nach dem
   Lösen. Die Bausteinlimits lassen bewusst auch weniger kompakte Lösungen zu.
@@ -146,8 +148,9 @@ erkennen (Bahn und Wende, um den Teich), Abstrahieren (drei Gärten, Mähen im N
 jeder Grösse) und Algorithmus entwerfen (unbekannte Gärten mit Sonderfällen, ★ krumme Gärten,
 ★ irgendwo im Garten).
 
-In beiden Reihen nennt jede Aufgabe ihren Abschnitt, sagt in einem Kasten, worauf es ankommt,
-und hat eine Konzeptfrage. Die Zusatzaufgaben werden immer offener: zuletzt alle Bausteine, kein
+In beiden Reihen nennt jede Aufgabe ihren Abschnitt, fragt vorher nach der passenden Strategie
+und nach dem Lösen in einer Reflexionsfrage, was das Programm gezeigt hat. Die Strategie selbst
+steht nur als Tipp im Hinweis. Die Zusatzaufgaben werden immer offener: zuletzt alle Bausteine, kein
 Limit, kein Tipp.
 
 ## Abschluss und eigene Challenges
@@ -200,7 +203,7 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | `kara.baukasten.prog.v1` | Stand der Bausteine je Aufgabe; «Alles löschen» leert ihn |
 | `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
 | `kara.baukasten.nebel.v2` | Nebel ein/aus, je Aufgabe (nur wenn selbst umgeschaltet) |
-| `kara.baukasten.fragen.v1` | richtig beantwortete Konzeptfragen (`{aufgabenId: 1}`) |
+| `kara.baukasten.fragen.v1` | richtig beantwortete Fragen (`{aufgabenId: 1}` für die Reflexion, `{"aufgabenId/strategie": 1}` für die Vorher-Frage) |
 | `kara.challenges.v1` | eigene und übernommene Challenges |
 | `kara.editor.entwurf.v1` | Entwurf im Editor |
 | `kara.zaehler.aus` | Statistik für diesen Browser abgeschaltet (`?zaehler=aus`) |

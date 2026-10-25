@@ -36,14 +36,24 @@
         ]
       },
       "hinweis": "Zählen Sie die Felder: erst geradeaus, dann um die Ecke.",
-      "frage": {
-        "text": "Wie heisst der Baustein, bei dem die Schritte einfach nacheinander ablaufen?",
+      "strategie": {
+        "text": "Wie finden Sie die richtigen Befehle?",
         "antworten": [
-          "Sequenz",
+          "Zufällig Bausteine ausprobieren.",
+          "Felder zählen: zuerst geradeaus, dann um die Ecke.",
+          "Eine Wiederholung bauen."
+        ],
+        "richtig": "a9f90c25",
+        "erklaerung": "Zählen Sie die Felder und schreiben Sie die Befehle der Reihe nach."
+      },
+      "frage": {
+        "text": "Ihr Programm besteht nur aus Befehlen nacheinander. Wie heisst dieser Baustein?",
+        "antworten": [
           "Verzweigung",
+          "Sequenz",
           "Wiederholung"
         ],
-        "richtig": "d094e1b5",
+        "richtig": "cf94e022",
         "erklaerung": "Genau. Eine Verzweigung wählt je nach Bedingung einen Weg, eine Wiederholung führt Schritte mehrmals aus."
       }
     },
@@ -118,15 +128,25 @@
         ]
       },
       "hinweis": "Welche Schritte wiederholen sich? Ein Quadrat hat vier gleiche Seiten.",
-      "frage": {
-        "text": "Woran erkennen Sie im Struktogramm eine Wiederholung?",
+      "strategie": {
+        "text": "Höchstens 4 Bausteine. Was hilft?",
         "antworten": [
-          "Am Dreieck mit «Ja» und «Nein».",
-          "Am Kopf «wiederhole …»: Was eingerückt darunter steht, wird wiederholt.",
-          "Daran, dass mehrere Kästen untereinander stehen."
+          "Herausfinden, welche Schritte sich wiederholen.",
+          "Alle Schritte einzeln aufschreiben.",
+          "Eine Verzweigung verwenden."
         ],
-        "richtig": "bc75fbaa",
-        "erklaerung": "Richtig. Das Dreieck gehört zur Verzweigung, Kästen untereinander sind eine Sequenz."
+        "richtig": "cf851a5a",
+        "erklaerung": "Ein Quadrat hat vier gleiche Seiten."
+      },
+      "frage": {
+        "text": "Welche Schritte haben Sie wiederholt, und wie oft?",
+        "antworten": [
+          "vorwärts, vorwärts, rechts drehen: 4-mal",
+          "vorwärts: 8-mal",
+          "rechts drehen: 4-mal"
+        ],
+        "richtig": "bd75fd3d",
+        "erklaerung": "Eine Seite und eine Ecke, viermal: So entsteht das Quadrat."
       }
     },
     {
@@ -213,6 +233,16 @@
         ]
       },
       "hinweis": "Eine Stufe besteht aus vier Schritten. Wie oft kommt sie vor?",
+      "strategie": {
+        "text": "Wie schreiben Sie das kürzer?",
+        "antworten": [
+          "Weniger Felder ablaufen.",
+          "Nur «vorwärts» verwenden.",
+          "Eine Stufe finden und sie wiederholen."
+        ],
+        "richtig": "ce23275c",
+        "erklaerung": "Eine Stufe besteht aus vier Schritten."
+      },
       "frage": {
         "text": "Was ändert sich am Struktogramm, wenn die Treppe 50 statt 5 Stufen hat?",
         "antworten": [
@@ -273,15 +303,25 @@
         ]
       },
       "hinweis": "Die Verzweigung gehört in die Wiederholung.",
-      "frage": {
-        "text": "Was macht eine Verzweigung?",
+      "strategie": {
+        "text": "Wo gehört die Verzweigung hin?",
         "antworten": [
-          "Sie führt Befehle mehrmals aus.",
-          "Je nach Bedingung führt sie den einen oder den anderen Zweig aus.",
-          "Sie hält das Programm an."
+          "In die Wiederholung, damit der Käfer bei jedem Durchlauf neu entscheidet.",
+          "Vor die Wiederholung.",
+          "Es braucht keine Verzweigung."
+        ],
+        "richtig": "57723b20",
+        "erklaerung": "In jedem Durchlauf entscheidet die Verzweigung neu: vorwärts oder drehen."
+      },
+      "frage": {
+        "text": "Wie oft hat der Käfer in Ihrem Programm entschieden?",
+        "antworten": [
+          "Einmal.",
+          "In jedem der 10 Durchläufe neu.",
+          "Gar nie."
         ],
         "richtig": "39721e88",
-        "erklaerung": "Richtig. Ist die Bedingung erfüllt, gilt der Ja-Zweig (links), sonst der Nein-Zweig (rechts)."
+        "erklaerung": "Weil die Verzweigung in der Wiederholung steckt, entscheidet der Käfer bei jedem Durchlauf neu."
       }
     },
     {
@@ -328,6 +368,16 @@
       "maxBloecke": 3,
       "kleinsteLoesung": 2,
       "hinweis": "Mit «wiederhole n-mal» müssen Sie die Länge kennen. Mit «solange» nicht.",
+      "strategie": {
+        "text": "Die Gänge sind verschieden lang. Was hilft?",
+        "antworten": [
+          "Für jeden Gang die Länge zählen.",
+          "Eine Wiederholung, die läuft, solange vorne frei ist.",
+          "Möglichst viele «vorwärts» einfügen."
+        ],
+        "richtig": "edcae4cf",
+        "erklaerung": "Die Länge kennen Sie nicht, also wiederholen Sie, solange es geht."
+      },
       "frage": {
         "text": "Wann nimmt man «wiederhole solange …» statt «wiederhole n-mal»?",
         "antworten": [
@@ -383,6 +433,16 @@
         ]
       },
       "hinweis": "Drei Vierteldrehungen nach rechts schauen in dieselbe Richtung wie eine nach links.",
+      "strategie": {
+        "text": "Wie kommt der Käfer ohne «links drehen» nach links?",
+        "antworten": [
+          "Gar nicht.",
+          "Indem er rückwärts fährt.",
+          "Mit Befehlen, die er kennt: dreimal «rechts drehen»."
+        ],
+        "richtig": "9dc5063c",
+        "erklaerung": "Drei Vierteldrehungen nach rechts zeigen in dieselbe Richtung wie eine nach links."
+      },
       "frage": {
         "text": "Warum ist «links drehen» für diesen Käfer kein ausführbarer Schritt?",
         "antworten": [
@@ -442,6 +502,16 @@
           4
         ]
       },
+      "strategie": {
+        "text": "Was müssen Sie festlegen, bevor Sie bauen?",
+        "antworten": [
+          "In welche Richtung abgebogen wird und wie viele Felder es danach sind.",
+          "Wie schnell der Käfer fährt.",
+          "Nichts, «biege ab» genügt."
+        ],
+        "richtig": "f7632c83",
+        "erklaerung": "Die Flagge zeigt, was gemeint war."
+      },
       "frage": {
         "text": "Welche Anweisung ist eindeutig?",
         "antworten": [
@@ -500,15 +570,25 @@
       "maxBloecke": 7,
       "kleinsteLoesung": 4,
       "hinweis": "Zerlegen Sie den Weg: zuerst bis zur oberen Wand, dann bis zur rechten.",
-      "frage": {
-        "text": "Was heisst «allgemein»?",
+      "strategie": {
+        "text": "Wie wird ein Programm für alle drei Räume möglich?",
         "antworten": [
-          "Jeder Schritt ist genau festgelegt.",
-          "Der Algorithmus hat möglichst wenige Schritte.",
-          "Der Algorithmus löst alle Aufgaben derselben Art, nicht nur einen Einzelfall."
+          "Für jeden Raum ein eigenes Programm.",
+          "Keine festen Längen verwenden, sondern «bis zur Wand».",
+          "Das Programm für den grössten Raum schreiben."
+        ],
+        "richtig": "c1a520fc",
+        "erklaerung": "Zerlegen Sie den Weg: zuerst bis zur oberen Wand, dann bis zur rechten."
+      },
+      "frage": {
+        "text": "Was macht Ihr Programm allgemein?",
+        "antworten": [
+          "Es ist kurz.",
+          "Es hat eine Verzweigung.",
+          "Es enthält keine Längen, die nur in einem Raum stimmen."
         ],
         "richtig": "ab41f65e",
-        "erklaerung": "Richtig. Wer nur «7 + 4» rechnen kann, kann noch nicht addieren. Die erste Antwort beschreibt «eindeutig»."
+        "erklaerung": "Genau. Allgemein heisst: Es löst alle Aufgaben derselben Art, nicht nur einen Einzelfall."
       }
     },
     {
@@ -569,6 +649,16 @@
         ]
       },
       "maxBloecke": null,
+      "strategie": {
+        "text": "Was ist bei allen Treppen gleich?",
+        "antworten": [
+          "Hinauf bis zur Kante, dann bis zur nächsten Stufe, egal wie hoch und breit.",
+          "Alle haben drei Stufen.",
+          "Nichts."
+        ],
+        "richtig": "55449666",
+        "erklaerung": "Programmieren Sie eine Stufe so, dass sie zu jeder Grösse passt."
+      },
       "frage": {
         "text": "Ihr Programm steigt jede dieser Treppen hinauf. Welche Anforderung zeigt das vor allem?",
         "antworten": [
@@ -650,6 +740,16 @@
         ]
       },
       "hinweis": "Eine Wiederholung mit Bedingung endet nur, wenn sich im Rumpf etwas ändert, das die Bedingung irgendwann falsch macht.",
+      "strategie": {
+        "text": "Bevor Sie etwas ändern: Was tun Sie zuerst?",
+        "antworten": [
+          "Alles löschen und neu beginnen.",
+          "Das Programm laufen lassen und beobachten, warum es nie aufhört.",
+          "Mehr Bausteine einfügen."
+        ],
+        "richtig": "7df3e108",
+        "erklaerung": "Wer zuerst beobachtet, sieht, welche Bausteine den Käfer wieder zurückbringen."
+      },
       "frage": {
         "text": "Wann endet «wiederhole solange Feld vorne frei»?",
         "antworten": [
@@ -720,6 +820,16 @@
       "maxBloecke": 9,
       "kleinsteLoesung": 7,
       "hinweis": "Beim Hinaufgehen: Zähler + 1. Beim Weitergehen: Zähler − 1, solange er nicht 0 ist.",
+      "strategie": {
+        "text": "Wie merkt sich der Käfer, wie weit er gegangen ist?",
+        "antworten": [
+          "Gar nicht, das ist nicht nötig.",
+          "Er zählt die Felder im Kopf.",
+          "Mit dem Zähler: beim Hinaufgehen bei jedem Schritt + 1."
+        ],
+        "richtig": "ed8952a1",
+        "erklaerung": "Danach geht er weiter und zählt bei jedem Schritt − 1, bis der Zähler 0 ist."
+      },
       "frage": {
         "text": "Warum endet «solange Zähler ≠ 0: vorwärts, Zähler − 1»?",
         "antworten": [
@@ -822,15 +932,25 @@
         ]
       },
       "hinweis": "Wo hört der Käfer zu früh auf?",
-      "frage": {
-        "text": "Wie finden Sie einen Fehler in einem Programm am besten?",
+      "strategie": {
+        "text": "Wie finden Sie den Fehler am schnellsten?",
         "antworten": [
-          "Möglichst viele Bausteine hinzufügen.",
-          "Das Programm laufen lassen, beobachten und mit dem Ziel vergleichen.",
-          "Alles löschen und neu beginnen."
+          "Starten und beobachten, wo der Käfer vom Quadrat abweicht.",
+          "Alles neu bauen.",
+          "Zufällig Zahlen ändern."
         ],
-        "richtig": "a8aa6674",
-        "erklaerung": "Richtig. Testen und Beobachten zeigt, wo das Programm vom Ziel abweicht. Dort liegt der Fehler."
+        "richtig": "bd2e555c",
+        "erklaerung": "Wo der Käfer zu früh aufhört, liegt der Fehler."
+      },
+      "frage": {
+        "text": "Was war der Fehler?",
+        "antworten": [
+          "Die Wiederholung lief nur 3-mal statt 4-mal.",
+          "Es fehlte ein «links drehen».",
+          "Der Käfer startete am falschen Ort."
+        ],
+        "richtig": "a9aa6807",
+        "erklaerung": "Beobachten zeigt, wo der Käfer zu früh aufhört. Dort liegt der Fehler."
       }
     },
     {
@@ -897,6 +1017,16 @@
       "maxBloecke": 8,
       "kleinsteLoesung": 4,
       "hinweis": "Was ist, wenn der Raum viel grösser ist? Was, wenn der Käfer schon an der Wand steht?",
+      "strategie": {
+        "text": "Was überlegen Sie, bevor Sie prüfen?",
+        "antworten": [
+          "Wie viele Bausteine das Programm braucht.",
+          "Welche Räume Ihr Programm überlisten könnten: sehr gross, Käfer schon an der Wand, ganz schmal.",
+          "Nichts, die Prüfung zeigt es ja."
+        ],
+        "richtig": "4018f05d",
+        "erklaerung": "Sonderfälle finden die meisten Fehler."
+      },
       "frage": {
         "text": "Wann ist ein Algorithmus korrekt?",
         "antworten": [
@@ -966,6 +1096,16 @@
         ]
       },
       "maxBloecke": null,
+      "strategie": {
+        "text": "Wie gehen Sie vor?",
+        "antworten": [
+          "Sofort alle Bausteine einfügen.",
+          "Die Säulen nicht beachten.",
+          "Eine Idee zuerst in Gedanken an einer schwierigen Stelle prüfen, zum Beispiel bei zwei Säulen nah beieinander."
+        ],
+        "richtig": "10b55b07",
+        "erklaerung": "Erst denken, dann bauen: So sehen Sie früh, wo Ihre Idee nicht reicht."
+      },
       "frage": {
         "text": "Ihr Programm schafft alle Räume mit Säulen. Wie könnten Sie es noch härter prüfen?",
         "antworten": [
