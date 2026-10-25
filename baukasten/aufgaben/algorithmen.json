@@ -5,7 +5,7 @@
       "id": "alg-ziel",
       "titel": "1 · Zum Ziel",
       "stufe": "Sequenz",
-      "abschnitt": "bausteine",
+      "abschnitt": "beschreiben",
       "text": "Bringen Sie den Käfer zum Zielfeld. Er kennt nur drei Befehle: vorwärts, rechts drehen, links drehen. Alles andere kann er nicht ausführen.",
       "denkfigur": "Befehle, die einfach nacheinander ausgeführt werden, bilden eine Sequenz. Zählen Sie die Felder und schreiben Sie die Befehle der Reihe nach.",
       "feld": {
@@ -47,21 +47,21 @@
         "erklaerung": "Zählen Sie die Felder und schreiben Sie die Befehle der Reihe nach."
       },
       "frage": {
-        "text": "Ihr Programm besteht nur aus Befehlen nacheinander. Wie heisst dieser Baustein?",
+        "text": "Die Aufgabe stand in Worten, Sie haben ein Struktogramm gebaut. Öffnen Sie unter dem Struktogramm «Als Code anzeigen». Was zeigt der Code?",
         "antworten": [
-          "Verzweigung",
-          "Sequenz",
-          "Wiederholung"
+          "Einen anderen Weg zum Ziel.",
+          "Denselben Algorithmus, beschrieben in einer Programmiersprache.",
+          "Nur die Anzahl Bausteine."
         ],
         "richtig": "cf94e022",
-        "erklaerung": "Genau. Eine Verzweigung wählt je nach Bedingung einen Weg, eine Wiederholung führt Schritte mehrmals aus."
+        "erklaerung": "Genau. Prosa, Struktogramm und Code beschreiben denselben Algorithmus. Ihr Programm ist eine Sequenz: Befehle, die nacheinander ablaufen."
       }
     },
     {
       "id": "alg-quadrat",
       "titel": "2 · Das Quadrat",
       "stufe": "Wiederholung",
-      "abschnitt": "bausteine",
+      "abschnitt": "beschreiben",
       "text": "Der Käfer soll den Rand des Quadrats (3 × 3 Felder) ablaufen und wieder auf dem Startfeld enden. Überlegen Sie zuerst, welche Schritte sich wiederholen. Höchstens 4 Bausteine.",
       "denkfigur": "Welche Schritte wiederholen sich? Packen Sie sie in eine Wiederholung.",
       "feld": {
@@ -153,7 +153,7 @@
       "id": "alg-treppe",
       "titel": "★ Die Treppe",
       "stufe": "Zusatz · Wiederholung",
-      "abschnitt": "bausteine",
+      "abschnitt": "beschreiben",
       "zusatz": true,
       "text": "Der Käfer soll die Treppe über alle markierten Felder hinaufsteigen und oben rechts enden. Höchstens 5 Bausteine: Schreiben Sie dasselbe kürzer.",
       "denkfigur": "Eine Stufe hat vier Schritte. Statt sie fünfmal aufzuschreiben, wiederholen Sie sie.",
@@ -258,7 +258,7 @@
       "id": "alg-hindernis",
       "titel": "3 · Hindernisse umgehen",
       "stufe": "Verzweigung",
-      "abschnitt": "bausteine",
+      "abschnitt": "beschreiben",
       "text": "Wiederholen Sie 10-mal: Ist das Feld vorne frei, geht der Käfer vorwärts, sonst dreht er sich nach rechts. Überlegen Sie vor dem Start, wo er enden wird, und prüfen Sie dann Ihre Vermutung. Höchstens 4 Bausteine.",
       "denkfigur": "In jedem Durchlauf entscheidet die Verzweigung neu: vorwärts, wenn frei, sonst drehen.",
       "feld": {
@@ -328,7 +328,7 @@
       "id": "alg-wand",
       "titel": "4 · Bis zur Wand",
       "stufe": "Wiederholung mit Bedingung",
-      "abschnitt": "bausteine",
+      "abschnitt": "beschreiben",
       "text": "Der Käfer soll in jedem Gang bis zur Flagge an der Wand laufen. Die Gänge sind verschieden lang, das Programm ist dasselbe. Neu: «wiederhole solange Feld vorne frei». Höchstens 3 Bausteine.",
       "denkfigur": "Die Länge des Gangs kennen Sie nicht. Die Wiederholung soll laufen, solange vorne frei ist.",
       "layouts": [

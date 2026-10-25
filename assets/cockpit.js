@@ -37,13 +37,19 @@
   }
 
   // Je Abschnitt (z. B. Denkfigur) eine Blume: gelöste Aufgaben und beantwortete Fragen sind Blätter.
+  // Mit «denkfiguren» (CT): je Denkfigur ein Blatt pro Aufgabe, in der sie entscheidend war, offen nach
+  // Lösung und Reflexion. Sonst je Abschnitt: Aufgabe, Vorher-Frage und Reflexion.
   function blumen(r, aufgaben, fertig, fragen) {
-    var box = el("div", "ck-blumen");
-    r.abschnitte.forEach(function (x, k) {
+    var box = el("div", "ck-blumen"), mitDF = Array.isArray(r.denkfiguren) && r.denkfiguren.length;
+    (mitDF ? r.denkfiguren : r.abschnitte).forEach(function (x, k) {
       var pflicht = [], zusatz = [];
       aufgaben.forEach(function (a) {
-        if (a.abschnitt !== x.id) return;
         var l = a.zusatz ? zusatz : pflicht;
+        if (mitDF) {
+          if ((a.denkfiguren || []).some(function (d) { return d.id === x.id; })) l.push(!!(fertig[a.id] && fragen[a.id]));
+          return;
+        }
+        if (a.abschnitt !== x.id) return;
         l.push(!!fertig[a.id]);
         if (a.strategie) l.push(!!fragen[a.id + "/strategie"]);
         if (a.frage) l.push(!!fragen[a.id]);
@@ -90,7 +96,7 @@
     balken.append(fuell);
     stand.append(balken, el("span", "ck-zahl", n + " von " + aufgaben.length + " gelöst"));
     li.append(stand);
-    if (Array.isArray(r.abschnitte) && r.abschnitte.length && window.KaraBlume) li.append(blumen(r, aufgaben, fertig, beantwortet()));
+    if (((Array.isArray(r.abschnitte) && r.abschnitte.length) || (Array.isArray(r.denkfiguren) && r.denkfiguren.length)) && window.KaraBlume) li.append(blumen(r, aufgaben, fertig, beantwortet()));
     requestAnimationFrame(function () { fuell.style.width = (aufgaben.length ? 100 * n / aufgaben.length : 0) + "%"; });
 
     var ul = el("ul", "ck-aufgaben");

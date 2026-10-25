@@ -10,13 +10,13 @@
     {
       "id": "algorithmen",
       "titel": "Algorithmen",
-      "untertitel": "Bausteine, Struktogramme und die fünf Anforderungen: ausführbar, eindeutig, allgemein, endlich, korrekt",
+      "untertitel": "Algorithmen beschreiben (Prosa, Struktogramm, Code) und die fünf Anforderungen: ausführbar, eindeutig, allgemein, endlich, korrekt",
       "dateien": ["aufgaben/algorithmen.json"],
-      "abschnitteTitel": "Die Bausteine und die fünf Anforderungen an einen Algorithmus",
+      "abschnitteTitel": "Algorithmen beschreiben und die fünf Anforderungen an einen Algorithmus",
       "kastenTitel": "Worauf es hier ankommt",
       "abschnitte": [
-        { "id": "bausteine", "titel": "Bausteine", "etikett": "Baustein",
-          "text": "Jeder Algorithmus besteht aus drei Bausteinen: Sequenz (Schritte nacheinander), Verzweigung (je nach Bedingung der eine oder der andere Weg) und Wiederholung (n-mal oder solange eine Bedingung gilt)." },
+        { "id": "beschreiben", "titel": "Beschreiben", "etikett": "Algorithmen beschreiben",
+          "text": "Einen Algorithmus kann man in Worten (Prosa), als Diagramm wie das Struktogramm oder als Code in einer Programmiersprache beschreiben. Prosa ist leicht zu lesen, aber oft ungenau; Code ist genau, aber nur mit der Sprache verständlich. Das Struktogramm liegt dazwischen: Die Anweisungen stehen in Worten, die Reihenfolge zeigt die Grafik. Seine Bausteine sind Sequenz, Verzweigung und Wiederholung." },
         { "id": "ausfuehrbar", "titel": "Ausführbar", "etikett": "Anforderung: ausführbar",
           "text": "Der Ausführende kann jeden Schritt ausführen. Ein Plan darf nur Befehle enthalten, die er kennt." },
         { "id": "eindeutig", "titel": "Eindeutig", "etikett": "Anforderung: eindeutig",
@@ -32,10 +32,18 @@
     {
       "id": "ct",
       "titel": "Computational Thinking",
-      "untertitel": "Der Käfer als Rasenmäher: zerlegen, Muster erkennen, abstrahieren, Algorithmus entwerfen",
+      "untertitel": "Der Käfer als Rasenmäher: von einfach bis anspruchsvoll, mit den vier Denkfiguren zerlegen, Muster erkennen, abstrahieren, Algorithmus entwerfen",
       "dateien": ["aufgaben/ct.json"],
-      "abschnitteTitel": "Die vier Denkfiguren des Computational Thinking",
       "abschnitte": [
+        { "id": "einfach", "titel": "Einfach", "etikett": "Stufe: einfach",
+          "text": "Kleine Rasen, ein Feld pro Aufgabe." },
+        { "id": "mittel", "titel": "Mittel", "etikett": "Stufe: mittel",
+          "text": "Mehrere Gärten mit einem Programm, knappe Bausteinlimits." },
+        { "id": "fordernd", "titel": "Anspruchsvoll", "etikett": "Stufe: anspruchsvoll",
+          "text": "Unbekannte Gärten und Sonderfälle." }
+      ],
+      "denkfigurenTitel": "Die vier Denkfiguren des Computational Thinking",
+      "denkfiguren": [
         { "id": "zerlegen", "titel": "Zerlegen",
           "text": "Ein grosses Problem in kleinere Teilprobleme aufteilen, die man einzeln lösen kann. Oft hilft es, zuerst eine einfachere Version zu lösen." },
         { "id": "muster", "titel": "Muster erkennen",
@@ -44,7 +52,8 @@
           "text": "Unwichtige Einzelheiten weglassen und nur das Wesentliche behalten. So passt eine Lösung für viele Fälle, zum Beispiel «bis zur Wand» statt «4 Felder»." },
         { "id": "entwerfen", "titel": "Algorithmus entwerfen",
           "text": "Die Lösung in eindeutige Schritte mit fester Reihenfolge fassen und prüfen: Stimmt das Ergebnis immer? Sind alle Fälle bedacht, auch Sonderfälle?" }
-      ]
+      ],
+      "kastenTitel": "Tipp zur Strategie"
     },
     {
       "id": "labyrinth",

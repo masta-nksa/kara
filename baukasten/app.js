@@ -257,30 +257,25 @@
         liste.forEach(function (x, i) { if (x.id === aufgabeParam) start = i; });
         aufgabeParam = null;
       }
-      reihenAktualisieren();
-      baueTabs();
       waehleAufgabe(start);
     }).catch(function (err) { ladeFehler(err, r.dateien.join(", ")); });
   }
 
-  function baueReihen() {
-    var box = $("reihen");
-    REIHEN.forEach(function (r) {
-      var b = el("button", "bk-reihe", r.titel);
-      b.type = "button";
-      b.dataset.id = r.id;
-      b.addEventListener("click", function () { if (r !== reihe) zeigeReihe(r); });
-      box.append(b);
-    });
-  }
-  function reihenAktualisieren() {
-    Array.prototype.forEach.call($("reihen").querySelectorAll(".bk-reihe"), function (b) {
-      b.setAttribute("aria-pressed", b.dataset.id === reihe.id ? "true" : "false");
-    });
-  }
-
   // Eigenes Bild gewählt oder entfernt: Feld neu zeichnen, Ablauf zurücksetzen.
   if (window.BaukastenFigur) window.BaukastenFigur.onChange = function () { if (aufg) { renderFeld(); simReset(); } };
+
+  // Alte index.html aus dem Zwischenspeicher, neues app.js: einmal ohne Cache neu laden.
+  if (!$("pfad")) {
+    var schon = false;
+    try { schon = sessionStorage.getItem("kara.neuGeladen") === "1"; sessionStorage.setItem("kara.neuGeladen", "1"); } catch (e) { schon = true; }
+    if (!schon) {
+      var neu = new URL(location.href);
+      neu.searchParams.set("v", Date.now());
+      location.replace(neu.href);
+    } else ladeFehler(new Error("Die Seite ist veraltet. Bitte laden Sie sie neu (Strg+F5 bzw. Cmd+Shift+R)."), "index.html");
+    return;
+  }
+  try { sessionStorage.removeItem("kara.neuGeladen"); } catch (e) { /* ohne Speicher weiter */ }
 
   ladeFortschritt();
   ladeFragen();
@@ -290,101 +285,206 @@
     REIHEN = d.reihen.filter(function (r) { return r && r.id && Array.isArray(r.dateien) && r.dateien.length; });
     reihe = REIHEN[0];
     REIHEN.forEach(function (r) { if (r.id === reiheParam) reihe = r; });
-    baueReihen();
-    return zeigeReihe(reihe).then(function () { if (importHinweis) meldungZeigen("fehler", null, importHinweis); });
+    return zeigeReihe(reihe).then(function () {
+      if (importHinweis) meldungZeigen("fehler", null, importHinweis);
+      // Die übrigen Reihen im Hintergrund laden, damit ihre Kreise den Fortschritt zeigen.
+      REIHEN.forEach(function (r) { if (!r.lokal) ladeReihe(r).then(pfadZeigen, function () { /* nur Anzeige */ }); });
+    });
   }).catch(function (err) { ladeFehler(err, "reihen.json"); });
 
-  /* ---------- Aufgabenwahl ---------------------------------- */
-
-  function tabKnopf(a, i) {
-    var b = el("button", "bk-tab" + (a.zusatz ? " zusatz" : ""));
-    b.type = "button";
-    b.dataset.i = i;
-    b.append(el("span", null, a.titel));
-    b.append(el("span", "haken"));
-    b.addEventListener("click", function () { waehleAufgabe(i); });
-    return b;
-  }
+  /* ---------- Lernpfad: Reihen als Kreise, Aufgaben als Stationen (wie im Turtle-Kurs) ---------- */
 
   // Abschnitte der Reihe (z. B. die vier Denkfiguren), nur wenn reihen.json sie nennt.
-  // Ohne die Elemente (z. B. alte index.html noch im Cache) bleibt alles wie bisher.
-  function abschnitte() { return $("lernpfad") && Array.isArray(reihe.abschnitte) && reihe.abschnitte.length ? reihe.abschnitte : null; }
+  function abschnitte() { return Array.isArray(reihe.abschnitte) && reihe.abschnitte.length ? reihe.abschnitte : null; }
   function abschnittVon(a) {
     var l = abschnitte() || [];
     for (var k = 0; k < l.length; k++) if (l[k].id === a.abschnitt) return { nr: k, a: l[k] };
     return null;
   }
 
-  function baueTabs() {
-    var ol = $("aufgabenListe"), pfad = $("lernpfad"), ab = abschnitte();
-    ol.textContent = "";
-    ol.parentNode.hidden = !!ab;
-    if (pfad) { pfad.textContent = ""; pfad.hidden = !ab; }
-    if (!ab) {
-      aufgaben.forEach(function (a, i) { var li = el("li"); li.append(tabKnopf(a, i)); ol.append(li); });
-    } else {
-      // Theorie zuerst: was die Abschnitte bedeuten
-      var theorie = el("details", "bk-theorie");
-      // Offen, solange in dieser Reihe noch nichts gelöst ist: zuerst die Begriffe
-      theorie.open = !aufgaben.some(function (a) { return geloest[a.id] || beantwortet[a.id]; });
-      theorie.append(el("summary", null, reihe.abschnitteTitel || "Abschnitte"));
-      ab.forEach(function (x, k) {
-        var p = el("p", "kb-farbe" + (k % 6));
-        p.append(el("b", null, x.titel + ": "), document.createTextNode(x.text || ""));
-        theorie.append(p);
-      });
-      pfad.append(theorie);
-      var gruppen = el("div", "bk-gruppen");
-      ab.forEach(function (x, k) {
-        var g = el("section", "bk-gruppe kb-farbe" + (k % 6));
-        g.dataset.abschnitt = x.id;
-        var kopf = el("div", "bk-gruppe-kopf");
-        var text = el("div");
-        text.append(el("h3", null, x.titel), el("span", "bk-gruppe-stand"));
-        kopf.append(el("span", "bk-gruppe-blume"), text);
-        var liste = el("ol");
-        aufgaben.forEach(function (a, i) {
-          if (a.abschnitt !== x.id) return;
-          var li = el("li");
-          li.append(tabKnopf(a, i));
-          liste.append(li);
-        });
-        g.append(kopf, liste);
-        gruppen.append(g);
-      });
-      pfad.append(gruppen);
-    }
-    tabsAktualisieren();
+  // Blätter eines Abschnitts: je Aufgabe gelöst, Vorher-Frage und Reflexion.
+  function blaetter(liste) {
+    var pflicht = [], zusatz = [];
+    liste.forEach(function (a) {
+      var l = a.zusatz ? zusatz : pflicht;
+      l.push(!!geloest[a.id]);
+      if (a.strategie) l.push(!!beantwortet[a.id + "/strategie"]);
+      if (a.frage) l.push(!!beantwortet[a.id]);
+    });
+    return { pflicht: pflicht, zusatz: zusatz };
   }
 
-  function tabsAktualisieren() {
-    Array.prototype.forEach.call(document.querySelectorAll("#aufgabenListe .bk-tab, #lernpfad .bk-tab"), function (b) {
-      var i = Number(b.dataset.i), a = aufgaben[i], fertig = !!geloest[a.id];
-      b.setAttribute("aria-current", i === aktuell ? "true" : "false");
-      b.querySelector(".haken").textContent = fertig ? "✓" : "";
-      b.setAttribute("aria-label", a.titel + (a.zusatz ? ", Zusatzaufgabe" : "") + (fertig ? ", gelöst" : "") +
-        (a.frage ? (beantwortet[a.id] ? ", Reflexion beantwortet" : ", Reflexion offen") : ""));
-    });
-    var ab = abschnitte();
-    if (!ab || !window.KaraBlume) return;
-    // Je Abschnitt eine Blume: jede gelöste Aufgabe und jede richtig beantwortete Frage ist ein Blatt.
-    Array.prototype.forEach.call($("lernpfad").querySelectorAll(".bk-gruppe"), function (g) {
-      var k = ab.map(function (x) { return x.id; }).indexOf(g.dataset.abschnitt), pflicht = [], zusatz = [];
-      aufgaben.forEach(function (a) {
-        if (a.abschnitt !== g.dataset.abschnitt) return;
-        var liste = a.zusatz ? zusatz : pflicht;
-        liste.push(!!geloest[a.id]);
-        if (a.strategie) liste.push(!!beantwortet[a.id + "/strategie"]);
-        if (a.frage) liste.push(!!beantwortet[a.id]);
-      });
-      var n = pflicht.filter(Boolean).length, nz = zusatz.filter(Boolean).length;
-      var halter = g.querySelector(".bk-gruppe-blume");
-      halter.textContent = "";
-      halter.append(window.KaraBlume.blume(pflicht, zusatz, k, 52));
-      g.querySelector(".bk-gruppe-stand").textContent = n + " von " + pflicht.length + (zusatz.length ? " · ★ " + nz + " von " + zusatz.length : "");
-      g.setAttribute("aria-label", ab[k].titel + ": " + n + " von " + pflicht.length + " erledigt" + (zusatz.length ? ", Zusatz " + nz + " von " + zusatz.length : ""));
-    });
+  function stand(r) {
+    var liste = (r === reihe ? aufgaben : reihenCache[r.id] || []).filter(function (a) { return !a.zusatz; });
+    return { n: liste.filter(function (a) { return geloest[a.id]; }).length, von: liste.length };
   }
+
+  function pfadZeigen() {
+    if (!reihe || !aufg) return;
+    // Reihen als Kreise mit Ring für den Anteil gelöster Pflichtaufgaben
+    var box = $("einheiten"), U = 2 * Math.PI * 16;
+    box.textContent = "";
+    REIHEN.forEach(function (r, i) {
+      var s = stand(r), anteil = s.von ? s.n / s.von : 0;
+      var b = el("button", "bk-einheit");
+      b.type = "button";
+      b.setAttribute("aria-current", r === reihe ? "true" : "false");
+      b.dataset.titel = r.titel + (s.von ? " · " + s.n + "/" + s.von : "");
+      b.setAttribute("aria-label", r.titel + (s.von ? ", " + s.n + " von " + s.von + " gelöst" : ""));
+      b.innerHTML = '<svg viewBox="0 0 38 38" aria-hidden="true"><circle class="grund" cx="19" cy="19" r="16"/>' +
+        (anteil ? '<circle class="ring" cx="19" cy="19" r="16" stroke-dasharray="' + (U * anteil).toFixed(1) + " " + U.toFixed(1) + '"/>' : "") + "</svg>";
+      b.append(el("span", null, r.kurz || String(i + 1)));
+      b.addEventListener("click", function () { if (r !== reihe) zeigeReihe(r); });
+      schildAn(b);
+      box.append(b);
+    });
+    var s = stand(reihe), t = el("div", "bk-einheit-titel");
+    t.append(el("b", null, reihe.titel));
+    if (reihe.untertitel) { t.append(el("small", null, reihe.untertitel)); t.title = reihe.titel + ": " + reihe.untertitel; }
+    box.append(t, el("span", "bk-stand", s.n + " / " + s.von + " gelöst"));
+
+    // Aufgaben als Stationen, gruppiert nach Abschnitten (mit kleiner Blume)
+    var ab = abschnitte(), strecke = $("abschnitte"), gruppen = [], aktuelleStation = null;
+    strecke.textContent = "";
+    if (ab) ab.forEach(function (x, k) {
+      gruppen.push({ x: x, nr: k, liste: aufgaben.filter(function (a) { return a.abschnitt === x.id; }) });
+    });
+    var rest = aufgaben.filter(function (a) { return !ab || !abschnittVon(a); });
+    if (rest.length) gruppen.push({ x: null, liste: rest });
+    gruppen.forEach(function (g) {
+      var d = el("div", "bk-abschnitt" + (g.x ? " kb-farbe" + (g.nr % 6) : "")), name = el("div", "bk-abschnitt-name");
+      if (g.x) {
+        var bl = blaetter(g.liste);
+        if (window.KaraBlume && !reihe.denkfiguren) name.append(window.KaraBlume.blume(bl.pflicht, bl.zusatz, g.nr, 22));
+        name.append(el("span", null, g.x.titel));
+        var nb = bl.pflicht.filter(Boolean).length;
+        name.title = g.x.titel + ": " + nb + " von " + bl.pflicht.length + " erledigt";
+      }
+      var halte = el("div", "bk-halte");
+      g.liste.forEach(function (a) {
+        var i = aufgaben.indexOf(a), fertig = !!geloest[a.id];
+        var b = el("button", "bk-station" + (a.zusatz ? " zusatz" : "") + (fertig ? " geprueft" : ""));
+        b.type = "button";
+        if (fertig && !a.zusatz) b.textContent = "✓";
+        b.dataset.titel = a.titel + (fertig ? " · gelöst" : "");
+        b.setAttribute("aria-label", a.titel + (a.zusatz ? ", Zusatzaufgabe" : "") + (fertig ? ", gelöst" : "") +
+          (a.frage && fertig ? (beantwortet[a.id] ? ", Reflexion beantwortet" : ", Reflexion offen") : ""));
+        if (i === aktuell) { b.classList.add("aktuell"); b.setAttribute("aria-current", "step"); aktuelleStation = b; }
+        b.addEventListener("click", function () { if (i !== aktuell) waehleAufgabe(i); });
+        schildAn(b);
+        halte.append(b);
+      });
+      d.append(name, halte);
+      strecke.append(d);
+    });
+    // Denkfiguren (CT): je eine Blume. Ein Blatt öffnet sich, wenn eine Aufgabe, in der diese Denkfigur
+    // entscheidend war, gelöst und reflektiert ist. Welche das sind, zeigt sich erst danach.
+    var dz = $("denkfigurenZeile");
+    dz.textContent = "";
+    dz.hidden = !reihe.denkfiguren;
+    (reihe.denkfiguren || []).forEach(function (x, k) {
+      var pf = [], zu = [];
+      aufgaben.forEach(function (a) {
+        if (!(a.denkfiguren || []).some(function (d) { return d.id === x.id; })) return;
+        (a.zusatz ? zu : pf).push(!!(geloest[a.id] && beantwortet[a.id]));
+      });
+      var f = el("span", "bk-denkfigur-blume kb-farbe" + (k % 6));
+      if (window.KaraBlume) f.append(window.KaraBlume.blume(pf, zu, k, 26));
+      f.append(el("span", null, x.titel));
+      var n = pf.concat(zu).filter(Boolean).length;
+      f.dataset.titel = x.titel + ": " + n + " von " + (pf.length + zu.length) + " Aufgaben gelöst und reflektiert";
+      f.setAttribute("aria-label", f.dataset.titel);
+      f.tabIndex = 0;
+      schildAn(f);
+      dz.append(f);
+    });
+
+    if (aktuelleStation) {
+      var sc = $("strecke"), x = aktuelleStation.offsetLeft;
+      if (x < sc.scrollLeft || x > sc.scrollLeft + sc.clientWidth - 30) sc.scrollLeft = Math.max(0, x - sc.clientWidth / 2);
+    }
+
+    // Erklärungen der Abschnitte (offen, solange in der Reihe noch nichts gelöst ist)
+    var th = $("theorie"), begriffe = reihe.denkfiguren || ab;
+    th.hidden = !begriffe;
+    if (begriffe && th.dataset.reihe !== reihe.id) {
+      th.dataset.reihe = reihe.id;
+      th.open = !aufgaben.some(function (a) { return geloest[a.id] || beantwortet[a.id]; });
+      $("theorieTitel").textContent = reihe.denkfigurenTitel || reihe.abschnitteTitel || "Abschnitte";
+      var tx = $("theorieText");
+      tx.textContent = "";
+      begriffe.forEach(function (x, k) {
+        var p = el("p", "kb-farbe" + (k % 6));
+        p.append(el("b", null, x.titel + ": "), document.createTextNode(x.text || ""));
+        tx.append(p);
+      });
+    }
+    navigationAktualisieren();
+  }
+  function tabsAktualisieren() { pfadZeigen(); }
+
+  // Titel als Schild über Station oder Reihe (Maus und Tastatur)
+  var schild = $("schild");
+  function schildAn(b) {
+    function zeigen() {
+      var r = b.getBoundingClientRect();
+      schild.textContent = b.dataset.titel;
+      schild.hidden = false;
+      var w = schild.offsetWidth, x = Math.min(Math.max(r.left + r.width / 2, w / 2 + 8), innerWidth - w / 2 - 8);
+      schild.style.left = x + "px";
+      schild.style.top = (r.top - 8) + "px";
+    }
+    function weg() { schild.hidden = true; }
+    b.addEventListener("mouseenter", zeigen);
+    b.addEventListener("focus", zeigen);
+    b.addEventListener("mouseleave", weg);
+    b.addEventListener("blur", weg);
+  }
+  addEventListener("scroll", function () { schild.hidden = true; }, true);
+
+  /* ---------- Zurück und Weiter ------------------------------ */
+
+  // Nach einer Pflichtaufgabe geht es zur nächsten Pflichtaufgabe; Zusatzaufgaben wählt man im Pfad.
+  function naechsteIndex() {
+    var n = aktuell + 1;
+    if (!aufg.zusatz) while (n < aufgaben.length && aufgaben[n].zusatz) n++;
+    return n < aufgaben.length ? n : -1;
+  }
+  function naechsteReihe() { var k = REIHEN.indexOf(reihe); return k >= 0 && k < REIHEN.length - 1 ? REIHEN[k + 1] : null; }
+  function reflexionOffen() { return !!(aufg.frage && geloest[aufg.id] && !beantwortet[aufg.id]); }
+
+  // Weiter erst, wenn die Reflexion beantwortet ist; sonst ein Hinweis bei der Frage.
+  function weiter() {
+    if (reflexionOffen()) {
+      var r = $("frageRueck");
+      r.hidden = false;
+      r.className = "bk-frage-rueck fehler";
+      r.textContent = "Beantworten Sie zuerst die Reflexionsfrage, dann geht es weiter.";
+      $("frageBox").scrollIntoView({ block: "center", behavior: "smooth" });
+      return;
+    }
+    var n = naechsteIndex(), nr = naechsteReihe();
+    if (n >= 0) waehleAufgabe(n);
+    else if (nr) zeigeReihe(nr);
+    else return;
+    $("pfad").scrollIntoView({ block: "start", behavior: "smooth" });
+  }
+
+  function navigationAktualisieren() {
+    var n = naechsteIndex(), nr = naechsteReihe();
+    $("knopfZurueck").disabled = aktuell <= 0;
+    $("knopfWeiter").disabled = n < 0 && !nr;
+    $("knopfWeiter").textContent = n < 0 && nr ? "Nächste Reihe ›" : "Weiter ›";
+    $("knopfWeiter").title = n >= 0 ? aufgaben[n].titel : nr ? nr.titel : "";
+    var fw = $("frageWeiter");
+    fw.hidden = n < 0 && !nr;
+    fw.textContent = n < 0 && nr ? "Nächste Reihe" : "Nächste Aufgabe";
+  }
+  $("knopfZurueck").addEventListener("click", function () { if (aktuell > 0) waehleAufgabe(aktuell - 1); });
+  $("knopfWeiter").addEventListener("click", weiter);
+  $("frageWeiter").addEventListener("click", weiter);
+
+  /* ---------- Aufgabenwahl ---------------------------------- */
 
   function maxTiefe(a) { return (a || aufg).maxTiefe || E.MAX_TIEFE; }
 
@@ -403,11 +503,14 @@
     auswahl = null;
     fokusZiel = null;
 
-    $("aufgabeTitel").textContent = aufg.titel;
+    var abA = abschnittVon(aufg);
+    $("aufgabeOrt").textContent = reihe.titel + (abA ? " · " + abA.a.titel : "") + " · " + (aktuell + 1) + " von " + aufgaben.length;
+    $("aufgabeName").textContent = aufg.titel;
     $("aufgabeText").textContent = aufg.text;
     renderDenkfigur();
     renderFrage("strategie");
     renderFrage("frage");
+    entscheidendZeigen();
     tippStufe = 1;
     $("hinweisBox").open = false;
     renderHinweise();
@@ -449,9 +552,8 @@
     box.hidden = !f;
     if (!f) return;
     var offen = art === "strategie" || !!geloest[aufg.id];
-    $(art + "Knopf").hidden = !offen;
-    $(art + "Text").textContent = offen ? f.text : "Die Reflexionsfrage erscheint, sobald der Käfer die Aufgabe gelöst hat.";
-    $(art + "Text").classList.toggle("bk-frage-wartet", !offen);
+    box.hidden = !offen;
+    $(art + "Text").textContent = f.text;
     var liste = $(art + "Antworten"), name = art + "-" + aufg.id, rueck = $(art + "Rueck");
     liste.textContent = "";
     rueck.hidden = true;
@@ -473,6 +575,22 @@
     }
   }
 
+  // Nach richtig beantworteter Reflexion: welche Denkfiguren entscheidend waren und weshalb.
+  function entscheidendZeigen() {
+    var box = $("entscheidend"), liste = aufg.denkfiguren || [];
+    box.textContent = "";
+    box.hidden = !(liste.length && geloest[aufg.id] && beantwortet[aufg.id]);
+    if (box.hidden) return;
+    box.append(el("p", "bk-entscheidend-titel", liste.length > 1 ? "Entscheidend waren diese Denkfiguren:" : "Entscheidend war diese Denkfigur:"));
+    liste.forEach(function (d) {
+      var nr = (reihe.denkfiguren || []).map(function (x) { return x.id; }).indexOf(d.id);
+      var x = (reihe.denkfiguren || [])[nr];
+      var p = el("p", "kb-farbe" + (Math.max(nr, 0) % 6));
+      p.append(el("span", "bk-etikett", x ? x.titel : d.id), document.createTextNode(" " + d.warum));
+      box.append(p);
+    });
+  }
+
   function frageRueckmeldung(art, richtig) {
     var rueck = $(art + "Rueck"), ab = abschnittVon(aufg);
     rueck.hidden = false;
@@ -480,11 +598,13 @@
     rueck.textContent = "";
     if (richtig) {
       rueck.append(el("strong", null, "Richtig. "), document.createTextNode(aufg[art].erklaerung || ""));
+      if (art === "frage") entscheidendZeigen();
     } else if (art === "strategie") {
       rueck.append(el("strong", null, "Noch nicht. "), document.createTextNode("Lesen Sie die Aufgabe nochmals. Wenn Sie nicht weiterkommen: «Hinweis anzeigen»."));
     } else {
       rueck.append(el("strong", null, "Noch nicht. "),
-        document.createTextNode(ab ? "Lesen Sie nochmals, was «" + ab.a.titel + "» heisst: " + ab.a.text : "Lesen Sie die Antworten nochmals genau."));
+        document.createTextNode(ab && !reihe.denkfiguren ? "Lesen Sie nochmals, was «" + ab.a.titel + "» heisst: " + ab.a.text
+          : "Schauen Sie sich Ihr Programm und den Weg des Käfers nochmals an."));
     }
   }
 
@@ -878,6 +998,7 @@
     var z = $("zaehler");
     z.textContent = E.bausteineText(n, max);
     z.classList.toggle("zu-viele", max !== null && n > max);
+    $("codeText").textContent = E.alsCode(prog);
   }
 
   /* ---------- Auswahl (antippen / Tastatur) ----------------- */
@@ -1706,13 +1827,11 @@
       speichereFortschritt();
       tabsAktualisieren();
       var knopf = null;
-      // Nach einer Pflichtaufgabe geht es zur nächsten Pflichtaufgabe; Zusatzaufgaben wählt man selbst.
-      var naechste = aktuell + 1;
-      if (!aufg.zusatz) while (naechste < aufgaben.length && aufgaben[naechste].zusatz) naechste++;
-      if (naechste < aufgaben.length) {
+      var naechste = naechsteIndex(), mitFrage = !!aufg.frage;
+      if (naechste >= 0 && !mitFrage) {
         knopf = el("button", "bk-knopf primaer", "Nächste Aufgabe");
         knopf.type = "button";
-        knopf.addEventListener("click", function () { waehleAufgabe(naechste); window.scrollTo({ top: 0, behavior: "smooth" }); });
+        knopf.addEventListener("click", weiter);
       }
       var wo = res.ergebnisse.length > 1 && aufg.felderWort
         ? "Der Käfer schafft es in allen " + res.ergebnisse.length + " " + aufg.felderWort[2] + ". "
@@ -1721,7 +1840,8 @@
           (aufg.zufall ? ", davon " + aufg.zufall.anzahl + " zufällig erzeugt" : "") + ". "
         : "Der Käfer hat die Aufgabe gelöst. ";
       meldungZeigen("ok", "Geschafft", wo + E.bausteineText(res.bloecke, res.max) + "." + kleinsteText(res.bloecke) +
-        (knopf ? "" : aufgaben.some(function (a) { return a.zusatz && !geloest[a.id]; })
+        (mitFrage ? (beantwortet[aufg.id] ? "" : " Beantworten Sie unten noch die Reflexionsfrage, dann geht es weiter.") :
+          knopf ? "" : aufgaben.some(function (a) { return a.zusatz && !geloest[a.id]; })
           ? " Das war die letzte Pflichtaufgabe. Weiter geht es mit den Zusatzaufgaben (★)." : " Das war die letzte Aufgabe."), knopf);
     } else if (res.grund === "bloecke" && res.zielErreicht) {
       meldungZeigen("fehler", "Fast", "Der Käfer löst die Aufgabe, aber: " + res.text + " Geht es mit weniger?");

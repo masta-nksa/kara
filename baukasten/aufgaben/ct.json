@@ -4,8 +4,8 @@
     {
       "id": "ct-klein",
       "titel": "1 · Der kleine Rasen",
-      "stufe": "Zerlegen",
-      "abschnitt": "zerlegen",
+      "stufe": "Einfach",
+      "abschnitt": "einfach",
       "text": "Der Käfer ist ein Rasenmäher: Er soll jedes Feld des Rasens (3 × 3, rundherum Mauer) befahren. Das Programm enthält schon die erste Bahn. Ergänzen Sie: Wende, Bahn, Wende, Bahn.",
       "denkfigur": "Der Weg besteht aus drei Teilen: Bahn, Wende rechts, Wende links. Bauen Sie Teil für Teil an und starten Sie nach jedem Teil.",
       "feld": {
@@ -55,13 +55,19 @@
         ],
         "richtig": "f89ec97c",
         "erklaerung": "Genau das ist Zerlegen: ein grosses Problem in kleinere Teilprobleme aufteilen, die man einzeln lösen kann."
-      }
+      },
+      "denkfiguren": [
+        {
+          "id": "zerlegen",
+          "warum": "Der Weg zerfällt in Bahnen und Wenden, die man einzeln baut und testet."
+        }
+      ]
     },
     {
       "id": "ct-zwei",
       "titel": "2 · Zwei Rasenstücke",
-      "stufe": "Zerlegen",
-      "abschnitt": "zerlegen",
+      "stufe": "Einfach",
+      "abschnitt": "einfach",
       "text": "Zwei Rasenstücke, verbunden durch einen schmalen Weg oben. Der Käfer soll alle Felder befahren, auch den Weg.",
       "denkfigur": "Zerlegen Sie in drei Teilprobleme: Rasen A mähen, zum Rasen B fahren, Rasen B mähen. Lösen Sie eines nach dem anderen und starten Sie nach jedem Teil.",
       "feld": {
@@ -101,59 +107,19 @@
         ],
         "richtig": "1e91093f",
         "erklaerung": "Jedes Teilproblem liess sich für sich lösen und testen. Darum lohnt sich Zerlegen."
-      }
-    },
-    {
-      "id": "ct-muster",
-      "titel": "3 · Bahn und Wende",
-      "stufe": "Muster erkennen",
-      "abschnitt": "muster",
-      "text": "Ein grösserer Rasen (5 × 5), aber höchstens 14 Bausteine.",
-      "denkfigur": "Schreiben Sie den Weg zuerst mit den Namen der Teile auf: Bahn, Wende rechts, Bahn, … Welches Stück kommt mehrmals gleich vor? Das gehört in eine Wiederholung.",
-      "feld": {
-        "karte": ["#######", "#.....#", "#.....#", "#.....#", "#.....#", "#S....#", "#######"],
-        "blick": "N"
       },
-      "palette": {
-        "befehle": [
-          "vor",
-          "rechts",
-          "links"
-        ],
-        "wiederholung": true,
-        "verzweigung": false
-      },
-      "maxBloecke": 14,
-      "ziel": {
-        "typ": "alleWege"
-      },
-      "hinweis": "Nach der ersten Bahn kommt zweimal dasselbe: Wende rechts, Bahn, Wende links, Bahn.",
-      "strategie": {
-        "text": "Das Bausteinlimit ist knapp. Was hilft?",
-        "antworten": [
-          "Möglichst viele «vorwärts» hintereinander setzen.",
-          "Eine Verzweigung einbauen.",
-          "Den Weg mit den Namen der Teile aufschreiben und schauen, welches Stück mehrmals vorkommt."
-        ],
-        "richtig": "1e0e7b61",
-        "erklaerung": "Was mehrmals gleich vorkommt, passt in eine Wiederholung."
-      },
-      "frage": {
-        "text": "Welches Stück hat sich in Ihrem Programm wiederholt?",
-        "antworten": [
-          "Nichts.",
-          "Nur «vorwärts».",
-          "Wende rechts, Bahn, Wende links, Bahn."
-        ],
-        "richtig": "93fbce3a",
-        "erklaerung": "Genau. Und innen wiederholt sich in jeder Bahn noch einmal «vorwärts». Muster erkennen heisst: Gleiches finden und wiederholen."
-      }
+      "denkfiguren": [
+        {
+          "id": "zerlegen",
+          "warum": "Drei Teilprobleme: Rasen A mähen, zum Rasen B fahren, Rasen B mähen."
+        }
+      ]
     },
     {
       "id": "ct-teich-fest",
-      "titel": "4 · Um den Teich",
-      "stufe": "Muster erkennen",
-      "abschnitt": "muster",
+      "titel": "3 · Um den Teich",
+      "stufe": "Einfach",
+      "abschnitt": "einfach",
       "text": "Mitten im Garten liegt ein Teich. Mähen Sie den Rasenring rund um den Teich (aussen 6 × 4 Felder). Höchstens 8 Bausteine.",
       "denkfigur": "Gehen Sie den Weg in Gedanken ab: kurze Seite, Ecke, lange Seite, Ecke … Wie oft wiederholt sich das?",
       "feld": {
@@ -194,13 +160,79 @@
         ],
         "richtig": "373955f7",
         "erklaerung": "Gegenüberliegende Seiten sind gleich lang. Darum kommt das Paar aus kurzer und langer Seite genau zweimal vor."
-      }
+      },
+      "denkfiguren": [
+        {
+          "id": "muster",
+          "warum": "Kurze Seite, Ecke, lange Seite, Ecke kommt zweimal vor."
+        },
+        {
+          "id": "zerlegen",
+          "warum": "Der Ring zerfällt in Seiten und Ecken."
+        }
+      ]
+    },
+    {
+      "id": "ct-muster",
+      "titel": "4 · Bahn und Wende",
+      "stufe": "Mittel",
+      "abschnitt": "mittel",
+      "text": "Ein grösserer Rasen (5 × 5), aber höchstens 14 Bausteine.",
+      "denkfigur": "Schreiben Sie den Weg zuerst mit den Namen der Teile auf: Bahn, Wende rechts, Bahn, … Welches Stück kommt mehrmals gleich vor? Das gehört in eine Wiederholung.",
+      "feld": {
+        "karte": ["#######", "#.....#", "#.....#", "#.....#", "#.....#", "#S....#", "#######"],
+        "blick": "N"
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": false
+      },
+      "maxBloecke": 14,
+      "ziel": {
+        "typ": "alleWege"
+      },
+      "hinweis": "Nach der ersten Bahn kommt zweimal dasselbe: Wende rechts, Bahn, Wende links, Bahn.",
+      "strategie": {
+        "text": "Das Bausteinlimit ist knapp. Was hilft?",
+        "antworten": [
+          "Möglichst viele «vorwärts» hintereinander setzen.",
+          "Eine Verzweigung einbauen.",
+          "Den Weg mit den Namen der Teile aufschreiben und schauen, welches Stück mehrmals vorkommt."
+        ],
+        "richtig": "1e0e7b61",
+        "erklaerung": "Was mehrmals gleich vorkommt, passt in eine Wiederholung."
+      },
+      "frage": {
+        "text": "Welches Stück hat sich in Ihrem Programm wiederholt?",
+        "antworten": [
+          "Nichts.",
+          "Nur «vorwärts».",
+          "Wende rechts, Bahn, Wende links, Bahn."
+        ],
+        "richtig": "93fbce3a",
+        "erklaerung": "Genau. Und innen wiederholt sich in jeder Bahn noch einmal «vorwärts». Muster erkennen heisst: Gleiches finden und wiederholen."
+      },
+      "denkfiguren": [
+        {
+          "id": "muster",
+          "warum": "Wende rechts, Bahn, Wende links, Bahn wiederholt sich; in jeder Bahn wiederholt sich «vorwärts»."
+        },
+        {
+          "id": "zerlegen",
+          "warum": "Bahn und Wende sind die Teile, aus denen das Muster besteht."
+        }
+      ]
     },
     {
       "id": "ct-gaerten",
       "titel": "5 · Drei Gärten",
-      "stufe": "Abstrahieren",
-      "abschnitt": "abstrahieren",
+      "stufe": "Mittel",
+      "abschnitt": "mittel",
       "text": "Drei Gärten, ein Programm. Höchstens 16 Bausteine.",
       "denkfigur": "Was ist in allen drei Gärten gleich, was ändert sich? Lassen Sie weg, was sich ändert: Eine Bahn geht nicht «5 Felder weit», sondern «bis zur Wand».",
       "layouts": [
@@ -268,13 +300,23 @@
         ],
         "richtig": "f91fda6f",
         "erklaerung": "Das ist Abstrahieren: Was sich ändert, bleibt draussen. «Bis zur Wand» passt überall."
-      }
+      },
+      "denkfiguren": [
+        {
+          "id": "abstrahieren",
+          "warum": "«Bis zur Wand» statt einer festen Länge: So passt das Programm in jeden Garten."
+        },
+        {
+          "id": "muster",
+          "warum": "Das Paar aus Bahn und Wende wiederholt sich."
+        }
+      ]
     },
     {
       "id": "ct-nebel",
       "titel": "6 · Mähen im Nebel",
-      "stufe": "Abstrahieren",
-      "abschnitt": "abstrahieren",
+      "stufe": "Mittel",
+      "abschnitt": "mittel",
       "text": "Im Nebel sieht der Käfer nur seine Nachbarfelder. Reicht das Ihrem Programm?",
       "denkfigur": "Welche Information braucht Ihr Programm wirklich? Alles andere haben Sie beim Abstrahieren schon weggelassen.",
       "layouts": [
@@ -337,13 +379,19 @@
         ],
         "richtig": "be466c92",
         "erklaerung": "Ihr Algorithmus kommt mit einer einzigen Information aus. Alles andere haben Sie beim Abstrahieren weggelassen."
-      }
+      },
+      "denkfiguren": [
+        {
+          "id": "abstrahieren",
+          "warum": "Das Programm braucht nur die Antwort auf «Feld vorne frei?», keine Karte des Gartens."
+        }
+      ]
     },
     {
       "id": "ct-teich",
       "titel": "★ Teiche jeder Grösse",
-      "stufe": "Zusatz · Abstrahieren",
-      "abschnitt": "abstrahieren",
+      "stufe": "Zusatz · Mittel",
+      "abschnitt": "mittel",
       "zusatz": true,
       "text": "Teiche in verschiedenen Grössen, und der Käfer startet nicht immer in der Ecke. Alle Bausteine, kein Limit.",
       "denkfigur": "Was bleibt bei allen Teichen gleich, egal wie gross sie sind und wo der Käfer startet?",
@@ -418,13 +466,23 @@
         ],
         "richtig": "1568e520",
         "erklaerung": "Darum passt «solange vorne frei: vorwärts», dann eine Drehung. Länge und Startplatz sind Details, die Sie weglassen können."
-      }
+      },
+      "denkfiguren": [
+        {
+          "id": "abstrahieren",
+          "warum": "Länge und Startplatz weglassen: der Wand entlang, an jeder Ecke gleich drehen."
+        },
+        {
+          "id": "muster",
+          "warum": "Seite und Ecke wiederholen sich."
+        }
+      ]
     },
     {
       "id": "ct-unbekannt",
       "titel": "7 · Unbekannte Gärten",
-      "stufe": "Algorithmus entwerfen",
-      "abschnitt": "entwerfen",
+      "stufe": "Anspruchsvoll",
+      "abschnitt": "fordernd",
       "text": "Sie sehen zwei Gärten, geprüft wird in sechs, darunter Sonderfälle. Höchstens 16 Bausteine.",
       "denkfigur": "Spielen Sie Ihr Programm vor dem Prüfen in Gedanken an Sonderfällen durch: nur eine Bahn, nur eine Reihe, eine gerade Anzahl Bahnen, ein winziger Garten.",
       "layouts": [
@@ -509,13 +567,23 @@
         ],
         "richtig": "bdd37b2f",
         "erklaerung": "Tests mit Beispielen zeigen Fehler, beweisen aber nicht, dass es keine gibt. Sonderfälle wie «nur eine Bahn» finden die meisten Fehler."
-      }
+      },
+      "denkfiguren": [
+        {
+          "id": "entwerfen",
+          "warum": "Sonderfälle bedenken und prüfen: nur eine Bahn, nur eine Reihe, gerade Anzahl Bahnen, winzig."
+        },
+        {
+          "id": "abstrahieren",
+          "warum": "Die Wende geht nur vorwärts, wenn frei ist: So passt sie zu jeder Gartengrösse."
+        }
+      ]
     },
     {
       "id": "ct-krumm",
       "titel": "★ Krumme Gärten",
-      "stufe": "Zusatz · Algorithmus prüfen",
-      "abschnitt": "entwerfen",
+      "stufe": "Zusatz · Anspruchsvoll",
+      "abschnitt": "fordernd",
       "zusatz": true,
       "text": "Nicht jeder Garten ist ein Rechteck. Funktioniert Ihr Rasenmäher auch hier? Alle Bausteine, kein Limit.",
       "denkfigur": "Spielen Sie Ihr Programm in Gedanken in einem L-förmigen Garten durch, bevor Sie starten. Wo könnte es scheitern?",
@@ -590,13 +658,19 @@
         ],
         "richtig": "ab22c0df",
         "erklaerung": "Prüfen mit ungewöhnlichen Fällen zeigt, wie weit ein Algorithmus trägt und wo er an Grenzen kommt."
-      }
+      },
+      "denkfiguren": [
+        {
+          "id": "entwerfen",
+          "warum": "Mit ungewöhnlichen Gärten prüfen, wie weit der Algorithmus trägt."
+        }
+      ]
     },
     {
       "id": "ct-irgendwo",
       "titel": "★ Irgendwo im Garten",
-      "stufe": "Zusatz · Algorithmus entwerfen",
-      "abschnitt": "entwerfen",
+      "stufe": "Zusatz · Anspruchsvoll",
+      "abschnitt": "fordernd",
       "zusatz": true,
       "text": "Der Käfer steht irgendwo im Garten und schaut irgendwohin. Er soll trotzdem alles mähen. Alle Bausteine, kein Limit, kein Tipp.",
       "denkfigur": "Entwerfen Sie mit allen vier Denkfiguren: Welche Teilprobleme gibt es? Welche Lösung haben Sie schon?",
@@ -671,7 +745,17 @@
         ],
         "richtig": "e90499db",
         "erklaerung": "So arbeiten Informatikerinnen und Informatiker: Bekannte Lösungen wiederverwenden und nur das Neue dazubauen."
-      }
+      },
+      "denkfiguren": [
+        {
+          "id": "zerlegen",
+          "warum": "Ein neues Teilproblem: zuerst in eine passende Ecke fahren."
+        },
+        {
+          "id": "entwerfen",
+          "warum": "Eine fertige Lösung wiederverwenden und das Ganze prüfen."
+        }
+      ]
     }
   ]
 }

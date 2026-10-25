@@ -29,43 +29,82 @@
 }
 
 /* ---------- Aufgabenwahl ---------- */
-.bk-reihen{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-.bk-reihe{
-  font:inherit;font-size:.82rem;font-family:"IBM Plex Mono",ui-monospace,monospace;letter-spacing:.06em;
-  cursor:pointer;min-height:40px;padding:6px 14px;background:transparent;color:var(--ink-soft);
-  border:1px solid var(--line);border-radius:var(--radius);
-}
-.bk-reihe:hover{border-color:var(--accent);color:var(--ink)}
-.bk-reihe[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--ink);font-weight:600}
-.bk-reihe:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.bk-aufgaben ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.bk-tab{
-  font:inherit;font-size:.9rem;cursor:pointer;min-height:44px;padding:8px 14px;
-  background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:var(--radius);
-  display:flex;align-items:center;gap:8px;
-}
-.bk-tab:hover{border-color:var(--accent)}
-.bk-tab[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
-.bk-tab .haken{color:var(--ok);font-weight:700}
-.bk-tab:focus-visible,.bk-knopf:focus-visible,.bk-pal:focus-visible,.bk-slot:focus-visible,
+.bk-knopf:focus-visible,.bk-pal:focus-visible,.bk-slot:focus-visible,
 .bk-main:focus-visible,.bk-del:focus-visible,.bk-tempo input:focus-visible,.bk-hinweis summary:focus-visible{
   outline:3px solid var(--accent);outline-offset:2px;
 }
 
-/* Lernpfad mit Abschnitten (z. B. Denkfiguren) und Blumen */
-.bk-lernpfad{display:flex;flex-direction:column;gap:10px}
-.bk-lernpfad[hidden]{display:none}
-.bk-theorie{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:2px 14px;font-size:.92rem}
-.bk-theorie summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600}
+/* ---------- Lernpfad wie im Turtle-Kurs: Reihen als Kreise, Aufgaben als Stationen ---------- */
+.bk-pfad{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-width:0;margin-bottom:10px}
+.bk-einheiten{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;min-width:0;overflow-x:auto;padding:3px;scrollbar-width:none}
+.bk-einheit{position:relative;flex:none;width:38px;height:38px;padding:0;border:0;background:none;cursor:pointer;border-radius:50%}
+.bk-einheit svg{display:block;width:38px;height:38px}
+.bk-einheit .grund{fill:var(--surface);stroke:var(--line);stroke-width:3}
+.bk-einheit .ring{fill:none;stroke:var(--ok);stroke-width:3;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%}
+.bk-einheit span{position:absolute;inset:0;display:grid;place-items:center;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.82rem;font-weight:600;color:var(--ink-soft)}
+.bk-einheit[aria-current="true"] .grund{fill:var(--accent-soft);stroke:var(--accent)}
+.bk-einheit[aria-current="true"] span{color:var(--ink)}
+.bk-einheit:focus-visible,.bk-station:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bk-einheit-titel{margin-left:8px;flex:1 1 0;min-width:0;display:flex;align-items:baseline;gap:12px;white-space:nowrap;overflow:hidden}
+.bk-einheit-titel b{flex:none;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.95rem}
+.bk-einheit-titel small{min-width:0;overflow:hidden;text-overflow:ellipsis;color:var(--ink-soft);font-size:.82rem}
+.bk-stand{flex:none;margin-left:auto;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.85rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bk-strecke{overflow-x:auto;padding:2px;scrollbar-width:thin}
+.bk-abschnitte{display:flex;gap:26px;width:max-content;min-width:100%}
+.bk-abschnitt{display:flex;flex-direction:column;gap:4px}
+.bk-abschnitt-name{display:flex;align-items:center;gap:6px;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;min-height:22px}
+.bk-halte{position:relative;display:flex;align-items:flex-end;gap:14px;height:48px;padding:16px 4px 2px}
+.bk-halte::before{content:"";position:absolute;left:14px;right:14px;bottom:13px;height:2px;background:var(--blume,var(--line));opacity:.6}
+.bk-station{
+  position:relative;z-index:1;flex:none;width:24px;height:24px;padding:0;border-radius:50%;cursor:pointer;
+  border:2px solid var(--ink-soft);background:var(--surface);display:grid;place-items:center;
+  font:700 .72rem/1 "IBM Plex Sans",sans-serif;color:var(--surface);
+}
+.bk-station.geprueft{background:var(--ok);border-color:var(--ok)}
+.bk-station.aktuell{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--accent)}
+.bk-station.zusatz{width:20px;height:20px;align-self:flex-start;margin-top:-14px;border-style:dashed}
+.bk-station.zusatz::after{content:"★";position:absolute;inset:0;display:grid;place-items:center;font-size:.7rem;color:var(--ink-soft)}
+.bk-station.zusatz.geprueft::after{color:var(--surface)}
+.bk-station.zusatz::before{content:"";position:absolute;left:50%;top:100%;height:14px;border-left:2px dashed var(--line)}
+.bk-schild{position:fixed;z-index:30;pointer-events:none;transform:translate(-50%,-100%);white-space:nowrap;padding:3px 8px;border-radius:var(--radius);font-size:.8rem;background:var(--ink);color:var(--surface)}
+.bk-schild[hidden]{display:none}
+.bk-legende{display:flex;flex-wrap:wrap;gap:2px 16px;font-size:.75rem;color:var(--ink-soft)}
+.bk-legende span{display:inline-flex;align-items:center;gap:6px}
+.bk-legende i{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid var(--ink-soft);background:var(--surface)}
+.bk-legende i.g{background:var(--ok);border-color:var(--ok)}
+.bk-legende i.a{box-shadow:0 0 0 2px var(--surface),0 0 0 3px var(--accent)}
+.bk-pfad .bk-theorie{border:0;padding:0;background:none;font-size:.88rem}
+.bk-pfad .bk-theorie summary{min-height:36px;font-size:.88rem}
+.bk-theorie[hidden]{display:none}
+
+.bk-denkfiguren{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;border-top:1px dashed var(--line);padding-top:8px}
+.bk-denkfiguren[hidden]{display:none}
+.bk-denkfigur-blume{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;color:var(--ink-soft);border-radius:var(--radius)}
+.bk-denkfigur-blume:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.bk-entscheidend{margin-top:10px;padding:8px 10px;border:1px solid var(--line);border-radius:var(--radius)}
+.bk-entscheidend[hidden]{display:none}
+.bk-entscheidend p{margin:0 0 6px;font-size:.9rem}
+.bk-entscheidend .bk-etikett{margin-right:4px}
+.bk-entscheidend-titel{font-weight:600}
+
+/* Kopf der Aufgabenkarte: Ort, Titel, Zurück/Weiter */
+.bk-kartenkopf{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.bk-kartenkopf h2{flex:1 1 220px;margin:0}
+.bk-kartenkopf h2 small{display:block;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:400;margin-bottom:2px}
+.bk-navi{display:flex;gap:6px}
+.bk-navi .bk-knopf{min-height:38px;padding:6px 12px}
+.bk-frage-weiter{margin-left:8px}
+.bk-lauf .bk-frage{margin-top:12px}
+
+/* Code-Ansicht */
+.bk-code{margin-top:10px;font-size:.9rem}
+.bk-code summary{cursor:pointer;min-height:40px;display:flex;align-items:center;width:max-content;color:var(--ink-soft)}
+.bk-code-hilfe{margin:0 0 6px;font-size:.82rem;color:var(--ink-soft)}
+.bk-code pre{margin:0;padding:10px 12px;background:var(--ground);border:1px solid var(--line);border-radius:var(--radius);overflow-x:auto;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.85rem;line-height:1.5}
+
+/* Theorie zu den Abschnitten, Etiketten und Fragen */
+.bk-theorie summary{cursor:pointer;display:flex;align-items:center;font-weight:600}
 .bk-theorie p{margin:0 0 10px;padding-left:10px;border-left:4px solid var(--blume)}
-.bk-gruppen{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.bk-gruppe{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--blume);border-radius:var(--radius);padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
-.bk-gruppe-kopf{display:flex;align-items:center;gap:10px}
-.bk-gruppe h3{margin:0;font-size:.9rem;line-height:1.25}
-.bk-gruppe-stand{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.75rem;color:var(--ink-soft)}
-.bk-gruppe ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
-.bk-gruppe .bk-tab{width:100%;min-height:40px;padding:6px 10px;font-size:.85rem;justify-content:space-between;text-align:left}
-.bk-tab.zusatz{border-style:dashed}
 .bk-etiketten{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
 .bk-etiketten[hidden]{display:none}
 .bk-etikett{font-size:.78rem;line-height:1.4;padding:2px 10px;border-radius:999px;border:2px solid var(--blume,var(--line));color:var(--ink)}
@@ -73,13 +112,12 @@
 .bk-frage{margin:12px 0 0;border:1px solid var(--line);border-radius:var(--radius);padding:6px 14px 12px;min-width:0}
 .bk-frage[hidden]{display:none}
 .bk-frage legend{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600;padding:0 6px}
-.bk-aufgabe .bk-frage-text{font-weight:600}
-.bk-aufgabe .bk-frage-text.bk-frage-wartet{font-weight:400;font-style:italic;color:var(--ink-soft)}
+.bk-frage .bk-frage-text{font-weight:600}
 .bk-frage-antworten{display:flex;flex-direction:column;gap:2px;margin:6px 0 8px}
 .bk-antwort{display:flex;gap:10px;align-items:flex-start;min-height:44px;padding:6px 8px;border-radius:var(--radius);cursor:pointer}
 .bk-antwort:hover{background:var(--ground)}
 .bk-antwort input{margin:3px 0 0;width:18px;height:18px;flex:none;accent-color:var(--accent)}
-.bk-aufgabe .bk-frage-rueck{margin-top:8px;padding:8px 10px;border-radius:var(--radius);background:var(--ground)}
+.bk-frage .bk-frage-rueck{margin:8px 0 0;padding:8px 10px;border-radius:var(--radius);background:var(--ground)}
 .bk-frage-rueck.ok{background:var(--ok-soft)}
 .bk-frage-rueck.fehler{background:var(--no-soft)}
 
@@ -361,8 +399,8 @@ body.bk-zieht *{cursor:grabbing!important}
 
 @media (prefers-reduced-motion: reduce){.bk-kaefer,.bk-welt,.bk-achsen{transition:none}}
 @media (max-width:560px){
+  .bk-einheit-titel small,.bk-legende{display:none}
+  .bk-pfad{padding:10px 12px}
   .bk{padding:20px 14px 48px}
-  .bk-aufgaben ol{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px}
-  .bk-tab{white-space:nowrap;flex:none}
   .bk-bau,.bk-lauf,.bk-aufgabe{padding:14px}
 }

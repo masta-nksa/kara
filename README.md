@@ -46,15 +46,23 @@ Eine Reihe kann mehrere Aufgaben-Dateien zusammenfassen (`dateien`). So lassen s
 umordnen oder zusammenlegen, ohne die Aufgaben anzufassen. Aufgaben-IDs müssen über alle
 Reihen eindeutig sein (der Fortschritt hängt an der ID).
 
+Der Baukasten zeigt oben einen schmalen Lernpfad wie im Turtle-Kurs: die Reihen als Kreise (der
+Ring zeigt den Anteil gelöster Pflichtaufgaben, `kurz` ersetzt die Nummer im Kreis), daneben Titel
+und Stand, darunter die Aufgaben als Stationen auf einer Linie (✓ gelöst, Ring = aktuelle Aufgabe,
+★ Zusatzaufgabe etwas erhöht und gestrichelt; Titel beim Darüberfahren). Auf dem Handy lassen sich
+beide Zeilen waagrecht wischen. Die Aufgabenkarte nennt den Ort («Reihe · Abschnitt · 2 von 10»)
+und hat «‹ Zurück / Weiter ›»; am Ende einer Reihe heisst es «Nächste Reihe ›».
+
 Mit `abschnitte` (Liste von `{id, titel, text}`, optional `etikett` wie «Anforderung: allgemein»;
-Standard «Denkfigur: …»), `abschnitteTitel` und optional `kastenTitel` (Vorsatz des Strategie-Tipps; Standard
-«So hilft «…»:») gliedert sich eine Reihe
-in Abschnitte, z. B. die vier Denkfiguren des Computational Thinking. Der Baukasten zeigt dann
-statt der Aufgabenleiste einen Lernpfad: oben aufklappbar die Erklärungen (offen, solange in der
-Reihe noch nichts gelöst ist), darunter je Abschnitt eine Spalte mit Blume, Stand und Aufgaben.
-Jede gelöste Aufgabe und jede richtig beantwortete Frage (vorher und nachher) öffnet ein Blütenblatt;
-Zusatzaufgaben geben kleinere, gestrichelte Blätter. Sind alle Pflichtblätter offen, füllt sich
-die Mitte. Das Cockpit zeigt die Blumen ebenfalls.
+Standard «Denkfigur: …») gliedern sich die Stationen in Abschnitte; `abschnitteTitel` ist der Titel
+der aufklappbaren Erklärungen (offen, solange in der Reihe noch nichts gelöst ist), `kastenTitel`
+der Vorsatz des Strategie-Tipps (Standard «So hilft «…»:»). Je Abschnitt zeigt eine kleine Blume
+den Fortschritt: Aufgabe gelöst, Vorher-Frage und Reflexion richtig beantwortet öffnen je ein
+Blatt; Zusatzaufgaben geben kleinere, gestrichelte Blätter; sind alle Pflichtblätter offen, füllt
+sich die Mitte. Mit `denkfiguren` (gleiches Format) und `denkfigurenTitel` zeigt der Pfad statt
+dessen eine Blume je Denkfigur, und die Erklärungen gelten den Denkfiguren. Ein Blatt öffnet sich,
+wenn eine Aufgabe, in der diese Denkfigur entscheidend war, gelöst und reflektiert ist. Das
+Cockpit zeigt dieselben Blumen.
 
 ## Aufgaben (`baukasten/aufgaben/*.json`)
 
@@ -84,10 +92,15 @@ die Mitte. Das Cockpit zeigt die Blumen ebenfalls.
   `zusatz: true` (★, gestrichelt, zählt nicht als Pflicht; «Nächste Aufgabe» überspringt sie),
   `denkfigur` (Strategie-Tipp: erscheint als erster Hinweis, nicht offen in der Aufgabe),
   `strategie` (Frage «Vorher: Wie gehen Sie vor?», gleich bei der Aufgabe) und `frage`
-  («Nachher: Reflexion», erst sichtbar, wenn die Aufgabe gelöst ist; die Antwort nennt, was die
-  Lösung gezeigt hat, z. B. das gefundene Muster). Beide Fragen: `{text, antworten: [...],
+  («Nachher: Reflexion», erscheint erst nach dem Lösen unter der Erfolgsmeldung; «Nächste
+  Aufgabe» und «Weiter ›» gehen erst nach richtiger Antwort weiter, sonst kommt ein Hinweis; die
+  Antwort nennt, was die Lösung gezeigt hat, z. B. das gefundene Muster). In Reihen mit
+  `denkfiguren` dazu `denkfiguren: [{id, warum}]`: Nach der Reflexion erscheint, welche
+  Denkfiguren entscheidend waren und weshalb. Beide Fragen: `{text, antworten: [...],
   richtig, erklaerung}`. `richtig` ist ein Schlüssel aus `frageSchluessel(id, Nummer)` bzw.
   `frageSchluessel(id + "/strategie", Nummer)` (engine.js), keine Klartext-Antwort.
+- Unter dem Struktogramm zeigt «Als Code anzeigen» dasselbe Programm als Python-ähnlichen Code
+  (`alsCode` in engine.js): Prosa, Diagramm und Code als drei Beschreibungen desselben Algorithmus.
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
 - `kleinsteLoesung`: Anzahl Bausteine der kleinsten bekannten Lösung; erscheint erst nach dem
   Lösen. Die Bausteinlimits lassen bewusst auch weniger kompakte Lösungen zu.
@@ -142,13 +155,14 @@ Wegbeschreibung festlegen), allgemein («Drei Räume», ★ Treppen jeder Gröss
 auf», ★ Gleich weit) und korrekt («Den Fehler finden», «Räume, die Sie nicht sehen» mit
 verdeckten Sonderfällen, ★ Räume mit Säulen).
 
-«Computational Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`) und ist nach den vier
-Denkfiguren gegliedert (`abschnitte`): Zerlegen (kleiner Rasen, zwei Rasenstücke), Muster
-erkennen (Bahn und Wende, um den Teich), Abstrahieren (drei Gärten, Mähen im Nebel, ★ Teiche
-jeder Grösse) und Algorithmus entwerfen (unbekannte Gärten mit Sonderfällen, ★ krumme Gärten,
-★ irgendwo im Garten).
+«Computational Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`). Die Aufgaben steigen
+an: einfach (kleiner Rasen, zwei Rasenstücke, um den Teich), mittel (Bahn und Wende, drei Gärten,
+Mähen im Nebel, ★ Teiche jeder Grösse) und anspruchsvoll (unbekannte Gärten mit Sonderfällen,
+★ krumme Gärten, ★ irgendwo im Garten). Die Denkfiguren (zerlegen, Muster erkennen,
+abstrahieren, Algorithmus entwerfen) kommen in vielen Aufgaben vor; welche entscheidend waren,
+zeigt sich erst nach dem Lösen und der Reflexion.
 
-In beiden Reihen nennt jede Aufgabe ihren Abschnitt, fragt vorher nach der passenden Strategie
+In beiden Reihen nennt jede Aufgabe ihren Abschnitt bzw. ihre Stufe, fragt vorher nach der passenden Strategie
 und nach dem Lösen in einer Reflexionsfrage, was das Programm gezeigt hat. Die Strategie selbst
 steht nur als Tipp im Hinweis. Die Zusatzaufgaben werden immer offener: zuletzt alle Bausteine, kein
 Limit, kein Tipp.
