@@ -88,7 +88,7 @@
       "titel": "3 · Bahn und Wende",
       "stufe": "Muster erkennen",
       "abschnitt": "muster",
-      "text": "Ein grösserer Rasen (5 × 5, wie im Dossier), aber höchstens 14 Bausteine.",
+      "text": "Ein grösserer Rasen (5 × 5), aber höchstens 14 Bausteine.",
       "denkfigur": "Schreiben Sie den Weg zuerst mit den Namen der Teile auf: Bahn, Wende rechts, Bahn, … Welches Stück kommt mehrmals gleich vor? Das gehört in eine Wiederholung.",
       "feld": {
         "karte": ["#######", "#.....#", "#.....#", "#.....#", "#.....#", "#S....#", "#######"],
@@ -356,7 +356,7 @@
       "stufe": "Algorithmus entwerfen",
       "abschnitt": "entwerfen",
       "text": "Sie sehen zwei Gärten, geprüft wird in sechs, darunter Sonderfälle. Höchstens 16 Bausteine.",
-      "denkfigur": "Spielen Sie Ihr Programm vor dem Prüfen in Gedanken an den Sonderfällen aus dem Dossier durch: nur eine Bahn, nur eine Reihe, gerade Anzahl Bahnen, winzig.",
+      "denkfigur": "Spielen Sie Ihr Programm vor dem Prüfen in Gedanken an Sonderfällen durch: nur eine Bahn, nur eine Reihe, eine gerade Anzahl Bahnen, ein winziger Garten.",
       "layouts": [
         {
           "name": "Garten 1",

@@ -78,7 +78,8 @@ Nur auf ausdrücklichen Wunsch ändern.
 
 Seit 25.10.2026: Reihen «Algorithmen» und «Computational Thinking» zu zwei Papier-Dossiers der
 Lehrperson (L2_Dossier_kompakt, CT_Dossier im OneDrive-Ordner Algorithmen_FMS/word); Papier und
-Kara zeigen dieselben Felder, bei Änderungen beides anpassen. «Käfer-Grundlagen» bleibt
+Kara zeigen dieselben Felder, bei Änderungen beides anpassen. Kara-Texte verweisen nie aufs
+Dossier (auch nicht auf «Lektion 1»): Die Aufgaben müssen für sich allein lösbar sein. «Käfer-Grundlagen» bleibt
 unverändert (wird in einem anderen Fach genutzt); die Algorithmen-Reihe hat Kopien mit eigenen
 IDs. Neu in der Engine: «wiederhole solange …» (`while`, Abbruch «endet nie»), Bedingung
 `zaehlerNichtNull`, Ziel `alleWege`, `felderWort`. Die CT-Reihe ist nach den vier Denkfiguren

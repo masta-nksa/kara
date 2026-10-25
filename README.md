@@ -130,7 +130,8 @@ Handregeln jeweils mindestens einmal, dazu zehn Zufallslabyrinthe mit Inseln).
 
 Die Reihen «Algorithmen» (`aufgaben/algorithmen.json`) und «Computational Thinking»
 (`aufgaben/ct.json`) begleiten zwei Papier-Dossiers: Zuerst wird eine Lektion lang auf Papier
-gearbeitet, in der nächsten Lektion folgen dieselben Felder in Kara. «Algorithmen» ist in die
+gearbeitet, in der nächsten Lektion folgen dieselben Felder in Kara. Die Aufgabentexte in Kara
+verweisen nicht aufs Dossier: Beides lässt sich unabhängig voneinander lösen. «Algorithmen» ist in die
 Bausteine und die fünf Anforderungen gegliedert (`abschnitte`): Bausteine (Zum Ziel, Das Quadrat,
 Hindernisse umgehen, Bis zur Wand, ★ Die Treppe; Kopien der Grundlagen mit eigenen IDs `alg-…`,
 die Reihe «Käfer-Grundlagen» bleibt unverändert, weil sie auch in einem anderen Fach genutzt

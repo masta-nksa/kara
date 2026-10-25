@@ -1,5 +1,5 @@
 {
-  "hinweis": "Reihe «Algorithmen» fuer den Baukasten: Bausteine, Struktogramme und die fuenf Anforderungen. Aufgaben 1-5 sind Kopien der Grundlagen, angepasst ans Dossier. Keine Loesungen enthalten.",
+  "hinweis": "Reihe «Algorithmen» fuer den Baukasten: Bausteine, Struktogramme und die fuenf Anforderungen. Die Grundlagen-Aufgaben sind Kopien mit eigenen IDs. Felder wie im Papier-Dossier, die Texte verweisen aber nicht darauf. Keine Loesungen enthalten.",
   "aufgaben": [
     {
       "id": "alg-ziel",
@@ -52,7 +52,7 @@
       "titel": "2 · Das Quadrat",
       "stufe": "Wiederholung",
       "abschnitt": "bausteine",
-      "text": "Das ist Aufgabe 4 aus dem Dossier (Situation A). Bauen Sie das Struktogramm nach und prüfen Sie, ob Ihr eingezeichneter Weg stimmt. Höchstens 4 Bausteine.",
+      "text": "Der Käfer soll den Rand des Quadrats (3 × 3 Felder) ablaufen und wieder auf dem Startfeld enden. Überlegen Sie zuerst, welche Schritte sich wiederholen. Höchstens 4 Bausteine.",
       "denkfigur": "Welche Schritte wiederholen sich? Packen Sie sie in eine Wiederholung.",
       "feld": {
         "cols": 7,
@@ -135,7 +135,7 @@
       "stufe": "Zusatz · Wiederholung",
       "abschnitt": "bausteine",
       "zusatz": true,
-      "text": "Der Käfer soll die Treppe über alle markierten Felder hinaufsteigen und oben rechts enden. Höchstens 5 Bausteine: Schreiben Sie es kürzer, wie die Flaschen im Dossier.",
+      "text": "Der Käfer soll die Treppe über alle markierten Felder hinaufsteigen und oben rechts enden. Höchstens 5 Bausteine: Schreiben Sie dasselbe kürzer.",
       "denkfigur": "Eine Stufe hat vier Schritte. Statt sie fünfmal aufzuschreiben, wiederholen Sie sie.",
       "feld": {
         "cols": 6,
@@ -221,7 +221,7 @@
           "Nur die Zahl im Kopf der Wiederholung."
         ],
         "richtig": "ae7a13bf",
-        "erklaerung": "Genau wie bei den 120 Flaschen im Dossier: Die kurze Fassung ändert nur eine Zahl."
+        "erklaerung": "Genau: Die kurze Fassung ändert nur eine Zahl. Ohne Wiederholung würde das Struktogramm zehnmal so lang."
       }
     },
     {
@@ -229,7 +229,7 @@
       "titel": "3 · Hindernisse umgehen",
       "stufe": "Verzweigung",
       "abschnitt": "bausteine",
-      "text": "Das ist Aufgabe 5 aus dem Dossier. Wiederholen Sie 10-mal: Ist das Feld vorne frei, geht der Käfer vorwärts, sonst dreht er sich nach rechts. Endet er dort, wo Sie es im Dossier vorausgesagt haben? Höchstens 4 Bausteine.",
+      "text": "Wiederholen Sie 10-mal: Ist das Feld vorne frei, geht der Käfer vorwärts, sonst dreht er sich nach rechts. Überlegen Sie vor dem Start, wo er enden wird, und prüfen Sie dann Ihre Vermutung. Höchstens 4 Bausteine.",
       "denkfigur": "In jedem Durchlauf entscheidet die Verzweigung neu: vorwärts, wenn frei, sonst drehen.",
       "feld": {
         "cols": 5,
@@ -336,7 +336,7 @@
           "Nur zusammen mit einer Verzweigung."
         ],
         "richtig": "0fab5967",
-        "erklaerung": "Genau. «Rühre, bis der Teig glatt ist» aus dem Dossier ist so eine Wiederholung mit Bedingung."
+        "erklaerung": "Genau. «Rühre, bis der Teig glatt ist» ist so eine Wiederholung mit Bedingung: Wie oft es nötig ist, weiss man vorher nicht."
       }
     },
     {
@@ -391,7 +391,7 @@
           "Weil links drehen länger dauert als rechts drehen."
         ],
         "richtig": "6efe00b2",
-        "erklaerung": "Genau wie beim Roboter in Lektion 1: «Gehe zum Ziel» kannte er nicht. Unbekanntes muss man in bekannte Befehle übersetzen."
+        "erklaerung": "Genau. Was der Ausführende nicht kennt, muss man in Befehle übersetzen, die er kennt: hier dreimal «rechts drehen»."
       }
     },
     {
@@ -667,7 +667,7 @@
       "stufe": "Zusatz · endlich",
       "abschnitt": "endlich",
       "zusatz": true,
-      "text": "Der Käfer läuft nach oben bis zur Wand und zählt dabei seine Schritte. Dann dreht er nach rechts und geht genau gleich viele Schritte weiter. Dort steht die Flagge. Der Zähler ist sein Merkzettel, wie z im Dossier.",
+      "text": "Der Käfer läuft nach oben bis zur Wand und zählt dabei seine Schritte. Dann dreht er nach rechts und geht genau gleich viele Schritte weiter. Dort steht die Flagge. Der Zähler ist sein Merkzettel: Darin merkt er sich, wie weit er gegangen ist.",
       "denkfigur": "Damit «solange Zähler ≠ 0» endet, muss der Zähler in jedem Durchlauf kleiner werden.",
       "layouts": [
         {
