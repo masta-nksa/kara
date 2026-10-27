@@ -32,11 +32,11 @@
           "vor",
           "rechts"
         ],
-        "wiederholung": true,
+        "wiederholung": false,
         "verzweigung": false
       },
       "maxBloecke": null,
-      "kleinsteLoesung": 6,
+      "kleinsteLoesung": 8,
       "ziel": {
         "typ": "endfeld",
         "feld": [
@@ -82,14 +82,16 @@
           "cmd": "links"
         },
         {
-          "t": "loop",
-          "n": 3,
-          "body": [
-            {
-              "t": "act",
-              "cmd": "vor"
-            }
-          ]
+          "t": "act",
+          "cmd": "vor"
+        },
+        {
+          "t": "act",
+          "cmd": "vor"
+        },
+        {
+          "t": "act",
+          "cmd": "vor"
         }
       ],
       "nichtAusfuehrbar": [
@@ -164,11 +166,11 @@
           "vor",
           "links"
         ],
-        "wiederholung": true,
+        "wiederholung": false,
         "verzweigung": false
       },
       "maxBloecke": null,
-      "kleinsteLoesung": 6,
+      "kleinsteLoesung": 8,
       "ziel": {
         "typ": "endfeld",
         "feld": [
