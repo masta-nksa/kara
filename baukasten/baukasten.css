@@ -175,6 +175,11 @@
   display:flex;flex-direction:column;gap:12px;min-width:0;
 }
 .bk-bau h2,.bk-lauf h2{margin:0}
+.bk-bau{position:relative}
+.bk-bau.gesperrt > :not(h2):not(.bk-sperre):not(.bk-code){opacity:.35;filter:blur(1.5px) grayscale(.6);pointer-events:none;user-select:none}
+.bk-bau.gesperrt{cursor:not-allowed}
+.bk-sperre{margin:0;padding:8px 12px;border:2px dashed var(--accent);border-radius:var(--radius);background:var(--accent-soft);font-weight:600;font-size:.9rem}
+.bk-sperre[hidden]{display:none}
 
 /* ---------- Knöpfe ---------- */
 .bk-knopf{
