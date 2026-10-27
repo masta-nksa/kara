@@ -96,8 +96,9 @@ Reihen sind im Baukasten nicht verlinkt (jede Reihe für sich, Einstieg über di
 Reflexionsfragen so formulieren, dass verschiedene Lösungswege passen (z. B. Bahnen oder Spirale).
 Felder der einfachen und mittleren Aufgaben so gestalten, dass sauberes Zerlegen und ein Muster ohne
 Rest aufgehen (z. B. «Bahn und Wende»: 4 Bahnen und ein Tor, «Zwei Rasenstücke»: zwei gleiche Rasen). Vorbild: Kursmodus von masta-nksa/turtle. Die Algorithmen-Reihe
-ist nach den fünf Anforderungen gegliedert (je eigene Blume), davor ein Einstieg ohne Fragen; «Als
+ist nach den fünf Anforderungen gegliedert (je eigene Blume), jede beginnt mit einem Gegenbeispiel
+(vorgegebenes Programm verletzt die Anforderung, «Welche Anforderung verletzt …?», reparieren); «Als
 Code anzeigen» unter dem Struktogramm. Fragen: Auswahl als kompakte Knöpfe, Zahl-Fragen zum
 Übertragen, Vorhersage am Feld (Hindernisse umgehen, Den Fehler finden, Vom Code zum
-Struktogramm). «Die Treppe» ist entfallen. Die Lehrperson rechnet mit fünf Anforderungen
+Struktogramm). «Die Treppe» und «Das Quadrat» sind entfallen. Die Lehrperson rechnet mit fünf Anforderungen
 (mit Korrektheit); L1-Dossier und Algorithmus-Check in `checks` nennen noch vier.

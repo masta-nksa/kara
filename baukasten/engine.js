@@ -38,6 +38,7 @@
     limit: "Das Programm läuft zu lange (mehr als " + SCHRITTLIMIT + " Schritte) und wurde angehalten.",
     leer: "Das Struktogramm ist leer. Ziehen Sie zuerst Bausteine hinein.",
     unbekannt: "Das Programm enthält einen unbekannten Baustein.",
+    nichtAusfuehrbar: "Diesen Befehl kann der Käfer nicht ausführen: Er kennt ihn nicht.",
     endlos: "Die Wiederholung endet nie: Zu Beginn eines Durchlaufs steht der Käfer wieder am gleichen Ort, schaut in die gleiche Richtung, und die Bedingung gilt immer noch.",
     kreis: "Der Käfer läuft im Kreis: Er steht wieder am gleichen Ort, schaut in die gleiche Richtung und hat das Ziel nicht erreicht."
   };
@@ -267,6 +268,8 @@
   // trace-Ereignisse: {typ:"act"|"loop"|"if"|"fehler", pfad, x, y, d, ...} (Zustand nach dem Ereignis).
   function run(feld, prog, opts) {
     var limit = (opts && opts.limit) || SCHRITTLIMIT;
+    // Befehle, die dieser Käfer nicht kennt (Gegenbeispiel «ausführbar»): Abbruch, wenn einer drankommt
+    var verboten = (opts && opts.nichtAusfuehrbar) || [];
     var hind = {};
     feld.hindernisse.forEach(function (h) { hind[h[0] + "," + h[1]] = true; });
     var ctx = { cols: feld.cols, rows: feld.rows, hind: hind };
@@ -286,6 +289,10 @@
       if (b.t === "act") {
         var cmd = BEFEHLE[b.cmd];
         if (!cmd) throw { code: "unbekannt" };
+        if (verboten.indexOf(b.cmd) >= 0) {
+          ereignis("fehler", pfad, { code: "nichtAusfuehrbar", cmd: b.cmd });
+          throw { code: "nichtAusfuehrbar" };
+        }
         var vorher = [z.x, z.y];
         if (cmd.ausfuehren(z, ctx) === "anstoss") {
           ereignis("fehler", pfad, { code: "anstoss", ziel: [z.x + DIRS[z.d][0], z.y + DIRS[z.d][1]] });
@@ -563,8 +570,8 @@
   }
 
   // Prüft ein Programm in einem Layout: {ok, grund, text, lauf}.
-  function pruefeLayout(f, prog) {
-    var lauf = run(f.feld, prog, { ziel: zielfeld(f.ziel) });
+  function pruefeLayout(f, prog, nichtAusfuehrbar) {
+    var lauf = run(f.feld, prog, { ziel: zielfeld(f.ziel), nichtAusfuehrbar: nichtAusfuehrbar });
     if (!lauf.ok) return { ok: false, grund: lauf.fehler, text: TEXTE[lauf.fehler] || TEXTE.unbekannt, lauf: lauf };
     var pruef = ZIELTYPEN[f.ziel.typ];
     if (!pruef) throw new Error("Unbekannter Zieltyp: " + f.ziel.typ);
@@ -585,7 +592,7 @@
 
     var felder = (aufgabe.felder || [{ name: "Layout 1", feld: aufgabe.feld, ziel: aufgabe.ziel }]).concat(extra || []);
     res.ergebnisse = felder.map(function (f) {
-      var r = pruefeLayout(f, prog);
+      var r = pruefeLayout(f, prog, aufgabe.nichtAusfuehrbar);
       r.name = f.name; r.verdeckt = !!f.verdeckt; r.zufall = !!f.zufall;
       return r;
     });
