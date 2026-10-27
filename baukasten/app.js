@@ -1973,6 +1973,7 @@
   }
 
   function bewerten(res) {
+    if (window.KaraDesign) window.KaraDesign.ende(res.ok);
     if (res.ok) {
       geloest[aufg.id] = Math.min(res.bloecke, geloest[aufg.id] || res.bloecke);
       renderFrage("frage");
@@ -2034,6 +2035,7 @@
     if (!simBereit()) return;
     meldungVerbergen();
     sim.laeuft = true;
+    if (window.KaraDesign) window.KaraDesign.lauf();
     dauerSetzen(Math.min(380, Math.round(tempoMs() * 0.8)));
     $("schrittInfo").setAttribute("aria-live", "off");
     knoepfe();

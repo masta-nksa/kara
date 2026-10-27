@@ -16,7 +16,8 @@ Hervorgegangen aus dem Struktogramm-Baukasten in
 index.html                Cockpit: Übersicht der Reihen mit Fortschritt
 assets/                   basis.css (Farben Hell/Dunkel, Schrift), cockpit.css/.js, favicon.svg,
                           blume.js (Fortschritt je Abschnitt als Blume),
-                          challenges.js (eigene Challenges: prüfen, Link, Speicher)
+                          challenges.js (eigene Challenges: prüfen, Link, Speicher),
+                          design-start.js, design.js, designs.css (wählbare Designs, siehe unten)
 editor/                   Labyrinth-Editor für eigene Challenges
 baukasten/                der Baukasten
   index.html, app.js      Oberfläche (Bausteine ziehen, Käfer-Feld, Ablauf)
@@ -237,6 +238,7 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
 | `kara.baukasten.nebel.v2` | Nebel ein/aus, je Aufgabe (nur wenn selbst umgeschaltet) |
 | `kara.baukasten.fragen.v1` | richtig beantwortete Fragen (`{aufgabenId: 1}` für die Reflexion, `{"aufgabenId/strategie": 1}` für die Vorher-Frage, `{"aufgabenId/vorhersage": 1}` für eine richtige Vorhersage) |
+| `kara.design.v1` | gewähltes Design (`klassisch`, `bluete`, `grusel`) |
 | `kara.challenges.v1` | eigene und übernommene Challenges |
 | `kara.editor.entwurf.v1` | Entwurf im Editor |
 | `kara.zaehler.aus` | Statistik für diesen Browser abgeschaltet (`?zaehler=aus`) |
@@ -244,6 +246,24 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 Checks und Kara liegen unter derselben Adresse `masta-nksa.github.io` und teilen sich darum
 den `localStorage`. Beim ersten Besuch übernimmt Kara einmalig den Stand aus dem früheren
 Baukasten (`checks.baukasten.*`); danach sind die beiden getrennt.
+
+## Designs
+
+Ein Knopf (oben rechts, am Handy unten rechts) wechselt im Kreis: **Klassisch**, **Blüte**
+(pastell) und **Grusel** (Halloween, nachtviolett mit Kürbis-Orange). Die Wahl steht in
+`kara.design.v1`; ohne Wahl gilt Grusel bis 2. November 2026, danach Klassisch
+(`design-start.js`, setzt das Design schon im `<head>`). Ein Design ist ein Block
+`html[data-design="…"]` in `assets/designs.css` (überschreibt die Variablen aus
+`basis.css`/`baukasten.css`) und ein Eintrag in `DESIGNS` in `design.js`.
+
+Im Grusel ist der Käfer eine Spinne und die Steine sind Grabsteine (Dekoration, die `design.js`
+auf der Karte ergänzt). Schreck-Effekte gibt es nur im Grusel: Nach einem Fehlschlag erscheint
+mit 60 % Wahrscheinlichkeit (nie zweimal hintereinander) ein Gesicht oder eine Spinne mit Schrei;
+beim Start in 35 % der Läufe ein leiser Schreck (Augenpaar, Flackern, selten das Gesicht), sofern
+der Lauf lang genug dauert. Der Ton (WebAudio, nichts zu laden) ist bewusst immer an; er startet
+erst nach dem ersten Klick auf der Seite. Bei Erfolg steigen Fledermäuse, Geister und Kürbisse
+auf (in Blüte Blumen). Der Baukasten ruft dazu `KaraDesign.lauf()` beim Start und
+`KaraDesign.ende(ok)` nach der Auswertung. Bei «Bewegung reduzieren» entfallen die Animationen.
 
 ## Easter Egg
 
