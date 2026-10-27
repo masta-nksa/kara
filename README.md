@@ -90,7 +90,8 @@ der Reflexion nur die Begründung. Das Cockpit zeigt dieselben Blumen, verborgen
   Generator zusätzlich k Wände, so entstehen Inseln; der Start liegt dann im Inneren. Dasselbe ohne
   Inseln mit `startInnen: true` (nutzen Level 11 und der Editor). Gelöst ist die Aufgabe
   erst, wenn der Käfer in allen den Ausgang findet. Gescheiterte verdeckte und zufällige
-  Labyrinthe werden danach als Reiter sichtbar. «Alle prüfen» prüft ohne Animation.
+  Labyrinthe werden danach als Reiter sichtbar. «Start» und «Einzelschritt» bewerten nur das
+  angezeigte Labyrinth; gelöst wird mit «Alle prüfen», das alle ohne Animation prüft.
 - Für Reihen mit Abschnitten: `abschnitt` (id des Abschnitts; Etikett über der Aufgabe),
   `zusatz: true` (★, gestrichelt, zählt nicht als Pflicht; «Nächste Aufgabe» überspringt sie),
   `denkfigur` (Strategie-Tipp: erscheint als erster Hinweis, nicht offen in der Aufgabe),
@@ -242,6 +243,9 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | `kara.challenges.v1` | eigene und übernommene Challenges |
 | `kara.editor.entwurf.v1` | Entwurf im Editor |
 | `kara.zaehler.aus` | Statistik für diesen Browser abgeschaltet (`?zaehler=aus`) |
+
+Der Link «Daten dieser Reihe löschen» unten auf jeder Reihen-Seite entfernt aus den drei
+`kara.baukasten.*`-Schlüsseln (gelöst, Programme, Fragen) nur die Einträge der Aufgaben dieser Reihe.
 
 Checks und Kara liegen unter derselben Adresse `masta-nksa.github.io` und teilen sich darum
 den `localStorage`. Beim ersten Besuch übernimmt Kara einmalig den Stand aus dem früheren

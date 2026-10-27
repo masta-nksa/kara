@@ -148,6 +148,19 @@
     try { localStorage.setItem(FRAGEN_SPEICHER, JSON.stringify(beantwortet)); } catch (e) { /* ohne Speicher weiter */ }
   }
 
+  // Fussleiste: Fortschritt, Programme und Antworten nur dieser Reihe löschen (zum nochmals Durchspielen).
+  if ($("knopfLoeschen")) $("knopfLoeschen").addEventListener("click", function () {
+    if (!reihe || !confirm("Alle gespeicherten Daten der Reihe «" + reihe.titel + "» löschen: gelöste Aufgaben, " +
+      "Programme und Antworten? Andere Reihen bleiben erhalten.")) return;
+    var ids = aufgaben.map(function (a) { return a.id; });
+    ids.forEach(function (id) { delete geloest[id]; delete gespeicherteProgramme[id]; });
+    Object.keys(beantwortet).forEach(function (k) { if (ids.indexOf(k.split("/")[0]) >= 0) delete beantwortet[k]; });
+    speichereFortschritt();
+    try { localStorage.setItem(PROG_SPEICHER, JSON.stringify(gespeicherteProgramme)); } catch (e) { /* ohne Speicher weiter */ }
+    speichereFragen();
+    location.href = "?reihe=" + encodeURIComponent(reihe.id);
+  });
+
   /* ---------- Start ----------------------------------------- */
 
   var rule = $("pixelrule");
@@ -266,7 +279,7 @@
   if (window.BaukastenFigur) window.BaukastenFigur.onChange = function () { if (aufg) { renderFeld(); simReset(); } };
 
   // Alte index.html aus dem Zwischenspeicher, neues app.js: einmal ohne Cache neu laden.
-  if (!$("pfad")) {
+  if (!$("pfad") || !$("knopfLoeschen")) {
     var schon = false;
     try { schon = sessionStorage.getItem("kara.neuGeladen") === "1"; sessionStorage.setItem("kara.neuGeladen", "1"); } catch (e) { schon = true; }
     if (!schon) {
@@ -1968,8 +1981,24 @@
     var zf = E.zielfeld(aufg.ziel), l = sim.lauf;
     var alleBefahren = aufg.ziel.alleWege && l && l.ok && !E.ZIELTYPEN.besucht(aufg.ziel, l);
     if (l && l.ok && (alleBefahren || (zf && l.end[0] === zf[0] && l.end[1] === zf[1]))) { nebelOffen = true; nebelSetzen(); }
-    bewerten(mehrereLayouts() ? pruefenAlle() : E.pruefe(aufg, prog));
+    if (mehrereLayouts()) feldBewerten(); else bewerten(E.pruefe(aufg, prog));
     vorhersageVergleichen();
+  }
+
+  // Bei mehreren Feldern bewertet «Start» nur das angezeigte; gelöst ist erst mit «Alle prüfen».
+  function feldBewerten() {
+    var f = sichtbareFelder()[layout.idx];
+    var r = E.pruefeLayout(f, prog, aufg.nichtAusfuehrbar);
+    layout.ergebnisse = {};
+    layout.ergebnisse[f.name] = r;
+    renderLayouts();
+    if (!r.ok) {
+      if (window.KaraDesign) window.KaraDesign.ende(false);
+      meldungZeigen("fehler", null, f.name + ": " + r.text);
+      return;
+    }
+    meldungZeigen("hinweis", null, "In «" + f.name + "» schafft es der Käfer. Gelöst ist die Aufgabe erst, wenn es in allen " +
+      felderWort()[2] + " klappt: Prüfen Sie mit «Alle prüfen».");
   }
 
   function bewerten(res) {

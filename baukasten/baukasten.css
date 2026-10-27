@@ -428,6 +428,9 @@ body.bk-zieht *{cursor:grabbing!important}
 
 .bk-hilfe{margin:0;font-size:.85rem;color:var(--ink-soft);max-width:90ch}
 .bk-hilfe b{color:var(--ink)}
+.bk-fuss{margin:0;font-size:.82rem;color:var(--ink-soft)}
+.bk-loeschen{font:inherit;color:var(--accent);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer}
+.bk-loeschen:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 
 @media (prefers-reduced-motion: reduce){.bk-kaefer,.bk-welt,.bk-achsen{transition:none}}
 @media (max-width:560px){

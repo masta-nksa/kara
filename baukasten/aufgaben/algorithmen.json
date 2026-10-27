@@ -446,7 +446,7 @@
       "kleinsteLoesung": 2,
       "hinweis": "Mit «wiederhole n-mal» müssen Sie die Länge kennen. Mit «solange» nicht.",
       "strategie": {
-        "text": "Starten Sie zuerst. Welche Anforderung verletzt dieses Programm?",
+        "text": "Starten Sie zuerst, dann «Alle prüfen». Welche Anforderung verletzt dieses Programm?",
         "antworten": [
           "ausführbar",
           "eindeutig",
@@ -939,7 +939,7 @@
       "kleinsteLoesung": 4,
       "hinweis": "Was ist, wenn der Raum viel grösser ist? Was, wenn der Käfer schon an der Wand steht?",
       "strategie": {
-        "text": "Starten Sie zuerst. Welche Anforderung verletzt dieses Programm?",
+        "text": "Starten Sie zuerst, dann «Alle prüfen». Welche Anforderung verletzt dieses Programm?",
         "antworten": [
           "ausführbar",
           "eindeutig",
