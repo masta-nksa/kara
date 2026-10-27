@@ -15,8 +15,9 @@ Diese Datei sammelt Arbeitsweise, Konventionen und den aktuellen Stand.
 
 - Oberfläche auf Deutsch (Schweiz, «ss» statt «ß»), Anrede «Sie», Anführungszeichen «…».
 - Code-Namen ebenfalls deutsch (`vorbereiten`, `pruefe`, `nebelSetzen` …), Kommentare knapp.
-- **Keine Lösungen und keine Tests im Repo.** Die Prüfung vergleicht nur das Ergebnis
-  (Endfeld, besuchte Felder, Bausteinlimit), nie ein Muster. Prüfskripte nur im Scratchpad.
+- **Keine Tests im Repo**, Prüfskripte nur im Scratchpad. Lösungen zu den Aufgaben dürfen ins Repo
+  (Entscheid der Lehrperson, 27.10.2026). Die Prüfung vergleicht trotzdem nur das Ergebnis
+  (Endfeld, besuchte Felder, Bausteinlimit), nie ein Muster: Andere Lösungswege bleiben richtig.
 - `engine.js` bleibt frei von DOM (UMD: `window.BaukastenEngine` bzw. `require`).
   Befehle, Bedingungen und Zieltypen sind Tabellen (`BEFEHLE`, `BEDINGUNGEN`, `ZIELTYPEN`).
 - Programmbaum: `{t:"act",cmd}`, `{t:"loop",n,body}`, `{t:"until",body}`,

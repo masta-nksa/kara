@@ -79,7 +79,7 @@ Starten bleibt möglich (Gegenbeispiele werden vor der Antwort ausgeführt).
 
 ## Aufgaben (`baukasten/aufgaben/*.json`)
 
-- Jede Aufgabe: Feld, Palette, Bausteinlimit, Ziel. **Keine Lösungen.**
+- Jede Aufgabe: Feld, Palette, Bausteinlimit, Ziel. Lösungen dürfen dabei sein; geprüft wird nie gegen sie.
 - Feld entweder mit `cols`, `rows`, `start`, `blick`, `hindernisse` oder als Zeichenkarte
   (`feld.karte`, oberste Zeile zuerst: `#` Mauer, `.` Weg, `S` Start, `Z` Ziel).
 - Palette: `befehle` (`vor`, `rechts`, `links`, dazu für den Zähler `zaehlerPlus`,
@@ -148,7 +148,7 @@ Starten bleibt möglich (Gegenbeispiele werden vor der Antwort ausgeführt).
 - Der Generator kann rechteckige Labyrinthe: `raeume` als `[Breite, Höhe]`, z. B. `[12, 7]`
   ergibt 25 × 15.
 - Die Prüfung vergleicht das **Ergebnis** (Endfeld, besuchte Felder, Bausteinlimit), nie ein
-  Muster. Lösungen und Tests gehören nicht in dieses Repo.
+  Muster. Tests gehören nicht in dieses Repo, Lösungen zu den Aufgaben schon.
 
 In allen Labyrinthen liegt der Start im Inneren und der Ausgang (`Z`) als einzige Lücke im
 sonst geschlossenen Rand: Es geht darum, aus dem Labyrinth herauszufinden, ein Eingang am Rand
