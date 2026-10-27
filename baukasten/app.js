@@ -438,16 +438,18 @@
 
   // Abschnitte mit «freischalten» (Algorithmen): Name und Erklärung erst, wenn die ersten Pflichtaufgaben
   // (Gegenbeispiel und erste Aufgabe) gelöst und ihre Fragen beantwortet sind.
-  function erledigt(a) {
-    return !!geloest[a.id] && (!a.strategie || !!beantwortet[a.id + "/strategie"]) && (!a.frage || !!beantwortet[a.id]);
-  }
+  // Zählt wie bei den Denkfiguren: gelöst und Reflexion beantwortet (die Vorher-Frage ist freiwillig).
+  function erledigt(a) { return !!geloest[a.id] && (!a.frage || !!beantwortet[a.id]); }
   function abschnittStand(x) {
     var pf = aufgaben.filter(function (a) { return a.abschnitt === x.id && !a.zusatz; }).slice(0, reihe.freischalten || 0);
-    var n = pf.filter(erledigt).length;
-    return { n: n, von: pf.length, frei: n === pf.length };
+    var offen = pf.filter(function (a) { return !erledigt(a); });
+    return { n: pf.length - offen.length, von: pf.length, frei: !offen.length, offen: offen };
   }
   function verborgenText(st) {
-    return "Lösen Sie das Gegenbeispiel und die erste Aufgabe dazu, mit allen Fragen (" + st.n + " von " + st.von + " erledigt)";
+    return "Lösen Sie das Gegenbeispiel und die erste Aufgabe dazu und beantworten Sie die Reflexion (" + st.n + " von " + st.von +
+      " erledigt" + (st.offen.length ? "; offen: " + st.offen.map(function (a) {
+        return (geloest[a.id] ? "Reflexion zu " : "") + "«" + a.titel + "»";
+      }).join(", ") : "") + ")";
   }
   function ortSetzen() {
     var abA = abschnittVon(aufg);

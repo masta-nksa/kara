@@ -62,7 +62,7 @@
       // Abschnitte mit «freischalten» (Algorithmen): frei, wenn die ersten Pflichtaufgaben erledigt sind.
       if (!mitDF && r.freischalten) {
         frei = aufgaben.filter(function (a) { return a.abschnitt === x.id && !a.zusatz; }).slice(0, r.freischalten)
-          .every(function (a) { return fertig[a.id] && (!a.strategie || fragen[a.id + "/strategie"]) && (!a.frage || fragen[a.id]); });
+          .every(function (a) { return fertig[a.id] && (!a.frage || fragen[a.id]); });
       }
       var f = el("figure", "ck-blume kb-farbe" + (k % 6));
       f.append(window.KaraBlume.blume(pflicht, zusatz, k, 44), el("figcaption", null, frei ? x.titel : "?"));

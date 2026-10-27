@@ -108,6 +108,6 @@ Code anzeigen» unter dem Struktogramm. Fragen: Auswahl als kompakte Knöpfe, Za
 Übertragen, Vorhersage am Feld (Hindernisse umgehen, Den Fehler finden, Vom Code zum
 Struktogramm). «Die Treppe» und «Das Quadrat» sind entfallen. Seit 27.10.2026: Je Anforderung Gegenbeispiel und
 mindestens eine Pflichtaufgabe (bei «endlich» neu «Eine Runde»); Name und Erklärung der Anforderung
-erst nach diesen beiden (`freischalten: 2`). «Start» bewertet nur das angezeigte Feld, gelöst wird
+erst nach diesen beiden, gelöst und reflektiert (`freischalten: 2`). «Start» bewertet nur das angezeigte Feld, gelöst wird
 mit «Alle prüfen». Die Lehrperson rechnet mit fünf Anforderungen
 (mit Korrektheit); L1-Dossier und Algorithmus-Check in `checks` nennen noch vier.
