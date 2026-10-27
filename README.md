@@ -178,9 +178,9 @@ eine Wegbeschreibung verletzt die Anforderung, die Vorher-Frage lautet «Welche 
 `nichtAusfuehrbar: ["links"]` gesperrt und im Struktogramm durchgestrichen; kommt er dran, bricht
 der Lauf ab), Zum Ziel, ★ Nur links. Eindeutig: «Gegenbeispiel: Biege ab», Bei der Kreuzung, ★ Vom
 Code zum Struktogramm. Allgemein: «Gegenbeispiel: Nur für Gang 1» (4-mal vorwärts), Drei Räume,
-★ Vorne rechts, ★ Treppen jeder Grösse. Endlich: «Gegenbeispiel: Hört nie auf», ★ Gleich weit.
-Korrekt: «Gegenbeispiel: Scheinbar richtig» (klappt in den sichtbaren Räumen, nicht im verdeckten
-grossen), Hindernisse umgehen und Den Fehler finden mit Vorhersage, ★ Räume mit Säulen. Zum Ziel
+★ Vorne rechts, ★ Treppen jeder Grösse. Endlich: «Gegenbeispiel: Hört nie auf», Eine Runde, ★ Gleich
+weit. Korrekt: «Gegenbeispiel: Scheinbar richtig» (allgemein, ohne feste Längen, klappt auch im
+grossen Raum, stösst aber in Sonderfällen an: Käfer schon an der Wand, schmaler Raum), Hindernisse umgehen und Den Fehler finden mit Vorhersage, ★ Räume mit Säulen. Zum Ziel
 ist eine Kopie aus den Grundlagen (eigene ID `alg-ziel`); die Reihe «Käfer-Grundlagen» bleibt
 unverändert, weil sie auch in einem anderen Fach genutzt wird.
 

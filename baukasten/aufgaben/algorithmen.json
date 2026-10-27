@@ -1003,8 +1003,8 @@
       "titel": "9 · Gegenbeispiel: Scheinbar richtig",
       "stufe": "Gegenbeispiel · korrekt",
       "abschnitt": "korrekt",
-      "text": "Dieses Programm bringt den Käfer in beiden sichtbaren Räumen in die Ecke oben links. Prüfen Sie mit «Alle prüfen»: Geprüft wird in sechs Räumen. Finden Sie heraus, wo und warum es scheitert, und machen Sie es korrekt. Höchstens 8 Bausteine.",
-      "denkfigur": "Korrekt heisst: für alle zulässigen Eingaben. Denken Sie an Sonderfälle: ein sehr grosser Raum, der Käfer schon an der Wand, ein ganz schmaler Raum.",
+      "text": "Dieses Programm zählt keine Felder ab: Es bringt den Käfer auch in einem grossen Raum in die Ecke oben links. Prüfen Sie mit «Alle prüfen»: Geprüft wird in sechs Räumen, auch in Sonderfällen. Finden Sie heraus, wo und warum es scheitert, und machen Sie es korrekt. Höchstens 8 Bausteine.",
+      "denkfigur": "Korrekt heisst: für alle zulässigen Eingaben. Denken Sie an Sonderfälle: der Käfer schon an der Wand, ein ganz schmaler Raum.",
       "layouts": [
         {
           "name": "Raum 1",
@@ -1061,7 +1061,7 @@
       },
       "maxBloecke": 8,
       "kleinsteLoesung": 4,
-      "hinweis": "Was ist, wenn der Raum viel grösser ist? Was, wenn der Käfer schon an der Wand steht?",
+      "hinweis": "Was passiert, wenn der Käfer schon an der oberen oder an der linken Wand steht?",
       "strategie": {
         "text": "Starten Sie zuerst, dann «Alle prüfen». Welche Anforderung verletzt dieses Programm?",
         "antworten": [
@@ -1072,7 +1072,7 @@
           "korrekt"
         ],
         "richtig": "3b18e87e",
-        "erklaerung": "Es stimmt bei den Räumen, die man sieht, aber nicht für alle zulässigen Räume: Ein grosser Raum braucht mehr als 9 Schritte."
+        "erklaerung": "Allgemein ist es: Es klappt auch im grossen Raum, ohne feste Längen. Korrekt ist es nicht: Steht der Käfer schon an der Wand, stösst er beim Schritt vor «solange» an."
       },
       "frage": {
         "text": "Wann ist ein Algorithmus korrekt?",
@@ -1091,19 +1091,16 @@
           "cmd": "links"
         },
         {
-          "t": "loop",
-          "n": 9,
+          "t": "act",
+          "cmd": "vor"
+        },
+        {
+          "t": "while",
+          "cond": "frei",
           "body": [
             {
-              "t": "if",
-              "cond": "frei",
-              "yes": [
-                {
-                  "t": "act",
-                  "cmd": "vor"
-                }
-              ],
-              "no": []
+              "t": "act",
+              "cmd": "vor"
             }
           ]
         },
@@ -1112,19 +1109,16 @@
           "cmd": "links"
         },
         {
-          "t": "loop",
-          "n": 9,
+          "t": "act",
+          "cmd": "vor"
+        },
+        {
+          "t": "while",
+          "cond": "frei",
           "body": [
             {
-              "t": "if",
-              "cond": "frei",
-              "yes": [
-                {
-                  "t": "act",
-                  "cmd": "vor"
-                }
-              ],
-              "no": []
+              "t": "act",
+              "cmd": "vor"
             }
           ]
         }
