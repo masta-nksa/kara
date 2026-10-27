@@ -477,16 +477,11 @@
 
   function navigationAktualisieren() {
     var n = naechsteIndex(), nr = naechsteReihe();
-    $("knopfZurueck").disabled = aktuell <= 0;
-    $("knopfWeiter").disabled = n < 0 && !nr;
-    $("knopfWeiter").textContent = n < 0 && nr ? "Nächste Reihe ›" : "Weiter ›";
-    $("knopfWeiter").title = n >= 0 ? aufgaben[n].titel : nr ? nr.titel : "";
     var fw = $("frageWeiter");
     fw.hidden = n < 0 && !nr;
     fw.textContent = n < 0 && nr ? "Nächste Reihe" : "Nächste Aufgabe";
   }
-  $("knopfZurueck").addEventListener("click", function () { if (aktuell > 0) waehleAufgabe(aktuell - 1); });
-  $("knopfWeiter").addEventListener("click", weiter);
+  // Weiter geht es nach dem Lösen (Erfolgsmeldung bzw. Reflexion) oder über die Stationen im Pfad.
   $("frageWeiter").addEventListener("click", weiter);
 
   /* ---------- Aufgabenwahl ---------------------------------- */

@@ -100,8 +100,6 @@
 .bk-kartenkopf{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:6px}
 .bk-kartenkopf h2{flex:1 1 220px;margin:0}
 .bk-kartenkopf h2 small{display:block;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:400;margin-bottom:2px}
-.bk-navi{display:flex;gap:6px}
-.bk-navi .bk-knopf{min-height:38px;padding:6px 12px}
 .bk-frage-weiter{margin-left:8px}
 .bk-lauf .bk-frage{margin-top:12px}
 
