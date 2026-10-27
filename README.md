@@ -53,6 +53,7 @@ darunter die Aufgaben als Stationen auf einer Linie (✓ gelöst, Ring = aktuell
 die Stationen waagrecht wischen. Die Aufgabenkarte nennt den Ort («Reihe · Abschnitt · 2 von 10»);
 weiter geht es über die Stationen oder nach dem Lösen mit «Nächste Aufgabe». Andere Reihen sind im
 Baukasten bewusst nicht verlinkt: Jede Reihe steht für sich und wird über die Übersicht geöffnet.
+Der Baukasten hat auch keinen Link zurück zur Übersicht.
 
 Mit `abschnitte` (Liste von `{id, titel, text}`, optional `etikett` wie «Anforderung: allgemein»;
 Standard «Denkfigur: …») gliedern sich die Stationen in Abschnitte; `abschnitteTitel` ist der Titel
@@ -253,8 +254,10 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | `kara.editor.entwurf.v1` | Entwurf im Editor |
 | `kara.zaehler.aus` | Statistik für diesen Browser abgeschaltet (`?zaehler=aus`) |
 
-Der Link «Daten dieser Reihe löschen» unten auf jeder Reihen-Seite entfernt aus den drei
-`kara.baukasten.*`-Schlüsseln (gelöst, Programme, Fragen) nur die Einträge der Aufgaben dieser Reihe.
+Der Link «Daten dieses Levels löschen» unten im Baukasten entfernt aus den drei
+`kara.baukasten.*`-Schlüsseln (gelöst, Programme, Fragen) nur die Einträge der aktuellen Aufgabe.
+Ein Dreifachklick auf eine Blume im Lernpfad (Abschnitt bzw. Denkfigur) markiert alle Aufgaben dazu
+als gelöst, mit allen Fragen (zum Testen für die Lehrperson).
 
 Checks und Kara liegen unter derselben Adresse `masta-nksa.github.io` und teilen sich darum
 den `localStorage`. Beim ersten Besuch übernimmt Kara einmalig den Stand aus dem früheren

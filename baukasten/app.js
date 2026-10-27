@@ -148,18 +148,41 @@
     try { localStorage.setItem(FRAGEN_SPEICHER, JSON.stringify(beantwortet)); } catch (e) { /* ohne Speicher weiter */ }
   }
 
-  // Fussleiste: Fortschritt, Programme und Antworten nur dieser Reihe löschen (zum nochmals Durchspielen).
+  // Fussleiste: Fortschritt, Programm und Antworten nur dieses Levels löschen (zum nochmals Durchspielen).
   if ($("knopfLoeschen")) $("knopfLoeschen").addEventListener("click", function () {
-    if (!reihe || !confirm("Alle gespeicherten Daten der Reihe «" + reihe.titel + "» löschen: gelöste Aufgaben, " +
-      "Programme und Antworten? Andere Reihen bleiben erhalten.")) return;
-    var ids = aufgaben.map(function (a) { return a.id; });
-    ids.forEach(function (id) { delete geloest[id]; delete gespeicherteProgramme[id]; });
-    Object.keys(beantwortet).forEach(function (k) { if (ids.indexOf(k.split("/")[0]) >= 0) delete beantwortet[k]; });
+    if (!aufg || !confirm("Alle gespeicherten Daten von «" + aufg.titel + "» löschen: gelöst, Programm und Antworten? " +
+      "Andere Levels bleiben erhalten.")) return;
+    var id = aufg.id;
+    delete geloest[id];
+    delete gespeicherteProgramme[id];
+    Object.keys(beantwortet).forEach(function (k) { if (k.split("/")[0] === id) delete beantwortet[k]; });
     speichereFortschritt();
     try { localStorage.setItem(PROG_SPEICHER, JSON.stringify(gespeicherteProgramme)); } catch (e) { /* ohne Speicher weiter */ }
     speichereFragen();
-    location.href = "?reihe=" + encodeURIComponent(reihe.id);
+    location.href = "?reihe=" + encodeURIComponent(reihe.id) + "&aufgabe=" + encodeURIComponent(id);
   });
+
+  // Dreifachklick auf eine Blume: alle Aufgaben dazu gelten als gelöst, mit allen Fragen (für die Lehrperson).
+  function dreifach(knoten, fn) {
+    var zeiten = [];
+    knoten.addEventListener("click", function () {
+      var t = Date.now();
+      zeiten = zeiten.filter(function (z) { return t - z < 700; }).concat(t);
+      if (zeiten.length >= 3) { zeiten = []; fn(); }
+    });
+  }
+  function alleLoesen(liste, titel) {
+    liste.forEach(function (a) {
+      geloest[a.id] = geloest[a.id] || a.kleinsteLoesung || 1;
+      if (a.strategie) beantwortet[a.id + "/strategie"] = 1;
+      if (a.vorhersage) beantwortet[a.id + "/vorhersage"] = 1;
+      if (a.frage) beantwortet[a.id] = 1;
+    });
+    speichereFortschritt();
+    speichereFragen();
+    waehleAufgabe(aktuell);
+    meldungZeigen("ok", null, "Alle Aufgaben von «" + titel + "» sind als gelöst markiert.");
+  }
 
   /* ---------- Start ----------------------------------------- */
 
@@ -358,6 +381,7 @@
       if (g.x) {
         var bl = blaetter(g.liste);
         if (window.KaraBlume && !reihe.denkfiguren) name.append(window.KaraBlume.blume(bl.pflicht, bl.zusatz, g.nr, 22));
+        if (!reihe.denkfiguren) (function (g) { dreifach(name, function () { alleLoesen(g.liste, g.x.titel); }); })(g);
         var as = abschnittStand(g.x);
         name.append(el("span", as.frei ? null : "verborgen", as.frei ? g.x.titel : "?"));
         var nb = bl.pflicht.filter(Boolean).length;
@@ -396,6 +420,9 @@
         : "Noch verborgen: " + n + " von " + FREISCHALTEN + " Aufgaben gelöst und reflektiert";
       f.setAttribute("aria-label", f.dataset.titel);
       f.tabIndex = 0;
+      dreifach(f, function () {
+        alleLoesen(aufgaben.filter(function (a) { return (a.denkfiguren || []).some(function (d) { return d.id === x.id; }); }), x.titel);
+      });
       schildAn(f);
       dz.append(f);
     });
