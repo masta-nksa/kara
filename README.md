@@ -49,9 +49,9 @@ Reihen eindeutig sein (der Fortschritt hängt an der ID).
 Der Baukasten zeigt oben einen schmalen Lernpfad wie im Turtle-Kurs: Titel und Stand der Reihe,
 darunter die Aufgaben als Stationen auf einer Linie (✓ gelöst, Ring = aktuelle Aufgabe,
 ★ Zusatzaufgabe etwas erhöht und gestrichelt; Titel beim Darüberfahren). Auf dem Handy lassen sich
-die Stationen waagrecht wischen. Die Aufgabenkarte nennt den Ort («Reihe · Abschnitt · 2 von 10»)
-und hat «‹ Zurück / Weiter ›». Andere Reihen sind im Baukasten bewusst nicht verlinkt: Jede Reihe
-steht für sich und wird über die Übersicht geöffnet.
+die Stationen waagrecht wischen. Die Aufgabenkarte nennt den Ort («Reihe · Abschnitt · 2 von 10»);
+weiter geht es über die Stationen oder nach dem Lösen mit «Nächste Aufgabe». Andere Reihen sind im
+Baukasten bewusst nicht verlinkt: Jede Reihe steht für sich und wird über die Übersicht geöffnet.
 
 Mit `abschnitte` (Liste von `{id, titel, text}`, optional `etikett` wie «Anforderung: allgemein»;
 Standard «Denkfigur: …») gliedern sich die Stationen in Abschnitte; `abschnitteTitel` ist der Titel
@@ -95,7 +95,7 @@ der Reflexion nur die Begründung. Das Cockpit zeigt dieselben Blumen, verborgen
   `denkfigur` (Strategie-Tipp: erscheint als erster Hinweis, nicht offen in der Aufgabe),
   `strategie` (Frage «Vorher: Wie gehen Sie vor?», gleich bei der Aufgabe) und `frage`
   («Nachher: Reflexion», erscheint erst nach dem Lösen unter der Erfolgsmeldung; «Nächste
-  Aufgabe» und «Weiter ›» gehen erst nach richtiger Antwort weiter, sonst kommt ein Hinweis; die
+  Aufgabe» geht erst nach richtiger Antwort weiter, sonst kommt ein Hinweis; die
   Antwort nennt, was die Lösung gezeigt hat, z. B. das gefundene Muster). In Reihen mit
   `denkfiguren` dazu `denkfiguren: [{id, warum}]`: Nach der Reflexion erscheint, welche
   Denkfiguren entscheidend waren und weshalb. Beide Fragen: `{text, antworten: [...],

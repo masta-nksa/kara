@@ -90,7 +90,8 @@ Reflexionsfrage erst nach dem Lösen unter der Erfolgsmeldung, Weiter erst nach 
 geordnet (einfach, mittel, anspruchsvoll); welche Denkfiguren entscheidend waren, zeigt sich erst
 nach Lösung und Reflexion (Blume je Denkfigur); Name und Erklärung einer Denkfigur werden erst nach
 zwei gelösten und reflektierten Aufgaben dazu freigeschaltet (je Denkfigur 2–3 Pflichtaufgaben).
-Navigation wie im Turtle-Kurs: Aufgaben als Stationen, «‹ Zurück / Weiter ›» in der Karte; andere
+Navigation wie im Turtle-Kurs: Aufgaben als Stationen; kein Zurück/Weiter in der Karte, weiter geht es
+über die Stationen oder nach dem Lösen mit «Nächste Aufgabe»; andere
 Reihen sind im Baukasten nicht verlinkt (jede Reihe für sich, Einstieg über die Übersicht).
 Reflexionsfragen so formulieren, dass verschiedene Lösungswege passen (z. B. Bahnen oder Spirale).
 Felder der einfachen und mittleren Aufgaben so gestalten, dass sauberes Zerlegen und ein Muster ohne
