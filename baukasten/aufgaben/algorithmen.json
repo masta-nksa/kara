@@ -96,7 +96,8 @@
       ],
       "nichtAusfuehrbar": [
         "links"
-      ]
+      ],
+      "loesung": [{"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "rechts"}, {"t": "act", "cmd": "rechts"}, {"t": "act", "cmd": "rechts"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}]
     },
     {
       "id": "alg-ziel",
@@ -132,7 +133,8 @@
           4
         ]
       },
-      "hinweis": "Zählen Sie die Felder: erst geradeaus, dann um die Ecke."
+      "hinweis": "Zählen Sie die Felder: erst geradeaus, dann um die Ecke.",
+      "loesung": [{"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "rechts"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}]
     },
     {
       "id": "alg-nurlinks",
@@ -197,7 +199,8 @@
         ],
         "richtig": "9a6c1044",
         "erklaerung": "Genau. Ein Plan ist ausführbar, wenn er nur Befehle enthält, die der Ausführende kennt. Fehlt einer, lässt er sich oft aus anderen zusammensetzen."
-      }
+      },
+      "loesung": [{"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "links"}, {"t": "act", "cmd": "links"}, {"t": "act", "cmd": "links"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}]
     },
     {
       "id": "alg-abbiegen",
@@ -269,7 +272,8 @@
         "richtig": "ecf43662",
         "erklaerung": "Richtig. Nur hier sind Richtung und Länge festgelegt. In einem Struktogramm ist das immer so: Jeder Baustein sagt genau, was geschieht."
       },
-      "gegenbeispiel": true
+      "gegenbeispiel": true,
+      "loesung": [{"t": "loop", "n": 3, "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "links"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}]
     },
     {
       "id": "alg-kreuzung",
@@ -308,7 +312,8 @@
         "text": "Angenommen, es gäbe drei Kreuzungen mit je zwei Richtungen. Auf wie viele Wege passt dann die Beschreibung?",
         "richtig": "a3a848f2",
         "erklaerung": "Richtig: 3 Kreuzungen × 2 Richtungen = 6 Wege. Je mehr Möglichkeiten, desto wichtiger ist eine eindeutige Beschreibung."
-      }
+      },
+      "loesung": [{"t": "loop", "n": 5, "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}, {"t": "loop", "n": 3, "body": [{"t": "act", "cmd": "vor"}]}]
     },
     {
       "id": "alg-code",
@@ -401,7 +406,8 @@
           6,
           3
         ]
-      }
+      },
+      "loesung": [{"t": "loop", "n": 5, "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "links"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}]
     },
     {
       "id": "alg-wand",
@@ -477,7 +483,8 @@
             }
           ]
         }
-      ]
+      ],
+      "loesung": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}]
     },
     {
       "id": "alg-raeume",
@@ -545,7 +552,8 @@
         ],
         "richtig": "ab41f65e",
         "erklaerung": "Genau. Allgemein heisst: Es löst alle Aufgaben derselben Art, nicht nur einen Einzelfall."
-      }
+      },
+      "loesung": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}, {"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}]
     },
     {
       "id": "alg-vorne-rechts",
@@ -625,7 +633,8 @@
         ],
         "richtig": "68d86f85",
         "erklaerung": "Genau. Der Käfer hat keinen Kompass. «Immer in die Ecke oben rechts» ginge darum bei beliebiger Blickrichtung nicht, «vorne rechts» dagegen schon."
-      }
+      },
+      "loesung": [{"t": "loop", "n": 2, "body": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}]}]
     },
     {
       "id": "alg-treppen",
@@ -704,7 +713,8 @@
         ],
         "richtig": "009e5486",
         "erklaerung": "Genau: Es löst nicht nur eine Treppe, sondern alle Treppen dieser Art."
-      }
+      },
+      "loesung": [{"t": "until", "body": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}, {"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "links"}]}]
     },
     {
       "id": "alg-endlos",
@@ -798,7 +808,8 @@
         "richtig": "69554b07",
         "erklaerung": "Richtig. Ändert der Rumpf nichts an der Bedingung, läuft die Wiederholung endlos. Ein Algorithmus muss aber endlich sein."
       },
-      "gegenbeispiel": true
+      "gegenbeispiel": true,
+      "loesung": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}]
     },
     {
       "id": "alg-runde",
@@ -920,7 +931,8 @@
         "text": "Ihr Programm läuft in einem viel grösseren Garten mit 20 × 15 Feldern. Wie oft läuft der Käfer dort bis zu einer Wand?",
         "richtig": "1f709519",
         "erklaerung": "Genau. Egal wie gross der Garten ist: 4 Ecken, 4 Wände, dann ist Schluss. So bleibt der Algorithmus endlich."
-      }
+      },
+      "loesung": [{"t": "loop", "n": 4, "body": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}]}]
     },
     {
       "id": "alg-zaehler",
@@ -996,7 +1008,8 @@
         "text": "In einem Raum geht der Käfer 7 Schritte hinauf bis zur Wand. Welchen Wert hat der Zähler, wenn er oben ankommt?",
         "richtig": "dda3ef41",
         "erklaerung": "Genau. Danach zählt er bei jedem Schritt eins herunter. Bei 0 hört die Wiederholung auf, darum ist sie endlich."
-      }
+      },
+      "loesung": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "zaehlerPlus"}]}, {"t": "act", "cmd": "rechts"}, {"t": "while", "cond": "zaehlerNichtNull", "body": [{"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "zaehlerMinus"}]}]
     },
     {
       "id": "alg-unbekannt",
@@ -1122,7 +1135,8 @@
             }
           ]
         }
-      ]
+      ],
+      "loesung": [{"t": "loop", "n": 2, "body": [{"t": "act", "cmd": "links"}, {"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}]}]
     },
     {
       "id": "alg-hindernis",
@@ -1189,7 +1203,8 @@
           3,
           2
         ]
-      }
+      },
+      "loesung": [{"t": "loop", "n": 10, "body": [{"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": [{"t": "act", "cmd": "rechts"}]}]}]
     },
     {
       "id": "alg-fehler",
@@ -1294,7 +1309,8 @@
       },
       "vorhersage": {
         "text": "Wo endet der Käfer mit diesem fehlerhaften Programm? Tippen Sie auf das Feld, dann starten Sie."
-      }
+      },
+      "loesung": [{"t": "loop", "n": 4, "body": [{"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "rechts"}]}]
     },
     {
       "id": "alg-saeulen",
@@ -1373,7 +1389,8 @@
         ],
         "richtig": "b8b2a6c8",
         "erklaerung": "Richtig. Prüfen heisst, gezielt nach Fällen zu suchen, in denen der Algorithmus scheitern könnte."
-      }
+      },
+      "loesung": [{"t": "until", "body": [{"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": [{"t": "act", "cmd": "rechts"}, {"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": []}, {"t": "act", "cmd": "links"}]}]}]
     }
   ]
 }

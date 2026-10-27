@@ -127,6 +127,9 @@ Starten bleibt möglich (Gegenbeispiele werden vor der Antwort ausgeführt).
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
 - `kleinsteLoesung`: Anzahl Bausteine der kleinsten bekannten Lösung; erscheint erst nach dem
   Lösen. Die Bausteinlimits lassen bewusst auch weniger kompakte Lösungen zu.
+- `loesung`: ein geprüftes Lösungsprogramm (Programmbaum, eine Zeile). Nur für die Lehrperson:
+  Der Dreifachklick auf eine Blume fügt es ins Struktogramm ein. Geprüft wird nie dagegen.
+  Algorithmen und CT haben für jede Aufgabe eine; nach Änderungen an Karten mit Skript nachprüfen.
 - Ziel `{"typ": "alleWege"}`: Der Käfer muss jedes Feld ohne Mauer befahren (Rasenmäher). Gilt
   auch für `layouts` und `verdeckt`; die Karten brauchen dann kein `Z`. Das Feld zeigt dann Rasen:
   hohes Gras wiegt sich leicht (nicht bei «Bewegung reduzieren»), befahrene Felder werden kurz

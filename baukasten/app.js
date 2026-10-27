@@ -171,17 +171,25 @@
       if (zeiten.length >= 3) { zeiten = []; fn(); }
     });
   }
+  // Mit «loesung» in der Aufgabe kommt das Lösungsprogramm ins Struktogramm.
   function alleLoesen(liste, titel) {
     liste.forEach(function (a) {
-      geloest[a.id] = geloest[a.id] || a.kleinsteLoesung || 1;
+      if (a.loesung) {
+        gespeicherteProgramme[a.id] = E.klonen(a.loesung);
+        delete zustand[a.id];
+        if (a === aufg) { undoStack.push(JSON.stringify(prog)); prog = E.klonen(a.loesung); }
+      }
+      geloest[a.id] = a.loesung ? E.zaehleBausteine(a.loesung) : geloest[a.id] || a.kleinsteLoesung || 1;
       if (a.strategie) beantwortet[a.id + "/strategie"] = 1;
       if (a.vorhersage) beantwortet[a.id + "/vorhersage"] = 1;
       if (a.frage) beantwortet[a.id] = 1;
     });
     speichereFortschritt();
     speichereFragen();
+    try { localStorage.setItem(PROG_SPEICHER, JSON.stringify(gespeicherteProgramme)); } catch (e) { /* ohne Speicher weiter */ }
     waehleAufgabe(aktuell);
-    meldungZeigen("ok", null, "Alle Aufgaben von «" + titel + "» sind als gelöst markiert.");
+    meldungZeigen("ok", null, "Alle Aufgaben von «" + titel + "» sind als gelöst markiert" +
+      (liste.some(function (a) { return a.loesung; }) ? ", mit Lösungsprogramm im Struktogramm." : "."));
   }
 
   /* ---------- Start ----------------------------------------- */
