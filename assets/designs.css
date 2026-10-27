@@ -1,0 +1,111 @@
+/* ============================================================
+   designs.css – wählbare Designs für Cockpit, Baukasten und Editor
+   Klassisch = ohne Attribut (basis.css). Die anderen setzen nur Variablen
+   und ein paar Regeln unter html[data-design="…"]. Zuletzt laden, damit sie
+   die Hell/Dunkel-Variablen überstimmen. Gesetzt wird das Design von
+   design-start.js, umgeschaltet mit design.js.
+   ============================================================ */
+
+/* Dekoration (Spinnenbeine, Kreuze …) ist nur im Grusel sichtbar */
+.deko{display:none}
+html[data-design="grusel"] .deko{display:inline}
+
+/* ---------- Umschalter ---------- */
+.design-knopf{
+  position:fixed;top:8px;right:8px;z-index:60;display:flex;align-items:center;gap:6px;
+  font:600 .78rem/1 "IBM Plex Sans",sans-serif;padding:7px 11px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;opacity:.92;
+}
+.design-knopf:hover{border-color:var(--accent);opacity:1}
+.design-knopf:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:40rem){.design-knopf{top:auto;bottom:10px;right:10px;box-shadow:0 4px 14px rgba(0,0,0,.3)}}
+@media print{.design-knopf,.schreck,.design-aufstieg{display:none!important}}
+
+/* ---------- Blüte (hell, pastell) ---------- */
+html:root[data-design="bluete"]{
+  --ground:#fff7fb;--surface:#ffffff;--line:#f2d6e6;--ink:#3a2140;--ink-soft:#7a5f80;
+  --accent:#b8327a;--accent-soft:#fde6f1;--ok:#1f8a63;--ok-soft:#dff5ec;--no:#c2410c;--no-soft:#fde8e0;
+  --radius:12px;
+  --hl:#ffc4e1;--stein:#b9a3c9;--stein-kante:#8f77a3;--stein-licht:#d6c6e2;
+  --gras:#d4f0d8;--gras-halm:#3f9a5c;--gras-kurz:#eefaf0;--gras-stoppel:#a8d8b3;
+  color-scheme:light;
+}
+html[data-design="bluete"] body{background-image:radial-gradient(circle at 1px 1px,#f2d6e6 1.2px,transparent 0);background-size:22px 22px}
+html[data-design="bluete"] h1{background:linear-gradient(90deg,#b8327a,#7d4cc9);-webkit-background-clip:text;background-clip:text;color:transparent}
+html[data-design="bluete"] .eyebrow::before{content:"\273F  "}
+html[data-design="bluete"] .bk-knopf.primaer,html[data-design="bluete"] .ed-knopf.primaer{background:linear-gradient(90deg,#b8327a,#7d4cc9);border-color:transparent;color:#fff;border-radius:999px}
+html[data-design="bluete"] .bk-kaefer .koerper{fill:#b8327a}
+html[data-design="bluete"] .bk-kaefer .naht{stroke:#ffc4e1}
+
+/* ---------- Grusel (Halloween, immer dunkel) ---------- */
+html:root[data-design="grusel"]{
+  --ground:#0c0713;--surface:#1a1126;--line:#3c2754;--ink:#ece1f7;--ink-soft:#a994c0;
+  --accent:#ff7a18;--accent-soft:#3a2010;--ok:#8be04a;--ok-soft:#1b2b12;--no:#ff4a4a;--no-soft:#3a1216;
+  --radius:3px;
+  --hl:#5b2b00;--stein:#4d4760;--stein-kante:#2a2536;--stein-licht:#7d7596;
+  --gras:#223019;--gras-halm:#7da63c;--gras-kurz:#141a0f;--gras-stoppel:#3a4a2a;
+  color-scheme:dark;
+}
+html[data-design="grusel"] body{
+  background-image:radial-gradient(ellipse at 50% -10%,#2a1245 0,transparent 60%),radial-gradient(ellipse at 50% 120%,#3a1405 0,transparent 55%);
+  background-attachment:fixed;
+}
+html[data-design="grusel"] h1{
+  font-family:"Creepster","IBM Plex Mono",ui-monospace,monospace;font-weight:400;letter-spacing:.05em;
+  font-size:2.2rem;color:var(--accent);text-shadow:0 0 14px rgba(255,122,24,.55);animation:grusel-flackern 5s steps(1) infinite;
+}
+html[data-design="grusel"] .eyebrow{color:var(--ok)}
+html[data-design="grusel"] .eyebrow::before{content:"\2620  "}
+html[data-design="grusel"] .bk-zelle{fill:#150d20}
+html[data-design="grusel"] .bk-stein-block{rx:12px}
+html[data-design="grusel"] .bk-kaefer .koerper{fill:#14091f;stroke:var(--accent);stroke-width:1.5}
+html[data-design="grusel"] .bk-kaefer .bein,html[data-design="grusel"] .bk-kaefer .fuehler{stroke:#2a1740}
+html[data-design="grusel"] .bk-kaefer .naht{stroke:var(--accent)}
+html[data-design="grusel"] .bk-kaefer .deko-auge{fill:#ff2a2a}
+html[data-design="grusel"] .bk-kaefer .deko-bein{stroke:#2a1740;stroke-width:2;stroke-linecap:round}
+html[data-design="grusel"] .bk-stein .deko-kreuz{stroke:var(--stein-licht);stroke-width:3;stroke-linecap:round;fill:none}
+html[data-design="grusel"] .bk-flagge,html[data-design="grusel"] .bk-zielpunkt{fill:var(--accent)}
+html[data-design="grusel"] .bk-meldung.ok{box-shadow:0 0 18px rgba(139,224,74,.25)}
+html[data-design="grusel"] .bk-meldung.fehler{box-shadow:0 0 18px rgba(255,74,74,.3)}
+html[data-design="grusel"] .bk-kaefer.fehler .koerper{fill:#3a0a0a;stroke:var(--no)}
+@keyframes grusel-flackern{0%,92%,96%,100%{opacity:1}93%{opacity:.35}95%{opacity:.8}}
+
+/* Spinnweben in den oberen Ecken */
+html[data-design="grusel"] body::before,html[data-design="grusel"] body::after{
+  content:"";position:fixed;top:0;width:130px;height:130px;pointer-events:none;z-index:50;opacity:.45;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none' stroke='%23d9cbe8' stroke-width='1'%3E%3Cpath d='M0 0L120 30M0 0L105 75M0 0L70 110M0 0L28 120M0 0L120 0M0 0L0 120'/%3E%3Cpath d='M0 25Q22 22 30 0M0 50Q42 46 55 0M0 78Q62 70 82 0M0 105Q82 92 108 0'/%3E%3C/svg%3E") no-repeat;
+}
+html[data-design="grusel"] body::before{left:0}
+html[data-design="grusel"] body::after{right:0;transform:scaleX(-1)}
+
+/* ---------- Schreck ---------- */
+.schreck{
+  position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#000;cursor:pointer;
+  animation:schreck-rein .08s ease-out both,schreck-wackeln .12s linear 3 .08s;
+}
+.schreck svg{width:min(92vw,78vh);height:auto;animation:schreck-gross .35s cubic-bezier(.2,1.6,.4,1) both}
+.schreck::after{content:"";position:absolute;inset:0;background:#a00;mix-blend-mode:multiply;animation:schreck-rot .9s ease-out both;pointer-events:none}
+.schreck.aus{animation:schreck-raus .35s ease-in both}
+@keyframes schreck-rein{from{opacity:0}to{opacity:1}}
+@keyframes schreck-raus{to{opacity:0}}
+@keyframes schreck-gross{from{transform:scale(.25)}to{transform:scale(1)}}
+@keyframes schreck-wackeln{0%{transform:translate(0,0)}25%{transform:translate(-14px,8px)}50%{transform:translate(12px,-10px)}75%{transform:translate(-8px,-6px)}100%{transform:translate(0,0)}}
+@keyframes schreck-rot{0%{opacity:1}100%{opacity:0}}
+
+/* leiser Schreck: Augenpaar im Dunkeln, kurzes Flackern */
+.schreck-augen{position:fixed;z-index:9000;pointer-events:none;display:flex;gap:18px;animation:augen-auf 2.4s ease-in-out both}
+.schreck-augen i{width:20px;height:11px;border-radius:50%;background:radial-gradient(circle,#fff 0 15%,#f22 25%,#a00 70%);box-shadow:0 0 14px 4px rgba(255,0,0,.6)}
+@keyframes augen-auf{0%,100%{opacity:0}20%,70%{opacity:1}45%{opacity:.1}50%{opacity:1}}
+.schreck-flackern{position:fixed;inset:0;z-index:9000;pointer-events:none;background:#000;animation:flackern .6s steps(1) both}
+@keyframes flackern{0%{opacity:.9}20%{opacity:0}35%{opacity:.8}55%{opacity:0}75%{opacity:.5}100%{opacity:0}}
+
+/* Aufsteigende Figuren bei Erfolg */
+.design-aufstieg{position:fixed;bottom:-10vh;z-index:9000;pointer-events:none;font-size:2.2rem;animation:aufsteigen 3s ease-out both}
+@keyframes aufsteigen{from{transform:translateY(0) rotate(-8deg);opacity:1}to{transform:translateY(-115vh) rotate(14deg);opacity:0}}
+
+@media (prefers-reduced-motion:reduce){
+  html[data-design="grusel"] h1{animation:none}
+  .schreck,.schreck svg{animation:none}
+  .schreck::after,.schreck-flackern{animation-duration:.01s}
+  .design-aufstieg{animation-duration:.01s}
+}

@@ -57,6 +57,12 @@ Browser die Animation stark; dann mit «Einzelschritt» oder «Alle prüfen» pr
 
 ## Stand (Oktober 2026)
 
+Seit 27.10.2026: wählbare Designs (Klassisch, Blüte, Grusel; `assets/design*.js/css`, Details im
+README). Grusel ist bis 2.11.2026 Standard und enthält Schreck-Effekte mit Ton (Zielgruppe
+15–17 Jahre). Neue Karten-Elemente brauchen im Grusel nur Variablen, ausser sie sollen Dekoration
+bekommen (`schmuecken()` in `design.js`).
+
+
 Reihen: Grundlagen · Algorithmen (alg-…) · Computational Thinking (ct-…) · Labyrinth (lab1–lab11) ·
 Inseln und Pledge (insel1, insel2, pledge) ·
 Abschluss und eigene Challenges (Abschluss-Level + lokale Challenges aus dem Editor).
