@@ -59,9 +59,14 @@
       // Denkfiguren erscheinen erst mit Namen, wenn sie im Baukasten freigeschaltet sind (2 Aufgaben).
       var alle = pflicht.concat(zusatz), na = alle.filter(Boolean).length;
       var frei = !mitDF || (na > 0 && na >= Math.min(2, alle.length));
+      // Abschnitte mit «freischalten» (Algorithmen): frei, wenn die ersten Pflichtaufgaben erledigt sind.
+      if (!mitDF && r.freischalten) {
+        frei = aufgaben.filter(function (a) { return a.abschnitt === x.id && !a.zusatz; }).slice(0, r.freischalten)
+          .every(function (a) { return fertig[a.id] && (!a.strategie || fragen[a.id + "/strategie"]) && (!a.frage || fragen[a.id]); });
+      }
       var f = el("figure", "ck-blume kb-farbe" + (k % 6));
       f.append(window.KaraBlume.blume(pflicht, zusatz, k, 44), el("figcaption", null, frei ? x.titel : "?"));
-      f.setAttribute("aria-label", frei ? x.titel + ": " + n + " von " + pflicht.length + " erledigt" : "Denkfigur noch verborgen");
+      f.setAttribute("aria-label", frei ? x.titel + ": " + n + " von " + pflicht.length + " erledigt" : (mitDF ? "Denkfigur" : "Abschnitt") + " noch verborgen");
       box.append(f);
     });
     return box;

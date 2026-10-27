@@ -10,8 +10,9 @@
     {
       "id": "algorithmen",
       "titel": "Algorithmen",
-      "untertitel": "Die fünf Anforderungen an einen Algorithmus: ausführbar, eindeutig, allgemein, endlich, korrekt",
+      "untertitel": "Die fünf Anforderungen an einen Algorithmus, je mit einem Gegenbeispiel entdeckt",
       "dateien": ["aufgaben/algorithmen.json"],
+      "freischalten": 2,
       "abschnitteTitel": "Die fünf Anforderungen an einen Algorithmus",
       "kastenTitel": "Worauf es hier ankommt",
       "abschnitte": [
