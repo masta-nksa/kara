@@ -66,6 +66,7 @@
   font:700 .72rem/1 "IBM Plex Sans",sans-serif;color:var(--surface);
 }
 .bk-station.geprueft{background:var(--ok);border-color:var(--ok)}
+.bk-station.gegenbeispiel{border-radius:5px}
 .bk-station.aktuell{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--accent)}
 .bk-station.zusatz{width:20px;height:20px;align-self:flex-start;margin-top:-14px;border-style:dashed}
 .bk-station.zusatz::after{content:"★";position:absolute;inset:0;display:grid;place-items:center;font-size:.7rem;color:var(--ink-soft)}
@@ -77,6 +78,7 @@
 .bk-legende span{display:inline-flex;align-items:center;gap:6px}
 .bk-legende i{display:inline-block;width:12px;height:12px;border-radius:50%;border:2px solid var(--ink-soft);background:var(--surface)}
 .bk-legende i.g{background:var(--ok);border-color:var(--ok)}
+.bk-legende i.k{border-radius:3px}
 .bk-legende i.a{box-shadow:0 0 0 2px var(--surface),0 0 0 3px var(--accent)}
 .bk-pfad .bk-theorie{border:0;padding:0;background:none;font-size:.88rem}
 .bk-pfad .bk-theorie summary{min-height:36px;font-size:.88rem}
@@ -118,6 +120,8 @@
 .bk-etiketten[hidden]{display:none}
 .bk-etikett{font-size:.78rem;line-height:1.4;padding:2px 10px;border-radius:999px;border:2px solid var(--blume,var(--line));color:var(--ink)}
 .bk-etikett.zusatz{border:1px dashed var(--ink-soft);color:var(--ink-soft)}
+.bk-etikett.gegenbeispiel{border:2px solid var(--no);color:var(--ink)}
+.bk-blk.bk-unbekannt > .bk-main{text-decoration:line-through;text-decoration-color:var(--no);text-decoration-thickness:2px}
 .bk-frage{margin:10px 0 0;border:1px solid var(--line);border-radius:var(--radius);padding:4px 12px 10px;min-width:0}
 .bk-frage[hidden]{display:none}
 .bk-frage legend{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:600;padding:0 6px}

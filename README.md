@@ -160,14 +160,18 @@ Die Reihen «Algorithmen» (`aufgaben/algorithmen.json`) und «Computational Thi
 (`aufgaben/ct.json`) begleiten zwei Papier-Dossiers: Zuerst wird eine Lektion lang auf Papier
 gearbeitet, in der nächsten Lektion folgen dieselben Felder in Kara. Die Aufgabentexte in Kara
 verweisen nicht aufs Dossier: Beides lässt sich unabhängig voneinander lösen. «Algorithmen» ist nach den fünf
-Anforderungen gegliedert (`abschnitte`), davor ein kurzer Einstieg ohne Fragen (Zum Ziel, Das
-Quadrat; Kopien der Grundlagen mit eigenen IDs `alg-…`, die Reihe «Käfer-Grundlagen» bleibt
-unverändert, weil sie auch in einem anderen Fach genutzt wird): ausführbar («Nur rechts», ★ Nur
-links), eindeutig («Biege ab», «Bei der Kreuzung»: eine vage Wegbeschreibung passt auf vier Wege,
-★ Vom Code zum Struktogramm), allgemein («Bis zur Wand», «Drei Räume», ★ Vorne rechts mit
-wechselnder Blickrichtung, ★ Treppen jeder Grösse), endlich («Hört nie auf», ★ Gleich weit) und
-korrekt («Hindernisse umgehen» und «Den Fehler finden» mit Vorhersage, «Räume, die Sie nicht
-sehen» mit verdeckten Sonderfällen, ★ Räume mit Säulen).
+Anforderungen gegliedert (`abschnitte`). Jede Anforderung beginnt mit einem Gegenbeispiel
+(`gegenbeispiel: true`, eckige Station, Etikett «✗ Gegenbeispiel»): Ein vorgegebenes Programm oder
+eine Wegbeschreibung verletzt die Anforderung, die Vorher-Frage lautet «Welche Anforderung verletzt
+…?» (fünf Knöpfe), dann wird repariert. Ausführbar: «Gegenbeispiel: Ohne links» (der Befehl ist mit
+`nichtAusfuehrbar: ["links"]` gesperrt und im Struktogramm durchgestrichen; kommt er dran, bricht
+der Lauf ab), Zum Ziel, ★ Nur links. Eindeutig: «Gegenbeispiel: Biege ab», Bei der Kreuzung, ★ Vom
+Code zum Struktogramm. Allgemein: «Gegenbeispiel: Nur für Gang 1» (4-mal vorwärts), Drei Räume,
+★ Vorne rechts, ★ Treppen jeder Grösse. Endlich: «Gegenbeispiel: Hört nie auf», ★ Gleich weit.
+Korrekt: «Gegenbeispiel: Scheinbar richtig» (klappt in den sichtbaren Räumen, nicht im verdeckten
+grossen), Hindernisse umgehen und Den Fehler finden mit Vorhersage, ★ Räume mit Säulen. Zum Ziel
+ist eine Kopie aus den Grundlagen (eigene ID `alg-ziel`); die Reihe «Käfer-Grundlagen» bleibt
+unverändert, weil sie auch in einem anderen Fach genutzt wird.
 
 «Computational Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`). Die Aufgaben steigen
 an: einfach (kleiner Rasen, zwei gleiche Rasenstücke, um den Teich), mittel (Bahn und Wende mit

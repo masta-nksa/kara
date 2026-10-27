@@ -15,8 +15,6 @@
       "abschnitteTitel": "Die fünf Anforderungen an einen Algorithmus",
       "kastenTitel": "Worauf es hier ankommt",
       "abschnitte": [
-        { "id": "einstieg", "titel": "Einstieg", "etikett": "Einstieg",
-          "text": "Zwei kurze Aufgaben, um den Baukasten kennenzulernen: Bausteine ins Struktogramm ziehen, starten, beobachten." },
         { "id": "ausfuehrbar", "titel": "Ausführbar", "etikett": "Anforderung: ausführbar",
           "text": "Der Ausführende kann jeden Schritt ausführen. Ein Plan darf nur Befehle enthalten, die er kennt." },
         { "id": "eindeutig", "titel": "Eindeutig", "etikett": "Anforderung: eindeutig",

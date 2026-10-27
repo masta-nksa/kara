@@ -350,7 +350,7 @@
       var halte = el("div", "bk-halte");
       g.liste.forEach(function (a) {
         var i = aufgaben.indexOf(a), fertig = !!geloest[a.id];
-        var b = el("button", "bk-station" + (a.zusatz ? " zusatz" : "") + (fertig ? " geprueft" : ""));
+        var b = el("button", "bk-station" + (a.zusatz ? " zusatz" : "") + (a.gegenbeispiel ? " gegenbeispiel" : "") + (fertig ? " geprueft" : ""));
         b.type = "button";
         if (fertig && !a.zusatz) b.textContent = "✓";
         b.dataset.titel = a.titel + (fertig ? " · gelöst" : "");
@@ -545,6 +545,7 @@
     if (!box) return;
     box.textContent = "";
     if (ab) box.append(el("span", "bk-etikett kb-farbe" + (ab.nr % 6), ab.a.etikett || "Denkfigur: " + ab.a.titel));
+    if (aufg.gegenbeispiel) box.append(el("span", "bk-etikett gegenbeispiel", "✗ Gegenbeispiel"));
     if (aufg.zusatz) box.append(el("span", "bk-etikett zusatz", "★ Zusatzaufgabe"));
     box.hidden = !box.childNodes.length;
   }
@@ -899,7 +900,7 @@
   }
 
   var GRUND_KURZ = {
-    anstoss: "stösst an", kreis: "läuft im Kreis", endlos: "endet nie", limit: "läuft zu lange",
+    anstoss: "stösst an", kreis: "läuft im Kreis", endlos: "endet nie", nichtAusfuehrbar: "Befehl unbekannt", limit: "läuft zu lange",
     endfeld: "kommt nicht zum Ausgang", fehlend: "verpasst Felder", zusaetzlich: "zu viele Felder"
   };
 
@@ -1040,6 +1041,8 @@
 
     if (b.t === "act") {
       blk.classList.add("grab");
+      // Befehl, den dieser Käfer nicht kennt (Gegenbeispiel «ausführbar»): durchgestrichen
+      if ((aufg.nichtAusfuehrbar || []).indexOf(b.cmd) >= 0) blk.classList.add("bk-unbekannt");
       blk.append(mainBtn(b, adr, laenge, ebene >= 2 && E.BEFEHLE[b.cmd].kurz ? E.BEFEHLE[b.cmd].kurz : blockLabel(b)), delBtn());
       return blk;
     }
@@ -1895,7 +1898,7 @@
       meldungZeigen("fehler", null, "Bitte geben Sie bei «wiederhole» eine ganze Zahl von 1 bis " + E.MAX_WIEDERHOLUNG + " ein.");
       return false;
     }
-    sim.lauf = E.run(aufg.feld, prog, { ziel: E.zielfeld(aufg.ziel) });
+    sim.lauf = E.run(aufg.feld, prog, { ziel: E.zielfeld(aufg.ziel), nichtAusfuehrbar: aufg.nichtAusfuehrbar });
     sim.i = 0;
     sim.ende = false;
     nebelSetzen(aufg.feld.start[0], aufg.feld.start[1]);
@@ -1923,9 +1926,10 @@
       text = solangeLabel(ev.cond) + "? " + (ev.ja ? "Ja – Durchlauf " + ev.durchlauf : "Nein – fertig");
     } else if (ev.typ === "if") {
       text = E.BEDINGUNGEN[ev.cond || "frei"].label + " → " + (ev.ja ? "Ja" : "Nein");
-    } else if (ev.code === "kreis" || ev.code === "endlos") {
+    } else if (ev.code === "kreis" || ev.code === "endlos" || ev.code === "nichtAusfuehrbar") {
       feldRef.kaefer.classList.add("fehler");
-      text = ev.code === "kreis" ? "Der Käfer läuft im Kreis." : "Die Wiederholung endet nie.";
+      text = ev.code === "kreis" ? "Der Käfer läuft im Kreis." : ev.code === "endlos" ? "Die Wiederholung endet nie."
+        : "«" + E.BEFEHLE[ev.cmd].label + "» kann dieser Käfer nicht ausführen.";
     } else {
       var dr = SCREEN_DIR[ev.d], cx = mx(ev.x), cy = my(ev.y), h = Z / 2;
       var ex = cx + dr[0] * h, ey = cy + dr[1] * h;
