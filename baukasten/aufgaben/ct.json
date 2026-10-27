@@ -61,7 +61,8 @@
           "id": "zerlegen",
           "warum": "Der Weg zerfällt in Teilstücke, zum Beispiel Bahnen und Wenden oder die Seiten einer Spirale. Jedes Teilstück lässt sich einzeln bauen und testen."
         }
-      ]
+      ],
+      "loesung": [{"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "rechts"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "rechts"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "links"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "links"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}]
     },
     {
       "id": "ct-zwei",
@@ -113,7 +114,8 @@
           "id": "zerlegen",
           "warum": "Drei Teilprobleme: Rasen A mähen, zum Rasen B fahren, Rasen B mähen. Rasen A und B sind dasselbe Teilproblem."
         }
-      ]
+      ],
+      "loesung": [{"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "rechts"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "rechts"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "links"}, {"t": "loop", "n": 4, "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "links"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "rechts"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "rechts"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "vor"}]
     },
     {
       "id": "ct-teich-fest",
@@ -162,7 +164,8 @@
           "id": "muster",
           "warum": "Kurze Seite, Ecke, lange Seite, Ecke kommt zweimal vor."
         }
-      ]
+      ],
+      "loesung": [{"t": "loop", "n": 2, "body": [{"t": "loop", "n": 3, "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}, {"t": "loop", "n": 5, "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}]}]
     },
     {
       "id": "ct-muster",
@@ -215,7 +218,8 @@
           "warum": "Erst wenn der Weg in Teile zerlegt ist, sieht man, welche Teile gleich sind."
         }
       ],
-      "kleinsteLoesung": 11
+      "kleinsteLoesung": 11,
+      "loesung": [{"t": "loop", "n": 2, "body": [{"t": "loop", "n": 4, "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "rechts"}, {"t": "loop", "n": 4, "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "links"}, {"t": "act", "cmd": "vor"}, {"t": "act", "cmd": "links"}]}]
     },
     {
       "id": "ct-gaerten",
@@ -299,7 +303,8 @@
           "id": "entwerfen",
           "warum": "Die Wende fährt nur vorwärts, wenn das Feld frei ist. So stösst der Käfer in keinem Garten an."
         }
-      ]
+      ],
+      "loesung": [{"t": "loop", "n": 20, "body": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}, {"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": []}, {"t": "act", "cmd": "rechts"}, {"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "links"}, {"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": []}, {"t": "act", "cmd": "links"}]}]
     },
     {
       "id": "ct-nebel",
@@ -374,7 +379,8 @@
           "id": "abstrahieren",
           "warum": "Das Programm braucht nur die Antwort auf «Feld vorne frei?», keine Karte des Gartens."
         }
-      ]
+      ],
+      "loesung": [{"t": "loop", "n": 20, "body": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}, {"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": []}, {"t": "act", "cmd": "rechts"}, {"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "links"}, {"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": []}, {"t": "act", "cmd": "links"}]}]
     },
     {
       "id": "ct-teich",
@@ -465,7 +471,8 @@
           "id": "muster",
           "warum": "Seite und Ecke wiederholen sich."
         }
-      ]
+      ],
+      "loesung": [{"t": "loop", "n": 5, "body": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}]}]
     },
     {
       "id": "ct-unbekannt",
@@ -562,7 +569,8 @@
           "id": "entwerfen",
           "warum": "Sonderfälle bedenken und prüfen: nur eine Bahn, nur eine Reihe, gerade Anzahl Bahnen, winzig."
         }
-      ]
+      ],
+      "loesung": [{"t": "loop", "n": 20, "body": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}, {"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": []}, {"t": "act", "cmd": "rechts"}, {"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "links"}, {"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": []}, {"t": "act", "cmd": "links"}]}]
     },
     {
       "id": "ct-krumm",
@@ -649,7 +657,8 @@
           "id": "entwerfen",
           "warum": "Mit ungewöhnlichen Gärten prüfen, wie weit der Algorithmus trägt."
         }
-      ]
+      ],
+      "loesung": [{"t": "loop", "n": 20, "body": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}, {"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": []}, {"t": "act", "cmd": "rechts"}, {"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "links"}, {"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": []}, {"t": "act", "cmd": "links"}]}]
     },
     {
       "id": "ct-irgendwo",
@@ -740,7 +749,8 @@
           "id": "entwerfen",
           "warum": "Eine fertige Lösung wiederverwenden und das Ganze prüfen."
         }
-      ]
+      ],
+      "loesung": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}, {"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}, {"t": "loop", "n": 20, "body": [{"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "rechts"}, {"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": []}, {"t": "act", "cmd": "rechts"}, {"t": "while", "cond": "frei", "body": [{"t": "act", "cmd": "vor"}]}, {"t": "act", "cmd": "links"}, {"t": "if", "cond": "frei", "yes": [{"t": "act", "cmd": "vor"}], "no": []}, {"t": "act", "cmd": "links"}]}]
     }
   ]
 }

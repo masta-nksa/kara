@@ -15,8 +15,9 @@ Diese Datei sammelt Arbeitsweise, Konventionen und den aktuellen Stand.
 
 - Oberfläche auf Deutsch (Schweiz, «ss» statt «ß»), Anrede «Sie», Anführungszeichen «…».
 - Code-Namen ebenfalls deutsch (`vorbereiten`, `pruefe`, `nebelSetzen` …), Kommentare knapp.
-- **Keine Lösungen und keine Tests im Repo.** Die Prüfung vergleicht nur das Ergebnis
-  (Endfeld, besuchte Felder, Bausteinlimit), nie ein Muster. Prüfskripte nur im Scratchpad.
+- **Keine Tests im Repo**, Prüfskripte nur im Scratchpad. Lösungen zu den Aufgaben dürfen ins Repo
+  (Entscheid der Lehrperson, 27.10.2026). Die Prüfung vergleicht trotzdem nur das Ergebnis
+  (Endfeld, besuchte Felder, Bausteinlimit), nie ein Muster: Andere Lösungswege bleiben richtig.
 - `engine.js` bleibt frei von DOM (UMD: `window.BaukastenEngine` bzw. `require`).
   Befehle, Bedingungen und Zieltypen sind Tabellen (`BEFEHLE`, `BEDINGUNGEN`, `ZIELTYPEN`).
 - Programmbaum: `{t:"act",cmd}`, `{t:"loop",n,body}`, `{t:"until",body}`,
@@ -98,7 +99,8 @@ nach Lösung und Reflexion (Blume je Denkfigur); Name und Erklärung einer Denkf
 zwei gelösten und reflektierten Aufgaben dazu freigeschaltet (je Denkfigur 2–3 Pflichtaufgaben).
 Navigation wie im Turtle-Kurs: Aufgaben als Stationen; kein Zurück/Weiter in der Karte, weiter geht es
 über die Stationen oder nach dem Lösen mit «Nächste Aufgabe»; andere
-Reihen sind im Baukasten nicht verlinkt (jede Reihe für sich, Einstieg über die Übersicht).
+Reihen sind im Baukasten nicht verlinkt (jede Reihe für sich, Einstieg über die Übersicht, kein Link
+zurück). Unten «Daten dieses Levels löschen»; Dreifachklick auf eine Blume löst alle Aufgaben dazu.
 Reflexionsfragen so formulieren, dass verschiedene Lösungswege passen (z. B. Bahnen oder Spirale).
 Felder der einfachen und mittleren Aufgaben so gestalten, dass sauberes Zerlegen und ein Muster ohne
 Rest aufgehen (z. B. «Bahn und Wende»: 4 Bahnen und ein Tor, «Zwei Rasenstücke»: zwei gleiche Rasen). Vorbild: Kursmodus von masta-nksa/turtle. Die Algorithmen-Reihe

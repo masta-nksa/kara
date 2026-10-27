@@ -53,6 +53,7 @@ darunter die Aufgaben als Stationen auf einer Linie (✓ gelöst, Ring = aktuell
 die Stationen waagrecht wischen. Die Aufgabenkarte nennt den Ort («Reihe · Abschnitt · 2 von 10»);
 weiter geht es über die Stationen oder nach dem Lösen mit «Nächste Aufgabe». Andere Reihen sind im
 Baukasten bewusst nicht verlinkt: Jede Reihe steht für sich und wird über die Übersicht geöffnet.
+Der Baukasten hat auch keinen Link zurück zur Übersicht.
 
 Mit `abschnitte` (Liste von `{id, titel, text}`, optional `etikett` wie «Anforderung: allgemein»;
 Standard «Denkfigur: …») gliedern sich die Stationen in Abschnitte; `abschnitteTitel` ist der Titel
@@ -78,7 +79,7 @@ Starten bleibt möglich (Gegenbeispiele werden vor der Antwort ausgeführt).
 
 ## Aufgaben (`baukasten/aufgaben/*.json`)
 
-- Jede Aufgabe: Feld, Palette, Bausteinlimit, Ziel. **Keine Lösungen.**
+- Jede Aufgabe: Feld, Palette, Bausteinlimit, Ziel. Lösungen dürfen dabei sein; geprüft wird nie gegen sie.
 - Feld entweder mit `cols`, `rows`, `start`, `blick`, `hindernisse` oder als Zeichenkarte
   (`feld.karte`, oberste Zeile zuerst: `#` Mauer, `.` Weg, `S` Start, `Z` Ziel).
 - Palette: `befehle` (`vor`, `rechts`, `links`, dazu für den Zähler `zaehlerPlus`,
@@ -126,6 +127,9 @@ Starten bleibt möglich (Gegenbeispiele werden vor der Antwort ausgeführt).
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
 - `kleinsteLoesung`: Anzahl Bausteine der kleinsten bekannten Lösung; erscheint erst nach dem
   Lösen. Die Bausteinlimits lassen bewusst auch weniger kompakte Lösungen zu.
+- `loesung`: ein geprüftes Lösungsprogramm (Programmbaum, eine Zeile). Nur für die Lehrperson:
+  Der Dreifachklick auf eine Blume fügt es ins Struktogramm ein. Geprüft wird nie dagegen.
+  Algorithmen und CT haben für jede Aufgabe eine; nach Änderungen an Karten mit Skript nachprüfen.
 - Ziel `{"typ": "alleWege"}`: Der Käfer muss jedes Feld ohne Mauer befahren (Rasenmäher). Gilt
   auch für `layouts` und `verdeckt`; die Karten brauchen dann kein `Z`. Das Feld zeigt dann Rasen:
   hohes Gras wiegt sich leicht (nicht bei «Bewegung reduzieren»), befahrene Felder werden kurz
@@ -147,7 +151,7 @@ Starten bleibt möglich (Gegenbeispiele werden vor der Antwort ausgeführt).
 - Der Generator kann rechteckige Labyrinthe: `raeume` als `[Breite, Höhe]`, z. B. `[12, 7]`
   ergibt 25 × 15.
 - Die Prüfung vergleicht das **Ergebnis** (Endfeld, besuchte Felder, Bausteinlimit), nie ein
-  Muster. Lösungen und Tests gehören nicht in dieses Repo.
+  Muster. Tests gehören nicht in dieses Repo, Lösungen zu den Aufgaben schon.
 
 In allen Labyrinthen liegt der Start im Inneren und der Ausgang (`Z`) als einzige Lücke im
 sonst geschlossenen Rand: Es geht darum, aus dem Labyrinth herauszufinden, ein Eingang am Rand
@@ -253,8 +257,10 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | `kara.editor.entwurf.v1` | Entwurf im Editor |
 | `kara.zaehler.aus` | Statistik für diesen Browser abgeschaltet (`?zaehler=aus`) |
 
-Der Link «Daten dieser Reihe löschen» unten auf jeder Reihen-Seite entfernt aus den drei
-`kara.baukasten.*`-Schlüsseln (gelöst, Programme, Fragen) nur die Einträge der Aufgaben dieser Reihe.
+Der Link «Daten dieses Levels löschen» unten im Baukasten entfernt aus den drei
+`kara.baukasten.*`-Schlüsseln (gelöst, Programme, Fragen) nur die Einträge der aktuellen Aufgabe.
+Ein Dreifachklick auf eine Blume im Lernpfad (Abschnitt bzw. Denkfigur) markiert alle Aufgaben dazu
+als gelöst, mit allen Fragen (zum Testen für die Lehrperson).
 
 Checks und Kara liegen unter derselben Adresse `masta-nksa.github.io` und teilen sich darum
 den `localStorage`. Beim ersten Besuch übernimmt Kara einmalig den Stand aus dem früheren
