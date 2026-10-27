@@ -279,7 +279,7 @@
   if (window.BaukastenFigur) window.BaukastenFigur.onChange = function () { if (aufg) { renderFeld(); simReset(); } };
 
   // Alte index.html aus dem Zwischenspeicher, neues app.js: einmal ohne Cache neu laden.
-  if (!$("pfad") || !$("knopfLoeschen")) {
+  if (!$("pfad") || !$("knopfLoeschen") || !$("sperre")) {
     var schon = false;
     try { schon = sessionStorage.getItem("kara.neuGeladen") === "1"; sessionStorage.setItem("kara.neuGeladen", "1"); } catch (e) { schon = true; }
     if (!schon) {
@@ -426,7 +426,7 @@
           p.append(el("b", null, "? "), document.createTextNode("Noch verborgen. Lösen und reflektieren Sie weitere Aufgaben, dann erscheint hier eine weitere Denkfigur."));
         } else if (!reihe.denkfiguren && !abschnittStand(x).frei) {
           p.className += " verborgen";
-          p.append(el("b", null, "? "), document.createTextNode("Noch verborgen. " + verborgenText(abschnittStand(x)) + "."));
+          p.append(el("b", null, "? "), document.createTextNode("Noch verborgen. Lösen Sie das Gegenbeispiel und die erste Aufgabe dazu, mit allen Fragen."));
         } else p.append(el("b", null, x.titel + ": "), document.createTextNode(x.text || ""));
         tx.append(p);
       });
@@ -434,21 +434,61 @@
     neuFreiMelden();
     navigationAktualisieren();
   }
-  function tabsAktualisieren() { pfadZeigen(); }
+  function tabsAktualisieren() { pfadZeigen(); sperreAktualisieren(); }
+
+  // Mit Vorher-Frage oder Vorhersage: Schritte 1. Vorher, 2. Struktogramm, 3. Nachher. Bis «Vorher»
+  // erledigt ist, bleibt das Struktogramm gesperrt (milchig); Starten bleibt möglich (Gegenbeispiele).
+  function schritteBeschriften() {
+    var mit = !!(aufg.strategie || aufg.vorhersage);
+    $("strategieBox").querySelector("legend").textContent = (mit ? "1. " : "") + "Vorher: Wie gehen Sie vor?";
+    $("vorhersageBox").querySelector("legend").textContent = (mit ? "1. " : "") + "Vorher: Wo endet der Käfer?";
+    $("bauTitel").textContent = (mit ? "2. " : "") + "Struktogramm bauen";
+    $("frageBox").querySelector("legend").textContent = (mit ? "3. " : "") + "Nachher: Reflexion";
+  }
+  function vorherOffen() {
+    if (!aufg) return false;
+    if (aufg.strategie && !beantwortet[aufg.id + "/strategie"]) return "frage";
+    return vorhersageWartet() ? "vorhersage" : false;
+  }
+  function sperreAktualisieren() {
+    var offen = vorherOffen(), bau = document.querySelector(".bk-bau");
+    bau.classList.toggle("gesperrt", !!offen);
+    $("sperre").hidden = !offen;
+    $("sperre").textContent = offen === "vorhersage" ? "Zuerst 1.: Tippen Sie im Käfer-Feld, wo der Käfer endet."
+      : "Zuerst 1.: Beantworten Sie die Vorher-Frage.";
+  }
+  function zuerstVorher() {
+    if (vorherOffen() === "vorhersage") { zuerstVorhersagen(); return; }
+    meldungZeigen("fehler", "Zuerst die Vorher-Frage", "Beantworten Sie zuerst die Frage unter 1. Danach können Sie das Struktogramm bauen.");
+    $("strategieBox").scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+  // Gesperrt: Ziehen, Antippen und Tasten im Baubereich abfangen (die Code-Ansicht bleibt offen).
+  ["pointerdown", "click", "keydown"].forEach(function (typ) {
+    document.querySelector(".bk-bau").addEventListener(typ, function (e) {
+      if (!vorherOffen() || (e.target.closest && e.target.closest("#codeBox"))) return;
+      if (typ === "keydown" && e.key === "Tab") return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (typ !== "pointerdown") zuerstVorher();
+    }, true);
+  });
 
   // Abschnitte mit «freischalten» (Algorithmen): Name und Erklärung erst, wenn die ersten Pflichtaufgaben
   // (Gegenbeispiel und erste Aufgabe) gelöst und ihre Fragen beantwortet sind.
-  // Zählt wie bei den Denkfiguren: gelöst und Reflexion beantwortet (die Vorher-Frage ist freiwillig).
-  function erledigt(a) { return !!geloest[a.id] && (!a.frage || !!beantwortet[a.id]); }
+  // Erledigt: gelöst, Vorher-Frage und Reflexion beantwortet.
+  function erledigt(a) {
+    return !!geloest[a.id] && (!a.strategie || !!beantwortet[a.id + "/strategie"]) && (!a.frage || !!beantwortet[a.id]);
+  }
   function abschnittStand(x) {
     var pf = aufgaben.filter(function (a) { return a.abschnitt === x.id && !a.zusatz; }).slice(0, reihe.freischalten || 0);
     var offen = pf.filter(function (a) { return !erledigt(a); });
     return { n: pf.length - offen.length, von: pf.length, frei: !offen.length, offen: offen };
   }
   function verborgenText(st) {
-    return "Lösen Sie das Gegenbeispiel und die erste Aufgabe dazu und beantworten Sie die Reflexion (" + st.n + " von " + st.von +
+    return "Lösen Sie das Gegenbeispiel und die erste Aufgabe dazu, mit allen Fragen (" + st.n + " von " + st.von +
       " erledigt" + (st.offen.length ? "; offen: " + st.offen.map(function (a) {
-        return (geloest[a.id] ? "Reflexion zu " : "") + "«" + a.titel + "»";
+        var was = !geloest[a.id] ? "" : a.strategie && !beantwortet[a.id + "/strategie"] ? "Vorher-Frage zu " : "Reflexion zu ";
+        return was + "«" + a.titel + "»";
       }).join(", ") : "") + ")";
   }
   function ortSetzen() {
@@ -596,6 +636,8 @@
     renderFeld();
     simReset();
     renderBau();
+    schritteBeschriften();
+    sperreAktualisieren();
   }
 
   /* ---------- Abschnitt (Denkfigur) und Konzeptfrage -------- */
@@ -688,6 +730,7 @@
     return E.run(aufg.feld, aufg.startprogramm || [], { ziel: E.zielfeld(aufg.ziel) }).end;
   }
   function renderVorhersage() {
+    sperreAktualisieren();
     var box = $("vorhersageBox");
     box.hidden = !aufg.vorhersage;
     if (feldRef && feldRef.ziel) feldRef.ziel.style.display = vorhersageWartet() ? "none" : "";
@@ -1284,7 +1327,7 @@
   }
 
   function rueckgaengig() {
-    if (!undoStack.length) return;
+    if (!undoStack.length || vorherOffen()) return;
     prog = JSON.parse(undoStack.pop());
     auswahl = null;
     speichereProgramm();

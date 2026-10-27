@@ -68,8 +68,13 @@ Aufgaben gelöst und reflektiert sind (`FREISCHALTEN` in app.js); vorher nennt d
 der Reflexion nur die Begründung. Das Cockpit zeigt dieselben Blumen, verborgene ohne Namen.
 Mit `freischalten: n` (Algorithmen: 2) sind auch Abschnitte anfangs verborgen: Name, Etikett und
 Erklärung erscheinen erst, wenn die ersten n Pflichtaufgaben des Abschnitts (Gegenbeispiel und erste
-Aufgabe) gelöst und ihre Reflexion beantwortet ist (die Vorher-Frage ist freiwillig). Der Seitentitel ist der Titel
+Aufgabe) gelöst und Vorher-Frage und Reflexion beantwortet sind. Der Seitentitel ist der Titel
 der Reihe.
+
+Hat eine Aufgabe eine Vorher-Frage (`strategie`) oder eine Vorhersage, sind die Schritte nummeriert:
+1. Vorher, 2. Struktogramm bauen, 3. Nachher (Reflexion). Bis «Vorher» erledigt ist, bleibt das
+Struktogramm milchig gesperrt; ein Klick darauf meldet, dass zuerst die Frage unter 1. kommt.
+Starten bleibt möglich (Gegenbeispiele werden vor der Antwort ausgeführt).
 
 ## Aufgaben (`baukasten/aufgaben/*.json`)
 
