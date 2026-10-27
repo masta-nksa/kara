@@ -266,7 +266,8 @@ Ein Knopf (oben rechts, am Handy unten rechts) wechselt im Kreis: **Klassisch**,
 
 Im Grusel ist der Käfer eine Spinne und die Steine sind Grabsteine (Dekoration, die `design.js`
 auf der Karte ergänzt). Schreck-Effekte gibt es nur im Grusel: Nach einem Fehlschlag erscheint
-mit 60 % Wahrscheinlichkeit (nie zweimal hintereinander) ein Gesicht oder eine Spinne mit Schrei;
+mit 60 % Wahrscheinlichkeit (nie zweimal hintereinander) ein Gesicht oder eine Spinne mit Schrei,
+sonst in der Hälfte der Fälle nur ein Gruselton (Geisterheulen, Totenglocke oder Kichern);
 beim Start in 35 % der Läufe ein leiser Schreck (Augenpaar, Flackern, selten das Gesicht), sofern
 der Lauf lang genug dauert. Der Ton (WebAudio, nichts zu laden) ist bewusst immer an; er startet
 erst nach dem ersten Klick auf der Seite. Bei Erfolg steigen Fledermäuse, Geister und Kürbisse

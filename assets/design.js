@@ -3,7 +3,8 @@
    Designs: klassisch · bluete · grusel (siehe designs.css). Die Wahl steht in
    localStorage «kara.design.v1»; design-start.js setzt sie schon im <head>.
    Im Grusel erschreckt Kara bei Fehlschlägen und manchmal mitten im Lauf
-   (Bild + Ton, der Ton ist bewusst immer an), bei Erfolg steigen Fledermäuse
+   (Bild + Ton, der Ton ist bewusst immer an) oder
+   spielt nur einen Gruselton, bei Erfolg steigen Fledermäuse
    und Geister auf. Der Baukasten ruft window.KaraDesign.lauf() beim Start und
    .ende(ok) nach der Auswertung. Alles per CSS/SVG/WebAudio, ohne Fremddateien.
    ============================================================ */
@@ -138,6 +139,33 @@
     g.gain.setValueAtTime(0.35, t); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
     r.connect(f); f.connect(g); g.connect(audio.destination); r.start(t);
   }
+  // Leise Gruseltöne bei Fehlschlägen (ohne Bild): Geisterheulen, Totenglocke oder Kichern
+  function ton(typ, f0, start, dauer, laut, ziel) {
+    var t = audio.currentTime + start, o = audio.createOscillator(), g = audio.createGain();
+    o.type = typ; o.frequency.setValueAtTime(f0, t);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(laut, t + 0.03);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dauer);
+    o.connect(g); g.connect(ziel || audio.destination); o.start(t); o.stop(t + dauer + 0.05);
+    return o;
+  }
+  function heulen() {
+    var t = audio.currentTime, o = ton("sine", 260, 0, 1.6, 0.22), vib = audio.createOscillator(), vg = audio.createGain();
+    o.frequency.exponentialRampToValueAtTime(390, t + 0.6); o.frequency.exponentialRampToValueAtTime(210, t + 1.6);
+    vib.frequency.value = 5; vg.gain.value = 14; vib.connect(vg); vg.connect(o.frequency); vib.start(t); vib.stop(t + 1.6);
+  }
+  function glocke() {
+    [[98, 0.3], [98 * 2.76, 0.12], [98 * 5.4, 0.05]].forEach(function (p) { ton("sine", p[0], 0, 2.4, p[1]); });
+  }
+  function kichern() {
+    for (var i = 0; i < 5; i++) {
+      var o = ton("sawtooth", 720 - i * 60, i * 0.13, 0.1, 0.07);
+      o.frequency.exponentialRampToValueAtTime(520 - i * 50, audio.currentTime + i * 0.13 + 0.1);
+    }
+  }
+  function gruselton() {
+    if (!audio || audio.state !== "running") return;
+    [heulen, glocke, kichern][Math.floor(Math.random() * 3)]();
+  }
 
   /* ---------- Gesichter für den Schreck ---------- */
   var GESICHT = '<svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
@@ -216,8 +244,11 @@
   function ende(ok) {
     clearTimeout(laufTimer);
     if (ok) { aufsteigen(); return; }
-    if (aktuell() === "grusel" && !letzterSchreck && Math.random() < 0.6) { letzterSchreck = true; setTimeout(schreck, 250); }
-    else letzterSchreck = false;
+    if (aktuell() !== "grusel") return;
+    // Nicht jedes Mal: Schreck mit 60 % (nie zweimal nacheinander), sonst in der Hälfte der Fälle nur ein Ton
+    if (!letzterSchreck && Math.random() < 0.6) { letzterSchreck = true; setTimeout(schreck, 250); return; }
+    letzterSchreck = false;
+    if (Math.random() < 0.5) setTimeout(gruselton, 200);
   }
 
   window.KaraDesign = { lauf: lauf, ende: ende, schreck: schreck, aktuell: aktuell };
