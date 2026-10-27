@@ -52,6 +52,7 @@
         if (a.abschnitt !== x.id) return;
         l.push(!!fertig[a.id]);
         if (a.strategie) l.push(!!fragen[a.id + "/strategie"]);
+        else if (a.vorhersage) l.push(!!fragen[a.id + "/vorhersage"]);
         if (a.frage) l.push(!!fragen[a.id]);
       });
       var n = pflicht.filter(Boolean).length;

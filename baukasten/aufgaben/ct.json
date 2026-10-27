@@ -152,14 +152,10 @@
         "erklaerung": "Kurze Seite, Ecke, lange Seite, Ecke … Gleiches lässt sich wiederholen."
       },
       "frage": {
-        "text": "Welches Muster steckt im Weg um den Teich?",
-        "antworten": [
-          "Viermal dieselbe Seite mit einer Ecke.",
-          "Zweimal: kurze Seite, Ecke, lange Seite, Ecke.",
-          "Kein Muster, alle Seiten sind verschieden lang."
-        ],
-        "richtig": "373955f7",
-        "erklaerung": "Gegenüberliegende Seiten sind gleich lang. Darum kommt das Paar aus kurzer und langer Seite genau zweimal vor."
+        "typ": "zahl",
+        "text": "Ein Ring hätte aussen 9 × 4 Felder. Wie viele Schritte vorwärts braucht dann eine lange Seite?",
+        "richtig": "2e3947cc",
+        "erklaerung": "Richtig: 9 Felder, also 8 Schritte. Am Muster ändert sich nichts, nur diese eine Zahl."
       },
       "denkfiguren": [
         {
@@ -204,14 +200,10 @@
         "erklaerung": "Was mehrmals gleich vorkommt, passt in eine Wiederholung."
       },
       "frage": {
-        "text": "Was hat sich in Ihrem Programm wiederholt?",
-        "antworten": [
-          "Nichts.",
-          "Nur «links drehen».",
-          "Eine feste Folge, zum Beispiel Bahn, Wende rechts, Bahn, Wende links, die ich in eine Wiederholung gepackt habe."
-        ],
-        "richtig": "93fbce3a",
-        "erklaerung": "Genau. Welche Folge es ist, hängt von Ihrem Weg ab. Muster erkennen heisst: Gleiches finden und mit einer Wiederholung kürzer schreiben."
+        "typ": "zahl",
+        "text": "Ein gleich langer Rasen hätte 8 Bahnen (und wieder ein Tor). Welche Zahl gehört dann in den Kopf der äusseren Wiederholung?",
+        "richtig": "8dfbc4c8",
+        "erklaerung": "Genau: Das Muster «Bahn, Wende rechts, Bahn, Wende links» deckt zwei Bahnen ab. Für 8 Bahnen braucht es 4 Durchläufe, sonst ändert sich nichts."
       },
       "denkfiguren": [
         {

@@ -10,13 +10,13 @@
     {
       "id": "algorithmen",
       "titel": "Algorithmen",
-      "untertitel": "Algorithmen beschreiben (Prosa, Struktogramm, Code) und die fünf Anforderungen: ausführbar, eindeutig, allgemein, endlich, korrekt",
+      "untertitel": "Die fünf Anforderungen an einen Algorithmus: ausführbar, eindeutig, allgemein, endlich, korrekt",
       "dateien": ["aufgaben/algorithmen.json"],
-      "abschnitteTitel": "Algorithmen beschreiben und die fünf Anforderungen an einen Algorithmus",
+      "abschnitteTitel": "Die fünf Anforderungen an einen Algorithmus",
       "kastenTitel": "Worauf es hier ankommt",
       "abschnitte": [
-        { "id": "beschreiben", "titel": "Beschreiben", "etikett": "Algorithmen beschreiben",
-          "text": "Einen Algorithmus kann man in Worten (Prosa), als Diagramm wie das Struktogramm oder als Code in einer Programmiersprache beschreiben. Prosa ist leicht zu lesen, aber oft ungenau; Code ist genau, aber nur mit der Sprache verständlich. Das Struktogramm liegt dazwischen: Die Anweisungen stehen in Worten, die Reihenfolge zeigt die Grafik. Seine Bausteine sind Sequenz, Verzweigung und Wiederholung." },
+        { "id": "einstieg", "titel": "Einstieg", "etikett": "Einstieg",
+          "text": "Zwei kurze Aufgaben, um den Baukasten kennenzulernen: Bausteine ins Struktogramm ziehen, starten, beobachten." },
         { "id": "ausfuehrbar", "titel": "Ausführbar", "etikett": "Anforderung: ausführbar",
           "text": "Der Ausführende kann jeden Schritt ausführen. Ein Plan darf nur Befehle enthalten, die er kennt." },
         { "id": "eindeutig", "titel": "Eindeutig", "etikett": "Anforderung: eindeutig",
