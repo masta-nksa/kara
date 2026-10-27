@@ -646,6 +646,7 @@
     // Code zur Aufgabe (z. B. «Vom Code zum Struktogramm»), mit Zeilen und Einrückung
     $("aufgabeCode").textContent = aufg.code || "";
     $("aufgabeCode").hidden = !aufg.code;
+    bildZeigen();
     renderDenkfigur();
     renderFrage("strategie");
     renderFrage("frage");
@@ -673,6 +674,30 @@
     renderBau();
     schritteBeschriften();
     sperreAktualisieren();
+  }
+
+  // Bild zur Aufgabe: «bild» nennt eine SVG-Datei in bilder/, «bildText» die Legende (Text, `code` erlaubt).
+  // Inline eingefügt, damit die Farben dem Design folgen.
+  var bildCache = {};
+  function bildZeigen() {
+    var box = $("aufgabeBild");
+    if (!box) return;
+    box.textContent = "";
+    box.hidden = !aufg.bild;
+    if (!aufg.bild) return;
+    var a = aufg, name = aufg.bild;
+    (bildCache[name] || (bildCache[name] = fetch("bilder/" + name + ".svg").then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.text();
+    }))).then(function (svg) {
+      if (aufg !== a) return;
+      box.innerHTML = svg;
+      if (a.bildText) {
+        var cap = el("figcaption");
+        a.bildText.split("`").forEach(function (teil, i) { cap.append(i % 2 ? el("code", null, teil) : document.createTextNode(teil)); });
+        box.append(cap);
+      }
+    }).catch(function () { box.hidden = true; });
   }
 
   /* ---------- Abschnitt (Denkfigur) und Konzeptfrage -------- */
