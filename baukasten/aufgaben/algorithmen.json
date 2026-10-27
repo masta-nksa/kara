@@ -4,8 +4,8 @@
     {
       "id": "alg-ziel",
       "titel": "1 · Zum Ziel",
-      "stufe": "Sequenz",
-      "abschnitt": "beschreiben",
+      "stufe": "Einstieg",
+      "abschnitt": "einstieg",
       "text": "Bringen Sie den Käfer zum Zielfeld. Er kennt nur drei Befehle: vorwärts, rechts drehen, links drehen. Alles andere kann er nicht ausführen.",
       "denkfigur": "Befehle, die einfach nacheinander ausgeführt werden, bilden eine Sequenz. Zählen Sie die Felder und schreiben Sie die Befehle der Reihe nach.",
       "feld": {
@@ -35,33 +35,13 @@
           4
         ]
       },
-      "hinweis": "Zählen Sie die Felder: erst geradeaus, dann um die Ecke.",
-      "strategie": {
-        "text": "Wie finden Sie die richtigen Befehle?",
-        "antworten": [
-          "Zufällig Bausteine ausprobieren.",
-          "Felder zählen: zuerst geradeaus, dann um die Ecke.",
-          "Eine Wiederholung bauen."
-        ],
-        "richtig": "a9f90c25",
-        "erklaerung": "Zählen Sie die Felder und schreiben Sie die Befehle der Reihe nach."
-      },
-      "frage": {
-        "text": "Die Aufgabe stand in Worten, Sie haben ein Struktogramm gebaut. Öffnen Sie unter dem Struktogramm «Als Code anzeigen». Was zeigt der Code?",
-        "antworten": [
-          "Einen anderen Weg zum Ziel.",
-          "Denselben Algorithmus, beschrieben in einer Programmiersprache.",
-          "Nur die Anzahl Bausteine."
-        ],
-        "richtig": "cf94e022",
-        "erklaerung": "Genau. Prosa, Struktogramm und Code beschreiben denselben Algorithmus. Ihr Programm ist eine Sequenz: Befehle, die nacheinander ablaufen."
-      }
+      "hinweis": "Zählen Sie die Felder: erst geradeaus, dann um die Ecke."
     },
     {
       "id": "alg-quadrat",
       "titel": "2 · Das Quadrat",
-      "stufe": "Wiederholung",
-      "abschnitt": "beschreiben",
+      "stufe": "Einstieg",
+      "abschnitt": "einstieg",
       "text": "Der Käfer soll den Rand des Quadrats (3 × 3 Felder) ablaufen und wieder auf dem Startfeld enden. Überlegen Sie zuerst, welche Schritte sich wiederholen. Höchstens 4 Bausteine.",
       "denkfigur": "Welche Schritte wiederholen sich? Packen Sie sie in eine Wiederholung.",
       "feld": {
@@ -127,367 +107,11 @@
           2
         ]
       },
-      "hinweis": "Welche Schritte wiederholen sich? Ein Quadrat hat vier gleiche Seiten.",
-      "strategie": {
-        "text": "Höchstens 4 Bausteine. Was hilft?",
-        "antworten": [
-          "Herausfinden, welche Schritte sich wiederholen.",
-          "Alle Schritte einzeln aufschreiben.",
-          "Eine Verzweigung verwenden."
-        ],
-        "richtig": "cf851a5a",
-        "erklaerung": "Ein Quadrat hat vier gleiche Seiten."
-      },
-      "frage": {
-        "text": "Welche Schritte haben Sie wiederholt, und wie oft?",
-        "antworten": [
-          "vorwärts, vorwärts, rechts drehen: 4-mal",
-          "vorwärts: 8-mal",
-          "rechts drehen: 4-mal"
-        ],
-        "richtig": "bd75fd3d",
-        "erklaerung": "Eine Seite und eine Ecke, viermal: So entsteht das Quadrat."
-      }
-    },
-    {
-      "id": "alg-treppe",
-      "titel": "★ Die Treppe",
-      "stufe": "Zusatz · Wiederholung",
-      "abschnitt": "beschreiben",
-      "zusatz": true,
-      "text": "Der Käfer soll die Treppe über alle markierten Felder hinaufsteigen und oben rechts enden. Höchstens 5 Bausteine: Schreiben Sie dasselbe kürzer.",
-      "denkfigur": "Eine Stufe hat vier Schritte. Statt sie fünfmal aufzuschreiben, wiederholen Sie sie.",
-      "feld": {
-        "cols": 6,
-        "rows": 6,
-        "start": [
-          1,
-          1
-        ],
-        "blick": "N",
-        "hindernisse": []
-      },
-      "palette": {
-        "befehle": [
-          "vor",
-          "rechts",
-          "links"
-        ],
-        "wiederholung": true,
-        "verzweigung": false
-      },
-      "maxBloecke": 5,
-      "kleinsteLoesung": 5,
-      "ziel": {
-        "typ": "besucht",
-        "felder": [
-          [
-            1,
-            1
-          ],
-          [
-            1,
-            2
-          ],
-          [
-            2,
-            2
-          ],
-          [
-            2,
-            3
-          ],
-          [
-            3,
-            3
-          ],
-          [
-            3,
-            4
-          ],
-          [
-            4,
-            4
-          ],
-          [
-            4,
-            5
-          ],
-          [
-            5,
-            5
-          ],
-          [
-            5,
-            6
-          ],
-          [
-            6,
-            6
-          ]
-        ],
-        "nurDiese": true,
-        "endfeld": [
-          6,
-          6
-        ]
-      },
-      "hinweis": "Eine Stufe besteht aus vier Schritten. Wie oft kommt sie vor?",
-      "strategie": {
-        "text": "Wie schreiben Sie das kürzer?",
-        "antworten": [
-          "Weniger Felder ablaufen.",
-          "Nur «vorwärts» verwenden.",
-          "Eine Stufe finden und sie wiederholen."
-        ],
-        "richtig": "ce23275c",
-        "erklaerung": "Eine Stufe besteht aus vier Schritten."
-      },
-      "frage": {
-        "text": "Was ändert sich am Struktogramm, wenn die Treppe 50 statt 5 Stufen hat?",
-        "antworten": [
-          "Es braucht zehnmal mehr Bausteine.",
-          "Man braucht zusätzlich eine Verzweigung.",
-          "Nur die Zahl im Kopf der Wiederholung."
-        ],
-        "richtig": "ae7a13bf",
-        "erklaerung": "Genau: Die kurze Fassung ändert nur eine Zahl. Ohne Wiederholung würde das Struktogramm zehnmal so lang."
-      }
-    },
-    {
-      "id": "alg-hindernis",
-      "titel": "3 · Hindernisse umgehen",
-      "stufe": "Verzweigung",
-      "abschnitt": "beschreiben",
-      "text": "Wiederholen Sie 10-mal: Ist das Feld vorne frei, geht der Käfer vorwärts, sonst dreht er sich nach rechts. Überlegen Sie vor dem Start, wo er enden wird, und prüfen Sie dann Ihre Vermutung. Höchstens 4 Bausteine.",
-      "denkfigur": "In jedem Durchlauf entscheidet die Verzweigung neu: vorwärts, wenn frei, sonst drehen.",
-      "feld": {
-        "cols": 5,
-        "rows": 5,
-        "start": [
-          1,
-          1
-        ],
-        "blick": "N",
-        "hindernisse": [
-          [
-            1,
-            4
-          ],
-          [
-            4,
-            1
-          ],
-          [
-            5,
-            3
-          ]
-        ]
-      },
-      "palette": {
-        "befehle": [
-          "vor",
-          "rechts",
-          "links"
-        ],
-        "wiederholung": true,
-        "verzweigung": true
-      },
-      "maxBloecke": 4,
-      "kleinsteLoesung": 4,
-      "ziel": {
-        "typ": "endfeld",
-        "feld": [
-          3,
-          2
-        ]
-      },
-      "hinweis": "Die Verzweigung gehört in die Wiederholung.",
-      "strategie": {
-        "text": "Wo gehört die Verzweigung hin?",
-        "antworten": [
-          "In die Wiederholung, damit der Käfer bei jedem Durchlauf neu entscheidet.",
-          "Vor die Wiederholung.",
-          "Es braucht keine Verzweigung."
-        ],
-        "richtig": "57723b20",
-        "erklaerung": "In jedem Durchlauf entscheidet die Verzweigung neu: vorwärts oder drehen."
-      },
-      "frage": {
-        "text": "Die Verzweigung steckt in der Wiederholung. Was bedeutet das?",
-        "antworten": [
-          "Der Käfer entscheidet nur einmal.",
-          "Der Käfer entscheidet in jedem Durchlauf neu, ob er vorwärts geht oder dreht.",
-          "Der Käfer entscheidet gar nie."
-        ],
-        "richtig": "39721e88",
-        "erklaerung": "Richtig. So reagiert er bei jedem Schritt auf das, was vor ihm liegt. Das geht nur mit einer Verzweigung in der Wiederholung."
-      }
-    },
-    {
-      "id": "alg-wand",
-      "titel": "4 · Bis zur Wand",
-      "stufe": "Wiederholung mit Bedingung",
-      "abschnitt": "beschreiben",
-      "text": "Der Käfer soll in jedem Gang bis zur Flagge an der Wand laufen. Die Gänge sind verschieden lang, das Programm ist dasselbe. Neu: «wiederhole solange Feld vorne frei». Höchstens 3 Bausteine.",
-      "denkfigur": "Die Länge des Gangs kennen Sie nicht. Die Wiederholung soll laufen, solange vorne frei ist.",
-      "layouts": [
-        {
-          "name": "Gang 1",
-          "karte": ["#######", "#S...Z#", "#######"],
-          "blick": "E"
-        },
-        {
-          "name": "Gang 2",
-          "karte": ["##########", "#S......Z#", "##########"],
-          "blick": "E"
-        },
-        {
-          "name": "Gang 3",
-          "karte": ["#####", "#S.Z#", "#####"],
-          "blick": "E"
-        }
-      ],
-      "felderWort": [
-        "Gang",
-        "Gänge",
-        "Gängen"
-      ],
-      "palette": {
-        "befehle": [
-          "vor",
-          "rechts",
-          "links"
-        ],
-        "wiederholung": true,
-        "solange": [
-          "frei"
-        ],
-        "verzweigung": false
-      },
-      "maxBloecke": 3,
-      "kleinsteLoesung": 2,
-      "hinweis": "Mit «wiederhole n-mal» müssen Sie die Länge kennen. Mit «solange» nicht.",
-      "strategie": {
-        "text": "Die Gänge sind verschieden lang. Was hilft?",
-        "antworten": [
-          "Für jeden Gang die Länge zählen.",
-          "Eine Wiederholung, die läuft, solange vorne frei ist.",
-          "Möglichst viele «vorwärts» einfügen."
-        ],
-        "richtig": "edcae4cf",
-        "erklaerung": "Die Länge kennen Sie nicht, also wiederholen Sie, solange es geht."
-      },
-      "frage": {
-        "text": "Wann nimmt man «wiederhole solange …» statt «wiederhole n-mal»?",
-        "antworten": [
-          "Wenn man nicht im Voraus weiss, wie oft es nötig ist.",
-          "Wenn man genau weiss, wie oft es nötig ist.",
-          "Nur zusammen mit einer Verzweigung."
-        ],
-        "richtig": "0fab5967",
-        "erklaerung": "Genau. «Rühre, bis der Teig glatt ist» ist so eine Wiederholung mit Bedingung: Wie oft es nötig ist, weiss man vorher nicht."
-      }
-    },
-    {
-      "id": "alg-code",
-      "titel": "★ Vom Code zum Struktogramm",
-      "stufe": "Zusatz · beschreiben",
-      "abschnitt": "beschreiben",
-      "zusatz": true,
-      "text": "Dieses Programm ist als Code geschrieben. Bauen Sie es als Struktogramm nach. Der Käfer soll genau den markierten Weg laufen und auf der Flagge enden. Höchstens 5 Bausteine.",
-      "code": "while vorne_frei():\n    vor()\nlinks()\nfor i in range(2):\n    vor()",
-      "denkfigur": "«while vorne_frei():» ist «wiederhole solange Feld vorne frei», «for i in range(2):» ist «wiederhole 2-mal». Was eingerückt darunter steht, gehört in den Rumpf.",
-      "feld": {
-        "cols": 6,
-        "rows": 5,
-        "start": [
-          1,
-          1
-        ],
-        "blick": "E",
-        "hindernisse": []
-      },
-      "palette": {
-        "befehle": [
-          "vor",
-          "rechts",
-          "links"
-        ],
-        "wiederholung": true,
-        "solange": [
-          "frei"
-        ],
-        "verzweigung": false
-      },
-      "maxBloecke": 5,
-      "kleinsteLoesung": 5,
-      "ziel": {
-        "typ": "besucht",
-        "felder": [
-          [
-            1,
-            1
-          ],
-          [
-            2,
-            1
-          ],
-          [
-            3,
-            1
-          ],
-          [
-            4,
-            1
-          ],
-          [
-            5,
-            1
-          ],
-          [
-            6,
-            1
-          ],
-          [
-            6,
-            2
-          ],
-          [
-            6,
-            3
-          ]
-        ],
-        "nurDiese": true,
-        "endfeld": [
-          6,
-          3
-        ]
-      },
-      "strategie": {
-        "text": "Wie übersetzen Sie Code in ein Struktogramm?",
-        "antworten": [
-          "Das Programm neu erfinden.",
-          "Nur die Befehle übernehmen und die Wiederholungen weglassen.",
-          "Zeile für Zeile: Jede Zeile wird ein Baustein, was eingerückt ist, kommt in den Rumpf."
-        ],
-        "richtig": "fecc5745",
-        "erklaerung": "Code und Struktogramm beschreiben denselben Algorithmus, nur anders aufgeschrieben."
-      },
-      "frage": {
-        "text": "Woran erkennen Sie im Code, was zu einer Wiederholung gehört?",
-        "antworten": [
-          "An der Einrückung unter der Zeile mit dem Doppelpunkt.",
-          "An den Klammern hinter «vor».",
-          "Am Wort «vor»."
-        ],
-        "richtig": "f99d4288",
-        "erklaerung": "Richtig. Im Struktogramm zeigt der Rahmen dasselbe: Was im Rumpf steht, wird wiederholt. Mit «Als Code anzeigen» können Sie Ihr Struktogramm mit dem Code vergleichen."
-      }
+      "hinweis": "Welche Schritte wiederholen sich? Ein Quadrat hat vier gleiche Seiten."
     },
     {
       "id": "alg-nurrechts",
-      "titel": "5 · Nur rechts",
+      "titel": "3 · Nur rechts",
       "stufe": "ausführbar",
       "abschnitt": "ausfuehrbar",
       "text": "Dieser Käfer kann nicht mehr links drehen. Er kennt nur noch vorwärts und rechts drehen. Bringen Sie ihn trotzdem zur Flagge.",
@@ -617,7 +241,7 @@
     },
     {
       "id": "alg-abbiegen",
-      "titel": "6 · Biege ab",
+      "titel": "4 · Biege ab",
       "stufe": "eindeutig",
       "abschnitt": "eindeutig",
       "text": "Jemand beschreibt den Weg so: «Geh bis zur Mauer, dann biege ab und geh noch ein Stück.» Links oder rechts? Wie weit ist «ein Stück»? Der Käfer kann nicht raten. Die Flagge zeigt, was gemeint war: Bauen Sie den Weg als eindeutiges Struktogramm.",
@@ -686,7 +310,7 @@
     },
     {
       "id": "alg-kreuzung",
-      "titel": "7 · Bei der Kreuzung",
+      "titel": "5 · Bei der Kreuzung",
       "stufe": "eindeutig",
       "abschnitt": "eindeutig",
       "text": "Die Wegbeschreibung lautet: «Geh geradeaus und bieg bei der Kreuzung ab, bis es nicht mehr weitergeht.» Hier gibt es zwei Kreuzungen mit je zwei Richtungen. Die Beschreibung passt auf vier Wege, aber nur einer führt zur Flagge. Bauen Sie diesen Weg als eindeutiges Struktogramm.",
@@ -717,19 +341,169 @@
         "erklaerung": "Die Beschreibung passt auf mehrere Wege. Ein Algorithmus muss genau einen festlegen."
       },
       "frage": {
-        "text": "Was musste Ihr Struktogramm festlegen, das in der Beschreibung fehlte?",
-        "antworten": [
-          "Nur die Richtung.",
-          "Nichts.",
-          "Welche Kreuzung, welche Richtung und wie weit."
+        "typ": "zahl",
+        "text": "Angenommen, es gäbe drei Kreuzungen mit je zwei Richtungen. Auf wie viele Wege passt dann die Beschreibung?",
+        "richtig": "a3a848f2",
+        "erklaerung": "Richtig: 3 Kreuzungen × 2 Richtungen = 6 Wege. Je mehr Möglichkeiten, desto wichtiger ist eine eindeutige Beschreibung."
+      }
+    },
+    {
+      "id": "alg-code",
+      "titel": "★ Vom Code zum Struktogramm",
+      "stufe": "Zusatz · eindeutig",
+      "abschnitt": "eindeutig",
+      "zusatz": true,
+      "text": "Dieses Programm ist als Code geschrieben: eindeutig, anders als eine Beschreibung in Worten. Bauen Sie es als Struktogramm nach. Der Käfer soll genau den markierten Weg laufen. Höchstens 5 Bausteine.",
+      "code": "while vorne_frei():\n    vor()\nlinks()\nfor i in range(2):\n    vor()",
+      "denkfigur": "«while vorne_frei():» ist «wiederhole solange Feld vorne frei», «for i in range(2):» ist «wiederhole 2-mal». Was eingerückt darunter steht, gehört in den Rumpf.",
+      "feld": {
+        "cols": 6,
+        "rows": 5,
+        "start": [
+          1,
+          1
         ],
-        "richtig": "9fa842a6",
-        "erklaerung": "Genau. Eine Anweisung ist erst eindeutig, wenn kein Spielraum bleibt. Im Struktogramm ist jeder Schritt festgelegt; in Alltagssprache bleibt oft offen, was gemeint ist."
+        "blick": "E",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": false
+      },
+      "maxBloecke": 5,
+      "kleinsteLoesung": 5,
+      "ziel": {
+        "typ": "besucht",
+        "felder": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            6,
+            1
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            6,
+            3
+          ]
+        ],
+        "nurDiese": true,
+        "endfeld": [
+          6,
+          3
+        ]
+      },
+      "frage": {
+        "text": "Woran erkennen Sie im Code, was zu einer Wiederholung gehört?",
+        "antworten": [
+          "An der Einrückung unter der Zeile mit dem Doppelpunkt.",
+          "An den Klammern hinter «vor».",
+          "Am Wort «vor»."
+        ],
+        "richtig": "f99d4288",
+        "erklaerung": "Richtig. Im Struktogramm zeigt der Rahmen dasselbe: Was im Rumpf steht, wird wiederholt. Mit «Als Code anzeigen» können Sie Ihr Struktogramm mit dem Code vergleichen."
+      },
+      "vorhersage": {
+        "text": "Lesen Sie den Code. Wo steht der Käfer am Schluss? Tippen Sie auf das Feld.",
+        "feld": [
+          6,
+          3
+        ]
+      }
+    },
+    {
+      "id": "alg-wand",
+      "titel": "6 · Bis zur Wand",
+      "stufe": "allgemein",
+      "abschnitt": "allgemein",
+      "text": "Der Käfer soll in jedem Gang bis zur Flagge an der Wand laufen. Die Gänge sind verschieden lang, das Programm ist dasselbe. Neu: «wiederhole solange Feld vorne frei». Höchstens 3 Bausteine.",
+      "denkfigur": "Die Länge des Gangs kennen Sie nicht. Die Wiederholung soll laufen, solange vorne frei ist.",
+      "layouts": [
+        {
+          "name": "Gang 1",
+          "karte": ["#######", "#S...Z#", "#######"],
+          "blick": "E"
+        },
+        {
+          "name": "Gang 2",
+          "karte": ["##########", "#S......Z#", "##########"],
+          "blick": "E"
+        },
+        {
+          "name": "Gang 3",
+          "karte": ["#####", "#S.Z#", "#####"],
+          "blick": "E"
+        }
+      ],
+      "felderWort": [
+        "Gang",
+        "Gänge",
+        "Gängen"
+      ],
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": false
+      },
+      "maxBloecke": 3,
+      "kleinsteLoesung": 2,
+      "hinweis": "Mit «wiederhole n-mal» müssen Sie die Länge kennen. Mit «solange» nicht.",
+      "strategie": {
+        "text": "Die Gänge sind verschieden lang. Was hilft?",
+        "antworten": [
+          "Für jeden Gang die Länge zählen.",
+          "Eine Wiederholung, die läuft, solange vorne frei ist.",
+          "Möglichst viele «vorwärts» einfügen."
+        ],
+        "richtig": "edcae4cf",
+        "erklaerung": "Die Länge kennen Sie nicht, also wiederholen Sie, solange es geht."
+      },
+      "frage": {
+        "typ": "zahl",
+        "text": "Wie viele Bausteine braucht ein Programm, das auch einen Gang mit 50 Feldern bis zur Wand schafft?",
+        "richtig": "11ab5c8d",
+        "erklaerung": "Genau: «wiederhole solange Feld vorne frei» und «vorwärts». Die Länge des Gangs steht nirgends im Programm."
       }
     },
     {
       "id": "alg-raeume",
-      "titel": "8 · Drei Räume",
+      "titel": "7 · Drei Räume",
       "stufe": "allgemein",
       "abschnitt": "allgemein",
       "text": "Eingabe: ein Raum mit dem Käfer. Verarbeitung: Ihr Programm. Ausgabe: der Käfer in der Ecke oben rechts. Ein einziges Programm soll in allen drei Räumen funktionieren. Höchstens 7 Bausteine.",
@@ -956,7 +730,7 @@
     },
     {
       "id": "alg-endlos",
-      "titel": "9 · Hört nie auf",
+      "titel": "8 · Hört nie auf",
       "stufe": "endlich",
       "abschnitt": "endlich",
       "text": "Der Käfer soll bis zur Flagge an der Wand laufen. Dieses Programm hört aber nie auf. Starten Sie es und lesen Sie die Meldung. Ändern Sie so wenig wie möglich, damit es endet.",
@@ -1115,14 +889,77 @@
         "erklaerung": "Danach geht er weiter und zählt bei jedem Schritt − 1, bis der Zähler 0 ist."
       },
       "frage": {
-        "text": "Warum endet «solange Zähler ≠ 0: vorwärts, Zähler − 1»?",
-        "antworten": [
-          "Weil der Zähler in jedem Durchlauf kleiner wird und irgendwann 0 ist.",
-          "Weil der Käfer an die Wand stösst.",
-          "Weil der Zähler am Anfang 0 ist."
+        "typ": "zahl",
+        "text": "In einem Raum geht der Käfer 7 Schritte hinauf bis zur Wand. Welchen Wert hat der Zähler, wenn er oben ankommt?",
+        "richtig": "dda3ef41",
+        "erklaerung": "Genau. Danach zählt er bei jedem Schritt eins herunter. Bei 0 hört die Wiederholung auf, darum ist sie endlich."
+      }
+    },
+    {
+      "id": "alg-hindernis",
+      "titel": "9 · Hindernisse umgehen",
+      "stufe": "korrekt",
+      "abschnitt": "korrekt",
+      "text": "Wiederholen Sie 10-mal: Ist das Feld vorne frei, geht der Käfer vorwärts, sonst dreht er sich nach rechts. Bauen Sie das Programm und prüfen Sie Ihre Vorhersage. Höchstens 4 Bausteine.",
+      "denkfigur": "In jedem Durchlauf entscheidet die Verzweigung neu: vorwärts, wenn frei, sonst drehen.",
+      "feld": {
+        "cols": 5,
+        "rows": 5,
+        "start": [
+          1,
+          1
         ],
-        "richtig": "dea3f0d4",
-        "erklaerung": "Genau. Jeder Durchlauf bringt den Zähler einen Schritt näher an 0, darum ist die Wiederholung endlich."
+        "blick": "N",
+        "hindernisse": [
+          [
+            1,
+            4
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            5,
+            3
+          ]
+        ]
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "verzweigung": true
+      },
+      "maxBloecke": 4,
+      "kleinsteLoesung": 4,
+      "ziel": {
+        "typ": "endfeld",
+        "feld": [
+          3,
+          2
+        ]
+      },
+      "hinweis": "Die Verzweigung gehört in die Wiederholung.",
+      "frage": {
+        "text": "Die Verzweigung steckt in der Wiederholung. Was bedeutet das?",
+        "antworten": [
+          "Der Käfer entscheidet nur einmal.",
+          "Der Käfer entscheidet in jedem Durchlauf neu, ob er vorwärts geht oder dreht.",
+          "Der Käfer entscheidet gar nie."
+        ],
+        "richtig": "39721e88",
+        "erklaerung": "Richtig. So reagiert er bei jedem Schritt auf das, was vor ihm liegt. Das geht nur mit einer Verzweigung in der Wiederholung."
+      },
+      "vorhersage": {
+        "text": "Führen Sie das Programm im Kopf aus: Wo endet der Käfer? Tippen Sie auf das Feld.",
+        "feld": [
+          3,
+          2
+        ]
       }
     },
     {
@@ -1216,16 +1053,6 @@
         ]
       },
       "hinweis": "Wo hört der Käfer zu früh auf?",
-      "strategie": {
-        "text": "Wie finden Sie den Fehler am schnellsten?",
-        "antworten": [
-          "Starten und beobachten, wo der Käfer vom Quadrat abweicht.",
-          "Alles neu bauen.",
-          "Zufällig Zahlen ändern."
-        ],
-        "richtig": "bd2e555c",
-        "erklaerung": "Wo der Käfer zu früh aufhört, liegt der Fehler."
-      },
       "frage": {
         "text": "Was war der Fehler?",
         "antworten": [
@@ -1235,6 +1062,9 @@
         ],
         "richtig": "a9aa6807",
         "erklaerung": "Beobachten zeigt, wo der Käfer zu früh aufhört. Dort liegt der Fehler."
+      },
+      "vorhersage": {
+        "text": "Wo endet der Käfer mit diesem fehlerhaften Programm? Tippen Sie auf das Feld, dann starten Sie."
       }
     },
     {

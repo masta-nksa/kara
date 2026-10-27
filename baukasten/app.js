@@ -308,6 +308,7 @@
       var l = a.zusatz ? zusatz : pflicht;
       l.push(!!geloest[a.id]);
       if (a.strategie) l.push(!!beantwortet[a.id + "/strategie"]);
+      else if (a.vorhersage) l.push(!!beantwortet[a.id + "/vorhersage"]);
       if (a.frage) l.push(!!beantwortet[a.id]);
     });
     return { pflicht: pflicht, zusatz: zusatz };
@@ -514,6 +515,7 @@
     renderFrage("strategie");
     renderFrage("frage");
     entscheidendZeigen();
+    renderVorhersage();
     tippStufe = 1;
     $("hinweisBox").open = false;
     renderHinweise();
@@ -552,31 +554,151 @@
   function renderFrage(art) {
     var f = aufg[art], box = $(art + "Box");
     if (!box) return;
-    box.hidden = !f;
-    if (!f) return;
-    var offen = art === "strategie" || !!geloest[aufg.id];
+    var offen = !!f && (art === "strategie" || !!geloest[aufg.id]);
     box.hidden = !offen;
+    if (!offen) return;
     $(art + "Text").textContent = f.text;
-    var liste = $(art + "Antworten"), name = art + "-" + aufg.id, rueck = $(art + "Rueck");
+    var liste = $(art + "Antworten"), rueck = $(art + "Rueck"), knopf = $(art + "Knopf"), schon = !!beantwortet[frageSchluessel(art)];
     liste.textContent = "";
     rueck.hidden = true;
     rueck.className = "bk-frage-rueck";
-    if (!offen) return;
-    f.antworten.forEach(function (t, k) {
-      var lab = el("label", "bk-antwort"), inp = el("input");
-      inp.type = "radio";
-      inp.name = name;
-      inp.value = k;
-      inp.addEventListener("change", function () { rueck.hidden = true; });
-      lab.append(inp, el("span", null, t));
-      liste.append(lab);
-    });
-    if (beantwortet[frageSchluessel(art)]) {
-      // Schon richtig beantwortet: Antwort markieren und Erklärung zeigen
-      f.antworten.forEach(function (t, k) { if (E.frageRichtig(aufg, k, art)) liste.querySelectorAll("input")[k].checked = true; });
-      frageRueckmeldung(art, true);
+    if (f.typ === "zahl") {
+      // Zahl-Frage: kurzes Eingabefeld, Prüfen mit Knopf oder Eingabetaste
+      var inp = el("input", "bk-zahl");
+      inp.type = "number";
+      inp.setAttribute("inputmode", "numeric");
+      inp.setAttribute("aria-label", "Ihre Antwort (Zahl)");
+      inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); antworten(art, inp.value); } });
+      inp.addEventListener("input", function () { rueck.hidden = true; });
+      liste.append(inp);
+      knopf.hidden = false;
+      if (schon) for (var v = 0; v <= 999; v++) if (E.frageRichtig(aufg, v, art)) { inp.value = v; break; }
+    } else {
+      // Auswahl als kompakte Knöpfe: ein Klick ist die Antwort
+      knopf.hidden = true;
+      f.antworten.forEach(function (t, k) {
+        var b = el("button", "bk-chip", t);
+        b.type = "button";
+        b.dataset.k = k;
+        b.addEventListener("click", function () { antworten(art, k, b); });
+        if (schon && E.frageRichtig(aufg, k, art)) b.classList.add("richtig");
+        liste.append(b);
+      });
     }
+    if (schon) frageRueckmeldung(art, true);
   }
+
+  function antworten(art, wert, chip) {
+    var rueck = $(art + "Rueck");
+    if (wert === "" || wert == null || isNaN(Number(wert))) {
+      rueck.hidden = false;
+      rueck.className = "bk-frage-rueck";
+      rueck.textContent = "Geben Sie zuerst eine Zahl ein.";
+      return;
+    }
+    var richtig = E.frageRichtig(aufg, Number(wert), art);
+    if (chip) {
+      Array.prototype.forEach.call($(art + "Antworten").querySelectorAll(".bk-chip"), function (b) { b.classList.remove("falsch"); });
+      chip.classList.add(richtig ? "richtig" : "falsch");
+    }
+    if (richtig && !beantwortet[frageSchluessel(art)]) {
+      beantwortet[frageSchluessel(art)] = 1;
+      speichereFragen();
+      tabsAktualisieren();
+    }
+    frageRueckmeldung(art, richtig);
+  }
+
+  /* ---------- Vorhersage am Feld: vor dem Start auf das Feld tippen, wo der Käfer endet ---------- */
+
+  var vorhersagen = {};   // je Aufgabe in dieser Sitzung: {feld:[x,y], ohne:true, verglichen:true}
+  function vorhersage() { return vorhersagen[aufg.id] || (vorhersagen[aufg.id] = {}); }
+  function vorhersageWartet() {
+    var v = vorhersage();
+    return !!(aufg.vorhersage && !v.feld && !v.ohne && !beantwortet[aufg.id + "/vorhersage"]);
+  }
+  // Wo endet das Programm aus der Aufgabe? Angegeben («feld») oder aus dem Startprogramm berechnet.
+  function erwartetesEnde() {
+    var vh = aufg.vorhersage;
+    if (vh.feld) return vh.feld;
+    return E.run(aufg.feld, aufg.startprogramm || [], { ziel: E.zielfeld(aufg.ziel) }).end;
+  }
+  function renderVorhersage() {
+    var box = $("vorhersageBox");
+    box.hidden = !aufg.vorhersage;
+    if (feldRef && feldRef.ziel) feldRef.ziel.style.display = vorhersageWartet() ? "none" : "";
+    if (feldRef) feldRef.svg.classList.toggle("bk-waehlbar", vorhersageWartet());
+    if (!aufg.vorhersage) return;
+    var v = vorhersage(), r = $("vorhersageRueck"), e = erwartetesEnde(), fertig = !!beantwortet[aufg.id + "/vorhersage"];
+    $("vorhersageText").textContent = aufg.vorhersage.text;
+    $("vorhersageOhne").hidden = !vorhersageWartet();
+    r.className = "bk-frage-rueck";
+    if (fertig && !v.feld) {
+      r.className += " ok";
+      r.textContent = "Ihre Vorhersage stimmte: Spalte " + e[0] + ", Zeile " + e[1] + ".";
+    } else if (v.verglichen) {
+      var ok = v.feld[0] === e[0] && v.feld[1] === e[1];
+      r.className += ok ? " ok" : " fehler";
+      r.textContent = ok ? "Ihre Vorhersage stimmt: Der Käfer endet in Spalte " + e[0] + ", Zeile " + e[1] + "."
+        : "Nicht ganz: Sie haben Spalte " + v.feld[0] + ", Zeile " + v.feld[1] + " vorausgesagt, das Programm aus der Aufgabe endet in Spalte " +
+          e[0] + ", Zeile " + e[1] + ". Gehen Sie es Schritt für Schritt durch («Einzelschritt»).";
+    } else if (v.feld) r.textContent = "Ihre Vorhersage: Spalte " + v.feld[0] + ", Zeile " + v.feld[1] + ". Starten Sie jetzt und vergleichen Sie.";
+    else if (v.ohne) r.textContent = "Ohne Vorhersage gestartet.";
+    else r.textContent = "Tippen Sie im Käfer-Feld auf ein Feld.";
+    vorhersageZeichnen();
+  }
+  function vorhersageZeichnen() {
+    if (!feldRef) return;
+    if (feldRef.vorhersageMarke) feldRef.vorhersageMarke.remove();
+    var v = aufg.vorhersage && vorhersage();
+    if (!v || !v.feld) return;
+    var g = svgEl("g", {}, "bk-vorhersage-marke");
+    g.append(svgEl("circle", { cx: mx(v.feld[0]), cy: my(v.feld[1]), r: Z / 2 - 4 }));
+    var t = svgEl("text", { x: mx(v.feld[0]), y: my(v.feld[1]) + 4 });
+    t.textContent = "?";
+    g.append(t);
+    feldRef.welt.append(g);
+    feldRef.vorhersageMarke = g;
+  }
+  function vorhersageWaehlen(e) {
+    if (!vorhersageWartet() || !feldRef) return;
+    var pt = feldRef.svg.createSVGPoint();
+    pt.x = e.clientX;
+    pt.y = e.clientY;
+    var p = pt.matrixTransform(feldRef.welt.getScreenCTM().inverse()), f = aufg.feld;
+    var x = Math.floor((p.x - RAND) / Z) + 1, y = f.rows - Math.floor((p.y - 2) / Z);
+    if (x < 1 || y < 1 || x > f.cols || y > f.rows) return;
+    if (f.hindernisse.some(function (h) { return h[0] === x && h[1] === y; })) return;
+    vorhersage().feld = [x, y];
+    meldungVerbergen();
+    renderVorhersage();
+  }
+  // Nach dem ersten Lauf: Vorhersage mit dem Ende des Programms aus der Aufgabe vergleichen.
+  function vorhersageVergleichen() {
+    var v = aufg.vorhersage && vorhersage();
+    if (!v || !v.feld || v.verglichen) return;
+    v.verglichen = true;
+    var e = erwartetesEnde();
+    if (v.feld[0] === e[0] && v.feld[1] === e[1] && !beantwortet[aufg.id + "/vorhersage"]) {
+      beantwortet[aufg.id + "/vorhersage"] = 1;
+      speichereFragen();
+      tabsAktualisieren();
+    }
+    renderVorhersage();
+  }
+  function zuerstVorhersagen() {
+    var k = el("button", "bk-knopf", "Ohne Vorhersage starten");
+    k.type = "button";
+    k.addEventListener("click", ohneVorhersage);
+    meldungZeigen("fehler", "Zuerst vorhersagen", "Tippen Sie im Käfer-Feld auf das Feld, wo der Käfer am Schluss steht. Danach starten Sie und vergleichen.", k);
+    $("vorhersageBox").scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+  function ohneVorhersage() {
+    vorhersage().ohne = true;
+    meldungVerbergen();
+    renderVorhersage();
+  }
+  $("vorhersageOhne").addEventListener("click", ohneVorhersage);
 
   // Nach richtig beantworteter Reflexion: welche Denkfiguren entscheidend waren und weshalb.
   function entscheidendZeigen() {
@@ -610,7 +732,9 @@
       rueck.append(el("strong", null, "Richtig. "), document.createTextNode(aufg[art].erklaerung || ""));
       if (art === "frage") entscheidendZeigen();
     } else if (art === "strategie") {
-      rueck.append(el("strong", null, "Noch nicht. "), document.createTextNode("Lesen Sie die Aufgabe nochmals. Wenn Sie nicht weiterkommen: «Hinweis anzeigen»."));
+      rueck.append(el("strong", null, "Noch nicht. "), document.createTextNode("Überlegen Sie nochmals; «Hinweis anzeigen» hilft weiter."));
+    } else if (aufg[art].typ === "zahl") {
+      rueck.append(el("strong", null, "Noch nicht. "), document.createTextNode("Rechnen Sie nochmals nach, am besten mit Ihrem Programm vor Augen."));
     } else {
       rueck.append(el("strong", null, "Noch nicht. "),
         document.createTextNode(ab && !reihe.denkfiguren ? "Lesen Sie nochmals, was «" + ab.a.titel + "» heisst: " + ab.a.text
@@ -620,22 +744,10 @@
 
   ["strategie", "frage"].forEach(function (art) {
     if (!$(art + "Knopf")) return;
+    // nur für Zahl-Fragen sichtbar; Auswahlfragen antworten per Klick auf einen Knopf
     $(art + "Knopf").addEventListener("click", function () {
-      var gewaehlt = $(art + "Antworten").querySelector("input:checked");
-      if (!gewaehlt) {
-        var rueck = $(art + "Rueck");
-        rueck.hidden = false;
-        rueck.className = "bk-frage-rueck";
-        rueck.textContent = "Wählen Sie zuerst eine Antwort.";
-        return;
-      }
-      var richtig = E.frageRichtig(aufg, Number(gewaehlt.value), art);
-      if (richtig && !beantwortet[frageSchluessel(art)]) {
-        beantwortet[frageSchluessel(art)] = 1;
-        speichereFragen();
-        tabsAktualisieren();
-      }
-      frageRueckmeldung(art, richtig);
+      var inp = $(art + "Antworten").querySelector("input");
+      if (inp) antworten(art, inp.value);
     });
   });
 
@@ -1549,11 +1661,13 @@
     feldBox.textContent = "";
     feldBox.append(svg);
     feldRef = {
-      svg: svg, spurFlaechen: spurFlaechen, spurLinien: spurLinien, marken: marken, kaefer: k, bild: bildGruppe, nebel: nebel, rasen: rasen,
+      svg: svg, spurFlaechen: spurFlaechen, spurLinien: spurLinien, marken: marken, kaefer: k, bild: bildGruppe, nebel: nebel, rasen: rasen, ziel: ziel,
       welt: welt, achseX: achseX, achseY: achseY, rahmen: rahmen, rahmenX: rahmenX, rahmenY: rahmenY,
       W: W, H: H, kamera: f.cols > KAMERA_AB || f.rows > KAMERA_AB, kameraAn: false
     };
     if (feldRef.kamera) kameraVorbereiten(svg);
+    svg.addEventListener("click", vorhersageWaehlen);
+    if (aufg.vorhersage) renderVorhersage();
     $("nebelSchalter").hidden = !f.karte;
 
     var info = "Feld " + f.cols + " × " + f.rows + ". Start: Spalte " + f.start[0] + ", Zeile " + f.start[1] +
@@ -1775,6 +1889,7 @@
 
   function simBereit() {
     if (sim.lauf) return true;
+    if (vorhersageWartet()) { zuerstVorhersagen(); return false; }
     if (!prog.length) { meldungZeigen("fehler", null, E.TEXTE.leer); return false; }
     if (arbeit.querySelector(".bk-n.ungueltig")) {
       meldungZeigen("fehler", null, "Bitte geben Sie bei «wiederhole» eine ganze Zahl von 1 bis " + E.MAX_WIEDERHOLUNG + " ein.");
@@ -1850,6 +1965,7 @@
     var alleBefahren = aufg.ziel.alleWege && l && l.ok && !E.ZIELTYPEN.besucht(aufg.ziel, l);
     if (l && l.ok && (alleBefahren || (zf && l.end[0] === zf[0] && l.end[1] === zf[1]))) { nebelOffen = true; nebelSetzen(); }
     bewerten(mehrereLayouts() ? pruefenAlle() : E.pruefe(aufg, prog));
+    vorhersageVergleichen();
   }
 
   function bewerten(res) {
@@ -1892,6 +2008,7 @@
 
   $("knopfAlle").addEventListener("click", function () {
     if (sim.laeuft) pause();
+    if (vorhersageWartet()) { zuerstVorhersagen(); return; }
     if (!prog.length) { meldungZeigen("fehler", null, E.TEXTE.leer); return; }
     if (arbeit.querySelector(".bk-n.ungueltig")) {
       meldungZeigen("fehler", null, "Bitte geben Sie bei «wiederhole» eine ganze Zahl von 1 bis " + E.MAX_WIEDERHOLUNG + " ein.");

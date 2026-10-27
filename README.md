@@ -99,8 +99,15 @@ der Reflexion nur die Begründung. Das Cockpit zeigt dieselben Blumen, verborgen
   Antwort nennt, was die Lösung gezeigt hat, z. B. das gefundene Muster). In Reihen mit
   `denkfiguren` dazu `denkfiguren: [{id, warum}]`: Nach der Reflexion erscheint, welche
   Denkfiguren entscheidend waren und weshalb. Beide Fragen: `{text, antworten: [...],
-  richtig, erklaerung}`. `richtig` ist ein Schlüssel aus `frageSchluessel(id, Nummer)` bzw.
-  `frageSchluessel(id + "/strategie", Nummer)` (engine.js), keine Klartext-Antwort.
+  richtig, erklaerung}`, die Antworten erscheinen als kompakte Knöpfe (ein Klick ist die
+  Antwort); oder als Zahl-Frage `{typ: "zahl", text, richtig, erklaerung}` mit Eingabefeld (z. B.
+  «Welche Zahl gehört bei 8 Bahnen in den Kopf der Wiederholung?»). `richtig` ist ein Schlüssel
+  aus `frageSchluessel(id, Nummer bzw. Zahl)` oder `frageSchluessel(id + "/strategie", Nummer)`
+  (engine.js), keine Klartext-Antwort.
+- `vorhersage: {text, feld?}` statt `strategie`: Vor dem ersten Start tippen die Lernenden auf
+  das Feld, wo der Käfer endet; bis dahin sind Flagge und markierte Felder verborgen, und Start
+  verlangt zuerst die Vorhersage (oder «Ohne Vorhersage starten»). Nach dem ersten Lauf kommt der
+  Vergleich mit dem Ende des Programms aus der Aufgabe (`feld` oder berechnet aus `startprogramm`).
 - `code`: Programmtext, der unter dem Aufgabentext mit Zeilen und Einrückung erscheint (z. B.
   «Vom Code zum Struktogramm»).
 - Unter dem Struktogramm zeigt «Als Code anzeigen» dasselbe Programm als Python-ähnlichen Code
@@ -152,14 +159,14 @@ Handregeln jeweils mindestens einmal, dazu zehn Zufallslabyrinthe mit Inseln).
 Die Reihen «Algorithmen» (`aufgaben/algorithmen.json`) und «Computational Thinking»
 (`aufgaben/ct.json`) begleiten zwei Papier-Dossiers: Zuerst wird eine Lektion lang auf Papier
 gearbeitet, in der nächsten Lektion folgen dieselben Felder in Kara. Die Aufgabentexte in Kara
-verweisen nicht aufs Dossier: Beides lässt sich unabhängig voneinander lösen. «Algorithmen» ist in die
-Bausteine und die fünf Anforderungen gegliedert (`abschnitte`): Beschreiben (Zum Ziel, Das Quadrat,
-Hindernisse umgehen, Bis zur Wand, ★ Die Treppe, ★ Vom Code zum Struktogramm; die ersten sind
-Kopien der Grundlagen mit eigenen IDs `alg-…`, die Reihe «Käfer-Grundlagen» bleibt unverändert,
-weil sie auch in einem anderen Fach genutzt wird), ausführbar («Nur rechts», ★ Nur links),
-eindeutig («Biege ab», «Bei der Kreuzung»: eine vage Wegbeschreibung passt auf vier Wege),
-allgemein («Drei Räume», ★ Vorne rechts mit wechselnder Blickrichtung, ★ Treppen jeder Grösse),
-endlich («Hört nie auf», ★ Gleich weit) und korrekt («Den Fehler finden», «Räume, die Sie nicht
+verweisen nicht aufs Dossier: Beides lässt sich unabhängig voneinander lösen. «Algorithmen» ist nach den fünf
+Anforderungen gegliedert (`abschnitte`), davor ein kurzer Einstieg ohne Fragen (Zum Ziel, Das
+Quadrat; Kopien der Grundlagen mit eigenen IDs `alg-…`, die Reihe «Käfer-Grundlagen» bleibt
+unverändert, weil sie auch in einem anderen Fach genutzt wird): ausführbar («Nur rechts», ★ Nur
+links), eindeutig («Biege ab», «Bei der Kreuzung»: eine vage Wegbeschreibung passt auf vier Wege,
+★ Vom Code zum Struktogramm), allgemein («Bis zur Wand», «Drei Räume», ★ Vorne rechts mit
+wechselnder Blickrichtung, ★ Treppen jeder Grösse), endlich («Hört nie auf», ★ Gleich weit) und
+korrekt («Hindernisse umgehen» und «Den Fehler finden» mit Vorhersage, «Räume, die Sie nicht
 sehen» mit verdeckten Sonderfällen, ★ Räume mit Säulen).
 
 «Computational Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`). Die Aufgaben steigen
@@ -225,7 +232,7 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | `kara.baukasten.prog.v1` | Stand der Bausteine je Aufgabe; «Alles löschen» leert ihn |
 | `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
 | `kara.baukasten.nebel.v2` | Nebel ein/aus, je Aufgabe (nur wenn selbst umgeschaltet) |
-| `kara.baukasten.fragen.v1` | richtig beantwortete Fragen (`{aufgabenId: 1}` für die Reflexion, `{"aufgabenId/strategie": 1}` für die Vorher-Frage) |
+| `kara.baukasten.fragen.v1` | richtig beantwortete Fragen (`{aufgabenId: 1}` für die Reflexion, `{"aufgabenId/strategie": 1}` für die Vorher-Frage, `{"aufgabenId/vorhersage": 1}` für eine richtige Vorhersage) |
 | `kara.challenges.v1` | eigene und übernommene Challenges |
 | `kara.editor.entwurf.v1` | Entwurf im Editor |
 | `kara.zaehler.aus` | Statistik für diesen Browser abgeschaltet (`?zaehler=aus`) |
