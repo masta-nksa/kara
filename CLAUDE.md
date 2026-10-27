@@ -106,5 +106,8 @@ ist nach den fünf Anforderungen gegliedert (je eigene Blume), jede beginnt mit 
 (vorgegebenes Programm verletzt die Anforderung, «Welche Anforderung verletzt …?», reparieren); «Als
 Code anzeigen» unter dem Struktogramm. Fragen: Auswahl als kompakte Knöpfe, Zahl-Fragen zum
 Übertragen, Vorhersage am Feld (Hindernisse umgehen, Den Fehler finden, Vom Code zum
-Struktogramm). «Die Treppe» und «Das Quadrat» sind entfallen. Die Lehrperson rechnet mit fünf Anforderungen
+Struktogramm). «Die Treppe» und «Das Quadrat» sind entfallen. Seit 27.10.2026: Je Anforderung Gegenbeispiel und
+mindestens eine Pflichtaufgabe (bei «endlich» neu «Eine Runde»); Name und Erklärung der Anforderung
+erst nach diesen beiden (`freischalten: 2`). «Start» bewertet nur das angezeigte Feld, gelöst wird
+mit «Alle prüfen». Die Lehrperson rechnet mit fünf Anforderungen
 (mit Korrektheit); L1-Dossier und Algorithmus-Check in `checks` nennen noch vier.

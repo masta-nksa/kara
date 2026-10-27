@@ -66,6 +66,10 @@ wenn eine Aufgabe, in der diese Denkfigur entscheidend war, gelöst und reflekti
 Denkfiguren sind anfangs verborgen («?»): Name und Erklärung erscheinen erst, wenn zwei solche
 Aufgaben gelöst und reflektiert sind (`FREISCHALTEN` in app.js); vorher nennt die Rückmeldung nach
 der Reflexion nur die Begründung. Das Cockpit zeigt dieselben Blumen, verborgene ohne Namen.
+Mit `freischalten: n` (Algorithmen: 2) sind auch Abschnitte anfangs verborgen: Name, Etikett und
+Erklärung erscheinen erst, wenn die ersten n Pflichtaufgaben des Abschnitts (Gegenbeispiel und erste
+Aufgabe) gelöst und ihre Vorher-Frage und Reflexion beantwortet sind. Der Seitentitel ist der Titel
+der Reihe.
 
 ## Aufgaben (`baukasten/aufgaben/*.json`)
 

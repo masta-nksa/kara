@@ -97,6 +97,7 @@
 .bk-denkfigur-blume.verborgen{font-style:italic}
 .bk-denkfigur-blume.verborgen .kb-blatt:not(.voll){stroke-dasharray:3 3}
 .bk-theorie p.verborgen{color:var(--ink-soft);font-style:italic}
+.bk-abschnitt-name .verborgen{font-style:italic;color:var(--ink-soft)}
 
 /* Kopf der Aufgabenkarte: Ort, Titel, Zurück/Weiter */
 .bk-kartenkopf{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap;margin-bottom:6px}

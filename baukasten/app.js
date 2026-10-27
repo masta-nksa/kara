@@ -336,6 +336,8 @@
     if (!reihe || !aufg) return;
     // Kopf: nur die eigene Reihe. Andere Reihen sind hier nicht verlinkt, jede Reihe steht für sich
     // (Einstieg über die Übersicht).
+    if ($("seitenTitel")) $("seitenTitel").textContent = reihe.titel;
+    document.title = reihe.titel + " · Kara";
     var box = $("einheiten");
     box.textContent = "";
     var s = stand(reihe), t = el("div", "bk-einheit-titel");
@@ -356,9 +358,10 @@
       if (g.x) {
         var bl = blaetter(g.liste);
         if (window.KaraBlume && !reihe.denkfiguren) name.append(window.KaraBlume.blume(bl.pflicht, bl.zusatz, g.nr, 22));
-        name.append(el("span", null, g.x.titel));
+        var as = abschnittStand(g.x);
+        name.append(el("span", as.frei ? null : "verborgen", as.frei ? g.x.titel : "?"));
         var nb = bl.pflicht.filter(Boolean).length;
-        name.title = g.x.titel + ": " + nb + " von " + bl.pflicht.length + " erledigt";
+        name.title = as.frei ? g.x.titel + ": " + nb + " von " + bl.pflicht.length + " erledigt" : verborgenText(as);
       }
       var halte = el("div", "bk-halte");
       g.liste.forEach(function (a) {
@@ -410,9 +413,10 @@
         th.dataset.reihe = reihe.id;
         th.open = !aufgaben.some(function (a) { return geloest[a.id] || beantwortet[a.id]; });
       }
-      var frei = reihe.denkfiguren ? begriffe.filter(function (x) { return denkfigurStand(x).frei; }).length : begriffe.length;
+      var istFrei = function (x) { return reihe.denkfiguren ? denkfigurStand(x).frei : abschnittStand(x).frei; };
+      var frei = begriffe.filter(istFrei).length;
       $("theorieTitel").textContent = (reihe.denkfigurenTitel || reihe.abschnitteTitel || "Abschnitte") +
-        (reihe.denkfiguren ? " (" + frei + " von " + begriffe.length + " freigeschaltet)" : "");
+        (reihe.denkfiguren || reihe.freischalten ? " (" + frei + " von " + begriffe.length + " freigeschaltet)" : "");
       var tx = $("theorieText");
       tx.textContent = "";
       begriffe.forEach(function (x, k) {
@@ -420,13 +424,55 @@
         if (reihe.denkfiguren && !denkfigurStand(x).frei) {
           p.className += " verborgen";
           p.append(el("b", null, "? "), document.createTextNode("Noch verborgen. Lösen und reflektieren Sie weitere Aufgaben, dann erscheint hier eine weitere Denkfigur."));
+        } else if (!reihe.denkfiguren && !abschnittStand(x).frei) {
+          p.className += " verborgen";
+          p.append(el("b", null, "? "), document.createTextNode("Noch verborgen. " + verborgenText(abschnittStand(x)) + "."));
         } else p.append(el("b", null, x.titel + ": "), document.createTextNode(x.text || ""));
         tx.append(p);
       });
     }
+    neuFreiMelden();
     navigationAktualisieren();
   }
   function tabsAktualisieren() { pfadZeigen(); }
+
+  // Abschnitte mit «freischalten» (Algorithmen): Name und Erklärung erst, wenn die ersten Pflichtaufgaben
+  // (Gegenbeispiel und erste Aufgabe) gelöst und ihre Fragen beantwortet sind.
+  function erledigt(a) {
+    return !!geloest[a.id] && (!a.strategie || !!beantwortet[a.id + "/strategie"]) && (!a.frage || !!beantwortet[a.id]);
+  }
+  function abschnittStand(x) {
+    var pf = aufgaben.filter(function (a) { return a.abschnitt === x.id && !a.zusatz; }).slice(0, reihe.freischalten || 0);
+    var n = pf.filter(erledigt).length;
+    return { n: n, von: pf.length, frei: n === pf.length };
+  }
+  function verborgenText(st) {
+    return "Lösen Sie das Gegenbeispiel und die erste Aufgabe dazu, mit allen Fragen (" + st.n + " von " + st.von + " erledigt)";
+  }
+  function ortSetzen() {
+    var abA = abschnittVon(aufg);
+    $("aufgabeOrt").textContent = reihe.titel + (abA && abschnittStand(abA.a).frei ? " · " + abA.a.titel : "") + " · " + (aktuell + 1) + " von " + aufgaben.length;
+  }
+  var freiBekannt = null;
+  function neuFreiMelden() {
+    var ab = !reihe.denkfiguren && reihe.freischalten && abschnitte();
+    if (!ab) { freiBekannt = null; return; }
+    var jetzt = {}, neu = [];
+    ab.forEach(function (x) { if (abschnittStand(x).frei) jetzt[x.id] = true; });
+    if (freiBekannt && freiBekannt.reihe === reihe.id) {
+      ab.forEach(function (x) { if (jetzt[x.id] && !freiBekannt.frei[x.id]) neu.push(x); });
+    }
+    freiBekannt = { reihe: reihe.id, frei: jetzt };
+    if (!neu.length) return;
+    renderDenkfigur();
+    ortSetzen();
+    $("theorie").open = true;
+    // Erst nach der laufenden Meldung bzw. Rückmeldung zur Frage anhängen, die den Kasten neu füllen.
+    setTimeout(function () {
+      var ziel = !$("frageBox").hidden && !$("frageRueck").hidden ? $("frageRueck") : meldungBox;
+      if (!ziel.hidden) ziel.append(el("span", "bk-neu", "Neu freigeschaltet: «" + neu[0].titel + "». Die Erklärung steht oben."));
+    }, 0);
+  }
 
   // Denkfiguren (CT): Wie viele Aufgaben, in denen sie entscheidend war, sind gelöst und reflektiert?
   // Ab FREISCHALTEN solchen Aufgaben ist sie freigeschaltet (Name und Erklärung sichtbar).
@@ -517,8 +563,7 @@
     auswahl = null;
     fokusZiel = null;
 
-    var abA = abschnittVon(aufg);
-    $("aufgabeOrt").textContent = reihe.titel + (abA ? " · " + abA.a.titel : "") + " · " + (aktuell + 1) + " von " + aufgaben.length;
+    ortSetzen();
     $("aufgabeName").textContent = aufg.titel;
     $("aufgabeText").textContent = aufg.text;
     // Code zur Aufgabe (z. B. «Vom Code zum Struktogramm»), mit Zeilen und Einrückung
@@ -557,7 +602,10 @@
     var ab = abschnittVon(aufg), box = $("etiketten");
     if (!box) return;
     box.textContent = "";
-    if (ab) box.append(el("span", "bk-etikett kb-farbe" + (ab.nr % 6), ab.a.etikett || "Denkfigur: " + ab.a.titel));
+    if (ab) {
+      var etikett = ab.a.etikett || "Denkfigur: " + ab.a.titel;
+      box.append(el("span", "bk-etikett kb-farbe" + (ab.nr % 6), abschnittStand(ab.a).frei ? etikett : etikett.split(":")[0] + ": ?"));
+    }
     if (aufg.gegenbeispiel) box.append(el("span", "bk-etikett gegenbeispiel", "✗ Gegenbeispiel"));
     if (aufg.zusatz) box.append(el("span", "bk-etikett zusatz", "★ Zusatzaufgabe"));
     box.hidden = !box.childNodes.length;

@@ -799,6 +799,128 @@
       "gegenbeispiel": true
     },
     {
+      "id": "alg-runde",
+      "titel": "8 · Eine Runde",
+      "stufe": "endlich",
+      "abschnitt": "endlich",
+      "text": "Der Käfer soll einmal ganz am Rand entlang um den Garten gehen, dabei alle markierten Felder besuchen und auf dem Startfeld anhalten. Danach muss das Programm aufhören. Höchstens 5 Bausteine.",
+      "denkfigur": "Eine Wiederholung braucht ein sicheres Ende. «solange Feld vorne frei» endet an der Wand. Aber was beendet die Runde?",
+      "feld": {
+        "cols": 6,
+        "rows": 4,
+        "start": [
+          1,
+          1
+        ],
+        "blick": "N",
+        "hindernisse": []
+      },
+      "palette": {
+        "befehle": [
+          "vor",
+          "rechts",
+          "links"
+        ],
+        "wiederholung": true,
+        "solange": [
+          "frei"
+        ],
+        "verzweigung": false
+      },
+      "maxBloecke": 5,
+      "kleinsteLoesung": 4,
+      "ziel": {
+        "typ": "besucht",
+        "felder": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            1
+          ],
+          [
+            4,
+            1
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            6,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            4
+          ],
+          [
+            3,
+            4
+          ],
+          [
+            4,
+            4
+          ],
+          [
+            5,
+            4
+          ],
+          [
+            6,
+            4
+          ]
+        ],
+        "endfeld": [
+          1,
+          1
+        ]
+      },
+      "hinweis": "Bis zur Wand gehen, dann drehen. Wie oft kommt das in einer Runde vor?",
+      "strategie": {
+        "text": "Woran erkennt das Programm, dass die Runde fertig ist?",
+        "antworten": [
+          "Gar nicht nötig: Der Käfer hält von selbst, wenn er wieder am Start ist.",
+          "An der Zahl der Ecken: Eine Runde hat 4 Ecken.",
+          "Sobald das Feld vorne frei ist."
+        ],
+        "richtig": "2ce71495",
+        "erklaerung": "Der Käfer weiss nicht, wo er gestartet ist. Eine feste Anzahl Durchläufe sorgt sicher für ein Ende."
+      },
+      "frage": {
+        "typ": "zahl",
+        "text": "Ihr Programm läuft in einem viel grösseren Garten mit 20 × 15 Feldern. Wie oft läuft der Käfer dort bis zu einer Wand?",
+        "richtig": "1f709519",
+        "erklaerung": "Genau. Egal wie gross der Garten ist: 4 Ecken, 4 Wände, dann ist Schluss. So bleibt der Algorithmus endlich."
+      }
+    },
+    {
       "id": "alg-zaehler",
       "titel": "★ Gleich weit",
       "stufe": "Zusatz · endlich",
@@ -876,7 +998,7 @@
     },
     {
       "id": "alg-unbekannt",
-      "titel": "8 · Gegenbeispiel: Scheinbar richtig",
+      "titel": "9 · Gegenbeispiel: Scheinbar richtig",
       "stufe": "Gegenbeispiel · korrekt",
       "abschnitt": "korrekt",
       "text": "Dieses Programm bringt den Käfer in beiden sichtbaren Räumen in die Ecke oben links. Prüfen Sie mit «Alle prüfen»: Geprüft wird in sechs Räumen. Finden Sie heraus, wo und warum es scheitert, und machen Sie es korrekt. Höchstens 8 Bausteine.",
@@ -1008,7 +1130,7 @@
     },
     {
       "id": "alg-hindernis",
-      "titel": "9 · Hindernisse umgehen",
+      "titel": "10 · Hindernisse umgehen",
       "stufe": "korrekt",
       "abschnitt": "korrekt",
       "text": "Wiederholen Sie 10-mal: Ist das Feld vorne frei, geht der Käfer vorwärts, sonst dreht er sich nach rechts. Bauen Sie das Programm und prüfen Sie Ihre Vorhersage. Höchstens 4 Bausteine.",
@@ -1075,7 +1197,7 @@
     },
     {
       "id": "alg-fehler",
-      "titel": "10 · Den Fehler finden",
+      "titel": "11 · Den Fehler finden",
       "stufe": "Testen",
       "abschnitt": "korrekt",
       "text": "Dieses Struktogramm sollte den Rand des markierten Quadrats ablaufen und wieder auf dem Startfeld enden, tut es aber nicht. Finden und beheben Sie den Fehler.",
