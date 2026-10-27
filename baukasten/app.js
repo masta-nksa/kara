@@ -1460,7 +1460,7 @@
     }
 
     var spurFlaechen = svgEl("g"), ziel = svgEl("g"), spurLinien = svgEl("g"), hind = svgEl("g"), marken = svgEl("g");
-    // Ziel «alle Felder befahren» (Rasenmäher): jedes Feld ist Rasen; befahrene Felder sind gemäht.
+    // Ziel «alle Felder befahren» (MähTrix): jedes Feld ist Rasen; befahrene Felder sind gemäht.
     var rasen = null;
     if (z.alleWege) {
       rasen = {};

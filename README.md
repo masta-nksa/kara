@@ -108,7 +108,7 @@ der Reflexion nur die Begründung. Das Cockpit zeigt dieselben Blumen, verborgen
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
 - `kleinsteLoesung`: Anzahl Bausteine der kleinsten bekannten Lösung; erscheint erst nach dem
   Lösen. Die Bausteinlimits lassen bewusst auch weniger kompakte Lösungen zu.
-- Ziel `{"typ": "alleWege"}`: Der Käfer muss jedes Feld ohne Mauer befahren (Rasenmäher). Gilt
+- Ziel `{"typ": "alleWege"}`: Der Käfer muss jedes Feld ohne Mauer befahren (MähTrix). Gilt
   auch für `layouts` und `verdeckt`; die Karten brauchen dann kein `Z`. Das Feld zeigt dann Rasen:
   hohes Gras wiegt sich leicht (nicht bei «Bewegung reduzieren»), befahrene Felder werden kurz
   gemäht; «Zurücksetzen» lässt das Gras wieder wachsen. Der Rasen liegt unter dem Nebel.
@@ -162,7 +162,7 @@ allgemein («Drei Räume», ★ Vorne rechts mit wechselnder Blickrichtung, ★ 
 endlich («Hört nie auf», ★ Gleich weit) und korrekt («Den Fehler finden», «Räume, die Sie nicht
 sehen» mit verdeckten Sonderfällen, ★ Räume mit Säulen).
 
-«Computational Thinking» macht den Käfer zum Rasenmäher (Ziel `alleWege`). Die Aufgaben steigen
+«Computational Thinking» macht den Käfer zu MähTrix, dem Mähroboter (Ziel `alleWege`). Die Aufgaben steigen
 an: einfach (kleiner Rasen, zwei gleiche Rasenstücke, um den Teich), mittel (Bahn und Wende mit
 4 Bahnen und Tor, sodass «Bahn, Wende rechts, Bahn, Wende links» ohne Rest aufgeht, drei Gärten,
 Mähen im Nebel, ★ Teiche jeder Grösse) und anspruchsvoll (unbekannte Gärten mit Sonderfällen,
