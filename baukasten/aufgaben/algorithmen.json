@@ -323,6 +323,9 @@
       "zusatz": true,
       "text": "Dieses Programm ist als Code geschrieben: eindeutig, anders als eine Beschreibung in Worten. Bauen Sie es als Struktogramm nach. Der Käfer soll genau den markierten Weg laufen. Höchstens 5 Bausteine.",
       "code": "while vorne_frei():\n    vor()\nlinks()\nfor i in range(2):\n    vor()",
+      "bild": "schleife",
+      "bildCode": "for i in range(2):    # i zählt die Runden: zuerst 0, dann 1\n    vor()             # eingerückt: gehört zur Schleife",
+      "bildText": "Der Wagen fährt Runde um Runde. Vor jeder Runde wird geprüft: `i < 2`? Wenn ja, fährt er eine Runde, und `i` wird um 1 grösser. Bei `i = 2` geht die Schranke auf, und das Programm macht nach der Schleife weiter.",
       "denkfigur": "«while vorne_frei():» ist «wiederhole solange Feld vorne frei», «for i in range(2):» ist «wiederhole 2-mal». Was eingerückt darunter steht, gehört in den Rumpf.",
       "feld": {
         "cols": 6,
@@ -942,7 +945,7 @@
       "zusatz": true,
       "text": "Der Käfer läuft nach oben bis zur Wand und zählt dabei seine Schritte. Dann dreht er nach rechts und geht genau gleich viele Schritte weiter. Dort steht die Flagge. Der Zähler ist eine Variable. Stellen Sie sich eine Kiste mit der Aufschrift «Zähler» vor: Darin liegt eine Zahl, und dieser Inhalt kann sich immer wieder ändern. So merkt sich der Käfer, wie weit er gegangen ist.",
       "bild": "variable",
-      "bildText": "`zaehler = 3` heisst: Die Zahl 3 kommt in die Kiste «Zähler». Ein neuer Wert ersetzt den alten, zum Beispiel bei `zaehler = zaehler + 1`.",
+      "bildCode": "zaehler = 3              # Die Zahl 3 kommt in die Kiste «Zähler».\nzaehler = zaehler + 1    # Ein neuer Wert wird berechnet (3 + 1)\n                         # und ersetzt den alten: jetzt 4.",
       "denkfigur": "Damit «solange Zähler ≠ 0» endet, muss der Zähler in jedem Durchlauf kleiner werden.",
       "layouts": [
         {

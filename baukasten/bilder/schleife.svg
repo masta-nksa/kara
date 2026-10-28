@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 235" role="img" aria-labelledby="bsTitel">
+  <title id="bsTitel">Ein Wagen mit der Aufschrift «i = 1» fährt auf einem Rundkurs. Bei der Ausfahrt steht eine Flagge «i &lt; 2?» und eine Schranke.</title>
+  <!-- Rundkurs: Schwellen und zwei Schienen -->
+  <path class="bs-schwelle" d="M333.0 165.0 L297.0 165.0 M330.6 173.7 L295.1 170.2 M323.5 182.1 L289.6 175.3 M311.8 190.0 L280.7 180.0 M296.0 197.1 L268.5 184.3 M276.6 203.3 L253.4 188.0 M254.0 208.3 L236.0 191.0 M229.0 212.0 L216.7 193.2 M202.4 214.2 L196.2 194.5 M175.0 215.0 L175.0 195.0 M147.6 214.2 L153.8 194.5 M121.0 212.0 L133.3 193.2 M96.0 208.3 L114.0 191.0 M73.4 203.3 L96.6 188.0 M54.0 197.1 L81.5 184.3 M38.2 190.0 L69.3 180.0 M26.5 182.1 L60.4 175.3 M19.4 173.7 L54.9 170.2 M17.0 165.0 L53.0 165.0 M19.4 156.3 L54.9 159.8 M26.5 147.9 L60.4 154.7 M38.2 140.0 L69.3 150.0 M54.0 132.9 L81.5 145.7 M73.4 126.7 L96.6 142.0 M96.0 121.7 L114.0 139.0 M121.0 118.0 L133.3 136.8 M147.6 115.8 L153.8 135.5 M175.0 115.0 L175.0 135.0 M202.4 115.8 L196.2 135.5 M229.0 118.0 L216.7 136.8 M254.0 121.7 L236.0 139.0 M276.6 126.7 L253.4 142.0 M296.0 132.9 L268.5 145.7 M311.8 140.0 L280.7 150.0 M323.5 147.9 L289.6 154.7 M330.6 156.3 L295.1 159.8"/>
+  <ellipse class="bs-schiene" cx="175" cy="165" rx="150" ry="46"/>
+  <ellipse class="bs-schiene" cx="175" cy="165" rx="130" ry="34"/>
+  <!-- Ausfahrt mit Schranke -->
+  <path class="bs-schwelle" d="M296.0 208.0 L314.0 186.0 M313.0 217.0 L331.0 195.0 M330.0 226.0 L348.0 204.0 M347.0 235.0 L365.0 213.0"/>
+  <path class="bs-schiene" d="M296 205 L366 240 M308 190 L384 228"/>
+  <path class="bs-pfosten" d="M292 186 V214 M362 186 V214"/>
+  <rect class="bs-weiss" x="292" y="186" width="10" height="9"/><rect class="bs-rot" x="302" y="186" width="10" height="9"/><rect class="bs-weiss" x="312" y="186" width="10" height="9"/><rect class="bs-rot" x="322" y="186" width="10" height="9"/><rect class="bs-weiss" x="332" y="186" width="10" height="9"/><rect class="bs-rot" x="342" y="186" width="10" height="9"/><rect class="bs-weiss" x="352" y="186" width="10" height="9"/>
+  <rect class="bs-rahmen" x="292" y="186" width="70" height="9"/>
+  <!-- Flagge mit Bedingung -->
+  <path class="bs-pfosten" d="M362 214 V92"/>
+  <path class="bs-flagge" d="M360 96 C340 90 318 102 296 96 L298 134 C320 140 342 128 360 134 Z"/>
+  <text class="bs-flaggentext" x="329" y="121" text-anchor="middle">i &lt; 2?</text>
+  <!-- Käfer im Wagen -->
+  <g class="bs-kaefer">
+    <path class="bs-fuehler" d="M181 58 L174 46 M189 58 L196 46"/>
+    <ellipse class="bs-koerper" cx="185" cy="70" rx="15" ry="13"/>
+    <path class="bs-naht" d="M185 59 V82"/>
+  </g>
+  <!-- Wagen -->
+  <path class="bs-wagen" d="M135 76 H235 L224 128 H146 Z"/>
+  <circle class="bs-rad" cx="160" cy="132" r="11"/>
+  <circle class="bs-rad" cx="210" cy="132" r="11"/>
+  <text class="bs-wagentext" x="185" y="113" text-anchor="middle">i = 1</text>
+  <!-- Fahrtrichtung -->
+  <path class="bs-spur" d="M120 70 C95 74 75 84 60 98 M112 88 C96 92 84 98 74 106"/>
+</svg>
