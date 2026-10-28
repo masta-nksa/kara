@@ -615,7 +615,8 @@
   function navigationAktualisieren() {
     var n = naechsteIndex(), nr = naechsteReihe();
     var fw = $("frageWeiter");
-    fw.hidden = n < 0 && !nr;
+    // Mit Reflexion (3. Schritt) erst sichtbar, wenn sie richtig beantwortet ist.
+    fw.hidden = (n < 0 && !nr) || reflexionOffen();
     fw.textContent = n < 0 && nr ? "Nächste Reihe" : "Nächste Aufgabe";
   }
   // Weiter geht es nach dem Lösen (Erfolgsmeldung bzw. Reflexion) oder über die Stationen im Pfad.

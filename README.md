@@ -51,7 +51,8 @@ Der Baukasten zeigt oben einen schmalen Lernpfad wie im Turtle-Kurs: Titel und S
 darunter die Aufgaben als Stationen auf einer Linie (✓ gelöst, Ring = aktuelle Aufgabe,
 ★ Zusatzaufgabe etwas erhöht und gestrichelt; Titel beim Darüberfahren). Auf dem Handy lassen sich
 die Stationen waagrecht wischen. Die Aufgabenkarte nennt den Ort («Reihe · Abschnitt · 2 von 10»);
-weiter geht es über die Stationen oder nach dem Lösen mit «Nächste Aufgabe». Andere Reihen sind im
+weiter geht es über die Stationen oder nach dem Lösen mit «Nächste Aufgabe» (mit Reflexion erst sichtbar,
+wenn sie richtig beantwortet ist). Andere Reihen sind im
 Baukasten bewusst nicht verlinkt: Jede Reihe steht für sich und wird über die Übersicht geöffnet.
 Der Baukasten hat auch keinen Link zurück zur Übersicht.
 
