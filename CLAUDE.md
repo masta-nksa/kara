@@ -98,7 +98,7 @@ geordnet (einfach, mittel, anspruchsvoll); welche Denkfiguren entscheidend waren
 nach Lösung und Reflexion (Blume je Denkfigur); Name und Erklärung einer Denkfigur werden erst nach
 zwei gelösten und reflektierten Aufgaben dazu freigeschaltet (je Denkfigur 2–3 Pflichtaufgaben).
 Navigation wie im Turtle-Kurs: Aufgaben als Stationen; kein Zurück/Weiter in der Karte, weiter geht es
-über die Stationen oder nach dem Lösen mit «Nächste Aufgabe»; andere
+über die Stationen oder nach dem Lösen mit «Nächste Aufgabe» (erst nach der Reflexion sichtbar); andere
 Reihen sind im Baukasten nicht verlinkt (jede Reihe für sich, Einstieg über die Übersicht, kein Link
 zurück). Unten «Daten dieses Levels löschen»; Dreifachklick auf eine Blume löst alle Aufgaben dazu.
 Reflexionsfragen so formulieren, dass verschiedene Lösungswege passen (z. B. Bahnen oder Spirale).

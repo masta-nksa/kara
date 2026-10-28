@@ -819,7 +819,7 @@
       "titel": "8 · Eine Runde",
       "stufe": "endlich",
       "abschnitt": "endlich",
-      "text": "Der Käfer soll einmal ganz am Rand entlang um den Garten gehen, dabei alle markierten Felder besuchen und auf dem Startfeld anhalten. Danach muss das Programm aufhören. Höchstens 5 Bausteine.",
+      "text": "Der Käfer soll einmal ganz am Rand entlang um den Garten gehen, dabei alle markierten Felder besuchen und auf dem Startfeld anhalten. Danach muss das Programm aufhören. Höchstens 12 Bausteine: Es gibt mehrere Wege, auch mit verschiedenen Arten von Wiederholungen.",
       "denkfigur": "Eine Wiederholung braucht ein sicheres Ende. «solange Feld vorne frei» endet an der Wand. Aber was beendet die Runde?",
       "feld": {
         "cols": 6,
@@ -843,7 +843,7 @@
         ],
         "verzweigung": false
       },
-      "maxBloecke": 5,
+      "maxBloecke": 12,
       "kleinsteLoesung": 4,
       "ziel": {
         "typ": "besucht",
@@ -931,7 +931,7 @@
       },
       "frage": {
         "typ": "zahl",
-        "text": "Ihr Programm läuft in einem viel grösseren Garten mit 20 × 15 Feldern. Wie oft läuft der Käfer dort bis zu einer Wand?",
+        "text": "Ein Programm geht jeweils mit «wiederhole solange Feld vorne frei» bis zur Wand und dreht dann. Es läuft in einem viel grösseren Garten mit 20 × 15 Feldern. Wie oft läuft der Käfer dort bis zu einer Wand?",
         "richtig": "1f709519",
         "erklaerung": "Genau. Egal wie gross der Garten ist: 4 Ecken, 4 Wände, dann ist Schluss. So bleibt der Algorithmus endlich."
       },
