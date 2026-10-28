@@ -111,7 +111,9 @@
 .bk-aufgabe-bild{margin:12px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
 .bk-aufgabe-bild[hidden]{display:none}
 .bk-aufgabe-bild svg{width:min(100%,300px);height:auto;flex:none}
-.bk-aufgabe-bild figcaption{flex:1 1 220px;font-size:.9rem;color:var(--ink-soft)}
+.bk-aufgabe-bild figcaption{flex:1 1 260px;min-width:0;font-size:.9rem;color:var(--ink-soft)}
+.bk-aufgabe-bild figcaption p{margin:6px 0 0}
+.bk-aufgabe-bild figcaption .bk-aufgabe-code{margin:0;color:var(--ink)}
 .bk-aufgabe-bild figcaption code{font-family:"IBM Plex Mono",ui-monospace,monospace;color:var(--ink)}
 .bv-linie{stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
 .bv-karton{fill:#b07a3c}.bv-karton-hell{fill:#c28b4b}.bv-innen{fill:#8e5440}.bv-kante{fill:#b07a3c}
@@ -122,6 +124,20 @@
 .bv-spitze{fill:var(--blume1)}
 .bv-gleich{fill:none;stroke:#2a1808;stroke-width:3.5;stroke-linecap:round}
 .bv-wert{font:700 84px "IBM Plex Mono",ui-monospace,monospace;fill:var(--ink)}
+.bs-schiene{fill:none;stroke:var(--ink);stroke-width:3}
+.bs-schwelle{fill:none;stroke:#8b8f8d;stroke-width:7}
+.bs-pfosten{fill:none;stroke:#7a4e2a;stroke-width:5;stroke-linecap:round}
+.bs-rot{fill:#d9483b}.bs-weiss{fill:#fff}
+.bs-rahmen{fill:none;stroke:var(--ink);stroke-width:2}
+.bs-flagge{fill:#d9483b;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.bs-flaggentext{font:700 17px "IBM Plex Mono",ui-monospace,monospace;fill:#fff}
+.bs-wagen{fill:#6f7573;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.bs-wagentext{font:700 24px "IBM Plex Mono",ui-monospace,monospace;fill:#fff}
+.bs-rad{fill:#1b1f1e;stroke:var(--ink);stroke-width:2}
+.bs-koerper{fill:var(--accent)}
+.bs-fuehler{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linecap:round}
+.bs-naht{stroke:var(--surface);stroke-width:1.5}
+.bs-spur{fill:none;stroke:var(--ink-soft);stroke-width:2.5;stroke-linecap:round}
 .bk-code pre{margin:0;padding:10px 12px;background:var(--ground);border:1px solid var(--line);border-radius:var(--radius);overflow-x:auto;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.85rem;line-height:1.5}
 
 /* Theorie zu den Abschnitten, Etiketten und Fragen */

@@ -676,7 +676,8 @@
     sperreAktualisieren();
   }
 
-  // Bild zur Aufgabe: «bild» nennt eine SVG-Datei in bilder/, «bildText» die Legende (Text, `code` erlaubt).
+  // Bild zur Aufgabe: «bild» nennt eine SVG-Datei in bilder/, «bildCode» Python-Zeilen mit Kommentaren
+  // und «bildText» die Legende (Text, `code` erlaubt).
   // Inline eingefügt, damit die Farben dem Design folgen.
   var bildCache = {};
   function bildZeigen() {
@@ -692,9 +693,14 @@
     }))).then(function (svg) {
       if (aufg !== a) return;
       box.innerHTML = svg;
-      if (a.bildText) {
+      if (a.bildCode || a.bildText) {
         var cap = el("figcaption");
-        a.bildText.split("`").forEach(function (teil, i) { cap.append(i % 2 ? el("code", null, teil) : document.createTextNode(teil)); });
+        if (a.bildCode) cap.append(el("pre", "bk-aufgabe-code", a.bildCode));
+        if (a.bildText) {
+          var p = el("p");
+          a.bildText.split("`").forEach(function (teil, i) { p.append(i % 2 ? el("code", null, teil) : document.createTextNode(teil)); });
+          cap.append(p);
+        }
         box.append(cap);
       }
     }).catch(function () { box.hidden = true; });
