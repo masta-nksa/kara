@@ -1,0 +1,1349 @@
+{
+ "hinweis": "Zahlenwelt: Bausteine sind Python-Texte. Ausgaben der Fälle sind aus der Lösung berechnet (Skript), Prüfung vergleicht nur die Ausgabe.",
+ "aufgaben": [
+  {
+   "id": "zahl-sparen",
+   "titel": "1 · Sparziel",
+   "abschnitt": "lesen",
+   "welt": "zahlen",
+   "lesen": true,
+   "text": "Sie sparen für neue Kopfhörer. «erspart» ist, was Sie schon haben, «ziel» der Preis. Jede Woche legen Sie 15 Fr. dazu. Lesen Sie das Programm und führen Sie den Schreibtischtest: Tragen Sie bei jedem Durchgang die Werte ein.",
+   "faelle": [
+    {
+     "eingabe": {
+      "erspart": 140,
+      "ziel": 200
+     },
+     "ausgabe": [
+      4
+     ]
+    },
+    {
+     "eingabe": {
+      "erspart": 40,
+      "ziel": 200
+     },
+     "ausgabe": [
+      11
+     ]
+    }
+   ],
+   "startprogramm": [
+    {
+     "t": "act",
+     "cmd": "wochen = 0"
+    },
+    {
+     "t": "while",
+     "cond": "erspart < ziel",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "erspart = erspart + 15"
+      },
+      {
+       "t": "act",
+       "cmd": "wochen = wochen + 1"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(wochen)"
+    }
+   ],
+   "schreibtischtest": {
+    "fall": 0
+   },
+   "vorhersageAusgabe": {
+    "fall": 1
+   },
+   "palette": {
+    "befehle": [],
+    "solange": []
+   },
+   "hinweise": [
+    "Eine Zeile pro Prüfung der Bedingung. Zuerst: Was steht vor dem ersten Durchgang in den Variablen?",
+    "Ist die Bedingung falsch, endet die Wiederholung. Dann kommt «print»."
+   ],
+   "frage": {
+    "text": "Was berechnet das Programm?",
+    "antworten": [
+     "Wie viele Wochen es dauert, bis das Geld reicht.",
+     "Wie viel Geld am Schluss gespart ist.",
+     "Wie viel Geld noch fehlt."
+    ],
+    "richtig": "c7e2d94f",
+    "erklaerung": "Richtig. «wochen» zählt die Durchgänge, und die Wiederholung läuft genau so lange, wie das Geld noch nicht reicht."
+   },
+   "loesung": [
+    {
+     "t": "act",
+     "cmd": "wochen = 0"
+    },
+    {
+     "t": "while",
+     "cond": "erspart < ziel",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "erspart = erspart + 15"
+      },
+      {
+       "t": "act",
+       "cmd": "wochen = wochen + 1"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(wochen)"
+    }
+   ]
+  },
+  {
+   "id": "zahl-pizza",
+   "titel": "2 · Pizza fair teilen",
+   "abschnitt": "lesen",
+   "welt": "zahlen",
+   "lesen": true,
+   "text": "Eine Pizza ist in Stücke geschnitten und wird an alle Personen verteilt, reihum, solange es für jede Person noch ein Stück hat. Führen Sie den Schreibtischtest.",
+   "faelle": [
+    {
+     "eingabe": {
+      "stuecke": 14,
+      "personen": 4
+     },
+     "ausgabe": [
+      3,
+      2
+     ]
+    },
+    {
+     "eingabe": {
+      "stuecke": 23,
+      "personen": 5
+     },
+     "ausgabe": [
+      4,
+      3
+     ]
+    }
+   ],
+   "startprogramm": [
+    {
+     "t": "act",
+     "cmd": "jede = 0"
+    },
+    {
+     "t": "while",
+     "cond": "stuecke >= personen",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "stuecke = stuecke - personen"
+      },
+      {
+       "t": "act",
+       "cmd": "jede = jede + 1"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(jede)"
+    },
+    {
+     "t": "act",
+     "cmd": "print(stuecke)"
+    }
+   ],
+   "schreibtischtest": {
+    "fall": 0
+   },
+   "vorhersageAusgabe": {
+    "fall": 1
+   },
+   "palette": {
+    "befehle": [],
+    "solange": []
+   },
+   "hinweise": [
+    "Pro Durchgang bekommt jede Person ein Stück: Es werden «personen» Stücke weniger.",
+    "Die Ausgabe hat zwei Zahlen: zuerst «jede», dann «stuecke»."
+   ],
+   "frage": {
+    "text": "Was berechnet das Programm?",
+    "antworten": [
+     "Wie viele Stücke jede Person bekommt und wie viele übrig bleiben.",
+     "Wie viele Personen satt werden.",
+     "Wie viele Pizzas man bestellen muss."
+    ],
+    "richtig": "b81bd76e",
+    "erklaerung": "Richtig. Das ist die Division mit Rest. In Python geht es auch direkt: «14 // 4» ergibt 3, «14 % 4» ergibt den Rest 2."
+   },
+   "loesung": [
+    {
+     "t": "act",
+     "cmd": "jede = 0"
+    },
+    {
+     "t": "while",
+     "cond": "stuecke >= personen",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "stuecke = stuecke - personen"
+      },
+      {
+       "t": "act",
+       "cmd": "jede = jede + 1"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(jede)"
+    },
+    {
+     "t": "act",
+     "cmd": "print(stuecke)"
+    }
+   ]
+  },
+  {
+   "id": "zahl-summe",
+   "titel": "3 · Summe bis n",
+   "abschnitt": "lesen",
+   "welt": "zahlen",
+   "lesen": true,
+   "text": "Lesen Sie das Programm und führen Sie den Schreibtischtest. Was rechnet es aus?",
+   "faelle": [
+    {
+     "eingabe": {
+      "n": 4
+     },
+     "ausgabe": [
+      10
+     ]
+    },
+    {
+     "eingabe": {
+      "n": 7
+     },
+     "ausgabe": [
+      28
+     ]
+    }
+   ],
+   "startprogramm": [
+    {
+     "t": "act",
+     "cmd": "summe = 0"
+    },
+    {
+     "t": "act",
+     "cmd": "i = 1"
+    },
+    {
+     "t": "while",
+     "cond": "i <= n",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "summe = summe + i"
+      },
+      {
+       "t": "act",
+       "cmd": "i = i + 1"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(summe)"
+    }
+   ],
+   "schreibtischtest": {
+    "fall": 0
+   },
+   "vorhersageAusgabe": {
+    "fall": 1
+   },
+   "palette": {
+    "befehle": [],
+    "solange": []
+   },
+   "hinweise": [
+    "«i» läuft 1, 2, 3, … und wird jedes Mal zu «summe» dazugezählt.",
+    "Die Wiederholung endet, wenn «i» grösser als «n» ist."
+   ],
+   "frage": {
+    "text": "Was berechnet das Programm?",
+    "antworten": [
+     "Die Summe 1 + 2 + … + n.",
+     "Das Doppelte von n.",
+     "Wie viele Zahlen es von 1 bis n gibt."
+    ],
+    "richtig": "50293e2d",
+    "erklaerung": "Richtig. Für n = 4 ist das 1 + 2 + 3 + 4 = 10."
+   },
+   "loesung": [
+    {
+     "t": "act",
+     "cmd": "summe = 0"
+    },
+    {
+     "t": "act",
+     "cmd": "i = 1"
+    },
+    {
+     "t": "while",
+     "cond": "i <= n",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "summe = summe + i"
+      },
+      {
+       "t": "act",
+       "cmd": "i = i + 1"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(summe)"
+    }
+   ]
+  },
+  {
+   "id": "zahl-ticket",
+   "titel": "4 · Ticketpreis",
+   "abschnitt": "veraendern",
+   "welt": "zahlen",
+   "text": "Im Kino kostet ein Ticket 20 Fr. Wer jünger als 16 ist, zahlt 10 Fr. Das Programm hat einen Fehler: Finden und beheben Sie ihn. Erweitern Sie es dann: Wer 65 oder älter ist, zahlt 14 Fr.",
+   "faelle": [
+    {
+     "eingabe": {
+      "alter": 8
+     },
+     "ausgabe": [
+      10
+     ]
+    },
+    {
+     "eingabe": {
+      "alter": 30
+     },
+     "ausgabe": [
+      20
+     ]
+    },
+    {
+     "eingabe": {
+      "alter": 70
+     },
+     "ausgabe": [
+      14
+     ]
+    }
+   ],
+   "verdeckt": [
+    {
+     "eingabe": {
+      "alter": 15
+     },
+     "ausgabe": [
+      10
+     ]
+    },
+    {
+     "eingabe": {
+      "alter": 16
+     },
+     "ausgabe": [
+      20
+     ]
+    },
+    {
+     "eingabe": {
+      "alter": 64
+     },
+     "ausgabe": [
+      20
+     ]
+    },
+    {
+     "eingabe": {
+      "alter": 65
+     },
+     "ausgabe": [
+      14
+     ]
+    }
+   ],
+   "startprogramm": [
+    {
+     "t": "if",
+     "cond": "alter > 16",
+     "yes": [
+      {
+       "t": "act",
+       "cmd": "preis = 20"
+      }
+     ],
+     "no": [
+      {
+       "t": "act",
+       "cmd": "preis = 10"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(preis)"
+    }
+   ],
+   "palette": {
+    "befehle": [
+     "preis = 20",
+     "preis = 10",
+     "preis = 14",
+     "print(preis)"
+    ],
+    "bedingungen": [
+     "alter > 16",
+     "alter >= 16",
+     "alter >= 65",
+     "alter > 65"
+    ],
+    "verzweigung": true
+   },
+   "maxBloecke": 8,
+   "kleinsteLoesung": 6,
+   "hinweise": [
+    "Was zahlt jemand, der genau 16 ist? Und was sagt das Programm?",
+    "Eine Verzweigung darf in einem Zweig einer anderen Verzweigung stehen."
+   ],
+   "frage": {
+    "text": "Warum prüft man gerade 15, 16, 64 und 65?",
+    "antworten": [
+     "An den Grenzen passieren am häufigsten Fehler, z. B. «>» statt «>=».",
+     "Weil das die häufigsten Alter im Kino sind.",
+     "Weil das Programm sonst zu lange läuft."
+    ],
+    "richtig": "878bee7c",
+    "erklaerung": "Richtig. Grenzfälle sind wichtige Testfälle: Ein Algorithmus ist erst korrekt, wenn er auch dort stimmt."
+   },
+   "loesung": [
+    {
+     "t": "if",
+     "cond": "alter >= 16",
+     "yes": [
+      {
+       "t": "if",
+       "cond": "alter >= 65",
+       "yes": [
+        {
+         "t": "act",
+         "cmd": "preis = 14"
+        }
+       ],
+       "no": [
+        {
+         "t": "act",
+         "cmd": "preis = 20"
+        }
+       ]
+      }
+     ],
+     "no": [
+      {
+       "t": "act",
+       "cmd": "preis = 10"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(preis)"
+    }
+   ]
+  },
+  {
+   "id": "zahl-mal",
+   "titel": "5 · Multiplikation reparieren",
+   "abschnitt": "veraendern",
+   "welt": "zahlen",
+   "text": "Dieser Rechner kann nur addieren. Das Programm soll a · b ausrechnen, indem es b-mal a zu r dazuzählt. Führen Sie zuerst den Schreibtischtest für die ersten Durchgänge. Reparieren Sie dann das Programm.",
+   "faelle": [
+    {
+     "eingabe": {
+      "a": 7,
+      "b": 3
+     },
+     "ausgabe": [
+      21
+     ]
+    },
+    {
+     "eingabe": {
+      "a": 5,
+      "b": 4
+     },
+     "ausgabe": [
+      20
+     ]
+    }
+   ],
+   "verdeckt": [
+    {
+     "eingabe": {
+      "a": 6,
+      "b": 0
+     },
+     "ausgabe": [
+      0
+     ]
+    },
+    {
+     "eingabe": {
+      "a": 0,
+      "b": 5
+     },
+     "ausgabe": [
+      0
+     ]
+    },
+    {
+     "eingabe": {
+      "a": 12,
+      "b": 5
+     },
+     "ausgabe": [
+      60
+     ]
+    },
+    {
+     "eingabe": {
+      "a": 1,
+      "b": 1
+     },
+     "ausgabe": [
+      1
+     ]
+    }
+   ],
+   "startprogramm": [
+    {
+     "t": "act",
+     "cmd": "r = 0"
+    },
+    {
+     "t": "while",
+     "cond": "b > 0",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "r = r + a"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(r)"
+    }
+   ],
+   "schreibtischtest": {
+    "fall": 0,
+    "zeilen": 4
+   },
+   "palette": {
+    "befehle": [
+     "r = 0",
+     "r = r + a",
+     "b = b - 1",
+     "b = b + 1",
+     "print(r)"
+    ],
+    "solange": [
+     "b > 0",
+     "b >= 0"
+    ]
+   },
+   "maxBloecke": 6,
+   "kleinsteLoesung": 5,
+   "hinweise": [
+    "Schauen Sie im Schreibtischtest auf die Spalte «b». Was passiert mit ihr?",
+    "Die Bedingung «b > 0» wird nur falsch, wenn «b» kleiner wird."
+   ],
+   "frage": {
+    "text": "Welche Anforderung an einen Algorithmus hat das ursprüngliche Programm verletzt?",
+    "antworten": [
+     "ausführbar",
+     "eindeutig",
+     "allgemein",
+     "endlich",
+     "korrekt"
+    ],
+    "richtig": "4a6c0b7f",
+    "erklaerung": "Richtig: endlich. Im Rumpf änderte sich nichts an «b», darum blieb «b > 0» immer wahr."
+   },
+   "loesung": [
+    {
+     "t": "act",
+     "cmd": "r = 0"
+    },
+    {
+     "t": "while",
+     "cond": "b > 0",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "r = r + a"
+      },
+      {
+       "t": "act",
+       "cmd": "b = b - 1"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(r)"
+    }
+   ]
+  },
+  {
+   "id": "zahl-wecker",
+   "titel": "6 · Schlummertaste",
+   "abschnitt": "veraendern",
+   "welt": "zahlen",
+   "text": "Der Wecker klingelt um stunde:minute. Jedes Drücken der Schlummertaste verschiebt ihn um 9 Minuten. Das Programm soll ausgeben, wann er zuletzt klingelt: zuerst die Stunde, dann die Minute. Bei 6:45 und dreimal Drücken kommt aber 6 und 72 heraus. Reparieren Sie das Programm.",
+   "faelle": [
+    {
+     "eingabe": {
+      "stunde": 6,
+      "minute": 45,
+      "drueckt": 3
+     },
+     "ausgabe": [
+      7,
+      12
+     ]
+    },
+    {
+     "eingabe": {
+      "stunde": 6,
+      "minute": 30,
+      "drueckt": 2
+     },
+     "ausgabe": [
+      6,
+      48
+     ]
+    }
+   ],
+   "verdeckt": [
+    {
+     "eingabe": {
+      "stunde": 7,
+      "minute": 55,
+      "drueckt": 1
+     },
+     "ausgabe": [
+      8,
+      4
+     ]
+    },
+    {
+     "eingabe": {
+      "stunde": 6,
+      "minute": 51,
+      "drueckt": 1
+     },
+     "ausgabe": [
+      7,
+      0
+     ]
+    },
+    {
+     "eingabe": {
+      "stunde": 5,
+      "minute": 58,
+      "drueckt": 7
+     },
+     "ausgabe": [
+      7,
+      1
+     ]
+    }
+   ],
+   "startprogramm": [
+    {
+     "t": "while",
+     "cond": "drueckt > 0",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "minute = minute + 9"
+      },
+      {
+       "t": "act",
+       "cmd": "drueckt = drueckt - 1"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(stunde)"
+    },
+    {
+     "t": "act",
+     "cmd": "print(minute)"
+    }
+   ],
+   "palette": {
+    "befehle": [
+     "minute = minute + 9",
+     "drueckt = drueckt - 1",
+     "minute = minute - 60",
+     "stunde = stunde + 1",
+     "print(stunde)",
+     "print(minute)"
+    ],
+    "solange": [
+     "drueckt > 0",
+     "minute >= 60"
+    ],
+    "bedingungen": [
+     "minute >= 60",
+     "minute > 60"
+    ],
+    "verzweigung": true
+   },
+   "maxBloecke": 10,
+   "kleinsteLoesung": 8,
+   "hinweise": [
+    "Eine Stunde hat 60 Minuten. Was muss geschehen, wenn «minute» 60 erreicht?",
+    "Aus 72 Minuten werden 1 Stunde und 12 Minuten."
+   ],
+   "frage": {
+    "text": "Wann muss die Stunde um eins steigen?",
+    "antworten": [
+     "Sobald «minute» 60 oder mehr ist. Dann zieht man 60 ab.",
+     "Erst wenn «minute» grösser als 60 ist.",
+     "Nach jedem Drücken."
+    ],
+    "richtig": "e113e5c1",
+    "erklaerung": "Richtig. Bei genau 60 Minuten ist schon die nächste Stunde erreicht: 6:51 plus 9 Minuten ergibt 7:00."
+   },
+   "loesung": [
+    {
+     "t": "while",
+     "cond": "drueckt > 0",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "minute = minute + 9"
+      },
+      {
+       "t": "act",
+       "cmd": "drueckt = drueckt - 1"
+      },
+      {
+       "t": "if",
+       "cond": "minute >= 60",
+       "yes": [
+        {
+         "t": "act",
+         "cmd": "minute = minute - 60"
+        },
+        {
+         "t": "act",
+         "cmd": "stunde = stunde + 1"
+        }
+       ],
+       "no": []
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(stunde)"
+    },
+    {
+     "t": "act",
+     "cmd": "print(minute)"
+    }
+   ]
+  },
+  {
+   "id": "zahl-highscore",
+   "titel": "7 · Highscore aus drei Runden",
+   "abschnitt": "veraendern",
+   "welt": "zahlen",
+   "text": "Das Programm gibt die höchste Punktzahl aus zwei Runden r1 und r2 aus. Neu gibt es eine dritte Runde r3. Erweitern Sie das Programm, sodass es die höchste der drei Punktzahlen ausgibt.",
+   "faelle": [
+    {
+     "eingabe": {
+      "r1": 3,
+      "r2": 8,
+      "r3": 5
+     },
+     "ausgabe": [
+      8
+     ]
+    },
+    {
+     "eingabe": {
+      "r1": 4,
+      "r2": 2,
+      "r3": 9
+     },
+     "ausgabe": [
+      9
+     ]
+    }
+   ],
+   "verdeckt": [
+    {
+     "eingabe": {
+      "r1": 9,
+      "r2": 2,
+      "r3": 5
+     },
+     "ausgabe": [
+      9
+     ]
+    },
+    {
+     "eingabe": {
+      "r1": 5,
+      "r2": 5,
+      "r3": 3
+     },
+     "ausgabe": [
+      5
+     ]
+    },
+    {
+     "eingabe": {
+      "r1": 2,
+      "r2": 9,
+      "r3": 9
+     },
+     "ausgabe": [
+      9
+     ]
+    },
+    {
+     "eingabe": {
+      "r1": 1,
+      "r2": 1,
+      "r3": 1
+     },
+     "ausgabe": [
+      1
+     ]
+    }
+   ],
+   "startprogramm": [
+    {
+     "t": "if",
+     "cond": "r1 > r2",
+     "yes": [
+      {
+       "t": "act",
+       "cmd": "best = r1"
+      }
+     ],
+     "no": [
+      {
+       "t": "act",
+       "cmd": "best = r2"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(best)"
+    }
+   ],
+   "palette": {
+    "befehle": [
+     "best = r1",
+     "best = r2",
+     "best = r3",
+     "print(best)"
+    ],
+    "bedingungen": [
+     "r1 > r2",
+     "r3 > best",
+     "r3 > r2"
+    ],
+    "verzweigung": true
+   },
+   "maxBloecke": 8,
+   "kleinsteLoesung": 6,
+   "hinweise": [
+    "Nach der ersten Verzweigung steht in «best» die höhere der ersten beiden Punktzahlen.",
+    "Mit welcher Zahl muss r3 verglichen werden: mit r2 oder mit dem bisher Besten?"
+   ],
+   "frage": {
+    "text": "Wozu dient die Variable «best»?",
+    "antworten": [
+     "Sie merkt sich den bisher höchsten Wert. So braucht jede neue Runde nur einen Vergleich.",
+     "Sie zählt die Runden.",
+     "Sie speichert die letzte Runde."
+    ],
+    "richtig": "9f7c43da",
+    "erklaerung": "Richtig. Mit diesem Muster findet man auch das Maximum aus zehn oder hundert Zahlen."
+   },
+   "loesung": [
+    {
+     "t": "if",
+     "cond": "r1 > r2",
+     "yes": [
+      {
+       "t": "act",
+       "cmd": "best = r1"
+      }
+     ],
+     "no": [
+      {
+       "t": "act",
+       "cmd": "best = r2"
+      }
+     ]
+    },
+    {
+     "t": "if",
+     "cond": "r3 > best",
+     "yes": [
+      {
+       "t": "act",
+       "cmd": "best = r3"
+      }
+     ],
+     "no": []
+    },
+    {
+     "t": "act",
+     "cmd": "print(best)"
+    }
+   ]
+  },
+  {
+   "id": "zahl-rueckgeld",
+   "titel": "8 · Rückgeld am Automaten",
+   "abschnitt": "entwerfen",
+   "welt": "zahlen",
+   "text": "Ein Getränkeautomat gibt Rückgeld in Münzen zu 5, 2 und 1 Franken, mit möglichst wenigen Münzen. «rest» ist das Rückgeld in Franken. Geben Sie jede Münze mit «print» aus, die grössten zuerst.",
+   "faelle": [
+    {
+     "eingabe": {
+      "rest": 8
+     },
+     "ausgabe": [
+      5,
+      2,
+      1
+     ]
+    },
+    {
+     "eingabe": {
+      "rest": 4
+     },
+     "ausgabe": [
+      2,
+      2
+     ]
+    }
+   ],
+   "verdeckt": [
+    {
+     "eingabe": {
+      "rest": 0
+     },
+     "ausgabe": []
+    },
+    {
+     "eingabe": {
+      "rest": 10
+     },
+     "ausgabe": [
+      5,
+      5
+     ]
+    },
+    {
+     "eingabe": {
+      "rest": 9
+     },
+     "ausgabe": [
+      5,
+      2,
+      2
+     ]
+    },
+    {
+     "eingabe": {
+      "rest": 7
+     },
+     "ausgabe": [
+      5,
+      2
+     ]
+    },
+    {
+     "eingabe": {
+      "rest": 1
+     },
+     "ausgabe": [
+      1
+     ]
+    }
+   ],
+   "palette": {
+    "befehle": [
+     "print(5)",
+     "print(2)",
+     "print(1)",
+     "rest = rest - 5",
+     "rest = rest - 2",
+     "rest = rest - 1"
+    ],
+    "solange": [
+     "rest >= 5",
+     "rest >= 2",
+     "rest >= 1"
+    ],
+    "bedingungen": [
+     "rest >= 5",
+     "rest >= 2",
+     "rest >= 1"
+    ],
+    "verzweigung": true
+   },
+   "maxBloecke": 12,
+   "kleinsteLoesung": 9,
+   "hinweise": [
+    "Geben Sie zuerst so viele 5er aus, wie es geht. Was bleibt dann übrig?",
+    "Zu jeder Münze gehören zwei Bausteine: ausgeben und vom Rest abziehen."
+   ],
+   "frage": {
+    "text": "Warum beginnt man mit der grössten Münze?",
+    "antworten": [
+     "So braucht es am wenigsten Münzen.",
+     "Weil die 5-Franken-Münze zuoberst liegt.",
+     "Sonst endet die Wiederholung nie."
+    ],
+    "richtig": "a666a1ae",
+    "erklaerung": "Richtig. Bei 8 Fr. gibt das 5 + 2 + 1, also drei Münzen statt vier 2er."
+   },
+   "loesung": [
+    {
+     "t": "while",
+     "cond": "rest >= 5",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "print(5)"
+      },
+      {
+       "t": "act",
+       "cmd": "rest = rest - 5"
+      }
+     ]
+    },
+    {
+     "t": "while",
+     "cond": "rest >= 2",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "print(2)"
+      },
+      {
+       "t": "act",
+       "cmd": "rest = rest - 2"
+      }
+     ]
+    },
+    {
+     "t": "while",
+     "cond": "rest >= 1",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "print(1)"
+      },
+      {
+       "t": "act",
+       "cmd": "rest = rest - 1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "zahl-akku",
+   "titel": "9 · Handy laden",
+   "abschnitt": "entwerfen",
+   "welt": "zahlen",
+   "text": "Ein Handy lädt bis 80 % schnell: 4 Prozentpunkte pro Minute. Ab 80 % lädt es langsamer: 1 Prozentpunkt pro Minute, bis 100 %. «akku» ist der Ladestand beim Einstecken. Geben Sie aus, wie viele Minuten das Laden dauert.",
+   "faelle": [
+    {
+     "eingabe": {
+      "akku": 15
+     },
+     "ausgabe": [
+      34
+     ]
+    },
+    {
+     "eingabe": {
+      "akku": 90
+     },
+     "ausgabe": [
+      10
+     ]
+    }
+   ],
+   "verdeckt": [
+    {
+     "eingabe": {
+      "akku": 100
+     },
+     "ausgabe": [
+      0
+     ]
+    },
+    {
+     "eingabe": {
+      "akku": 80
+     },
+     "ausgabe": [
+      20
+     ]
+    },
+    {
+     "eingabe": {
+      "akku": 79
+     },
+     "ausgabe": [
+      18
+     ]
+    },
+    {
+     "eingabe": {
+      "akku": 3
+     },
+     "ausgabe": [
+      37
+     ]
+    }
+   ],
+   "palette": {
+    "befehle": [
+     "minuten = 0",
+     "minuten = minuten + 1",
+     "akku = akku + 4",
+     "akku = akku + 1",
+     "print(minuten)",
+     "print(akku)"
+    ],
+    "solange": [
+     "akku < 100",
+     "akku < 80"
+    ],
+    "bedingungen": [
+     "akku < 80",
+     "akku < 100"
+    ],
+    "verzweigung": true
+   },
+   "maxBloecke": 10,
+   "kleinsteLoesung": 7,
+   "hinweise": [
+    "Zerlegen Sie das Problem: erst die schnelle Phase, dann die langsame.",
+    "Jeder Durchgang ist eine Minute. Was ändert sich in einer Minute?"
+   ],
+   "frage": {
+    "text": "Welche Lösungen für die zwei Ladephasen sind richtig?",
+    "antworten": [
+     "Zwei Wiederholungen nacheinander oder eine Wiederholung mit einer Verzweigung darin: Beides geht.",
+     "Nur zwei Wiederholungen nacheinander.",
+     "Nur eine Wiederholung mit Verzweigung."
+    ],
+    "richtig": "3c30e05c",
+    "erklaerung": "Richtig. Verschiedene Algorithmen können dasselbe Problem korrekt lösen."
+   },
+   "loesung": [
+    {
+     "t": "act",
+     "cmd": "minuten = 0"
+    },
+    {
+     "t": "while",
+     "cond": "akku < 100",
+     "body": [
+      {
+       "t": "if",
+       "cond": "akku < 80",
+       "yes": [
+        {
+         "t": "act",
+         "cmd": "akku = akku + 4"
+        }
+       ],
+       "no": [
+        {
+         "t": "act",
+         "cmd": "akku = akku + 1"
+        }
+       ]
+      },
+      {
+       "t": "act",
+       "cmd": "minuten = minuten + 1"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(minuten)"
+    }
+   ]
+  },
+  {
+   "id": "zahl-ggt",
+   "titel": "10 · ggT nach Euklid",
+   "abschnitt": "entwerfen",
+   "welt": "zahlen",
+   "text": "Den grössten gemeinsamen Teiler (ggT) zweier Zahlen findet man auch ohne Teilen: Solange a und b verschieden sind, zieht man die kleinere Zahl von der grösseren ab. Am Schluss sind beide gleich, das ist der ggT. a und b sind ganze Zahlen ab 1.",
+   "faelle": [
+    {
+     "eingabe": {
+      "a": 18,
+      "b": 30
+     },
+     "ausgabe": [
+      6
+     ]
+    },
+    {
+     "eingabe": {
+      "a": 75,
+      "b": 45
+     },
+     "ausgabe": [
+      15
+     ]
+    }
+   ],
+   "verdeckt": [
+    {
+     "eingabe": {
+      "a": 7,
+      "b": 7
+     },
+     "ausgabe": [
+      7
+     ]
+    },
+    {
+     "eingabe": {
+      "a": 1,
+      "b": 9
+     },
+     "ausgabe": [
+      1
+     ]
+    },
+    {
+     "eingabe": {
+      "a": 100,
+      "b": 3
+     },
+     "ausgabe": [
+      1
+     ]
+    },
+    {
+     "eingabe": {
+      "a": 48,
+      "b": 18
+     },
+     "ausgabe": [
+      6
+     ]
+    }
+   ],
+   "palette": {
+    "befehle": [
+     "a = a - b",
+     "b = b - a",
+     "a = b",
+     "print(a)",
+     "print(b)"
+    ],
+    "solange": [
+     "a != b",
+     "a > b"
+    ],
+    "bedingungen": [
+     "a > b",
+     "a < b"
+    ],
+    "verzweigung": true
+   },
+   "maxBloecke": 7,
+   "kleinsteLoesung": 5,
+   "hinweise": [
+    "Welche Zahl ist grösser? Davon wird die andere abgezogen.",
+    "Die Wiederholung läuft, solange a und b verschieden sind."
+   ],
+   "frage": {
+    "text": "Was passiert bei a = 7 und b = 7?",
+    "antworten": [
+     "Die Wiederholung läuft gar nicht, ausgegeben wird 7.",
+     "Das Programm endet nie.",
+     "Ausgegeben wird 0."
+    ],
+    "richtig": "3ffdfd0e",
+    "erklaerung": "Richtig. Auch Sonderfälle wie gleiche Zahlen gehören zum Testen."
+   },
+   "loesung": [
+    {
+     "t": "while",
+     "cond": "a != b",
+     "body": [
+      {
+       "t": "if",
+       "cond": "a > b",
+       "yes": [
+        {
+         "t": "act",
+         "cmd": "a = a - b"
+        }
+       ],
+       "no": [
+        {
+         "t": "act",
+         "cmd": "b = b - a"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(a)"
+    }
+   ]
+  }
+ ]
+}

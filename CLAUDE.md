@@ -21,7 +21,8 @@ Diese Datei sammelt Arbeitsweise, Konventionen und den aktuellen Stand.
 - `engine.js` bleibt frei von DOM (UMD: `window.BaukastenEngine` bzw. `require`).
   Befehle, Bedingungen und Zieltypen sind Tabellen (`BEFEHLE`, `BEDINGUNGEN`, `ZIELTYPEN`).
 - Programmbaum: `{t:"act",cmd}`, `{t:"loop",n,body}`, `{t:"until",body}`,
-  `{t:"if",cond,yes,no}`.
+  `{t:"if",cond,yes,no}`. In der Zahlenwelt (`welt: "zahlen"`) sind `cmd` und `cond` Python-Texte
+  (`"r = r + a"`, `"b > 0"`), Zuweisung mit `=` wie in Python (die Klasse lernt später Python).
 - Generator `erzeugeLabyrinth(seed, raeume | [nx, ny], {inseln})` ist geseedet: Bestehende Seeds
   in den Aufgaben müssen dieselben Karten ergeben. Änderungen am Generator nur abwärtskompatibel.
 - Neue Labyrinth-Aufgaben: Karten mit Skript prüfen (Inseln zählen, Handregeln/Pledge laufen
@@ -64,7 +65,8 @@ README). Grusel ist bis 2.11.2026 Standard und enthält Schreck-Effekte mit Ton 
 bekommen (`schmuecken()` in `design.js`).
 
 
-Reihen: Grundlagen · Algorithmen (alg-…) · Computational Thinking (ct-…) · Labyrinth (lab1–lab11) ·
+Reihen: Grundlagen · Algorithmen (alg-…) · Computational Thinking (ct-…) · Algorithmen mit Zahlen
+(zahl-…) · Labyrinth (lab1–lab11) ·
 Inseln und Pledge (insel1, insel2, pledge) ·
 Abschluss und eigene Challenges (Abschluss-Level + lokale Challenges aus dem Editor).
 Fertig: Steine, Verschachtelungstiefe, Easter Egg (eigenes Foto), Programme bleiben erhalten,
@@ -115,3 +117,11 @@ Vorhersage ist Pflicht: Bis dahin ist das Struktogramm gesperrt (Schritte 1. Vor
 3. Nachher). Keine Bedienungsanleitung und keine Einleitung auf der Seite. «Start» bewertet nur das angezeigte Feld, gelöst wird
 mit «Alle prüfen». Die Lehrperson rechnet mit fünf Anforderungen
 (mit Korrektheit); L1-Dossier und Algorithmus-Check in `checks` nennen noch vier.
+
+Seit 28.10.2026: Reihe «Algorithmen mit Zahlen» (Zusatz zur Algorithmen-Reihe, 10 Aufgaben in den
+Stufen Lesen, Verändern, Entwerfen; Details im README). Engine-Teil `runZahlen` in engine.js,
+Darstellung in `zahlwelt.js`. Lesen-Aufgaben verlangen einen vollständigen Schreibtischtest (jeder
+Durchgang, alle Variablen, Bedingung, Ausgabe). Neue Zahl-Aufgaben: Ausgaben der Fälle per Skript
+aus `loesung` berechnen, typische Fehlervarianten müssen an einem Fall scheitern. Fälle für den
+Schreibtischtest klein halten (4–5 Durchgänge). Reserve-Ideen: Bosskampf, Level-up, Primzahltest,
+Dezimal in Binär, Fussballpunkte.

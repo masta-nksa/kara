@@ -22,6 +22,7 @@ editor/                   Labyrinth-Editor für eigene Challenges
 baukasten/                der Baukasten
   index.html, app.js      Oberfläche (Bausteine ziehen, Käfer-Feld, Ablauf)
   engine.js               Interpreter, Prüfung und Programmbaum (reine Funktionen, ohne DOM)
+  zahlwelt.js             Zahlenwelt: Variablen-Kisten, Ablauftabelle, Schreibtischtest (nur DOM)
   figur.js                eigenes Bild statt Käfer (Easter Egg, siehe unten)
   reihen.json             die Reihen, in der Reihenfolge des Cockpits
   aufgaben/*.json         die Aufgaben je Reihe
@@ -206,6 +207,37 @@ und nach dem Lösen in einer Reflexionsfrage, was das Programm gezeigt hat. Die 
 steht nur als Tipp im Hinweis. Die Zusatzaufgaben werden immer offener: zuletzt alle Bausteine, kein
 Limit, kein Tipp.
 
+## Algorithmen mit Zahlen (`aufgaben/zahlen.json`)
+
+Eine schlanke Zusatzreihe zur Algorithmen-Reihe: Statt des Käfers gibt es Variablen. Drei Stufen
+(`abschnitte`): Lesen (Sparziel, Pizza fair teilen, Summe bis n), Verändern (Ticketpreis mit Fehler
+an der Altersgrenze und Seniorenpreis, Multiplikation ohne `b = b - 1`, Schlummertaste ohne
+Stundenübertrag, Highscore von zwei auf drei Runden) und Entwerfen (Rückgeld mit 5-, 2- und
+1-Franken-Münzen, Handy laden in zwei Phasen, ggT nach Euklid mit Subtraktion). Preise und
+Ladewerte sind erfunden, damit die Rechnung aufgeht.
+
+- `welt: "zahlen"`: Das Feld zeigt Variablen als Kisten (Aufschrift = Name), darunter die
+  Ablauftabelle und die Ausgabe. Die Tabelle hat eine Zeile bei jeder Prüfung einer
+  «solange»-Bedingung (Durchgang, alle Variablen, Bedingung wahr/falsch, Ausgabe seit der Zeile
+  davor); Programme ohne «solange» haben die Zeilen «Start» und «Ende».
+- Bausteine sind Python-Texte, wie später in Python: `"befehle": ["r = 0", "r = r + a", "print(r)"]`,
+  `"solange": ["b > 0"]`, `"bedingungen": ["a > b"]`. Ein kleiner Leser in engine.js (`zahlLesen`,
+  kein `eval`) kennt ganze Zahlen, Variablen, `+ - * // %`, Klammern und `== != < <= > >=`.
+  «Als Code anzeigen» ist dann lauffähiges Python, mit den Eingaben des angezeigten Falls oben.
+- `faelle` und `verdeckt`: Listen `{eingabe: {a: 7, b: 3}, ausgabe: [21]}`. Geprüft wird nur die
+  Ausgabe (`print`), nie der Weg. Eine Variable ohne Wert («hat noch keinen Wert»), Division durch 0
+  und eine Wiederholung ohne Ende («Ändert sich im Rumpf, was in der Bedingung steht?») brechen ab.
+  Die Ausgaben stehen in der Datei; sie sind mit einem Skript aus `loesung` berechnet.
+- `schreibtischtest: {fall, zeilen?}`: Die Lernenden füllen die Tabelle für das vorgegebene Programm
+  selbst aus (leere Zelle = unverändert, Zeilen mit «+ Zeile»), «Schreibtischtest prüfen» markiert
+  falsche Felder. Start geht erst nach der ersten Prüfung (zum Vergleichen mit «Einzelschritt»).
+  Mit `zeilen: n` nur die ersten n Zeilen (Multiplikation: Das Programm endet nie). In
+  Verändern-Aufgaben ist er Schritt «1. Vorher»: Das Struktogramm bleibt lesbar, gesperrt ist nur
+  das Bauen.
+- `lesen: true`: Das Struktogramm ist fest (keine Palette, «Struktogramm lesen»). Gelöst ist die
+  Aufgabe mit richtigem Schreibtischtest und, mit `vorhersageAusgabe: {fall}`, der richtigen Ausgabe
+  für eine zweite Eingabe (eine verdeckte, nicht als Reiter gezeigte). Danach die Reflexion.
+
 ## Abschluss und eigene Challenges
 
 Die letzte Reihe («Abschluss und eigene Challenges», `lokal: true` in `reihen.json`) enthält das
@@ -256,7 +288,7 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | `kara.baukasten.prog.v1` | Stand der Bausteine je Aufgabe; «Alles löschen» leert ihn |
 | `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
 | `kara.baukasten.nebel.v2` | Nebel ein/aus, je Aufgabe (nur wenn selbst umgeschaltet) |
-| `kara.baukasten.fragen.v1` | richtig beantwortete Fragen (`{aufgabenId: 1}` für die Reflexion, `{"aufgabenId/strategie": 1}` für die Vorher-Frage, `{"aufgabenId/vorhersage": 1}` für eine richtige Vorhersage) |
+| `kara.baukasten.fragen.v1` | richtig beantwortete Fragen (`{aufgabenId: 1}` für die Reflexion, `{"aufgabenId/strategie": 1}` für die Vorher-Frage, `{"aufgabenId/vorhersage": 1}` für eine richtige Vorhersage, `{"aufgabenId/schreibtischtest": 1}` und `{"aufgabenId/ausgabe": 1}` in der Zahlenwelt) |
 | `kara.design.v1` | gewähltes Design (`klassisch`, `bluete`, `grusel`) |
 | `kara.challenges.v1` | eigene und übernommene Challenges |
 | `kara.editor.entwurf.v1` | Entwurf im Editor |

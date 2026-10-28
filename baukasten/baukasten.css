@@ -473,3 +473,51 @@ body.bk-zieht *{cursor:grabbing!important}
   .bk{padding:20px 14px 48px}
   .bk-bau,.bk-lauf,.bk-aufgabe{padding:14px}
 }
+
+/* ---------- Zahlenwelt: Variablen als Kisten, Ablauftabelle, Schreibtischtest ---------- */
+.bk-bau.gesperrt.lesbar > :not(h2):not(.bk-sperre):not(.bk-code){opacity:1;filter:none}
+.bk-bau.nur-lesen .bk-palette,.bk-bau.nur-lesen .bk-leiste,.bk-bau.nur-lesen .bk-korb,.bk-bau.nur-lesen .bk-slot{display:none}
+.bk-bau.nur-lesen .bk-del{visibility:hidden}
+.bk-bau.bk-zahlen .bk-main,.bk-bau.bk-zahlen .bk-pal span{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.9em}
+.bk-feld:has(> .zw){display:block}
+.zw{display:flex;flex-direction:column;gap:12px;width:100%;min-width:0}
+.zw-kisten{display:flex;flex-wrap:wrap;gap:14px 12px;justify-content:center;padding:6px 0 2px}
+.zw-kiste{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:64px}
+.zw-wert{display:grid;place-items:center;min-width:64px;min-height:46px;padding:0 10px;border:2px solid var(--ink-soft);border-top-width:6px;border-radius:4px 4px var(--radius) var(--radius);background:var(--surface);
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:1.25rem;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;transition:background .25s}
+.zw-name{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.85rem;font-weight:600;color:var(--ink-soft)}
+.zw-kiste.leer .zw-wert{border-style:dashed;opacity:.6}
+.zw-kiste.neu .zw-wert{background:var(--hl)}
+.zw-tabbox{max-height:300px;overflow:auto;border:1px solid var(--line);border-radius:var(--radius)}
+.zw-tabbox-test{max-height:none;margin-top:6px}
+.zw-tabelle{border-collapse:collapse;width:100%;font-size:.86rem;font-variant-numeric:tabular-nums}
+.zw-tabelle[hidden]{display:none}
+.zw-tabelle caption{text-align:left;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding:6px 8px 2px}
+.zw-tabelle th,.zw-tabelle td{padding:4px 8px;border-top:1px solid var(--line);text-align:center;white-space:nowrap}
+.zw-tabelle th{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.78rem;font-weight:600;color:var(--ink-soft);background:var(--ground);position:sticky;top:0}
+.zw-tabelle td.zw-wahr{color:var(--ok)}
+.zw-tabelle td.zw-falsch{color:var(--no)}
+.zw-tabelle tbody tr:last-child td{background:var(--accent-soft)}
+.zw-tabelle.zw-test tbody tr:last-child td,.zw-tabelle.fertig tbody tr:last-child td{background:none}
+.zw-ausgabe{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:var(--radius);background:var(--ground);border:1px solid var(--line)}
+.zw-ausgabe-titel{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding-top:3px}
+.zw-ausgabe pre{margin:0;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.95rem;min-height:1.4em;color:var(--ink)}
+.zw-ausgabe.leer pre::before{content:"–";color:var(--ink-soft)}
+.zw.fehler .zw-tabbox,.zw.fehler .zw-ausgabe{border-color:var(--no)}
+.zw-hilfe{margin:4px 0 0;font-size:.85rem;color:var(--ink-soft)}
+.zw-feld{font:inherit;font-family:"IBM Plex Mono",ui-monospace,monospace;width:3.6em;min-height:32px;padding:2px 4px;text-align:center;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--ink)}
+.zw-feld.zw-aus{width:4.4em}
+.zw-feld.zw-bed{width:auto;min-width:4.4em;padding:2px 0}
+.zw-feld:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.zw-feld.falsch{border-color:var(--no);background:var(--no-soft)}
+.zw-feld.richtig{border-color:var(--ok)}
+.zw-feld:disabled{opacity:1;color:var(--ink);background:var(--ok-soft);border-color:transparent}
+.zw-test td,.zw-test th{padding:3px 3px}
+.zw-test caption{display:none}
+.zw-dg{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.8rem;color:var(--ink-soft)}
+.zw-knoepfe{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.zw-knoepfe[hidden]{display:none}
+.bk-st{margin:0 0 12px}
+.bk-st-ausgabe{margin-top:10px;border-top:1px dashed var(--line);padding-top:4px}
+.bk-st-ausgabe[hidden]{display:none}
+.bk-st-wert{width:9em}

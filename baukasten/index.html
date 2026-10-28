@@ -108,6 +108,17 @@
 
     <section class="bk-lauf" aria-labelledby="laufTitel">
       <h2 id="laufTitel">Käfer-Feld</h2>
+      <fieldset class="bk-frage bk-st" id="stBox" hidden>
+        <legend>Schreibtischtest</legend>
+        <p class="bk-frage-text" id="stText"></p>
+        <div id="stInhalt"></div>
+        <div class="bk-st-ausgabe" id="stAusgabe" hidden>
+          <p class="bk-frage-text" id="stAusgabeText"></p>
+          <input type="text" class="bk-zahl bk-st-wert" id="stAusgabeWert" inputmode="numeric" aria-label="Ausgabe, mehrere Zahlen mit Komma getrennt">
+          <button type="button" class="bk-knopf" id="stAusgabeKnopf">Prüfen</button>
+          <p class="bk-frage-rueck" id="stAusgabeRueck" role="status" aria-live="polite" hidden></p>
+        </div>
+      </fieldset>
       <label class="bk-nebel-schalter" id="nebelSchalter" hidden>
         <input type="checkbox" id="nebel"> Nebel: der Käfer sieht nur die Nachbarfelder
       </label>
@@ -200,6 +211,7 @@
 <script src="engine.js"></script>
 <script src="../assets/challenges.js"></script>
 <script src="figur.js"></script>
+<script src="zahlwelt.js"></script>
 <script src="../assets/blume.js"></script>
 <script src="app.js"></script>
 <script src="../assets/design.js"></script>
