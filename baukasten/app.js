@@ -70,23 +70,26 @@
 
   var BIS_LABEL = "wiederhole bis Ziel";
 
+  // Befehle und Bedingungen: aus den Tabellen der Engine, in der Zahlenwelt der Python-Text selbst.
+  function befInfo(c) { return E.BEFEHLE[c] || { label: c, kurz: c }; }
+  function bedInfo(c) { return E.BEDINGUNGEN[c] || { label: c + "?", kurz: c + "?", solange: c }; }
   function blockLabel(b) {
-    if (b.t === "act") return E.BEFEHLE[b.cmd].label;
+    if (b.t === "act") return befInfo(b.cmd).label;
     if (b.t === "loop") return "wiederhole " + b.n + "-mal";
     if (b.t === "until") return BIS_LABEL;
     if (b.t === "while") return solangeLabel(b.cond);
-    return E.BEDINGUNGEN[b.cond].label;
+    return bedInfo(b.cond).label;
   }
-  function solangeLabel(cond) { return "wiederhole solange " + E.BEDINGUNGEN[cond || "frei"].solange; }
+  function solangeLabel(cond) { return "wiederhole solange " + bedInfo(cond || "frei").solange; }
   // Wort für die Felder einer Aufgabe: [Einzahl, Mehrzahl, Mehrzahl im Dativ]
   function felderWort() { return aufg.felderWort || ["Labyrinth", "Labyrinthe", "Labyrinthen"]; }
   function quelleLabel(q) {
     if (q.quelle === "block") return blockLabel(E.blockAt(prog, q.adr));
-    if (q.typ === "act") return E.BEFEHLE[q.cmd].label;
+    if (q.typ === "act") return befInfo(q.cmd).label;
     if (q.typ === "loop") return "wiederhole n-mal";
     if (q.typ === "until") return BIS_LABEL;
     if (q.typ === "while") return solangeLabel(q.cmd);
-    return E.BEDINGUNGEN[q.cmd || "frei"].label;
+    return bedInfo(q.cmd || "frei").label;
   }
   // Verzweigungen sind standardmässig mit Sonst-Zweig; Aufgaben können «sonst: false» verlangen.
   function neuerBlock(q) { return E.neuerBlock(q.typ, q.cmd, aufg.palette.sonst === false ? false : true); }
@@ -182,6 +185,8 @@
       geloest[a.id] = a.loesung ? E.zaehleBausteine(a.loesung) : geloest[a.id] || a.kleinsteLoesung || 1;
       if (a.strategie) beantwortet[a.id + "/strategie"] = 1;
       if (a.vorhersage) beantwortet[a.id + "/vorhersage"] = 1;
+      if (a.schreibtischtest) beantwortet[a.id + "/schreibtischtest"] = 1;
+      if (a.vorhersageAusgabe) beantwortet[a.id + "/ausgabe"] = 1;
       if (a.frage) beantwortet[a.id] = 1;
     });
     speichereFortschritt();
@@ -310,7 +315,7 @@
   if (window.BaukastenFigur) window.BaukastenFigur.onChange = function () { if (aufg) { renderFeld(); simReset(); } };
 
   // Alte index.html aus dem Zwischenspeicher, neues app.js: einmal ohne Cache neu laden.
-  if (!$("pfad") || !$("knopfLoeschen") || !$("sperre")) {
+  if (!$("pfad") || !$("knopfLoeschen") || !$("sperre") || !$("stBox")) {
     var schon = false;
     try { schon = sessionStorage.getItem("kara.neuGeladen") === "1"; sessionStorage.setItem("kara.neuGeladen", "1"); } catch (e) { schon = true; }
     if (!schon) {
@@ -353,6 +358,7 @@
       l.push(!!geloest[a.id]);
       if (a.strategie) l.push(!!beantwortet[a.id + "/strategie"]);
       else if (a.vorhersage) l.push(!!beantwortet[a.id + "/vorhersage"]);
+      else if (a.schreibtischtest && !a.lesen) l.push(!!beantwortet[a.id + "/schreibtischtest"]);
       if (a.frage) l.push(!!beantwortet[a.id]);
     });
     return { pflicht: pflicht, zusatz: zusatz };
@@ -474,37 +480,52 @@
   // Mit Vorher-Frage oder Vorhersage: Schritte 1. Vorher, 2. Struktogramm, 3. Nachher. Bis «Vorher»
   // erledigt ist, bleibt das Struktogramm gesperrt (milchig); Starten bleibt möglich (Gegenbeispiele).
   function schritteBeschriften() {
-    var mit = !!(aufg.strategie || aufg.vorhersage);
+    var mit = !!(aufg.strategie || aufg.vorhersage || (aufg.schreibtischtest && !aufg.lesen));
+    $("stBox").querySelector("legend").textContent = aufg.lesen ? "Schreibtischtest" : (mit ? "1. " : "") + "Vorher: Schreibtischtest";
     $("strategieBox").querySelector("legend").textContent = (mit ? "1. " : "") + "Vorher: Wie gehen Sie vor?";
     $("vorhersageBox").querySelector("legend").textContent = (mit ? "1. " : "") + "Vorher: Wo endet der Käfer?";
-    $("bauTitel").textContent = (mit ? "2. " : "") + "Struktogramm bauen";
+    $("bauTitel").textContent = aufg.lesen ? "Struktogramm lesen" : (mit ? "2. " : "") + "Struktogramm bauen";
+    $("laufTitel").textContent = istZahlen() ? "Variablen" : "Käfer-Feld";
     $("frageBox").querySelector("legend").textContent = (mit ? "3. " : "") + "Nachher: Reflexion";
   }
   function vorherOffen() {
     if (!aufg) return false;
     if (aufg.strategie && !beantwortet[aufg.id + "/strategie"]) return "frage";
+    if (aufg.schreibtischtest && !aufg.lesen && !beantwortet[aufg.id + "/schreibtischtest"]) return "schreibtischtest";
     return vorhersageWartet() ? "vorhersage" : false;
   }
   function sperreAktualisieren() {
     var offen = vorherOffen(), bau = document.querySelector(".bk-bau");
     bau.classList.toggle("gesperrt", !!offen);
+    // Beim Schreibtischtest muss das Struktogramm lesbar bleiben, nur Bauen ist gesperrt.
+    bau.classList.toggle("lesbar", offen === "schreibtischtest");
+    bau.classList.toggle("nur-lesen", !!aufg.lesen);
+    bau.classList.toggle("bk-zahlen", istZahlen());
     $("sperre").hidden = !offen;
     $("sperre").textContent = offen === "vorhersage" ? "Zuerst 1.: Tippen Sie im Käfer-Feld, wo der Käfer endet."
+      : offen === "schreibtischtest" ? "Zuerst 1.: Führen Sie rechts den Schreibtischtest für dieses Programm."
       : "Zuerst 1.: Beantworten Sie die Vorher-Frage.";
   }
   function zuerstVorher() {
     if (vorherOffen() === "vorhersage") { zuerstVorhersagen(); return; }
+    if (vorherOffen() === "schreibtischtest") {
+      meldungZeigen("fehler", "Zuerst der Schreibtischtest", "Führen Sie zuerst den Schreibtischtest für das vorgegebene Programm. Danach können Sie es ändern.");
+      $("stBox").scrollIntoView({ block: "center", behavior: "smooth" });
+      return;
+    }
     meldungZeigen("fehler", "Zuerst die Vorher-Frage", "Beantworten Sie zuerst die Frage unter 1. Danach können Sie das Struktogramm bauen.");
     $("strategieBox").scrollIntoView({ block: "center", behavior: "smooth" });
   }
   // Gesperrt: Ziehen, Antippen und Tasten im Baubereich abfangen (die Code-Ansicht bleibt offen).
   ["pointerdown", "click", "keydown"].forEach(function (typ) {
     document.querySelector(".bk-bau").addEventListener(typ, function (e) {
-      if (!vorherOffen() || (e.target.closest && e.target.closest("#codeBox"))) return;
+      if ((!vorherOffen() && !(aufg && aufg.lesen)) || (e.target.closest && e.target.closest("#codeBox"))) return;
       if (typ === "keydown" && e.key === "Tab") return;
       e.preventDefault();
       e.stopPropagation();
-      if (typ !== "pointerdown") zuerstVorher();
+      if (typ === "pointerdown") return;
+      if (aufg.lesen) meldungZeigen("hinweis", null, "Dieses Struktogramm ist fest: Hier wird nur gelesen. Führen Sie den Schreibtischtest.");
+      else zuerstVorher();
     }, true);
   });
 
@@ -636,7 +657,7 @@
     aktuell = i;
     aufg = aufgaben[i];
     var z = zustand[aufg.id];
-    prog = z ? z.prog : (gespeichertesProgramm(aufg) || startProgramm(aufg));
+    prog = aufg.lesen ? startProgramm(aufg) : z ? z.prog : (gespeichertesProgramm(aufg) || startProgramm(aufg));
     undoStack = z ? z.undo : [];
     auswahl = null;
     fokusZiel = null;
@@ -661,6 +682,7 @@
     layout = { idx: 0, ergebnisse: {}, aufgedeckt: {}, zufall: [] };
     aufg.feld = aufg.felder[0].feld;
     aufg.ziel = aufg.felder[0].ziel;
+    zahlenAnsichtSetzen();
 
     tabsAktualisieren();
     adresseSetzen();
@@ -996,7 +1018,7 @@
   var layout = { idx: 0, ergebnisse: {}, aufgedeckt: {}, zufall: [] };
   var MAX_ZUFALL_ZEIGEN = 3;
 
-  function mehrereLayouts() { return aufg.felder.length > 1 || !!aufg.zufall; }
+  function mehrereLayouts() { return !aufg.lesen && (aufg.felder.length > 1 || !!aufg.zufall); }
   function sichtbareFelder() {
     return aufg.felder.filter(function (f) { return !f.verdeckt || layout.aufgedeckt[f.name]; }).concat(layout.zufall);
   }
@@ -1074,7 +1096,8 @@
 
   var GRUND_KURZ = {
     anstoss: "stösst an", kreis: "läuft im Kreis", endlos: "endet nie", nichtAusfuehrbar: "Befehl unbekannt", limit: "läuft zu lange",
-    endfeld: "kommt nicht zum Ausgang", fehlend: "verpasst Felder", zusaetzlich: "zu viele Felder"
+    endfeld: "kommt nicht zum Ausgang", fehlend: "verpasst Felder", zusaetzlich: "zu viele Felder",
+    ausgabe: "falsche Ausgabe", unbelegt: "Variable ohne Wert", nulldivision: "Division durch 0"
   };
 
   function kleinsteText(n) {
@@ -1089,18 +1112,18 @@
 
   function renderPalette() {
     palette.textContent = "";
-    var p = aufg.palette;
+    var p = aufg.palette, zahlen = istZahlen();
     (p.befehle || []).forEach(function (c) {
-      if (E.BEFEHLE[c]) palette.append(chip({ typ: "act", cmd: c }, E.BEFEHLE[c].label, "bk-pal-act"));
+      if (E.BEFEHLE[c] || zahlen) palette.append(chip({ typ: "act", cmd: c }, befInfo(c).label, "bk-pal-act"));
     });
     if (p.wiederholung) palette.append(chip({ typ: "loop" }, "wiederhole n-mal", "bk-pal-loop"));
     if (p.bis) palette.append(chip({ typ: "until" }, BIS_LABEL, "bk-pal-loop"));
     (p.solange || []).forEach(function (c) {
-      if (E.BEDINGUNGEN[c]) palette.append(chip({ typ: "while", cmd: c }, solangeLabel(c), "bk-pal-loop"));
+      if (E.BEDINGUNGEN[c] || zahlen) palette.append(chip({ typ: "while", cmd: c }, solangeLabel(c), "bk-pal-loop"));
     });
     if (p.verzweigung) {
       (p.bedingungen || ["frei"]).forEach(function (c) {
-        if (E.BEDINGUNGEN[c]) palette.append(chip({ typ: "if", cmd: c }, E.BEDINGUNGEN[c].label, "bk-pal-if"));
+        if (E.BEDINGUNGEN[c] || zahlen) palette.append(chip({ typ: "if", cmd: c }, bedInfo(c).label, "bk-pal-if"));
       });
     }
   }
@@ -1216,14 +1239,14 @@
       blk.classList.add("grab");
       // Befehl, den dieser Käfer nicht kennt (Gegenbeispiel «ausführbar»): durchgestrichen
       if ((aufg.nichtAusfuehrbar || []).indexOf(b.cmd) >= 0) blk.classList.add("bk-unbekannt");
-      blk.append(mainBtn(b, adr, laenge, ebene >= 2 && E.BEFEHLE[b.cmd].kurz ? E.BEFEHLE[b.cmd].kurz : blockLabel(b)), delBtn());
+      blk.append(mainBtn(b, adr, laenge, ebene >= 2 && befInfo(b.cmd).kurz ? befInfo(b.cmd).kurz : blockLabel(b)), delBtn());
       return blk;
     }
 
     if (b.t === "until" || b.t === "while") {
       blk.classList.add("bk-loop");
       var kopfU = el("div", "bk-kopf grab");
-      var bedU = b.t === "while" ? E.BEDINGUNGEN[b.cond] : null;
+      var bedU = b.t === "while" ? bedInfo(b.cond) : null;
       var textU = !bedU ? BIS_LABEL : ebene >= 2 ? "solange " + bedU.kurz.replace("?", "") : blockLabel(b);
       kopfU.append(mainBtn(b, adr, laenge, textU), el("span", "bk-spacer"), delBtn());
       blk.append(kopfU);
@@ -1275,7 +1298,7 @@
     var k2 = el("div", "bk-kopf grab");
     var dreieck = svgEl("svg", { viewBox: "0 0 100 100", preserveAspectRatio: "none", "aria-hidden": "true" }, "bk-dreieck");
     dreieck.append(svgEl("line", { x1: 0, y1: 0, x2: 50, y2: 100 }), svgEl("line", { x1: 100, y1: 0, x2: 50, y2: 100 }));
-    var bed = E.BEDINGUNGEN[b.cond];
+    var bed = bedInfo(b.cond);
     k2.append(dreieck, mainBtn(b, adr, laenge, ebene >= 2 && bed.kurz ? bed.kurz : bed.label), el("span", "bk-ja", "Ja"), el("span", "bk-nein", "Nein"), delBtn());
     blk.append(k2);
     var aeste = el("div", "bk-aeste");
@@ -1296,7 +1319,7 @@
     var z = $("zaehler");
     z.textContent = E.bausteineText(n, max);
     z.classList.toggle("zu-viele", max !== null && n > max);
-    $("codeText").textContent = E.alsCode(prog);
+    $("codeText").textContent = E.alsCode(prog, istZahlen() ? aktFall().eingabe : undefined);
   }
 
   /* ---------- Auswahl (antippen / Tastatur) ----------------- */
@@ -1680,6 +1703,166 @@
 
   /* ---------- Käfer-Feld ------------------------------------ */
 
+  /* ---------- Zahlenwelt (welt: "zahlen"): Variablen, Ablauftabelle, Schreibtischtest ---------- */
+
+  var ZW = window.KaraZahlwelt, zahlRef = null;
+  var stEintraege = {};          // je Aufgabe in dieser Sitzung: Eingaben im Schreibtischtest
+  var stGeprueft = {};           // je Aufgabe: Schreibtischtest mindestens einmal geprüft
+  var ZAHL_TRACE_MAX = 120;      // Wiederholung ohne Ende: nur so viele Schritte zeigen
+
+  function istZahlen() { return !!(aufg && aufg.welt === "zahlen"); }
+  function aktFall() {
+    return (mehrereLayouts() ? sichtbareFelder()[layout.idx] : aufg.felder[0]).fall;
+  }
+  // Text der einzigen «solange»-Bedingung (Spaltentitel der Tabelle) oder null.
+  function einzigeBedingung(p) {
+    var l = [];
+    (function such(liste) {
+      liste.forEach(function (b) {
+        if (b.t === "while") l.push(b.cond);
+        if (b.body) such(b.body);
+        if (b.yes) { such(b.yes); such(b.no); }
+      });
+    })(p);
+    return l.length === 1 ? l[0] : null;
+  }
+
+  function renderZahlen() {
+    feldRef = null;
+    $("nebelSchalter").hidden = true;
+    var fall = aktFall();
+    zahlRef = ZW.ansicht(feldBox, E.zahlVariablen(fall.eingabe, prog), fall.eingabe, einzigeBedingung(prog));
+    var info = (mehrereLayouts() ? "«" + sichtbareFelder()[layout.idx].name + "». " : "") + "Eingabe: " + E.eingabeText(fall.eingabe) + ".";
+    if (!aufg.lesen) info += " Erwartete Ausgabe: " + E.ausgabeText(fall.ausgabe) + ".";
+    $("feldInfo").textContent = info;
+  }
+  // Spalten hängen vom Programm ab: beim Zurücksetzen neu aufbauen.
+  function zahlenReset() { renderZahlen(); }
+
+  function zahlenLauf() {
+    var l = E.runZahlen(aktFall().eingabe, prog);
+    if (!l.ok && (l.fehler === "limit" || l.fehler === "endlos") && l.trace.length > ZAHL_TRACE_MAX) {
+      var letzt = l.trace[ZAHL_TRACE_MAX - 1];
+      l.trace = l.trace.slice(0, ZAHL_TRACE_MAX);
+      l.trace.push({ typ: "fehler", code: l.fehler, pfad: letzt.pfad, werte: letzt.werte, ausgabe: letzt.ausgabe, zeilen: letzt.zeilen });
+    }
+    return l;
+  }
+
+  function zahlenAnwenden(ev) {
+    zahlRef.zeigen({ werte: ev.werte, ausgabe: ev.ausgabe, zeilen: ev.zeilen, alle: sim.lauf.zeilen, fehler: ev.typ === "fehler" });
+    var text = "";
+    if (ev.typ === "act") {
+      var r = E.zahlLesen(ev.cmd);
+      text = ev.cmd + (r.art === "zuweisung" ? " → " + r.name + " ist jetzt " + ev.werte[r.name] : " → Ausgabe " + ev.ausgabe[ev.ausgabe.length - 1]);
+    } else if (ev.typ === "while") text = "solange " + ev.cond + "? " + (ev.ja ? "wahr – Durchgang " + ev.durchlauf : "falsch – fertig");
+    else if (ev.typ === "if") text = ev.cond + "? → " + (ev.ja ? "Ja" : "Nein");
+    else if (ev.typ === "loop") text = "wiederhole " + ev.n + "-mal – Durchlauf " + ev.durchlauf + " von " + ev.n;
+    else if (ev.typ === "fehler") text = E.zahlFehlerText({ fehler: ev.code, name: ev.name });
+    schrittInfo(text, !sim.laeuft);
+  }
+
+  function zahlenLesenEnde() {
+    var l = sim.lauf;
+    meldungZeigen(l.ok ? "hinweis" : "fehler", null, l.ok ? "Das Programm ist fertig. Ausgabe: " + E.ausgabeText(l.ausgabe) +
+      ". Vergleichen Sie mit Ihrem Schreibtischtest." : E.zahlFehlerText(l));
+  }
+
+  // Laufen lassen erst, wenn der Schreibtischtest einmal geprüft ist (danach zum Vergleichen).
+  function zahlenGesperrt() {
+    if (!istZahlen() || !aufg.schreibtischtest || beantwortet[aufg.id + "/schreibtischtest"] || stGeprueft[aufg.id]) return false;
+    meldungZeigen("fehler", "Zuerst der Schreibtischtest", "Füllen Sie zuerst den Schreibtischtest aus und prüfen Sie ihn. " +
+      "Danach können Sie das Programm laufen lassen und vergleichen.");
+    $("stBox").scrollIntoView({ block: "center", behavior: "smooth" });
+    return true;
+  }
+
+  function zahlenAnsichtSetzen() {
+    var box = $("stBox");
+    box.hidden = !(istZahlen() && aufg.schreibtischtest);
+    if (!box.hidden) renderSchreibtisch();
+  }
+  function stErwartet() {
+    var st = aufg.schreibtischtest, p = aufg.startprogramm || [], fall = aufg.felder[st.fall || 0].fall;
+    var l = E.runZahlen(fall.eingabe, p);
+    return { fall: fall, zeilen: st.zeilen ? l.zeilen.slice(0, st.zeilen) : l.zeilen, variablen: E.zahlVariablen(fall.eingabe, p) };
+  }
+  function renderSchreibtisch() {
+    var e = stErwartet(), id = aufg.id;
+    $("stText").textContent = "Eingabe: " + E.eingabeText(e.fall.eingabe) + ".";
+    ZW.schreibtisch($("stInhalt"), {
+      variablen: e.variablen, erwartet: e.zeilen, bedingung: einzigeBedingung(aufg.startprogramm || []),
+      eingabe: e.fall.eingabe, fest: aufg.schreibtischtest.zeilen || null,
+      eintraege: stEintraege[id] || null, fertig: !!beantwortet[id + "/schreibtischtest"],
+      aendern: function (w) { stEintraege[id] = w; },
+      geprueft: function () { stGeprueft[id] = true; },
+      geloest: function () {
+        stGeprueft[id] = true;
+        if (!beantwortet[id + "/schreibtischtest"]) { beantwortet[id + "/schreibtischtest"] = 1; speichereFragen(); }
+        renderSchreibtisch();
+        tabsAktualisieren();
+        if (aufg.lesen && !aufg.vorhersageAusgabe) lesenGeloest();
+        else if (aufg.lesen) $("stAusgabeWert").focus();
+        else meldungZeigen("ok", null, "Der Schreibtischtest stimmt. Jetzt können Sie das Programm ändern.");
+      }
+    });
+    renderAusgabeFrage();
+  }
+
+  // Lesen: nach dem Schreibtischtest die Ausgabe für eine zweite Eingabe vorhersagen.
+  function renderAusgabeFrage() {
+    var va = aufg.vorhersageAusgabe, box = $("stAusgabe");
+    box.hidden = !(va && beantwortet[aufg.id + "/schreibtischtest"]);
+    if (box.hidden) return;
+    var fall = aufg.felder[va.fall].fall, fertig = !!beantwortet[aufg.id + "/ausgabe"], inp = $("stAusgabeWert"), r = $("stAusgabeRueck");
+    $("stAusgabeText").textContent = "Und mit einer anderen Eingabe: Was gibt das Programm bei " + E.eingabeText(fall.eingabe) + " aus?";
+    inp.value = fertig ? fall.ausgabe.join(", ") : "";
+    inp.disabled = fertig;
+    $("stAusgabeKnopf").hidden = fertig;
+    r.hidden = !fertig;
+    r.className = "bk-frage-rueck" + (fertig ? " ok" : "");
+    r.textContent = fertig ? "Richtig." : "";
+  }
+  function ausgabePruefen() {
+    var fall = aufg.felder[aufg.vorhersageAusgabe.fall].fall, r = $("stAusgabeRueck");
+    var a = ZW.ausgabeLesen($("stAusgabeWert").value);
+    r.hidden = false;
+    if (!a.length && fall.ausgabe.length) {
+      r.className = "bk-frage-rueck";
+      r.textContent = "Geben Sie zuerst die Ausgabe ein, mehrere Zahlen mit Komma getrennt.";
+      return;
+    }
+    var ok = a.length === fall.ausgabe.length && a.every(function (x, i) { return x === fall.ausgabe[i]; });
+    if (!ok) {
+      r.className = "bk-frage-rueck fehler";
+      r.textContent = "Nicht ganz. Gehen Sie das Programm mit dieser Eingabe in Gedanken durch, wie im Schreibtischtest.";
+      return;
+    }
+    beantwortet[aufg.id + "/ausgabe"] = 1;
+    speichereFragen();
+    renderAusgabeFrage();
+    lesenGeloest();
+  }
+  $("stAusgabeKnopf").addEventListener("click", ausgabePruefen);
+  $("stAusgabeWert").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); ausgabePruefen(); } });
+
+  function lesenGeloest() {
+    if (window.KaraDesign) window.KaraDesign.ende(true);
+    geloest[aufg.id] = geloest[aufg.id] || E.zaehleBausteine(prog);
+    speichereFortschritt();
+    statistik("geloest", true);
+    renderFrage("frage");
+    tabsAktualisieren();
+    var knopf = null;
+    if (!reflexionOffen() && naechsteIndex() >= 0) {
+      knopf = el("button", "bk-knopf primaer", "Nächste Aufgabe");
+      knopf.type = "button";
+      knopf.addEventListener("click", weiter);
+    }
+    meldungZeigen("ok", "Geschafft", "Sie haben das Programm richtig gelesen." +
+      (reflexionOffen() ? " Beantworten Sie unten noch die Reflexionsfrage, dann geht es weiter." : ""), knopf);
+  }
+
   function zx(x) { return RAND + (x - 1) * Z; }
   function zy(y) { return (aufg.feld.rows - y) * Z + 2; }
   function mx(x) { return zx(x) + Z / 2; }
@@ -1719,6 +1902,7 @@
   }
 
   function renderFeld() {
+    if (istZahlen()) { renderZahlen(); return; }
     var f = aufg.feld, z = aufg.ziel;
     var W = RAND + f.cols * Z + 4, H = f.rows * Z + RAND + 4;
     var svg = svgEl("svg", { viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": feldBeschreibung() });
@@ -2008,7 +2192,7 @@
 
   /* ---------- Ablauf ---------------------------------------- */
 
-  function dauerSetzen(ms) { feldRef.svg.style.setProperty("--dauer", ms + "ms"); }
+  function dauerSetzen(ms) { if (feldRef) feldRef.svg.style.setProperty("--dauer", ms + "ms"); }
   function tempoMs() { return TEMPO[Number(tempoEl.value) - 1] || 420; }
 
   function schrittInfo(text, live) {
@@ -2056,6 +2240,7 @@
       dauerSetzen(300);
       kaeferSetzen(f.start[0], f.start[1], sim.winkel, true);
     }
+    if (istZahlen()) zahlenReset();
     markiere(null);
     $("zaehlwert").textContent = "0";
     schrittInfo("", false);
@@ -2071,9 +2256,11 @@
       meldungZeigen("fehler", null, "Bitte geben Sie bei «wiederhole» eine ganze Zahl von 1 bis " + E.MAX_WIEDERHOLUNG + " ein.");
       return false;
     }
-    sim.lauf = E.run(aufg.feld, prog, { ziel: E.zielfeld(aufg.ziel), nichtAusfuehrbar: aufg.nichtAusfuehrbar });
+    if (zahlenGesperrt()) return false;
+    sim.lauf = istZahlen() ? zahlenLauf() : E.run(aufg.feld, prog, { ziel: E.zielfeld(aufg.ziel), nichtAusfuehrbar: aufg.nichtAusfuehrbar });
     sim.i = 0;
     sim.ende = false;
+    if (istZahlen()) return true;
     nebelSetzen(aufg.feld.start[0], aufg.feld.start[1]);
     if (feldRef && feldRef.kamera) { kameraAn(true); kameraFolgen(aufg.feld.start[0], aufg.feld.start[1], true); }
     return true;
@@ -2081,6 +2268,7 @@
 
   function anwenden(ev) {
     markiere(ev.pfad, ev.typ === "fehler");
+    if (istZahlen()) { zahlenAnwenden(ev); return; }
     if (ev.zaehler != null) $("zaehlwert").textContent = ev.zaehler;
     var text = "";
     if (ev.typ === "act") {
@@ -2090,7 +2278,7 @@
         spurFlaeche(ev.x, ev.y);
       }
       kaeferSetzen(ev.x, ev.y, sim.winkel, false);
-      text = E.BEFEHLE[ev.cmd].label + (/^zaehler/.test(ev.cmd) ? " → Zähler: " + ev.zaehler : "");
+      text = befInfo(ev.cmd).label + (/^zaehler/.test(ev.cmd) ? " → Zähler: " + ev.zaehler : "");
     } else if (ev.typ === "loop") {
       text = "wiederhole " + ev.n + "-mal – Durchlauf " + ev.durchlauf + " von " + ev.n;
     } else if (ev.typ === "until") {
@@ -2098,11 +2286,11 @@
     } else if (ev.typ === "while") {
       text = solangeLabel(ev.cond) + "? " + (ev.ja ? "Ja – Durchlauf " + ev.durchlauf : "Nein – fertig");
     } else if (ev.typ === "if") {
-      text = E.BEDINGUNGEN[ev.cond || "frei"].label + " → " + (ev.ja ? "Ja" : "Nein");
+      text = bedInfo(ev.cond || "frei").label + " → " + (ev.ja ? "Ja" : "Nein");
     } else if (ev.code === "kreis" || ev.code === "endlos" || ev.code === "nichtAusfuehrbar") {
       feldRef.kaefer.classList.add("fehler");
       text = ev.code === "kreis" ? "Der Käfer läuft im Kreis." : ev.code === "endlos" ? "Die Wiederholung endet nie."
-        : "«" + E.BEFEHLE[ev.cmd].label + "» kann dieser Käfer nicht ausführen.";
+        : "«" + befInfo(ev.cmd).label + "» kann dieser Käfer nicht ausführen.";
     } else {
       var dr = SCREEN_DIR[ev.d], cx = mx(ev.x), cy = my(ev.y), h = Z / 2;
       var ex = cx + dr[0] * h, ey = cy + dr[1] * h;
@@ -2121,7 +2309,7 @@
     var tr = sim.lauf.trace;
     if (sim.i >= tr.length) { abschluss(); return; }
     anwenden(tr[sim.i++]);
-    if (auto && Number(tempoEl.value) >= TEMPO_NUR_BEWEGUNG) {
+    if (auto && Number(tempoEl.value) >= TEMPO_NUR_BEWEGUNG && !istZahlen()) {
       while (sim.i < tr.length && tr[sim.i].typ !== "act" && tr[sim.i].typ !== "fehler") anwenden(tr[sim.i++]);
     }
     if (sim.i >= tr.length) {
@@ -2138,6 +2326,7 @@
     knoepfe();
     $("schrittInfo").setAttribute("aria-live", "polite");
     // Ziel erreicht: Nebel weg, das ganze Labyrinth mit dem gelaufenen Weg wird sichtbar.
+    if (istZahlen() && aufg.lesen) { zahlenLesenEnde(); return; }
     var zf = E.zielfeld(aufg.ziel), l = sim.lauf;
     var alleBefahren = aufg.ziel.alleWege && l && l.ok && !E.ZIELTYPEN.besucht(aufg.ziel, l);
     if (l && l.ok && (alleBefahren || (zf && l.end[0] === zf[0] && l.end[1] === zf[1]))) { nebelOffen = true; nebelSetzen(); }
@@ -2157,7 +2346,9 @@
       meldungZeigen("fehler", null, f.name + ": " + r.text);
       return;
     }
-    meldungZeigen("hinweis", null, "In «" + f.name + "» schafft es der Käfer. Gelöst ist die Aufgabe erst, wenn es in allen " +
+    meldungZeigen("hinweis", null, istZahlen()
+      ? "In «" + f.name + "» stimmt die Ausgabe. Gelöst ist die Aufgabe erst, wenn sie in allen Fällen stimmt, auch in den verdeckten: Prüfen Sie mit «Alle prüfen»."
+      : "In «" + f.name + "» schafft es der Käfer. Gelöst ist die Aufgabe erst, wenn es in allen " +
       felderWort()[2] + " klappt: Prüfen Sie mit «Alle prüfen».");
   }
 
@@ -2176,7 +2367,8 @@
         knopf.type = "button";
         knopf.addEventListener("click", weiter);
       }
-      var wo = res.ergebnisse.length > 1 && aufg.felderWort
+      var wo = istZahlen() ? "Das Programm stimmt in allen " + res.ergebnisse.length + " Fällen. "
+        : res.ergebnisse.length > 1 && aufg.felderWort
         ? "Der Käfer schafft es in allen " + res.ergebnisse.length + " " + aufg.felderWort[2] + ". "
         : res.ergebnisse.length > 1
         ? "Der Käfer findet in allen " + res.ergebnisse.length + " Labyrinthen zum Ausgang" +

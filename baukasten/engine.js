@@ -40,7 +40,8 @@
     unbekannt: "Das Programm enthält einen unbekannten Baustein.",
     nichtAusfuehrbar: "Diesen Befehl kann der Käfer nicht ausführen: Er kennt ihn nicht.",
     endlos: "Die Wiederholung endet nie: Zu Beginn eines Durchlaufs steht der Käfer wieder am gleichen Ort, schaut in die gleiche Richtung, und die Bedingung gilt immer noch.",
-    kreis: "Der Käfer läuft im Kreis: Er steht wieder am gleichen Ort, schaut in die gleiche Richtung und hat das Ziel nicht erreicht."
+    kreis: "Der Käfer läuft im Kreis: Er steht wieder am gleichen Ort, schaut in die gleiche Richtung und hat das Ziel nicht erreicht.",
+    endlosZahl: "Die Wiederholung hört nicht auf. Ändert sich im Rumpf, was in der Bedingung steht?"
   };
 
   /* ---------- Tabellen (erweiterbar) ----------------------- */
@@ -145,7 +146,7 @@
         if (fehler) return;
         if (!b || typeof b !== "object") { fehler = "Ungültiger Baustein."; return; }
         if (b.t === "act") {
-          if (!BEFEHLE[b.cmd]) fehler = "Unbekannter Befehl: " + b.cmd;
+          if (!BEFEHLE[b.cmd] && !istZahlBefehl(b.cmd)) fehler = "Unbekannter Befehl: " + b.cmd;
         } else if (b.t === "loop") {
           if (typeof b.n !== "number" || b.n % 1 !== 0 || b.n < 1 || b.n > MAX_WIEDERHOLUNG) fehler = "Wiederholungszahl ausserhalb 1 bis " + MAX_WIEDERHOLUNG + ".";
           else if (!Array.isArray(b.body)) fehler = "Wiederholung ohne Inhalt.";
@@ -154,11 +155,11 @@
           if (!Array.isArray(b.body)) fehler = "Wiederholung ohne Inhalt.";
           else pruefen(b.body);
         } else if (b.t === "while") {
-          if (!BEDINGUNGEN[b.cond]) fehler = "Unbekannte Bedingung: " + b.cond;
+          if (!BEDINGUNGEN[b.cond] && !istZahlBedingung(b.cond)) fehler = "Unbekannte Bedingung: " + b.cond;
           else if (!Array.isArray(b.body)) fehler = "Wiederholung ohne Inhalt.";
           else pruefen(b.body);
         } else if (b.t === "if") {
-          if (!BEDINGUNGEN[b.cond]) fehler = "Unbekannte Bedingung: " + b.cond;
+          if (!BEDINGUNGEN[b.cond] && !istZahlBedingung(b.cond)) fehler = "Unbekannte Bedingung: " + b.cond;
           else if (!Array.isArray(b.yes) || !Array.isArray(b.no)) fehler = "Verzweigung ohne Zweige.";
           else if (b.sonst === false && b.no.length) fehler = "Verzweigung ohne Sonst-Zweig darf dort keine Bausteine haben.";
           else { pruefen(b.yes); pruefen(b.no); }
@@ -413,6 +414,7 @@
   //  - sonst: Feld mit cols/rows/start/hindernisse und eigenem «ziel» (unverändert).
   function vorbereiten(aufgabe) {
     var a = klonen(aufgabe);
+    if (a.welt === "zahlen") return zahlenVorbereiten(a);
     var zt = a.ziel && a.ziel.typ;
     if (Array.isArray(a.layouts) && a.layouts.length) {
       a.felder = a.layouts.map(function (l, i) { return layoutVorbereiten(l, "Layout " + (i + 1), false, a.id + ", Layout " + (i + 1), zt); })
@@ -430,6 +432,26 @@
     }
     a.feld = a.felder[0].feld;
     a.ziel = a.felder[0].ziel;
+    return a;
+  }
+
+  // Zahlenwelt: «faelle» und «verdeckt» sind Listen {eingabe, ausgabe, name?}. Bausteine werden geprüft.
+  function zahlenVorbereiten(a) {
+    var p = a.palette || {};
+    (p.befehle || []).forEach(function (c) { if (zahlLesen(c).art === "vergleich") throw new Error("Kein Befehl: «" + c + "» (" + a.id + ")."); });
+    (p.solange || []).concat(p.bedingungen || []).forEach(function (c) {
+      if (zahlLesen(c).art !== "vergleich") throw new Error("Keine Bedingung: «" + c + "» (" + a.id + ").");
+    });
+    function fall(f, i, verdeckt) {
+      if (!f.eingabe || !Array.isArray(f.ausgabe)) throw new Error("Fall ohne Eingabe oder Ausgabe (" + a.id + ").");
+      return { name: f.name || (verdeckt ? "Verdeckt " : "Fall ") + (i + 1), fall: f, verdeckt: verdeckt, feld: null, ziel: { typ: "ausgabe" } };
+    }
+    a.felder = (a.faelle || []).map(function (f, i) { return fall(f, i, false); })
+      .concat((a.verdeckt || []).map(function (f, i) { return fall(f, i, true); }));
+    if (!a.felder.length) throw new Error("Aufgabe ohne Fälle (" + a.id + ").");
+    a.felderWort = a.felderWort || ["Fall", "Fälle", "Fällen"];
+    a.feld = null;
+    a.ziel = { typ: "ausgabe" };
     return a;
   }
 
@@ -507,6 +529,218 @@
     return { karte: m.map(function (z) { return z.join(""); }), blick: ["S", "W", "N", "E"][seiteS] };
   }
 
+  /* ---------- Zahlenwelt ----------------------------------- */
+  // Aufgaben mit «welt: "zahlen"»: Statt eines Käferfelds gibt es Variablen. Bausteine sind
+  // Python-Texte aus der Aufgabe, z. B. "r = r + a", "print(r)", Bedingungen "b > 0".
+  // Ein kleiner Leser (kein eval) kennt nur ganze Zahlen, Variablen, + - * // % und Klammern.
+
+  var ZAHL_VERGLEICH = { "==": 1, "!=": 1, "<": 1, "<=": 1, ">": 1, ">=": 1 };
+  var zahlCache = {};
+
+  function zahlTokens(text) {
+    var t = [], re = /\s*(\d+|[A-Za-z_][A-Za-z0-9_]*|\/\/|==|!=|<=|>=|[-+*%()<>=,])/y, m, pos = 0;
+    while (pos < text.length) {
+      if (/^\s*$/.test(text.slice(pos))) break;
+      re.lastIndex = pos;
+      m = re.exec(text);
+      if (!m) throw new Error("Unbekanntes Zeichen in «" + text + "».");
+      t.push(m[1]);
+      pos = re.lastIndex;
+    }
+    return t;
+  }
+
+  // Liefert {art:"zuweisung", name, ausdruck} | {art:"print", ausdruck} | {art:"vergleich", op, links, rechts}
+  // oder wirft einen Fehler. Ausdrücke: {zahl} | {name} | {op, a, b} | {neg}.
+  function zahlLesen(text) {
+    if (typeof text !== "string") throw new Error("Baustein ist kein Text.");
+    if (zahlCache[text]) return zahlCache[text];
+    var t = zahlTokens(text), i = 0;
+    function sieht(x) { return t[i] === x; }
+    function nimm(x) { if (t[i] !== x) throw new Error("«" + x + "» erwartet in «" + text + "»."); i++; }
+    function faktor() {
+      var x = t[i++];
+      if (x === undefined) throw new Error("Ausdruck unvollständig: «" + text + "».");
+      if (x === "-") return { neg: faktor() };
+      if (x === "(") { var e = ausdruck(); nimm(")"); return e; }
+      if (/^\d+$/.test(x)) return { zahl: Number(x) };
+      if (/^[A-Za-z_]/.test(x) && x !== "print") return { name: x };
+      throw new Error("Unerwartet «" + x + "» in «" + text + "».");
+    }
+    function term() {
+      var a = faktor();
+      while (sieht("*") || sieht("//") || sieht("%")) { var op = t[i++]; a = { op: op, a: a, b: faktor() }; }
+      return a;
+    }
+    function ausdruck() {
+      var a = term();
+      while (sieht("+") || sieht("-")) { var op = t[i++]; a = { op: op, a: a, b: term() }; }
+      return a;
+    }
+    var r;
+    if (t[0] === "print" && t[1] === "(") {
+      i = 2;
+      r = { art: "print", ausdruck: ausdruck() };
+      nimm(")");
+    } else if (/^[A-Za-z_]/.test(t[0] || "") && t[1] === "=") {
+      i = 2;
+      r = { art: "zuweisung", name: t[0], ausdruck: ausdruck() };
+    } else {
+      var links = ausdruck(), op = t[i++];
+      if (!ZAHL_VERGLEICH[op]) throw new Error("Vergleich erwartet in «" + text + "».");
+      r = { art: "vergleich", op: op, links: links, rechts: ausdruck() };
+    }
+    if (i !== t.length) throw new Error("Unerwartet «" + t[i] + "» in «" + text + "».");
+    zahlCache[text] = r;
+    return r;
+  }
+  function istZahlBefehl(text) {
+    try { var r = zahlLesen(text); return r.art !== "vergleich"; } catch (e) { return false; }
+  }
+  function istZahlBedingung(text) {
+    try { return zahlLesen(text).art === "vergleich"; } catch (e) { return false; }
+  }
+
+  // Wirft {code:"unbelegt", name} oder {code:"nulldivision"}.
+  function zahlWert(e, v) {
+    if (e.zahl !== undefined) return e.zahl;
+    if (e.name !== undefined) {
+      if (!Object.prototype.hasOwnProperty.call(v, e.name)) throw { code: "unbelegt", name: e.name };
+      return v[e.name];
+    }
+    if (e.neg) return -zahlWert(e.neg, v);
+    var a = zahlWert(e.a, v), b = zahlWert(e.b, v);
+    if (e.op === "+") return a + b;
+    if (e.op === "-") return a - b;
+    if (e.op === "*") return a * b;
+    if (b === 0) throw { code: "nulldivision" };
+    if (e.op === "//") return Math.floor(a / b);
+    return a - b * Math.floor(a / b);            // % wie in Python: Vorzeichen des Teilers
+  }
+  function zahlVergleich(text, v) {
+    var c = zahlLesen(text), a = zahlWert(c.links, v), b = zahlWert(c.rechts, v);
+    switch (c.op) {
+      case "==": return a === b;
+      case "!=": return a !== b;
+      case "<": return a < b;
+      case "<=": return a <= b;
+      case ">": return a > b;
+      default: return a >= b;
+    }
+  }
+
+  // Variablen in der Reihenfolge ihres Auftretens: zuerst die Eingaben, dann Zuweisungen im Programm.
+  function zahlVariablen(eingabe, prog) {
+    var l = Object.keys(eingabe || {});
+    (function sammeln(liste) {
+      liste.forEach(function (b) {
+        if (b.t === "act") {
+          var r = zahlLesen(b.cmd);
+          if (r.art === "zuweisung" && l.indexOf(r.name) < 0) l.push(r.name);
+        }
+        if (b.body) sammeln(b.body);
+        if (b.yes) { sammeln(b.yes); sammeln(b.no); }
+      });
+    })(prog);
+    return l;
+  }
+
+  // Führt ein Zahlenprogramm mit einer Eingabe aus. Liefert
+  // {ok, fehler, name (bei «unbelegt»), werte, ausgabe, schritte, trace, zeilen}.
+  // zeilen: der Schreibtischtest, eine Zeile bei jeder Prüfung einer «solange»-Bedingung
+  // {durchgang, werte, bedingung, ja, ausgabe}; Programme ohne «solange» haben die Zeilen
+  // «Start» und «Ende». Ausgaben nach der letzten Zeile kommen in diese, solange sich keine
+  // Variable mehr ändert, sonst in eine eigene Zeile «Ende».
+  // trace-Ereignisse tragen werte, ausgabe und zeilen (Anzahl Zeilen bis hierher).
+  function runZahlen(eingabe, prog, opts) {
+    var limit = (opts && opts.limit) || SCHRITTLIMIT;
+    var v = klonen(eingabe || {}), ausgabe = [], trace = [], zeilen = [], schritte = 0, ereignisse = 0, fehler = null, unbelegt = null;
+    var mitSolange = JSON.stringify(prog).indexOf('"while"') >= 0, offen = [];   // offen: Ausgaben seit der letzten Zeile
+    var geaendert = false;
+    function zeile(durchgang, bedingung, ja) {
+      zeilen.push({ durchgang: durchgang, werte: klonen(v), bedingung: bedingung || null, ja: ja, ausgabe: offen });
+      offen = [];
+      geaendert = false;
+    }
+    function ereignis(typ, pfad, extra) {
+      if (++ereignisse > EREIGNISLIMIT) throw { code: "limit" };
+      var e = { typ: typ, pfad: pfad, werte: klonen(v), ausgabe: ausgabe.slice(), zeilen: zeilen.length };
+      for (var k in extra) e[k] = extra[k];
+      trace.push(e);
+    }
+    function ausfuehren(b, pfad) {
+      if (++schritte > limit) throw { code: "limit" };
+      if (b.t === "act") {
+        var r = zahlLesen(b.cmd);
+        if (r.art === "zuweisung") { v[r.name] = zahlWert(r.ausdruck, v); geaendert = true; }
+        else if (r.art === "print") { var w = zahlWert(r.ausdruck, v); ausgabe.push(w); offen.push(w); }
+        else throw { code: "unbekannt" };
+        ereignis("act", pfad, { cmd: b.cmd });
+      } else if (b.t === "loop") {
+        for (var i = 0; i < b.n; i++) {
+          ereignis("loop", pfad, { durchlauf: i + 1, n: b.n });
+          for (var j = 0; j < b.body.length; j++) ausfuehren(b.body[j], pfad.concat(["body", j]));
+        }
+      } else if (b.t === "while") {
+        var dw = 0, ges = {};
+        for (;;) {
+          var ja = zahlVergleich(b.cond, v);
+          zeile(dw, b.cond, ja);
+          ereignis("while", pfad, { durchlauf: dw + 1, ja: ja, cond: b.cond });
+          if (!ja) break;
+          var zust = JSON.stringify(v) + "|" + ausgabe.length;
+          if (ges[zust]) { ereignis("fehler", pfad, { code: "endlos" }); throw { code: "endlos" }; }
+          ges[zust] = true;
+          dw++;
+          for (var w2 = 0; w2 < b.body.length; w2++) ausfuehren(b.body[w2], pfad.concat(["body", w2]));
+        }
+      } else if (b.t === "if") {
+        var jaI = zahlVergleich(b.cond, v);
+        ereignis("if", pfad, { ja: jaI, cond: b.cond });
+        var zweig = jaI ? b.yes : b.no, key = jaI ? "yes" : "no";
+        for (var k = 0; k < zweig.length; k++) ausfuehren(zweig[k], pfad.concat([key, k]));
+      } else {
+        throw { code: "unbekannt" };
+      }
+    }
+    if (!mitSolange) zeile("Start");
+    try {
+      for (var i = 0; i < prog.length; i++) ausfuehren(prog[i], [i]);
+    } catch (e) {
+      if (!e || !e.code) throw e;
+      fehler = e.code;
+      if (e.code === "unbelegt") unbelegt = e.name;
+      if (e.code === "unbelegt" || e.code === "nulldivision") ereignis("fehler", trace.length ? trace[trace.length - 1].pfad : [0], { code: e.code, name: e.name });
+    }
+    if (!fehler) {
+      if (!zeilen.length || geaendert) zeile("Ende");
+      else if (offen.length) { zeilen[zeilen.length - 1].ausgabe = zeilen[zeilen.length - 1].ausgabe.concat(offen); offen = []; }
+      if (trace.length) trace[trace.length - 1].zeilen = zeilen.length;
+    }
+    return { ok: !fehler, fehler: fehler, name: unbelegt, werte: v, ausgabe: ausgabe, schritte: schritte, trace: trace, zeilen: zeilen };
+  }
+
+  function zahlFehlerText(lauf) {
+    if (lauf.fehler === "unbelegt") return "Die Variable «" + lauf.name + "» hat noch keinen Wert, wenn sie gebraucht wird.";
+    if (lauf.fehler === "nulldivision") return "Division durch 0 ist nicht möglich.";
+    if (lauf.fehler === "endlos" || lauf.fehler === "limit") return TEXTE.endlosZahl;
+    return TEXTE[lauf.fehler] || TEXTE.unbekannt;
+  }
+  function ausgabeText(l) { return l.length ? l.join(", ") : "keine Ausgabe"; }
+
+  function pruefeFall(f, prog) {
+    var lauf = runZahlen(f.fall.eingabe, prog);
+    if (!lauf.ok) return { ok: false, grund: lauf.fehler, text: zahlFehlerText(lauf), lauf: lauf };
+    var soll = f.fall.ausgabe;
+    var gleich = soll.length === lauf.ausgabe.length && soll.every(function (x, i) { return x === lauf.ausgabe[i]; });
+    return gleich ? { ok: true, grund: "ok", text: "", lauf: lauf }
+      : { ok: false, grund: "ausgabe", text: "Die Ausgabe stimmt nicht: erwartet " + ausgabeText(soll) + ", erhalten " + ausgabeText(lauf.ausgabe) + ".", lauf: lauf };
+  }
+
+  function eingabeText(e) {
+    return Object.keys(e).map(function (k) { return k + " = " + e[k]; }).join(", ");
+  }
+
   /* ---------- Programm als Code (Python-ähnlich) ------------ */
 
   var CODE_BEFEHL = {
@@ -520,7 +754,8 @@
   var CODE_VARIABLE = ["i", "j", "k", "m", "n"];
 
   // Dasselbe Programm als Text in einer Programmiersprache: Beschreibung als Code statt Struktogramm.
-  function alsCode(prog) {
+  // eingabe (Zahlenwelt): Startwerte, die oben als Zuweisungen stehen.
+  function alsCode(prog, eingabe) {
     var zeilen = [], zaehler = false;
     (function schreiben(liste, tiefe) {
       var ein = new Array(tiefe + 1).join("    ");
@@ -547,6 +782,7 @@
       });
     })(prog, 0);
     if (!prog.length) return "# Noch keine Bausteine";
+    if (eingabe) return Object.keys(eingabe).map(function (k) { return k + " = " + eingabe[k]; }).concat([""], zeilen).join("\n");
     return (zaehler ? "zaehler = 0\n" : "") + zeilen.join("\n");
   }
 
@@ -571,6 +807,7 @@
 
   // Prüft ein Programm in einem Layout: {ok, grund, text, lauf}.
   function pruefeLayout(f, prog, nichtAusfuehrbar) {
+    if (f.fall) return pruefeFall(f, prog);
     var lauf = run(f.feld, prog, { ziel: zielfeld(f.ziel), nichtAusfuehrbar: nichtAusfuehrbar });
     if (!lauf.ok) return { ok: false, grund: lauf.fehler, text: TEXTE[lauf.fehler] || TEXTE.unbekannt, lauf: lauf };
     var pruef = ZIELTYPEN[f.ziel.typ];
@@ -614,10 +851,12 @@
       res.grund = "layouts";
       // felderWort: Einzahl, Mehrzahl, Mehrzahl im Dativ, z. B. ["Garten", "Gärten", "Gärten"]; Standard Labyrinth.
       var wort = (aufgabe.felderWort || ["Labyrinth", "Labyrinthe", "Labyrinthen"])[2];
-      res.text = "Der Käfer schafft " + (felder.length - fehl.length) + " von " + felder.length + " " + wort + ".";
+      res.text = (aufgabe.welt === "zahlen" ? "Das Programm stimmt in " : "Der Käfer schafft ") +
+        (felder.length - fehl.length) + " von " + felder.length + " " + wort + ".";
       return res;
     }
-    res.ok = true; res.grund = "ok"; res.text = "Geschafft. Der Käfer hat die Aufgabe gelöst.";
+    res.ok = true; res.grund = "ok";
+    res.text = aufgabe.welt === "zahlen" ? "Geschafft. Das Programm liefert die richtige Ausgabe." : "Geschafft. Der Käfer hat die Aufgabe gelöst.";
     return res;
   }
 
@@ -630,6 +869,8 @@
     kannEinfuegen: kannEinfuegen, zuTief: zuTief, einfuegen: einfuegen, entfernen: entfernen, verschieben: verschieben,
     run: run, pruefe: pruefe, pruefeLayout: pruefeLayout, bausteineText: bausteineText, vorbereiten: vorbereiten,
     zielfeld: zielfeld, karteLesen: karteLesen, layoutVorbereiten: layoutVorbereiten, alleWege: alleWege,
-    zufall: zufall, erzeugeLabyrinth: erzeugeLabyrinth, frageSchluessel: frageSchluessel, frageRichtig: frageRichtig, alsCode: alsCode
+    zufall: zufall, erzeugeLabyrinth: erzeugeLabyrinth, frageSchluessel: frageSchluessel, frageRichtig: frageRichtig, alsCode: alsCode,
+    zahlLesen: zahlLesen, istZahlBefehl: istZahlBefehl, istZahlBedingung: istZahlBedingung, runZahlen: runZahlen,
+    zahlVariablen: zahlVariablen, zahlFehlerText: zahlFehlerText, pruefeFall: pruefeFall, eingabeText: eingabeText, ausgabeText: ausgabeText
   };
 });

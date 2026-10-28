@@ -55,6 +55,20 @@
       "kastenTitel": "Tipp zur Strategie"
     },
     {
+      "id": "zahlen",
+      "titel": "Algorithmen mit Zahlen",
+      "untertitel": "Variablen statt Käfer: Programme lesen, verändern und selbst entwerfen, mit Schreibtischtest",
+      "dateien": ["aufgaben/zahlen.json"],
+      "abschnitte": [
+        { "id": "lesen", "titel": "Lesen", "etikett": "Stufe: lesen",
+          "text": "Ein fertiges Programm Schritt für Schritt von Hand ausführen: der Schreibtischtest." },
+        { "id": "veraendern", "titel": "Verändern", "etikett": "Stufe: verändern",
+          "text": "Ein Programm reparieren oder erweitern. Testfälle an den Grenzen decken Fehler auf." },
+        { "id": "entwerfen", "titel": "Entwerfen", "etikett": "Stufe: entwerfen",
+          "text": "Zu einem Problem selbst einen Algorithmus bauen." }
+      ]
+    },
+    {
       "id": "labyrinth",
       "titel": "Labyrinth",
       "untertitel": "Von geradeaus über Kreuzungen bis zum Programm, das in jedem Labyrinth den Ausgang findet",
