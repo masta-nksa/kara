@@ -127,6 +127,10 @@ Starten bleibt möglich (Gegenbeispiele werden vor der Antwort ausgeführt).
 - `hinweise`: Liste von Tipps, die nacheinander auf Klick erscheinen (statt `hinweis`).
 - `kleinsteLoesung`: Anzahl Bausteine der kleinsten bekannten Lösung; erscheint erst nach dem
   Lösen. Die Bausteinlimits lassen bewusst auch weniger kompakte Lösungen zu.
+- `bild` und `bildText`: SVG-Datei in `baukasten/bilder/` (ohne Endung) und Legende dazu; Text in
+  Backticks erscheint als Code. Das SVG wird inline eingefügt, seine Farben stehen als Klassen in
+  `baukasten.css` (folgen hell/dunkel). Bisher: `variable` (Kiste «Zähler», nach der Grafik von
+  oinf.ch) in «★ Gleich weit».
 - `loesung`: ein geprüftes Lösungsprogramm (Programmbaum, eine Zeile). Nur für die Lehrperson:
   Der Dreifachklick auf eine Blume fügt es ins Struktogramm ein. Geprüft wird nie dagegen.
   Algorithmen und CT haben für jede Aufgabe eine; nach Änderungen an Karten mit Skript nachprüfen.

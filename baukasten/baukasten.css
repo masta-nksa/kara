@@ -107,6 +107,21 @@
 .bk-code-hilfe{margin:0 0 6px;font-size:.82rem;color:var(--ink-soft)}
 .bk-aufgabe-code{margin:10px 0 0;padding:10px 12px;background:var(--ground);border:1px solid var(--line);border-radius:var(--radius);overflow-x:auto;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.88rem;line-height:1.5}
 .bk-aufgabe-code[hidden]{display:none}
+/* Bild zur Aufgabe (inline SVG aus bilder/, Farben aus dem Design) */
+.bk-aufgabe-bild{margin:12px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px}
+.bk-aufgabe-bild[hidden]{display:none}
+.bk-aufgabe-bild svg{width:min(100%,300px);height:auto;flex:none}
+.bk-aufgabe-bild figcaption{flex:1 1 220px;font-size:.9rem;color:var(--ink-soft)}
+.bk-aufgabe-bild figcaption code{font-family:"IBM Plex Mono",ui-monospace,monospace;color:var(--ink)}
+.bv-linie{stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.bv-karton{fill:#b07a3c}.bv-karton-hell{fill:#c28b4b}.bv-innen{fill:#8e5440}.bv-kante{fill:#b07a3c}
+.bv-aufschrift{font:700 17px "IBM Plex Mono",ui-monospace,monospace;fill:#2a1808}
+.bv-umriss{fill:none;stroke:var(--ink);stroke-width:21;stroke-linecap:round}
+.bv-band{fill:none;stroke:url(#bvPfeil);stroke-width:15;stroke-linecap:round}
+.bv-gelb{stop-color:var(--blume1)}.bv-orange{stop-color:var(--blume0)}
+.bv-spitze{fill:var(--blume1)}
+.bv-gleich{fill:none;stroke:#2a1808;stroke-width:3.5;stroke-linecap:round}
+.bv-wert{font:700 84px "IBM Plex Mono",ui-monospace,monospace;fill:var(--ink)}
 .bk-code pre{margin:0;padding:10px 12px;background:var(--ground);border:1px solid var(--line);border-radius:var(--radius);overflow-x:auto;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.85rem;line-height:1.5}
 
 /* Theorie zu den Abschnitten, Etiketten und Fragen */

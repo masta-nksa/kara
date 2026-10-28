@@ -941,6 +941,8 @@
       "abschnitt": "endlich",
       "zusatz": true,
       "text": "Der Käfer läuft nach oben bis zur Wand und zählt dabei seine Schritte. Dann dreht er nach rechts und geht genau gleich viele Schritte weiter. Dort steht die Flagge. Der Zähler ist eine Variable. Stellen Sie sich eine Kiste mit der Aufschrift «Zähler» vor: Darin liegt eine Zahl, und dieser Inhalt kann sich immer wieder ändern. So merkt sich der Käfer, wie weit er gegangen ist.",
+      "bild": "variable",
+      "bildText": "`zaehler = 3` heisst: Die Zahl 3 kommt in die Kiste «Zähler». Ein neuer Wert ersetzt den alten, zum Beispiel bei `zaehler = zaehler + 1`.",
       "denkfigur": "Damit «solange Zähler ≠ 0» endet, muss der Zähler in jedem Durchlauf kleiner werden.",
       "layouts": [
         {
