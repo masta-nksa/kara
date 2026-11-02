@@ -272,5 +272,109 @@
     });
   }
 
-  window.KaraZahlwelt = { ansicht: ansicht, schreibtisch: schreibtisch, ausgabeLesen: ausgabeLesen };
+  /* ---------- Geführter Schreibtischtest: Feld für Feld ---------- */
+
+  // opt: {variablen, bedingung, eingabe, zeilen (erwartete Zeilen), schritte ([{zeile, art:"var"|"bed"|"aus", name, soll, pfad}]),
+  //       index (schon beantwortete Schritte), weiter(index), markiere(pfad|null), geloest()}
+  // Die Tabelle steht von Anfang an da; das Feld, das dran ist, ist farbig hinterlegt, darunter steht die Frage dazu.
+  function gefuehrt(box, opt) {
+    box.textContent = "";
+    var vars = opt.variablen, st = opt.schritte, eine = !!opt.bedingung, i = opt.index || 0, versuche = 0;
+    var tabBox = el("div", "zw-tabbox zw-tabbox-test");
+    var tab = el("table", "zw-tabelle zw-test zw-gefuehrt"), body = el("tbody");
+    tab.append(el("caption", null, "Schreibtischtest"), kopf(vars, opt.bedingung), body);
+    tabBox.append(tab);
+    var zellen = opt.zeilen.map(function (z, k) {
+      var tr = el("tr"), c = { vars: {} };
+      tr.append(el("td", "zw-dg", durchgangText(z, eine)));
+      vars.forEach(function (v) { c.vars[v] = el("td", "zw-gz"); tr.append(c.vars[v]); });
+      c.bed = el("td", "zw-gz zw-bedzelle");
+      c.aus = el("td", "zw-gz");
+      tr.append(c.bed, c.aus);
+      body.append(tr);
+      return c;
+    });
+    var frage = el("p", "bk-frage-text");
+    var eingabe = el("div", "zw-knoepfe");
+    var rueck = el("p", "bk-frage-rueck", "");
+    rueck.setAttribute("role", "status");
+    box.append(tabBox, frage, eingabe, rueck);
+
+    function zelle(s) { return s.art === "var" ? zellen[s.zeile].vars[s.name] : zellen[s.zeile][s.art]; }
+    function text(s) {
+      return s.art === "bed" ? (s.soll ? "wahr" : "falsch") : s.art === "aus" ? s.soll.join(", ") : String(s.soll);
+    }
+    // Eingabewerte stehen in der ersten Zeile schon da.
+    Object.keys(opt.eingabe).forEach(function (v) { if (zellen[0] && zellen[0].vars[v]) zellen[0].vars[v].textContent = String(opt.eingabe[v]); });
+
+    function fragetext(s) {
+      var n = s.zeile + 1, z = opt.zeilen[s.zeile];
+      var wann = typeof z.durchgang === "string" ? "am Ende"
+        : eine ? "bei der " + n + ". Prüfung" + (n === 1 ? " (vor dem ersten Durchlauf der Wiederholung)" : " (der Rumpf ist " + (n - 1) + "-mal gelaufen)") : "in Zeile " + n;
+      if (s.art === "bed") return "Ist «" + (opt.bedingung || z.bedingung) + "» " + wann + " wahr oder falsch?";
+      if (s.art === "aus") return "Was wurde bis hierher ausgegeben, seit der Zeile davor?";
+      return "Welchen Wert hat «" + s.name + "» " + wann + "?";
+    }
+
+    function zeigen() {
+      Array.prototype.forEach.call(box.querySelectorAll(".zw-dran"), function (c) { c.classList.remove("zw-dran"); });
+      eingabe.textContent = "";
+      rueck.hidden = true;
+      versuche = 0;
+      if (i >= st.length) { opt.markiere(null); frage.textContent = ""; opt.geloest(); return; }
+      var s = st[i], c = zelle(s);
+      c.classList.add("zw-dran");
+      opt.markiere(s.pfad);
+      frage.textContent = "Schritt " + (i + 1) + " von " + st.length + ". " + fragetext(s);
+      if (s.art === "bed") {
+        [["wahr", true], ["falsch", false]].forEach(function (t) {
+          var b = el("button", "bk-knopf", t[0]);
+          b.type = "button";
+          b.addEventListener("click", function () { antwort(t[1] === s.soll, s); });
+          eingabe.append(b);
+        });
+      } else {
+        var inp = el("input", "bk-zahl bk-st-wert"), ok = el("button", "bk-knopf", "Weiter");
+        inp.type = "text";
+        inp.setAttribute("inputmode", "numeric");
+        inp.setAttribute("aria-label", "Ihre Antwort");
+        ok.type = "button";
+        var pruefen = function () {
+          var t = inp.value.trim();
+          if (!t) { meldung("Geben Sie " + (s.art === "aus" ? "die Ausgabe" : "eine ganze Zahl") + " ein.", false); return; }
+          var a = ausgabeLesen(t);
+          if (a.some(isNaN) || (s.art === "var" && a.length !== 1)) { meldung("Geben Sie " + (s.art === "aus" ? "die Ausgabe" : "eine ganze Zahl") + " ein.", false); return; }
+          antwort(s.art === "aus" ? a.length === s.soll.length && a.every(function (x, k) { return x === s.soll[k]; }) : a[0] === s.soll, s);
+        };
+        ok.addEventListener("click", pruefen);
+        inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); pruefen(); } });
+        eingabe.append(inp, ok);
+      }
+    }
+    function meldung(t, fehler) {
+      rueck.hidden = false;
+      rueck.className = "bk-frage-rueck" + (fehler ? " fehler" : "");
+      rueck.textContent = t;
+    }
+    function antwort(ok, s) {
+      if (ok) {
+        zelle(s).textContent = text(s);
+        zelle(s).classList.add("zw-gut");
+        i++;
+        opt.weiter(i);
+        zeigen();
+        var n = box.querySelector("input, .zw-knoepfe button");
+        if (n && i < st.length) n.focus();
+        return;
+      }
+      versuche++;
+      meldung("Nicht ganz. Setzen Sie die Werte aus der Zeile davor in die markierte Zeile des Struktogramms ein." +
+        (versuche >= 3 ? " Gesucht ist: " + text(s) + "." : ""), true);
+    }
+    // Schon beantwortete Felder ausfüllen.
+    for (var k = 0; k < i && k < st.length; k++) { zelle(st[k]).textContent = text(st[k]); zelle(st[k]).classList.add("zw-gut"); }
+    zeigen();
+  }
+
+  window.KaraZahlwelt = { ansicht: ansicht, schreibtisch: schreibtisch, gefuehrt: gefuehrt, ausgabeLesen: ausgabeLesen };
 })();

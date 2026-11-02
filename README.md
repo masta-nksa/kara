@@ -238,13 +238,16 @@ Ladewerte sind erfunden, damit die Rechnung aufgeht.
   Mit `zeilen: n` nur die ersten n Zeilen (Multiplikation: Das Programm endet nie). In
   Verändern-Aufgaben ist er Schritt «1. Vorher»: Das Struktogramm bleibt lesbar, gesperrt ist nur
   das Bauen.
-- `schreibtischtest.gefuehrt: true` (nur «1 · Sparziel»): Statt der Tabelle gibt es zuerst eine
-  geführte Variante. Das Struktogramm markiert Zeile für Zeile die Zeile, die dran ist; die Lernenden
-  tragen den neuen Wert der Variablen, die Ausgabe bzw. wahr/falsch bei einer Bedingung ein. Kisten
-  und Ablauftabelle im Feld füllen sich mit den bestätigten Schritten; nach drei Fehlversuchen steht
-  die Antwort im Hinweis. Sind alle Schritte richtig, gilt der Schreibtischtest als gelöst (die
-  Tabelle erscheint ausgefüllt). Der Stand der Schritte gilt nur für die Sitzung. Die übrigen
-  Lesen-Aufgaben haben den freien Schreibtischtest.
+- `schreibtischtest.gefuehrt: true` (nur «1 · Sparziel»): Der Schreibtischtest wird Feld für Feld
+  geführt. Die Tabelle steht da; das Feld, das dran ist, ist farbig hinterlegt, darunter steht die
+  Frage dazu («Welchen Wert hat «erspart» bei der 2. Prüfung (der Rumpf ist 1-mal gelaufen)?», bei der
+  Bedingung wahr/falsch, bei der Ausgabe die Zahl). Das Struktogramm markiert in derselben Farbe den
+  Baustein, der diesen Wert bestimmt. Nach drei Fehlversuchen steht die Antwort im Hinweis; sind alle
+  Felder richtig, gilt der Schreibtischtest als gelöst. Nur Felder, die sich ändern, werden gefragt
+  (leer = unverändert). Der Stand gilt nur für die Sitzung. Die übrigen Lesen-Aufgaben haben den
+  freien Schreibtischtest.
+- In der Zahlenwelt steht bei `print(…)` im Struktogramm der Kommentar «# gibt «…» aus» (und im
+  Code von «Als Code anzeigen»), damit klar ist, dass es eine Ausgabe gibt (`printKommentar`, engine.js).
 - `lesen: true`: Das Struktogramm ist fest (keine Palette, «Struktogramm lesen»). Gelöst ist die
   Aufgabe mit richtigem Schreibtischtest und, mit `vorhersageAusgabe: {fall}`, der richtigen Ausgabe
   für eine zweite Eingabe (eine verdeckte, nicht als Reiter gezeigte). Danach die Reflexion.

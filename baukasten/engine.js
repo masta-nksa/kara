@@ -753,6 +753,12 @@
   };
   var CODE_VARIABLE = ["i", "j", "k", "m", "n"];
 
+  // Zahlenwelt: Erklärung für print(...) als Python-Kommentar («# gibt «x» aus»), sonst "".
+  function printKommentar(cmd) {
+    var m = /^print\((.*)\)$/.exec(String(cmd).trim());
+    return m ? "# gibt «" + m[1].trim() + "» aus" : "";
+  }
+
   // Dasselbe Programm als Text in einer Programmiersprache: Beschreibung als Code statt Struktogramm.
   // eingabe (Zahlenwelt): Startwerte, die oben als Zuweisungen stehen.
   function alsCode(prog, eingabe) {
@@ -763,7 +769,7 @@
       liste.forEach(function (b) {
         if (b.t === "act") {
           if (/^zaehler/.test(b.cmd)) zaehler = true;
-          zeilen.push(ein + (CODE_BEFEHL[b.cmd] || b.cmd));
+          zeilen.push(ein + (CODE_BEFEHL[b.cmd] || b.cmd) + (eingabe && printKommentar(b.cmd) ? "  " + printKommentar(b.cmd) : ""));
         } else if (b.t === "loop") {
           zeilen.push(ein + "for " + CODE_VARIABLE[Math.min(tiefe, 4)] + " in range(" + b.n + "):");
           schreiben(b.body, tiefe + 1);
@@ -869,7 +875,7 @@
     kannEinfuegen: kannEinfuegen, zuTief: zuTief, einfuegen: einfuegen, entfernen: entfernen, verschieben: verschieben,
     run: run, pruefe: pruefe, pruefeLayout: pruefeLayout, bausteineText: bausteineText, vorbereiten: vorbereiten,
     zielfeld: zielfeld, karteLesen: karteLesen, layoutVorbereiten: layoutVorbereiten, alleWege: alleWege,
-    zufall: zufall, erzeugeLabyrinth: erzeugeLabyrinth, frageSchluessel: frageSchluessel, frageRichtig: frageRichtig, alsCode: alsCode,
+    zufall: zufall, erzeugeLabyrinth: erzeugeLabyrinth, frageSchluessel: frageSchluessel, frageRichtig: frageRichtig, alsCode: alsCode, printKommentar: printKommentar,
     zahlLesen: zahlLesen, istZahlBefehl: istZahlBefehl, istZahlBedingung: istZahlBedingung, runZahlen: runZahlen,
     zahlVariablen: zahlVariablen, zahlFehlerText: zahlFehlerText, pruefeFall: pruefeFall, eingabeText: eingabeText, ausgabeText: ausgabeText
   };
