@@ -1735,6 +1735,7 @@
     var info = (mehrereLayouts() ? "«" + sichtbareFelder()[layout.idx].name + "». " : "") + "Eingabe: " + E.eingabeText(fall.eingabe) + ".";
     if (!aufg.lesen) info += " Erwartete Ausgabe: " + E.ausgabeText(fall.ausgabe) + ".";
     $("feldInfo").textContent = info;
+    if (aufg.schreibtischtest && gefuehrt()) gefAnzeigen(gefIndex[aufg.id] || 0);
   }
   // Spalten hängen vom Programm ab: beim Zurücksetzen neu aufbauen.
   function zahlenReset() { renderZahlen(); }
@@ -1771,8 +1772,9 @@
   // Laufen lassen erst, wenn der Schreibtischtest einmal geprüft ist (danach zum Vergleichen).
   function zahlenGesperrt() {
     if (!istZahlen() || !aufg.schreibtischtest || beantwortet[aufg.id + "/schreibtischtest"] || stGeprueft[aufg.id]) return false;
-    meldungZeigen("fehler", "Zuerst der Schreibtischtest", "Füllen Sie zuerst den Schreibtischtest aus und prüfen Sie ihn. " +
-      "Danach können Sie das Programm laufen lassen und vergleichen.");
+    meldungZeigen("fehler", "Zuerst der Schreibtischtest", aufg.schreibtischtest.gefuehrt
+      ? "Gehen Sie zuerst das Programm Zeile für Zeile durch (Schreibtischtest). Danach können Sie es laufen lassen und vergleichen."
+      : "Füllen Sie zuerst den Schreibtischtest aus und prüfen Sie ihn. Danach können Sie das Programm laufen lassen und vergleichen.");
     $("stBox").scrollIntoView({ block: "center", behavior: "smooth" });
     return true;
   }
@@ -1787,26 +1789,119 @@
     var l = E.runZahlen(fall.eingabe, p);
     return { fall: fall, zeilen: st.zeilen ? l.zeilen.slice(0, st.zeilen) : l.zeilen, variablen: E.zahlVariablen(fall.eingabe, p) };
   }
+  function schreibtischGeloest() {
+    var id = aufg.id;
+    stGeprueft[id] = true;
+    if (!beantwortet[id + "/schreibtischtest"]) { beantwortet[id + "/schreibtischtest"] = 1; speichereFragen(); }
+    renderSchreibtisch();
+    tabsAktualisieren();
+    if (aufg.lesen && !aufg.vorhersageAusgabe) lesenGeloest();
+    else if (aufg.lesen) $("stAusgabeWert").focus();
+    else meldungZeigen("ok", null, "Der Schreibtischtest stimmt. Jetzt können Sie das Programm ändern.");
+  }
   function renderSchreibtisch() {
     var e = stErwartet(), id = aufg.id;
     $("stText").textContent = "Eingabe: " + E.eingabeText(e.fall.eingabe) + ".";
-    ZW.schreibtisch($("stInhalt"), {
+    if (gefuehrt()) renderGefuehrt();
+    else ZW.schreibtisch($("stInhalt"), {
       variablen: e.variablen, erwartet: e.zeilen, bedingung: einzigeBedingung(aufg.startprogramm || []),
       eingabe: e.fall.eingabe, fest: aufg.schreibtischtest.zeilen || null,
       eintraege: stEintraege[id] || null, fertig: !!beantwortet[id + "/schreibtischtest"],
       aendern: function (w) { stEintraege[id] = w; },
       geprueft: function () { stGeprueft[id] = true; },
-      geloest: function () {
-        stGeprueft[id] = true;
-        if (!beantwortet[id + "/schreibtischtest"]) { beantwortet[id + "/schreibtischtest"] = 1; speichereFragen(); }
-        renderSchreibtisch();
-        tabsAktualisieren();
-        if (aufg.lesen && !aufg.vorhersageAusgabe) lesenGeloest();
-        else if (aufg.lesen) $("stAusgabeWert").focus();
-        else meldungZeigen("ok", null, "Der Schreibtischtest stimmt. Jetzt können Sie das Programm ändern.");
-      }
+      geloest: schreibtischGeloest
     });
     renderAusgabeFrage();
+  }
+
+  /* Geführte Variante (schreibtischtest.gefuehrt, nur beim ersten Lesen-Beispiel): Zeile für Zeile.
+     Das Struktogramm markiert die Zeile, die dran ist; die Lernenden tragen ein, was sie bewirkt.
+     Kisten und Ablauftabelle im Käfer-Feld füllen sich mit den bestätigten Schritten. */
+  var gefIndex = {}, gefVersuche = 0;   // je Aufgabe in dieser Sitzung: Anzahl bestätigter Schritte
+  function gefuehrt() {
+    return !!(aufg.schreibtischtest && aufg.schreibtischtest.gefuehrt && !beantwortet[aufg.id + "/schreibtischtest"]);
+  }
+  function gefLauf() {
+    var fall = aufg.felder[aufg.schreibtischtest.fall || 0].fall;
+    var l = E.runZahlen(fall.eingabe, aufg.startprogramm || []);
+    return { fall: fall, lauf: l, schritte: l.trace.filter(function (ev) { return ev.typ === "act" || ev.typ === "while" || ev.typ === "if"; }) };
+  }
+  // Kisten und Tabelle im Käfer-Feld auf den Stand nach i bestätigten Schritten setzen.
+  function gefAnzeigen(i) {
+    if (!zahlRef) return;
+    var g = gefLauf();
+    if (JSON.stringify(aktFall().eingabe) !== JSON.stringify(g.fall.eingabe)) return;
+    var ev = i ? g.schritte[i - 1] : null;
+    zahlRef.zeigen(ev ? { werte: ev.werte, ausgabe: ev.ausgabe, zeilen: ev.zeilen, alle: g.lauf.zeilen }
+      : { werte: g.fall.eingabe, ausgabe: [], zeilen: 0, alle: [] });
+  }
+  function renderGefuehrt() {
+    var box = $("stInhalt"), g = gefLauf(), i = gefIndex[aufg.id] || 0;
+    box.textContent = "";
+    if (i >= g.schritte.length) {
+      gefAnzeigen(i);
+      markiere(null);
+      delete gefIndex[aufg.id];
+      schreibtischGeloest();
+      return;
+    }
+    var ev = g.schritte[i], frage, soll, bool = ev.typ !== "act", hilfe;
+    markiere(ev.pfad);
+    gefAnzeigen(i);
+    if (ev.typ === "act") {
+      var r = E.zahlLesen(ev.cmd);
+      if (r.art === "zuweisung") {
+        frage = "Die markierte Zeile ist «" + ev.cmd + "». Welchen Wert hat «" + r.name + "» danach?";
+        soll = ev.werte[r.name];
+        hilfe = "Setzen Sie die Werte aus den Kisten in «" + ev.cmd + "» ein.";
+      } else {
+        frage = "Die markierte Zeile ist «" + ev.cmd + "». Was gibt sie aus?";
+        soll = ev.ausgabe[ev.ausgabe.length - 1];
+        hilfe = "Schauen Sie in die Kiste, die in der Klammer steht.";
+      }
+    } else {
+      frage = "Der markierte Block prüft «" + ev.cond + "». Stimmt das mit den Werten in den Kisten?";
+      soll = !!ev.ja;
+      hilfe = "Setzen Sie die Werte aus den Kisten in «" + ev.cond + "» ein.";
+    }
+    var kopf = el("p", "zw-hilfe", "Schritt " + (i + 1) + " von " + g.schritte.length + ". Gehen Sie das Programm Zeile für Zeile durch: " +
+      "Die markierte Zeile im Struktogramm ist dran. Kisten und Tabelle darunter füllen sich mit Ihren Antworten.");
+    var q = el("p", "bk-frage-text", frage);
+    var zeile = el("div", "zw-knoepfe");
+    var rueck = el("p", "bk-frage-rueck", "");
+    rueck.setAttribute("role", "status");
+    rueck.hidden = true;
+    function antwort(ok) {
+      if (ok) { gefVersuche = 0; gefIndex[aufg.id] = i + 1; renderGefuehrt(); var n = box.querySelector("input, button"); if (n) n.focus(); return; }
+      gefVersuche++;
+      rueck.hidden = false;
+      rueck.className = "bk-frage-rueck fehler";
+      rueck.textContent = "Nicht ganz. " + hilfe + (gefVersuche >= 3 ? " Gesucht ist: " + (bool ? (soll ? "wahr" : "falsch") : soll) + "." : "");
+    }
+    if (bool) {
+      [["wahr", true], ["falsch", false]].forEach(function (t) {
+        var b = el("button", "bk-knopf", t[0]);
+        b.type = "button";
+        b.addEventListener("click", function () { antwort(t[1] === soll); });
+        zeile.append(b);
+      });
+    } else {
+      var inp = el("input", "bk-zahl bk-st-wert");
+      inp.type = "text";
+      inp.setAttribute("inputmode", "numeric");
+      inp.setAttribute("aria-label", "Ihre Antwort (Zahl)");
+      var ok = el("button", "bk-knopf", "Weiter");
+      ok.type = "button";
+      var pruefen = function () {
+        var s = inp.value.trim().replace("−", "-");
+        if (!/^-?\d+$/.test(s)) { rueck.hidden = false; rueck.className = "bk-frage-rueck"; rueck.textContent = "Geben Sie eine ganze Zahl ein."; return; }
+        antwort(Number(s) === soll);
+      };
+      ok.addEventListener("click", pruefen);
+      inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); pruefen(); } });
+      zeile.append(inp, ok);
+    }
+    box.append(kopf, q, zeile, rueck);
   }
 
   // Lesen: nach dem Schreibtischtest die Ausgabe für eine zweite Eingabe vorhersagen.
