@@ -71,7 +71,8 @@
   var BIS_LABEL = "wiederhole bis Ziel";
 
   // Befehle und Bedingungen: aus den Tabellen der Engine, in der Zahlenwelt der Python-Text selbst.
-  function befInfo(c) { return E.BEFEHLE[c] || { label: c, kurz: c }; }
+  // Zahlenwelt: print(...) bekommt im Struktogramm einen Python-Kommentar, damit klar ist, dass es etwas ausgibt.
+  function befInfo(c) { return E.BEFEHLE[c] || { label: E.printKommentar(c) ? c + "   " + E.printKommentar(c) : c, kurz: c }; }
   function bedInfo(c) { return E.BEDINGUNGEN[c] || { label: c + "?", kurz: c + "?", solange: c }; }
   function blockLabel(b) {
     if (b.t === "act") return befInfo(b.cmd).label;
@@ -1156,6 +1157,7 @@
     zaehlerAktualisieren();
     $("knopfRueckgaengig").disabled = !undoStack.length;
     auswahlAnwenden();
+    if (gefPfad && istZahlen() && gefuehrt()) markiere(gefPfad);
 
     if (fokusZiel) {
       var f = fokusZiel, t = null;
@@ -1735,7 +1737,6 @@
     var info = (mehrereLayouts() ? "«" + sichtbareFelder()[layout.idx].name + "». " : "") + "Eingabe: " + E.eingabeText(fall.eingabe) + ".";
     if (!aufg.lesen) info += " Erwartete Ausgabe: " + E.ausgabeText(fall.ausgabe) + ".";
     $("feldInfo").textContent = info;
-    if (aufg.schreibtischtest && gefuehrt()) gefAnzeigen(gefIndex[aufg.id] || 0);
   }
   // Spalten hängen vom Programm ab: beim Zurücksetzen neu aufbauen.
   function zahlenReset() { renderZahlen(); }
@@ -1802,7 +1803,7 @@
   function renderSchreibtisch() {
     var e = stErwartet(), id = aufg.id;
     $("stText").textContent = "Eingabe: " + E.eingabeText(e.fall.eingabe) + ".";
-    if (gefuehrt()) renderGefuehrt();
+    if (gefuehrt()) renderGefuehrt(e);
     else ZW.schreibtisch($("stInhalt"), {
       variablen: e.variablen, erwartet: e.zeilen, bedingung: einzigeBedingung(aufg.startprogramm || []),
       eingabe: e.fall.eingabe, fest: aufg.schreibtischtest.zeilen || null,
@@ -1814,94 +1815,46 @@
     renderAusgabeFrage();
   }
 
-  /* Geführte Variante (schreibtischtest.gefuehrt, nur beim ersten Lesen-Beispiel): Zeile für Zeile.
-     Das Struktogramm markiert die Zeile, die dran ist; die Lernenden tragen ein, was sie bewirkt.
-     Kisten und Ablauftabelle im Käfer-Feld füllen sich mit den bestätigten Schritten. */
-  var gefIndex = {}, gefVersuche = 0;   // je Aufgabe in dieser Sitzung: Anzahl bestätigter Schritte
+  /* Geführte Variante (schreibtischtest.gefuehrt, nur beim ersten Lesen-Beispiel): Feld für Feld.
+     Die Tabelle steht da, das Feld, das dran ist, ist farbig hinterlegt und die Frage dazu steht darunter;
+     das Struktogramm markiert (gleiche Farbe) die Zeile, die diesen Wert bestimmt. */
+  var gefPfad = null;  // markierter Baustein der geführten Variante (nach dem Neuzeichnen wieder setzen)
+  var gefIndex = {};   // je Aufgabe in dieser Sitzung: Anzahl bestätigter Felder
   function gefuehrt() {
     return !!(aufg.schreibtischtest && aufg.schreibtischtest.gefuehrt && !beantwortet[aufg.id + "/schreibtischtest"]);
   }
-  function gefLauf() {
-    var fall = aufg.felder[aufg.schreibtischtest.fall || 0].fall;
-    var l = E.runZahlen(fall.eingabe, aufg.startprogramm || []);
-    return { fall: fall, lauf: l, schritte: l.trace.filter(function (ev) { return ev.typ === "act" || ev.typ === "while" || ev.typ === "if"; }) };
-  }
-  // Kisten und Tabelle im Käfer-Feld auf den Stand nach i bestätigten Schritten setzen.
-  function gefAnzeigen(i) {
-    if (!zahlRef) return;
-    var g = gefLauf();
-    if (JSON.stringify(aktFall().eingabe) !== JSON.stringify(g.fall.eingabe)) return;
-    var ev = i ? g.schritte[i - 1] : null;
-    zahlRef.zeigen(ev ? { werte: ev.werte, ausgabe: ev.ausgabe, zeilen: ev.zeilen, alle: g.lauf.zeilen }
-      : { werte: g.fall.eingabe, ausgabe: [], zeilen: 0, alle: [] });
-  }
-  function renderGefuehrt() {
-    var box = $("stInhalt"), g = gefLauf(), i = gefIndex[aufg.id] || 0;
-    box.textContent = "";
-    if (i >= g.schritte.length) {
-      gefAnzeigen(i);
-      markiere(null);
-      delete gefIndex[aufg.id];
-      schreibtischGeloest();
-      return;
-    }
-    var ev = g.schritte[i], frage, soll, bool = ev.typ !== "act", hilfe;
-    markiere(ev.pfad);
-    gefAnzeigen(i);
-    if (ev.typ === "act") {
-      var r = E.zahlLesen(ev.cmd);
-      if (r.art === "zuweisung") {
-        frage = "Die markierte Zeile ist «" + ev.cmd + "». Welchen Wert hat «" + r.name + "» danach?";
-        soll = ev.werte[r.name];
-        hilfe = "Setzen Sie die Werte aus den Kisten in «" + ev.cmd + "» ein.";
-      } else {
-        frage = "Die markierte Zeile ist «" + ev.cmd + "». Was gibt sie aus?";
-        soll = ev.ausgabe[ev.ausgabe.length - 1];
-        hilfe = "Schauen Sie in die Kiste, die in der Klammer steht.";
-      }
-    } else {
-      frage = "Der markierte Block prüft «" + ev.cond + "». Stimmt das mit den Werten in den Kisten?";
-      soll = !!ev.ja;
-      hilfe = "Setzen Sie die Werte aus den Kisten in «" + ev.cond + "» ein.";
-    }
-    var kopf = el("p", "zw-hilfe", "Schritt " + (i + 1) + " von " + g.schritte.length + ". Gehen Sie das Programm Zeile für Zeile durch: " +
-      "Die markierte Zeile im Struktogramm ist dran. Kisten und Tabelle darunter füllen sich mit Ihren Antworten.");
-    var q = el("p", "bk-frage-text", frage);
-    var zeile = el("div", "zw-knoepfe");
-    var rueck = el("p", "bk-frage-rueck", "");
-    rueck.setAttribute("role", "status");
-    rueck.hidden = true;
-    function antwort(ok) {
-      if (ok) { gefVersuche = 0; gefIndex[aufg.id] = i + 1; renderGefuehrt(); var n = box.querySelector("input, button"); if (n) n.focus(); return; }
-      gefVersuche++;
-      rueck.hidden = false;
-      rueck.className = "bk-frage-rueck fehler";
-      rueck.textContent = "Nicht ganz. " + hilfe + (gefVersuche >= 3 ? " Gesucht ist: " + (bool ? (soll ? "wahr" : "falsch") : soll) + "." : "");
-    }
-    if (bool) {
-      [["wahr", true], ["falsch", false]].forEach(function (t) {
-        var b = el("button", "bk-knopf", t[0]);
-        b.type = "button";
-        b.addEventListener("click", function () { antwort(t[1] === soll); });
-        zeile.append(b);
+  // Schritte = die Felder der Tabelle, die sich ändern, Zeile für Zeile; pfad = Baustein, der den Wert bestimmt.
+  function gefSchritte(e) {
+    var l = E.runZahlen(e.fall.eingabe, aufg.startprogramm || []), zeilen = e.zeilen, st = [], letzt = {}, ausPfad = null, k = 0;
+    l.trace.forEach(function (ev) { if (ev.typ === "act" && E.zahlLesen(ev.cmd).art !== "zuweisung") ausPfad = ev.pfad; });
+    function zeile(z, idx, bedPfad) {
+      var vor = idx ? zeilen[idx - 1].werte : null;
+      e.variablen.forEach(function (v) {
+        if (!Object.prototype.hasOwnProperty.call(z.werte, v)) return;
+        var neu = idx ? z.werte[v] !== vor[v] : !Object.prototype.hasOwnProperty.call(e.fall.eingabe, v);
+        if (neu) st.push({ zeile: idx, art: "var", name: v, soll: z.werte[v], pfad: letzt[v] || null });
       });
-    } else {
-      var inp = el("input", "bk-zahl bk-st-wert");
-      inp.type = "text";
-      inp.setAttribute("inputmode", "numeric");
-      inp.setAttribute("aria-label", "Ihre Antwort (Zahl)");
-      var ok = el("button", "bk-knopf", "Weiter");
-      ok.type = "button";
-      var pruefen = function () {
-        var s = inp.value.trim().replace("−", "-");
-        if (!/^-?\d+$/.test(s)) { rueck.hidden = false; rueck.className = "bk-frage-rueck"; rueck.textContent = "Geben Sie eine ganze Zahl ein."; return; }
-        antwort(Number(s) === soll);
-      };
-      ok.addEventListener("click", pruefen);
-      inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); pruefen(); } });
-      zeile.append(inp, ok);
+      if (z.ja != null) st.push({ zeile: idx, art: "bed", soll: !!z.ja, pfad: bedPfad });
+      if (z.ausgabe.length) st.push({ zeile: idx, art: "aus", soll: z.ausgabe, pfad: ausPfad });
     }
-    box.append(kopf, q, zeile, rueck);
+    l.trace.forEach(function (ev) {
+      if (ev.typ === "act") {
+        var r = E.zahlLesen(ev.cmd);
+        if (r.art === "zuweisung") letzt[r.name] = ev.pfad;
+      } else if (ev.typ === "while" && k < zeilen.length) zeile(zeilen[k], k++, ev.pfad);
+    });
+    while (k < zeilen.length) zeile(zeilen[k], k++, null);
+    return st;
+  }
+  function renderGefuehrt(e) {
+    var id = aufg.id;
+    ZW.gefuehrt($("stInhalt"), {
+      variablen: e.variablen, bedingung: einzigeBedingung(aufg.startprogramm || []), eingabe: e.fall.eingabe,
+      zeilen: e.zeilen, schritte: gefSchritte(e), index: gefIndex[id] || 0,
+      weiter: function (i) { gefIndex[id] = i; },
+      markiere: function (p) { gefPfad = p; markiere(p); },
+      geloest: function () { delete gefIndex[id]; schreibtischGeloest(); }
+    });
   }
 
   // Lesen: nach dem Schreibtischtest die Ausgabe für eine zweite Eingabe vorhersagen.

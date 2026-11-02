@@ -517,6 +517,9 @@ body.bk-zieht *{cursor:grabbing!important}
 .zw-test td,.zw-test th{padding:3px 2px}
 .zw-test .zw-feld{width:3.1em}
 .zw-test .zw-feld.zw-aus{width:3.6em}
+.zw-gefuehrt td.zw-gz{height:32px;min-width:2.4em;font-family:"IBM Plex Mono",ui-monospace,monospace}
+.zw-gefuehrt td.zw-gut{color:var(--ink)}
+.zw-gefuehrt td.zw-dran{background:var(--hl);outline:2px solid var(--accent);outline-offset:-2px}
 .zw-tabbox,.zw-tabbox-test{container-type:inline-size}
 @container (max-width:460px){
   .zw-tabelle:not(.zw-test) th{white-space:normal;font-size:.72rem;padding:4px 2px}
