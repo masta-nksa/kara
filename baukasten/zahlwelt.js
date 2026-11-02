@@ -279,7 +279,7 @@
   // Die Tabelle steht von Anfang an da; das Feld, das dran ist, ist farbig hinterlegt, darunter steht die Frage dazu.
   function gefuehrt(box, opt) {
     box.textContent = "";
-    var vars = opt.variablen, st = opt.schritte, eine = !!opt.bedingung, i = opt.index || 0, versuche = 0;
+    var vars = opt.variablen, st = opt.schritte, eine = !!opt.bedingung, i = opt.index || 0;
     var tabBox = el("div", "zw-tabbox zw-tabbox-test");
     var tab = el("table", "zw-tabelle zw-test zw-gefuehrt"), body = el("tbody");
     tab.append(el("caption", null, "Schreibtischtest"), kopf(vars, opt.bedingung), body);
@@ -316,60 +316,64 @@
       return "Welchen Wert hat «" + s.name + "» " + wann + "?";
     }
 
+    var steuer = null;   // Eingabefeld im farbigen Feld
     function zeigen() {
       Array.prototype.forEach.call(box.querySelectorAll(".zw-dran"), function (c) { c.classList.remove("zw-dran"); });
       eingabe.textContent = "";
       rueck.hidden = true;
-      versuche = 0;
+      steuer = null;
       if (i >= st.length) { opt.markiere(null); frage.textContent = ""; opt.geloest(); return; }
       var s = st[i], c = zelle(s);
       c.classList.add("zw-dran");
+      c.classList.remove("zw-blitz-ok", "zw-blitz-falsch");
       opt.markiere(s.pfad);
-      frage.textContent = "Schritt " + (i + 1) + " von " + st.length + ". " + fragetext(s);
+      frage.textContent = "Schritt " + (i + 1) + " von " + st.length + ". " + fragetext(s) + " Tragen Sie die Antwort im farbigen Feld der Tabelle ein.";
       if (s.art === "bed") {
-        [["wahr", true], ["falsch", false]].forEach(function (t) {
-          var b = el("button", "bk-knopf", t[0]);
-          b.type = "button";
-          b.addEventListener("click", function () { antwort(t[1] === s.soll, s); });
-          eingabe.append(b);
-        });
+        steuer = el("select", "zw-feld zw-bed");
+        ["", "wahr", "falsch"].forEach(function (t) { var o = el("option", null, t || "–"); o.value = t; steuer.append(o); });
       } else {
-        var inp = el("input", "bk-zahl bk-st-wert"), ok = el("button", "bk-knopf", "Weiter");
-        inp.type = "text";
-        inp.setAttribute("inputmode", "numeric");
-        inp.setAttribute("aria-label", "Ihre Antwort");
-        ok.type = "button";
-        var pruefen = function () {
-          var t = inp.value.trim();
-          if (!t) { meldung("Geben Sie " + (s.art === "aus" ? "die Ausgabe" : "eine ganze Zahl") + " ein.", false); return; }
-          var a = ausgabeLesen(t);
-          if (a.some(isNaN) || (s.art === "var" && a.length !== 1)) { meldung("Geben Sie " + (s.art === "aus" ? "die Ausgabe" : "eine ganze Zahl") + " ein.", false); return; }
-          antwort(s.art === "aus" ? a.length === s.soll.length && a.every(function (x, k) { return x === s.soll[k]; }) : a[0] === s.soll, s);
-        };
-        ok.addEventListener("click", pruefen);
-        inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); pruefen(); } });
-        eingabe.append(inp, ok);
+        steuer = el("input", "zw-feld" + (s.art === "aus" ? " zw-aus" : ""));
+        steuer.type = "text";
+        steuer.setAttribute("inputmode", "numeric");
+        steuer.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); pruefen(); } });
       }
+      steuer.setAttribute("aria-label", "Ihre Antwort");
+      c.textContent = "";
+      c.append(steuer);
+      var ok = el("button", "bk-knopf primaer", "Weiter");
+      ok.type = "button";
+      ok.addEventListener("click", pruefen);
+      eingabe.append(ok);
     }
     function meldung(t, fehler) {
       rueck.hidden = false;
-      rueck.className = "bk-frage-rueck" + (fehler ? " fehler" : "");
+      rueck.className = "bk-frage-rueck" + (fehler ? " fehler" : " ok");
       rueck.textContent = t;
     }
-    function antwort(ok, s) {
-      if (ok) {
-        zelle(s).textContent = text(s);
-        zelle(s).classList.add("zw-gut");
-        i++;
-        opt.weiter(i);
-        zeigen();
-        var n = box.querySelector("input, .zw-knoepfe button");
-        if (n && i < st.length) n.focus();
-        return;
+    function pruefen() {
+      var s = st[i], v = steuer.value.trim(), richtig;
+      if (!v) { meldung("Tragen Sie zuerst im farbigen Feld einen Wert ein.", false); rueck.className = "bk-frage-rueck"; steuer.focus(); return; }
+      if (s.art === "bed") richtig = (v === "wahr") === s.soll;
+      else {
+        var a = ausgabeLesen(v);
+        if (!a.length || a.some(isNaN) || (s.art === "var" && a.length !== 1)) {
+          meldung(s.art === "aus" ? "Geben Sie die Ausgabe als Zahl ein." : "Geben Sie eine ganze Zahl ein.", false);
+          rueck.className = "bk-frage-rueck";
+          steuer.focus();
+          return;
+        }
+        richtig = s.art === "aus" ? a.length === s.soll.length && a.every(function (x, k) { return x === s.soll[k]; }) : a[0] === s.soll;
       }
-      versuche++;
-      meldung("Nicht ganz. Setzen Sie die Werte aus der Zeile davor in die markierte Zeile des Struktogramms ein." +
-        (versuche >= 3 ? " Gesucht ist: " + text(s) + "." : ""), true);
+      var c = zelle(s);
+      c.textContent = text(s);
+      c.classList.add("zw-gut", richtig ? "zw-blitz-ok" : "zw-blitz-falsch");
+      i++;
+      opt.weiter(i);
+      zeigen();
+      if (i < st.length) {
+        meldung(richtig ? "Richtig." : "Nicht ganz: richtig ist " + text(s) + ".", !richtig);
+        steuer.focus({ preventScroll: true });
+      }
     }
     // Schon beantwortete Felder ausfüllen.
     for (var k = 0; k < i && k < st.length; k++) { zelle(st[k]).textContent = text(st[k]); zelle(st[k]).classList.add("zw-gut"); }
