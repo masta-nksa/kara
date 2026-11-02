@@ -123,5 +123,8 @@ Stufen Lesen, Verändern, Entwerfen; Details im README). Engine-Teil `runZahlen`
 Darstellung in `zahlwelt.js`. Lesen-Aufgaben verlangen einen vollständigen Schreibtischtest (jeder
 Durchgang, alle Variablen, Bedingung, Ausgabe). Neue Zahl-Aufgaben: Ausgaben der Fälle per Skript
 aus `loesung` berechnen, typische Fehlervarianten müssen an einem Fall scheitern. Fälle für den
-Schreibtischtest klein halten (4–5 Durchgänge). Reserve-Ideen: Bosskampf, Level-up, Primzahltest,
+Schreibtischtest klein halten (4–5 Durchgänge). Seit 2.11.2026: Tabellenzeilen heissen «1., 2., …»
+(Prüfungen der Bedingung, kein «Start»), Bedingungsspalte braun wie der Block, kein Scrollen
+(Container Queries); «1 · Sparziel» beginnt mit einer geführten Variante
+(`schreibtischtest.gefuehrt`: Zeile für Zeile, Kisten und Tabelle füllen sich). Reserve-Ideen: Bosskampf, Level-up, Primzahltest,
 Dezimal in Binär, Fussballpunkte.

@@ -15,10 +15,11 @@
   }
   function hat(o, k) { return Object.prototype.hasOwnProperty.call(o, k); }
 
-  // Beschriftung der Spalte «Durchgang»: mit nur einer Wiederholung heisst die erste Zeile «Start».
+  // Beschriftung der ersten Spalte: mit nur einer Wiederholung zählt sie die Prüfungen der Bedingung
+  // («1.» = die erste Prüfung, vor dem ersten Durchlauf), sonst die Durchgänge.
   function durchgangText(z, eineSchleife) {
     if (typeof z.durchgang === "string") return z.durchgang;
-    return z.durchgang === 0 && eineSchleife ? "Start" : String(z.durchgang);
+    return eineSchleife ? (z.durchgang + 1) + "." : String(z.durchgang);
   }
   function bedingungText(z, bedingung) {
     if (z.ja == null) return "";
@@ -27,9 +28,9 @@
 
   function kopf(variablen, bedingung) {
     var tr = el("tr");
-    tr.append(el("th", null, "Durchgang"));
+    tr.append(el("th", null, bedingung ? "Prüfung" : "Durchgang"));
     variablen.forEach(function (v) { tr.append(el("th", "zw-var", v)); });
-    tr.append(el("th", null, bedingung || "Bedingung"), el("th", null, "Ausgabe"));
+    tr.append(el("th", bedingung ? "zw-bedkopf" : null, bedingung || "Bedingung"), el("th", null, "Ausgabe"));
     var th = el("thead");
     th.append(tr);
     return th;
@@ -118,8 +119,15 @@
   function schreibtisch(box, opt) {
     box.textContent = "";
     var vars = opt.variablen, erw = opt.erwartet, eineSchleife = !!opt.bedingung;
-    var hilfe = el("p", "zw-hilfe", "Eine Zeile pro Prüfung der Bedingung. Tragen Sie ein, was sich ändert; leer heisst: unverändert. " +
-      "Schreiben Sie Ausgaben in die Zeile, nach der sie erscheinen." + (opt.fest ? " Füllen Sie die ersten " + opt.fest + " Zeilen aus." : ""));
+    var hilfe = el("p", "zw-hilfe");
+    if (eineSchleife) {
+      hilfe.append("Eine Zeile pro Prüfung des gefärbten Blocks ", el("span", "zw-chip", "solange " + opt.bedingung),
+        ": Tragen Sie ein, was in den Variablen steht, wenn geprüft wird. ");
+    } else {
+      hilfe.append("Eine Zeile pro Schritt: Tragen Sie ein, was in den Variablen steht. ");
+    }
+    hilfe.append("Leer heisst: unverändert. Schreiben Sie Ausgaben in die Zeile, nach der sie erscheinen." +
+      (opt.fest ? " Füllen Sie die ersten " + opt.fest + " Zeilen aus." : ""));
     var tabBox = el("div", "zw-tabbox zw-tabbox-test");
     var tab = el("table", "zw-tabelle zw-test"), body = el("tbody");
     tab.append(el("caption", null, "Schreibtischtest"), kopf(vars, opt.bedingung), body);
@@ -139,7 +147,7 @@
     var zeilen = [];   // je Zeile {tr, felder:{v: input}, bed: select, aus: input}
     function neueZeile(werte) {
       var i = zeilen.length, tr = el("tr"), z = { tr: tr, felder: {} };
-      var lab = erw[i] ? durchgangText(erw[i], eineSchleife) : (i === 0 && eineSchleife ? "Start" : String(i));
+      var lab = erw[i] ? durchgangText(erw[i], eineSchleife) : (eineSchleife ? (i + 1) + "." : String(i));
       tr.append(el("td", "zw-dg", lab));
       vars.forEach(function (v) {
         var td = el("td"), inp = el("input", "zw-feld");
@@ -151,7 +159,7 @@
         tr.append(td);
         z.felder[v] = inp;
       });
-      var tdB = el("td"), sel = el("select", "zw-feld zw-bed");
+      var tdB = el("td", "zw-bedzelle"), sel = el("select", "zw-feld zw-bed");
       sel.setAttribute("aria-label", "Bedingung, Zeile " + (i + 1));
       ["", "wahr", "falsch"].forEach(function (t) { var o = el("option", null, t || "–"); o.value = t; sel.append(o); });
       sel.value = werte && werte._bed ? werte._bed : "";

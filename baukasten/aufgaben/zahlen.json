@@ -7,7 +7,7 @@
    "abschnitt": "lesen",
    "welt": "zahlen",
    "lesen": true,
-   "text": "Sie sparen für neue Kopfhörer. «erspart» ist, was Sie schon haben, «ziel» der Preis. Jede Woche legen Sie 15 Fr. dazu. Lesen Sie das Programm und führen Sie den Schreibtischtest: Tragen Sie bei jedem Durchgang die Werte ein.",
+   "text": "Sie sparen für neue Kopfhörer. «erspart» ist, was Sie schon haben, «ziel» der Preis. Jede Woche legen Sie 15 Fr. dazu. Lesen Sie das Programm und gehen Sie es Zeile für Zeile durch: Die markierte Zeile ist dran, Sie tragen ein, was sie bewirkt.",
    "faelle": [
     {
      "eingabe": {
@@ -53,7 +53,8 @@
     }
    ],
    "schreibtischtest": {
-    "fall": 0
+    "fall": 0,
+    "gefuehrt": true
    },
    "vorhersageAusgabe": {
     "fall": 1
@@ -63,7 +64,7 @@
     "solange": []
    },
    "hinweise": [
-    "Eine Zeile pro Prüfung der Bedingung. Zuerst: Was steht vor dem ersten Durchgang in den Variablen?",
+    "Setzen Sie die Werte aus den Kisten in die markierte Zeile ein und rechnen Sie nur diese eine Zeile.",
     "Ist die Bedingung falsch, endet die Wiederholung. Dann kommt «print»."
    ],
    "frage": {

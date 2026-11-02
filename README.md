@@ -219,8 +219,11 @@ Ladewerte sind erfunden, damit die Rechnung aufgeht.
 
 - `welt: "zahlen"`: Das Feld zeigt Variablen als Kisten (Aufschrift = Name), darunter die
   Ablauftabelle und die Ausgabe. Die Tabelle hat eine Zeile bei jeder Prüfung einer
-  «solange»-Bedingung (Durchgang, alle Variablen, Bedingung wahr/falsch, Ausgabe seit der Zeile
-  davor); Programme ohne «solange» haben die Zeilen «Start» und «Ende».
+  «solange»-Bedingung (Prüfung 1., 2., 3. …, alle Variablen, Bedingung wahr/falsch, Ausgabe seit der
+  Zeile davor); die erste Zeile ist also die erste Prüfung, vor dem ersten Durchlauf. Der
+  Spaltenkopf der Bedingung und ein Chip im Hilfetext sind so gefärbt wie der «solange»-Block im
+  Struktogramm. Programme ohne «solange» haben die Zeilen «Start» und «Ende». Die Schreibtisch-Tabelle
+  passt sich der Breite an (Container Queries), damit sie auch am Handy ohne Scrollen auskommt.
 - Bausteine sind Python-Texte, wie später in Python: `"befehle": ["r = 0", "r = r + a", "print(r)"]`,
   `"solange": ["b > 0"]`, `"bedingungen": ["a > b"]`. Ein kleiner Leser in engine.js (`zahlLesen`,
   kein `eval`) kennt ganze Zahlen, Variablen, `+ - * // %`, Klammern und `== != < <= > >=`.
@@ -235,6 +238,13 @@ Ladewerte sind erfunden, damit die Rechnung aufgeht.
   Mit `zeilen: n` nur die ersten n Zeilen (Multiplikation: Das Programm endet nie). In
   Verändern-Aufgaben ist er Schritt «1. Vorher»: Das Struktogramm bleibt lesbar, gesperrt ist nur
   das Bauen.
+- `schreibtischtest.gefuehrt: true` (nur «1 · Sparziel»): Statt der Tabelle gibt es zuerst eine
+  geführte Variante. Das Struktogramm markiert Zeile für Zeile die Zeile, die dran ist; die Lernenden
+  tragen den neuen Wert der Variablen, die Ausgabe bzw. wahr/falsch bei einer Bedingung ein. Kisten
+  und Ablauftabelle im Feld füllen sich mit den bestätigten Schritten; nach drei Fehlversuchen steht
+  die Antwort im Hinweis. Sind alle Schritte richtig, gilt der Schreibtischtest als gelöst (die
+  Tabelle erscheint ausgefüllt). Der Stand der Schritte gilt nur für die Sitzung. Die übrigen
+  Lesen-Aufgaben haben den freien Schreibtischtest.
 - `lesen: true`: Das Struktogramm ist fest (keine Palette, «Struktogramm lesen»). Gelöst ist die
   Aufgabe mit richtigem Schreibtischtest und, mit `vorhersageAusgabe: {fall}`, der richtigen Ausgabe
   für eine zweite Eingabe (eine verdeckte, nicht als Reiter gezeigte). Danach die Reflexion.
