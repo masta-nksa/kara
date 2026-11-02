@@ -244,7 +244,8 @@ Ladewerte sind erfunden, damit die Rechnung aufgeht.
   Bedingung wahr/falsch, bei der Ausgabe die Zahl). Die Antwort wird direkt im farbigen Feld der
   Tabelle eingetragen, «Weiter» (oder die Eingabetaste) übernimmt sie: Das Feld leuchtet kurz grün
   (richtig) oder rot (falsch, dann steht der richtige Wert drin) und es geht immer weiter. Das
-  Struktogramm markiert in derselben Farbe den Baustein, der diesen Wert bestimmt. Nur Felder, die sich
+  Struktogramm markiert in derselben Farbe den Baustein, der diesen Wert bestimmt (bei «solange» nur die
+  Kopfzeile, nicht die ganze Schleife samt Rumpf). Nur Felder, die sich
   ändern, werden gefragt (leer = unverändert); nach dem letzten Feld gilt der Schreibtischtest als
   gelöst, auch mit Fehlern (es ist ein Einstieg). Der Stand gilt nur für die Sitzung. Die übrigen
   Lesen-Aufgaben haben den freien Schreibtischtest.
