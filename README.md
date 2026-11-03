@@ -213,9 +213,9 @@ Limit, kein Tipp.
 Eine schlanke Zusatzreihe zur Algorithmen-Reihe: Statt des Käfers gibt es Variablen. Drei Stufen
 (`abschnitte`): Lesen (Sparziel, MAOAM fair teilen, «Was rechnet es aus?» mit der Summe bis n),
 Verändern (Multiplikation ohne `b = b - 1`, grösste von zwei auf drei Zahlen, Ticketpreis mit
-Fehler an der Altersgrenze und Seniorenpreis, Schlummertaste ohne Stundenübertrag) und Entwerfen
+Fehler an der Altersgrenze und Seniorenpreis, Schlummertaste ohne Stundenübertrag, als ★ Zusatzaufgabe) und Entwerfen
 (ggT nach Euklid mit Subtraktion, Rückgeld mit 5-, 2- und 1-Franken-Münzen, Handy laden in zwei
-Phasen), innerhalb der Stufen von leicht nach schwer. Preise und Ladewerte sind erfunden, damit die
+Phasen, dazu die ★ Zusatzaufgabe «Level-up im Spiel» mit wachsendem Bedarf), innerhalb der Stufen von leicht nach schwer. Preise und Ladewerte sind erfunden, damit die
 Rechnung aufgeht. Die Antworten der Reflexionsfragen werden nicht gemischt: Die richtige steht
 darum in der Datei an wechselnder Stelle und ist nicht deutlich die längste; `erklaerung` beginnt
 nicht mit «Richtig», das setzt die Seite davor.
@@ -256,7 +256,8 @@ nicht mit «Richtig», das setzt die Seite davor.
   Tabelle eingetragen, «Weiter» (oder die Eingabetaste) übernimmt sie, bei «wahr/falsch» mit Maus oder Finger schon die Wahl selbst (mit der Tastatur Enter, weil der Pfeil nur umschaltet): Das Feld leuchtet kurz grün
   (richtig) oder rot (falsch, dann steht der richtige Wert drin) und es geht immer weiter. Das
   Struktogramm markiert in derselben Farbe den Baustein, der diesen Wert bestimmt (bei «solange» nur die
-  Kopfzeile, nicht die ganze Schleife samt Rumpf). Nur Felder, die sich
+  Kopfzeile, nicht die ganze Schleife samt Rumpf; bei der ersten und der letzten Prüfung, also vor dem
+  Betreten und beim Verlassen der Schleife, ist die Schleife nicht markiert; dasselbe gilt bei Start/Einzelschritt in allen Zahl-Aufgaben). Nur Felder, die sich
   ändern, werden gefragt (leer = unverändert); nach dem letzten Feld gilt der Schreibtischtest als
   gelöst, auch mit Fehlern (es ist ein Einstieg). Der Stand gilt nur für die Sitzung. Die übrigen
   Lesen-Aufgaben haben den freien Schreibtischtest.

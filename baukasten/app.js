@@ -1889,7 +1889,7 @@
         var neu = idx ? z.werte[v] !== vor[v] : !Object.prototype.hasOwnProperty.call(e.fall.eingabe, v);
         if (neu) st.push({ zeile: idx, art: "var", name: v, soll: z.werte[v], pfad: letzt[v] || null });
       });
-      if (z.ja != null) st.push({ zeile: idx, art: "bed", soll: !!z.ja, pfad: bedPfad });
+      if (z.ja != null) st.push({ zeile: idx, art: "bed", soll: !!z.ja, pfad: idx > 0 && z.ja ? bedPfad : null });
       // Jedes «print» ein eigener Schritt; bisher: was in diesem Feld schon steht.
       z.ausgabe.forEach(function (w, j) {
         var d = drucke.shift();
@@ -2379,7 +2379,9 @@
   }
 
   function anwenden(ev) {
-    markiere(ev.pfad, ev.typ === "fehler");
+    // Zahlenwelt: Die Schleife ist nur zwischen den Prüfungen markiert, nicht vor dem Betreten und nicht beim Verlassen.
+    var randPruefung = istZahlen() && ev.typ === "while" && (ev.durchlauf === 1 || !ev.ja);
+    markiere(randPruefung ? null : ev.pfad, ev.typ === "fehler");
     if (istZahlen()) { zahlenAnwenden(ev); return; }
     if (ev.zaehler != null) $("zaehlwert").textContent = ev.zaehler;
     var text = "";
