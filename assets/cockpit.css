@@ -14,9 +14,7 @@
 .ck-karte h2{margin:0;font-size:1.1rem;font-weight:600;line-height:1.3}
 .ck-unter{margin:0;color:var(--ink-soft);font-size:.92rem}
 .ck-stand{display:flex;align-items:center;gap:12px;margin-top:10px;flex-wrap:wrap}
-.ck-balken{flex:1;min-width:120px;height:8px;background:var(--accent-soft);border-radius:4px;overflow:hidden}
-.ck-balken i{display:block;height:100%;width:0;background:var(--accent);border-radius:4px;transition:width .4s ease}
-.ck-zahl{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.82rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.ck-stand .kf{flex:1}
 .ck-aufgaben{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
 .ck-aufgaben a{
   display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:4px 10px;font-size:.82rem;

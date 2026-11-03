@@ -16,6 +16,7 @@ Hervorgegangen aus dem Struktogramm-Baukasten in
 index.html                Cockpit: Übersicht der Reihen mit Fortschritt
 assets/                   basis.css (Farben Hell/Dunkel, Schrift), cockpit.css/.js, favicon.svg,
                           blume.js (Fortschritt je Abschnitt als Blume),
+                          fortschritt.js (Prozentbalken je Reihe, ohne Musterlösungen),
                           challenges.js (eigene Challenges: prüfen, Link, Speicher),
                           design-start.js, design.js, designs.css (wählbare Designs, siehe unten)
 editor/                   Labyrinth-Editor für eigene Challenges
@@ -314,6 +315,7 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | Schlüssel | Inhalt |
 | --- | --- |
 | `kara.baukasten.v1` | gelöste Aufgaben (grüner Haken) |
+| `kara.baukasten.muster.v1` | Aufgaben, die per Dreifachklick als gelöst gelten; sie zählen nicht zum Prozentbalken |
 | `kara.baukasten.prog.v1` | Stand der Bausteine je Aufgabe; «Alles löschen» leert ihn |
 | `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
 | `kara.baukasten.nebel.v2` | Nebel ein/aus, je Aufgabe (nur wenn selbst umgeschaltet) |
@@ -328,6 +330,11 @@ Der Link «Daten dieses Levels löschen» unten im Baukasten entfernt aus den dr
 Ein Dreifachklick auf eine Blume im Lernpfad (Abschnitt bzw. Denkfigur) markiert alle Aufgaben dazu
 als gelöst, mit allen Fragen (zum Testen für die Lehrperson). Sind schon alle gelöst, löscht er nach einer Rückfrage
 die Daten dieser Aufgaben wieder.
+
+Der Prozentbalken je Reihe (Übersicht und Baukasten, `assets/fortschritt.js`) zeigt die eigene Bearbeitung: Eine Aufgabe
+zählt, wenn sie gelöst und ihre Vorher-Frage und Reflexion beantwortet sind. 100 % sind alle Pflichtaufgaben; Zusatzaufgaben und
+eigene Challenges zählen je wie eine Pflichtaufgabe und führen über 100 %. Was der Dreifachklick füllt, zählt nicht und bleibt
+ausgeschlossen, bis die Daten der Aufgabe gelöscht sind; schon selbst Erledigtes bleibt gezählt. Haken und Blumen zeigen weiterhin alles.
 
 Checks und Kara liegen unter derselben Adresse `masta-nksa.github.io` und teilen sich darum
 den `localStorage`. Beim ersten Besuch übernimmt Kara einmalig den Stand aus dem früheren

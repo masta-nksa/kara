@@ -152,6 +152,9 @@
     try { localStorage.setItem(FRAGEN_SPEICHER, JSON.stringify(beantwortet)); } catch (e) { /* ohne Speicher weiter */ }
   }
 
+  // Per Dreifachklick gelöste Aufgaben zählen nicht zum Prozentbalken (assets/fortschritt.js).
+  var muster = window.KaraFortschritt ? window.KaraFortschritt.musterLaden() : {};
+
   // Fussleiste: Fortschritt, Programm und Antworten nur dieses Levels löschen (zum nochmals Durchspielen).
   if ($("knopfLoeschen")) $("knopfLoeschen").addEventListener("click", function () {
     if (!aufg || !confirm("Alle gespeicherten Daten von «" + aufg.titel + "» löschen: gelöst, Programm und Antworten? " +
@@ -159,6 +162,8 @@
     var id = aufg.id;
     delete geloest[id];
     delete gespeicherteProgramme[id];
+    delete muster[id];
+    window.KaraFortschritt.musterSpeichern(muster);
     Object.keys(beantwortet).forEach(function (k) { if (k.split("/")[0] === id) delete beantwortet[k]; });
     speichereFortschritt();
     try { localStorage.setItem(PROG_SPEICHER, JSON.stringify(gespeicherteProgramme)); } catch (e) { /* ohne Speicher weiter */ }
@@ -180,6 +185,8 @@
   function alleLoesen(liste, titel) {
     if (liste.length && liste.every(function (a) { return geloest[a.id]; })) { alleLoeschen(liste, titel); return; }
     liste.forEach(function (a) {
+      // Schon selbst Erledigtes bleibt selbst erledigt; alles andere gilt als Musterlösung.
+      if (!erledigt(a)) muster[a.id] = 1;
       if (a.loesung) {
         gespeicherteProgramme[a.id] = E.klonen(a.loesung);
         delete zustand[a.id];
@@ -194,6 +201,7 @@
     });
     speichereFortschritt();
     speichereFragen();
+    window.KaraFortschritt.musterSpeichern(muster);
     try { localStorage.setItem(PROG_SPEICHER, JSON.stringify(gespeicherteProgramme)); } catch (e) { /* ohne Speicher weiter */ }
     waehleAufgabe(aktuell);
     meldungZeigen("ok", null, "Alle Aufgaben von «" + titel + "» sind als gelöst markiert" +
@@ -206,6 +214,7 @@
       var id = a.id;
       delete geloest[id];
       delete gespeicherteProgramme[id];
+      delete muster[id];
       delete zustand[id];
       delete vorhersagen[id];
       delete stEintraege[id];
@@ -219,6 +228,7 @@
     });
     speichereFortschritt();
     speichereFragen();
+    window.KaraFortschritt.musterSpeichern(muster);
     try { localStorage.setItem(PROG_SPEICHER, JSON.stringify(gespeicherteProgramme)); } catch (e) { /* ohne Speicher weiter */ }
     waehleAufgabe(aktuell);
     meldungZeigen("ok", null, "Alle Aufgaben von «" + titel + "» sind wieder offen.");
@@ -342,7 +352,7 @@
   if (window.BaukastenFigur) window.BaukastenFigur.onChange = function () { if (aufg) { renderFeld(); simReset(); } };
 
   // Alte index.html aus dem Zwischenspeicher, neues app.js: einmal ohne Cache neu laden.
-  if (!$("pfad") || !$("knopfLoeschen") || !$("sperre") || !$("stBox")) {
+  if (!$("pfad") || !$("knopfLoeschen") || !$("sperre") || !$("stBox") || !window.KaraFortschritt) {
     var schon = false;
     try { schon = sessionStorage.getItem("kara.neuGeladen") === "1"; sessionStorage.setItem("kara.neuGeladen", "1"); } catch (e) { schon = true; }
     if (!schon) {
@@ -391,10 +401,6 @@
     return { pflicht: pflicht, zusatz: zusatz };
   }
 
-  function stand(r) {
-    var liste = (r === reihe ? aufgaben : reihenCache[r.id] || []).filter(function (a) { return !a.zusatz; });
-    return { n: liste.filter(function (a) { return geloest[a.id]; }).length, von: liste.length };
-  }
 
   function pfadZeigen() {
     if (!reihe || !aufg) return;
@@ -404,10 +410,13 @@
     document.title = reihe.titel + " · Kara";
     var box = $("einheiten");
     box.textContent = "";
-    var s = stand(reihe), t = el("div", "bk-einheit-titel");
+    var t = el("div", "bk-einheit-titel"), F = window.KaraFortschritt;
     t.append(el("b", null, reihe.titel));
     if (reihe.untertitel) { t.append(el("small", null, reihe.untertitel)); t.title = reihe.titel + ": " + reihe.untertitel; }
-    box.append(t, el("span", "bk-stand", s.n + " / " + s.von + " gelöst"));
+    box.append(t);
+    var fort = el("span", "bk-stand");
+    fort.append(F.anzeige(reihe.titel, F.stand(aufgaben, geloest, beantwortet, muster)));
+    box.append(fort);
 
     // Aufgaben als Stationen, gruppiert nach Abschnitten (mit kleiner Blume)
     var ab = abschnitte(), strecke = $("abschnitte"), gruppen = [], aktuelleStation = null;

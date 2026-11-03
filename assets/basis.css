@@ -100,3 +100,10 @@ h1{
 .kb-mitte{fill:var(--surface);stroke:var(--ink-soft);stroke-width:3}
 .kb-mitte.voll{fill:var(--blume);stroke:var(--ink)}
 @media (prefers-reduced-motion: no-preference){.kb-blatt{transition:fill .3s}}
+
+/* Prozentbalken je Reihe (fortschritt.js) */
+.kf{display:inline-flex;align-items:center;gap:8px;min-width:0}
+.kf-balken{display:block;flex:1;min-width:90px;height:8px;background:var(--accent-soft);border-radius:4px;overflow:hidden}
+.kf-balken i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.kf.ueber .kf-balken i{background:var(--ok)}
+.kf-zahl{flex:none;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.85rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
