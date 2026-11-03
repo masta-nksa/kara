@@ -567,3 +567,8 @@ body.bk-zieht *{cursor:grabbing!important}
 .bk-st-ausgabe{margin-top:10px;border-top:1px dashed var(--line);padding-top:4px}
 .bk-st-ausgabe[hidden]{display:none}
 .bk-st-wert{width:9em}
+
+/* Selbständiger Schreibtischtest (schreibtischtest.neutral): keine Farbhilfe im Struktogramm und in der Tabelle */
+.bk-raster.neutral .bk-blk:not(.aktiv) > .bk-kopf,.bk-raster.neutral .bk-balken{background:var(--surface)}
+.bk-raster.neutral .zw-tabelle th.zw-bedkopf{background:var(--ground);color:var(--ink-soft)}
+.bk-raster.neutral .zw-chip{background:none;padding:0}
