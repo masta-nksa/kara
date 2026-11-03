@@ -95,7 +95,13 @@ body{background:var(--ground)}
   .ds-leiste,.ds-probe,.nur-bildschirm{display:none}
   .ds-eyebrow{color:#000}
   .ds h1{font-size:21pt}
-  .ds h2{font-size:13pt;break-after:avoid}
+  .ds h2{font-size:13pt;margin:1em 0 .3em;break-after:avoid}
+  .ds h2.ds-neue-seite{margin-top:0}
+  .ds .ds-tab{margin:.4em 0}
+  .ds-tab th,.ds-tab td{padding:2px 5px}
+  .ds h1{margin-bottom:.3em}
+  .ds-box{margin-bottom:.6em;padding:6px 12px}
+  .ds-bausteine{gap:8px 14px}
   .ds-neue-seite{break-before:page}
   .ds-aufgabe{break-inside:avoid;margin:1.1em 0}
   .ds-linien{height:1.7em}

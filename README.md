@@ -275,10 +275,10 @@ Theorie und Übungen zum Ausdrucken, als Rückblick nach der Arbeit in Kara, zum
 Prüfungsvorbereitung: <https://masta-nksa.github.io/kara/dossier/>. Verlinkt ist es nur im Lernpfad der Reihe
 (`"dossier": "../dossier/"` in `reihen.json`, öffnet in neuem Tab), nicht in der Übersicht und nicht in den Aufgabentexten.
 
-- `index.html`: Lernziele, sechs Theorieteile (Algorithmus und Anforderungen, Bausteine, Variablen,
-  Schreibtischtest, Testen und Fehler, Denkfiguren), 17 Aufgaben (Anforderungen, Lesen, Verändern,
+- `index.html`: Lernziele, fünf Theorieteile (Algorithmus und Anforderungen, Bausteine, Variablen,
+  Schreibtischtest, Testen und Fehler), 17 Aufgaben (Anforderungen, Lesen, Verändern,
   Entwerfen, ★ Zusatz), Anregungen ohne Lösung, am Schluss der QR-Code. Jeder Teil beginnt im Druck auf einer neuen
-  Seite, sodass sich auch nur ein Teil drucken lässt (14 A4-Seiten).
+  Seite, sodass sich auch nur ein Teil drucken lässt (13 A4-Seiten).
 - `loesungen.html`: Lösungen, fürs Handy gestaltet; wird nicht mitgedruckt. `loesungen-qr.svg` ist ein
   festes Bild mit der Adresse dieser Seite: **Die Adresse darf sich nach dem ersten Ausdruck nicht mehr ändern.**
 - `dossier.js`: zeichnet Struktogramme (`data-prog`, Programmbaum wie im Baukasten) und Tabellen
