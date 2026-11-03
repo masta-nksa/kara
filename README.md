@@ -20,7 +20,7 @@ assets/                   basis.css (Farben Hell/Dunkel, Schrift), cockpit.css/.
                           challenges.js (eigene Challenges: prüfen, Link, Speicher),
                           design-start.js, design.js, designs.css (wählbare Designs, siehe unten)
 editor/                   Labyrinth-Editor für eigene Challenges
-dossier/                  Lern- und Übungsdossier «Algorithmen mit Zahlen» (siehe unten)
+dossier/                  Lern- und Übungsdossiers, ein Unterordner je Dossier (siehe unten)
 baukasten/                der Baukasten
   index.html, app.js      Oberfläche (Bausteine ziehen, Käfer-Feld, Ablauf)
   engine.js               Interpreter, Prüfung und Programmbaum (reine Funktionen, ohne DOM)
@@ -269,11 +269,18 @@ nicht mit «Richtig», das setzt die Seite davor.
   Aufgabe mit richtigem Schreibtischtest und, mit `vorhersageAusgabe: {fall}`, der richtigen Ausgabe
   für eine zweite Eingabe (eine verdeckte, nicht als Reiter gezeigte). Danach die Reflexion.
 
-## Dossier «Algorithmen mit Zahlen» (`dossier/`)
+## Dossiers (`dossier/`)
+
+Je Dossier ein Unterordner, benannt wie die Reihe in `reihen.json` (`zahlen/`, geplant `algorithmen/`, `ct/`, `labyrinth/`),
+mit eigener `index.html`, `loesungen.html` und `loesungen-qr.svg`. `dossier.css` und `dossier.js` liegen in `dossier/` und gelten
+für alle. `dossier/index.html` listet die vorhandenen Dossiers und ist nicht in der Übersicht verlinkt. Neue Dossiers dort eintragen.
+`dossier/loesungen.html` leitet auf `zahlen/loesungen.html` weiter (frühere Adresse des QR-Codes).
+
+### Algorithmen mit Zahlen (`dossier/zahlen/`)
 
 Theorie und Übungen zum Ausdrucken, als Rückblick nach der Arbeit in Kara, zum Lernen und zur
-Prüfungsvorbereitung: <https://masta-nksa.github.io/kara/dossier/>. Verlinkt ist es nur im Lernpfad der Reihe
-(`"dossier": "../dossier/"` in `reihen.json`, öffnet in neuem Tab), nicht in der Übersicht und nicht in den Aufgabentexten.
+Prüfungsvorbereitung: <https://masta-nksa.github.io/kara/dossier/zahlen/>. Verlinkt ist es nur im Lernpfad der Reihe
+(`"dossier": "../dossier/zahlen/"` in `reihen.json`, öffnet in neuem Tab), nicht in der Übersicht und nicht in den Aufgabentexten.
 
 - `index.html`: Lernziele, fünf Theorieteile (Algorithmus und Anforderungen, Bausteine, Variablen,
   Schreibtischtest, Testen und Fehler), 17 Aufgaben (Anforderungen, Lesen, Verändern,
@@ -325,7 +332,7 @@ Herkunftsseite und Bildschirmgrösse.
 | --- | --- |
 | `/kara/` | Cockpit |
 | `/kara/editor/` | Labyrinth-Editor |
-| `/kara/dossier/`, `/kara/dossier/loesungen.html` | Dossier und Lösungen |
+| `/kara/dossier/`, `/kara/dossier/zahlen/`, `/kara/dossier/zahlen/loesungen.html` | Liste der Dossiers, Dossier und Lösungen |
 | `/kara/baukasten/<reihe>/<aufgabe>` | Aufgabe geöffnet (eigene Challenges: `…/eigene/challenge`) |
 | `/kara/baukasten/geloest/<reihe>/<aufgabe>` | Ereignis: Aufgabe gelöst |
 | `/kara/baukasten/challenge-uebernommen` | Ereignis: Challenge per Link übernommen |
