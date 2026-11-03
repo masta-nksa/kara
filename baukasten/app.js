@@ -417,6 +417,14 @@
     var fort = el("span", "bk-stand");
     fort.append(F.anzeige(reihe.titel, F.stand(aufgaben, geloest, beantwortet, muster)));
     box.append(fort);
+    if (reihe.dossier) {
+      var dossier = el("a", "bk-dossier", "Dossier");
+      dossier.title = "Theorie und Übungen zum Ausdrucken";
+      dossier.href = reihe.dossier;
+      dossier.target = "_blank";
+      dossier.rel = "noopener";
+      box.append(dossier);
+    }
 
     // Aufgaben als Stationen, gruppiert nach Abschnitten (mit kleiner Blume)
     var ab = abschnitte(), strecke = $("abschnitte"), gruppen = [], aktuelleStation = null;

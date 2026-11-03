@@ -136,7 +136,7 @@ Struktogramm den Kommentar «# gibt … aus»). Reserve-Ideen: Bosskampf, Level-
 Dezimal in Binär, Fussballpunkte.
 
 Seit 3.11.2026: Dossier «Algorithmen mit Zahlen» in `dossier/` (Theorie, 17 Aufgaben, Druck-CSS, Lösungen per
-QR-Code am Schluss; Details im README). Nicht in der Übersicht verlinkt, Direktlink durch die Lehrperson. Die Adresse von
+QR-Code am Schluss; Details im README). Verlinkt nur im Lernpfad der Reihe (`dossier` in reihen.json), nicht in der Übersicht. Die Adresse von
 `loesungen.html` nach dem ersten Ausdruck nicht mehr ändern. Keine Namenszeile, kein «Lektion n», Lernziele-Box.
 Offen (noch nicht begonnen): eigenes Dossier zu Kara (Käfer) und Computational Thinking.
 Druck auf Windows prüfen: Chrome `--headless=new --no-pdf-header-footer --print-to-pdf=… file:///…/dossier/index.html`.
