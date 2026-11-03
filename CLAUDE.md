@@ -82,6 +82,10 @@ umgedrehtem, gespiegeltem Weg. Neue Karten so halten.
 Offen aus der Rückmeldung der Lehrperson (18.10.2026): Begriffe Labyrinth/Irrgarten
 (Labyrinth im engen Sinn ohne Verzweigungen). Texte nicht ohne Entscheid umbenennen.
 
+Offen (Todo, nicht jetzt umsetzen): neutrales, übersichtliches Design «Hell» (fest heller Hintergrund,
+weisse Flächen, dünne Linien, eine ruhige Akzentfarbe, keine Effekte) als weiterer Eintrag im Umschalter;
+ob es Standard wird, ist noch nicht entschieden.
+
 Offen, nicht entschieden: ob der Baukasten-Eintrag in `checks` auf Kara verlinken soll.
 Nur auf ausdrücklichen Wunsch ändern.
 
