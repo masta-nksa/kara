@@ -777,8 +777,9 @@
   },
   {
    "id": "zahl-wecker",
-   "titel": "7 · Schlummertaste",
+   "titel": "★ Schlummertaste",
    "abschnitt": "veraendern",
+   "zusatz": true,
    "welt": "zahlen",
    "text": "Der Wecker klingelt um stunde:minute. Jedes Drücken der Schlummertaste verschiebt ihn um 9 Minuten. Das Programm soll ausgeben, wann er zuletzt klingelt: zuerst die Stunde, dann die Minute. Bei 6:45 und dreimal Drücken kommt aber 6 und 72 heraus. Reparieren Sie das Programm.",
    "faelle": [
@@ -941,7 +942,7 @@
   },
   {
    "id": "zahl-ggt",
-   "titel": "8 · ggT nach Euklid",
+   "titel": "7 · ggT nach Euklid",
    "abschnitt": "entwerfen",
    "welt": "zahlen",
    "text": "Den grössten gemeinsamen Teiler (ggT) zweier Zahlen findet man auch ohne Teilen: Solange a und b verschieden sind, zieht man die kleinere Zahl von der grösseren ab. Am Schluss sind beide gleich, das ist der ggT. a und b sind ganze Zahlen ab 1.",
@@ -1068,7 +1069,7 @@
   },
   {
    "id": "zahl-rueckgeld",
-   "titel": "9 · Rückgeld am Automaten",
+   "titel": "8 · Rückgeld am Automaten",
    "abschnitt": "entwerfen",
    "welt": "zahlen",
    "text": "Ein Getränkeautomat gibt Rückgeld in Münzen zu 5, 2 und 1 Franken, mit möglichst wenigen Münzen. «rest» ist das Rückgeld in Franken. Geben Sie jede Münze mit «print» aus, die grössten zuerst.",
@@ -1221,7 +1222,7 @@
   },
   {
    "id": "zahl-akku",
-   "titel": "10 · Handy laden",
+   "titel": "9 · Handy laden",
    "abschnitt": "entwerfen",
    "welt": "zahlen",
    "text": "Ein Handy wird geladen. Solange der Akku unter 80 % ist, kommen pro Minute 4 Prozentpunkte dazu, sonst 1, bis er bei 100 % ist. «akku» ist der Ladestand beim Einstecken. Geben Sie aus, wie viele Minuten das Laden dauert.",
@@ -1346,6 +1347,138 @@
     {
      "t": "act",
      "cmd": "print(minuten)"
+    }
+   ]
+  },
+  {
+   "id": "zahl-level",
+   "titel": "★ Level-up im Spiel",
+   "abschnitt": "entwerfen",
+   "zusatz": true,
+   "welt": "zahlen",
+   "text": "In einem Spiel steigt man im Level auf. Man startet auf Level 1. Für Level 2 braucht man 100 Erfahrungspunkte, und jedes weitere Level braucht 50 Punkte mehr als das vorige (150, 200, …). Beim Aufsteigen werden die gebrauchten Punkte abgezogen, der Rest zählt weiter. «xp» sind die gesammelten Punkte. Geben Sie aus, auf welchem Level man damit ist.",
+   "faelle": [
+    {
+     "eingabe": {
+      "xp": 50
+     },
+     "ausgabe": [
+      1
+     ]
+    },
+    {
+     "eingabe": {
+      "xp": 350
+     },
+     "ausgabe": [
+      3
+     ]
+    }
+   ],
+   "verdeckt": [
+    {
+     "eingabe": {
+      "xp": 0
+     },
+     "ausgabe": [
+      1
+     ]
+    },
+    {
+     "eingabe": {
+      "xp": 100
+     },
+     "ausgabe": [
+      2
+     ]
+    },
+    {
+     "eingabe": {
+      "xp": 249
+     },
+     "ausgabe": [
+      2
+     ]
+    },
+    {
+     "eingabe": {
+      "xp": 250
+     },
+     "ausgabe": [
+      3
+     ]
+    },
+    {
+     "eingabe": {
+      "xp": 800
+     },
+     "ausgabe": [
+      5
+     ]
+    }
+   ],
+   "palette": {
+    "befehle": [
+     "level = 1",
+     "bedarf = 100",
+     "xp = xp - bedarf",
+     "xp = xp - 100",
+     "level = level + 1",
+     "bedarf = bedarf + 50",
+     "print(level)",
+     "print(xp)"
+    ],
+    "solange": [
+     "xp >= bedarf",
+     "xp > bedarf"
+    ]
+   },
+   "maxBloecke": 10,
+   "kleinsteLoesung": 7,
+   "hinweise": [
+    "Jeder Aufstieg ist ein Durchgang. Was ändert sich bei einem Aufstieg? Es sind drei Dinge.",
+    "Wann hört es auf? Wenn die Punkte nicht mehr für das nächste Level reichen."
+   ],
+   "frage": {
+    "text": "Was passiert, wenn man vergisst, «bedarf» zu erhöhen?",
+    "antworten": [
+     "Das Programm hört nie auf, weil «xp» nie kleiner wird.",
+     "Das Programm hört auf, gibt aber bei vielen Punkten ein zu hohes Level aus.",
+     "Das Programm bricht mit einer Fehlermeldung ab, weil «bedarf» nie verändert wird."
+    ],
+    "richtig": "d9149add",
+    "erklaerung": "Das Programm läuft ohne Fehlermeldung und ist trotzdem falsch. Solche Fehler findet man nur mit Testfällen, die mehrere Aufstiege enthalten."
+   },
+   "loesung": [
+    {
+     "t": "act",
+     "cmd": "level = 1"
+    },
+    {
+     "t": "act",
+     "cmd": "bedarf = 100"
+    },
+    {
+     "t": "while",
+     "cond": "xp >= bedarf",
+     "body": [
+      {
+       "t": "act",
+       "cmd": "xp = xp - bedarf"
+      },
+      {
+       "t": "act",
+       "cmd": "level = level + 1"
+      },
+      {
+       "t": "act",
+       "cmd": "bedarf = bedarf + 50"
+      }
+     ]
+    },
+    {
+     "t": "act",
+     "cmd": "print(level)"
     }
    ]
   }

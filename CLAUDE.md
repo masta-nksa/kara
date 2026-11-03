@@ -122,7 +122,7 @@ Vorhersage ist Pflicht: Bis dahin ist das Struktogramm gesperrt (Schritte 1. Vor
 mit «Alle prüfen». Die Lehrperson rechnet mit fünf Anforderungen
 (mit Korrektheit); L1-Dossier und Algorithmus-Check in `checks` nennen noch vier.
 
-Seit 28.10.2026: Reihe «Algorithmen mit Zahlen» (Zusatz zur Algorithmen-Reihe, 10 Aufgaben in den
+Seit 28.10.2026: Reihe «Algorithmen mit Zahlen» (Zusatz zur Algorithmen-Reihe, 9 Pflichtaufgaben und zwei ★ Zusatzaufgaben («Schlummertaste», «Level-up im Spiel») in den
 Stufen Lesen, Verändern, Entwerfen; Details im README). Engine-Teil `runZahlen` in engine.js,
 Darstellung in `zahlwelt.js`. Lesen-Aufgaben verlangen einen vollständigen Schreibtischtest (jeder
 Durchgang, alle Variablen, Bedingung, Ausgabe). Neue Zahl-Aufgaben: Ausgaben der Fälle per Skript

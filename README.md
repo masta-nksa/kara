@@ -213,9 +213,9 @@ Limit, kein Tipp.
 Eine schlanke Zusatzreihe zur Algorithmen-Reihe: Statt des Käfers gibt es Variablen. Drei Stufen
 (`abschnitte`): Lesen (Sparziel, MAOAM fair teilen, «Was rechnet es aus?» mit der Summe bis n),
 Verändern (Multiplikation ohne `b = b - 1`, grösste von zwei auf drei Zahlen, Ticketpreis mit
-Fehler an der Altersgrenze und Seniorenpreis, Schlummertaste ohne Stundenübertrag) und Entwerfen
+Fehler an der Altersgrenze und Seniorenpreis, Schlummertaste ohne Stundenübertrag, als ★ Zusatzaufgabe) und Entwerfen
 (ggT nach Euklid mit Subtraktion, Rückgeld mit 5-, 2- und 1-Franken-Münzen, Handy laden in zwei
-Phasen), innerhalb der Stufen von leicht nach schwer. Preise und Ladewerte sind erfunden, damit die
+Phasen, dazu die ★ Zusatzaufgabe «Level-up im Spiel» mit wachsendem Bedarf), innerhalb der Stufen von leicht nach schwer. Preise und Ladewerte sind erfunden, damit die
 Rechnung aufgeht. Die Antworten der Reflexionsfragen werden nicht gemischt: Die richtige steht
 darum in der Datei an wechselnder Stelle und ist nicht deutlich die längste; `erklaerung` beginnt
 nicht mit «Richtig», das setzt die Seite davor.
