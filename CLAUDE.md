@@ -135,11 +135,11 @@ Schreibtischtest klein halten (4–5 Durchgänge). Seit 2.11.2026: Tabellenzeile
 Struktogramm den Kommentar «# gibt … aus»). Reserve-Ideen: Bosskampf, Level-up, Primzahltest,
 Dezimal in Binär, Fussballpunkte.
 
-Seit 3.11.2026: Dossier «Algorithmen mit Zahlen» in `dossier/` (Theorie, 17 Aufgaben, Druck-CSS, Lösungen per
+Seit 3.11.2026: Dossier «Algorithmen mit Zahlen» in `dossier/zahlen/` (je Dossier ein Unterordner wie die Reihe, CSS und JS gemeinsam in `dossier/`; Theorie, 17 Aufgaben, Druck-CSS, Lösungen per
 QR-Code am Schluss; Details im README). Verlinkt nur im Lernpfad der Reihe (`dossier` in reihen.json), nicht in der Übersicht. Die Adresse von
 `loesungen.html` nach dem ersten Ausdruck nicht mehr ändern. Keine Namenszeile, kein «Lektion n», Lernziele-Box.
-Offen (noch nicht begonnen): eigenes Dossier zu Kara (Käfer) und Computational Thinking.
-Druck auf Windows prüfen: Chrome `--headless=new --no-pdf-header-footer --print-to-pdf=… file:///…/dossier/index.html`.
+Offen (noch nicht begonnen): je ein eigenes Dossier zu CT (`ct/`), Algorithmen mit Kara (`algorithmen/`) und Labyrinth (`labyrinth/`).
+Druck auf Windows prüfen: Chrome `--headless=new --no-pdf-header-footer --print-to-pdf=… file:///…/dossier/zahlen/index.html`.
 
 Seit 3.11.2026: Stufen der Zahlen-Reihe neu nach Schwierigkeit geordnet (Reihenfolge im README), IDs unverändert.
 Antworten werden nicht gemischt: In neuen Fragen die richtige nicht immer zuerst und nicht deutlich länger; `richtig` passt zur
