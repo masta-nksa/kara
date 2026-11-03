@@ -106,7 +106,7 @@ zwei gelösten und reflektierten Aufgaben dazu freigeschaltet (je Denkfigur 2–
 Navigation wie im Turtle-Kurs: Aufgaben als Stationen; kein Zurück/Weiter in der Karte, weiter geht es
 über die Stationen oder nach dem Lösen mit «Nächste Aufgabe» (erst nach der Reflexion sichtbar); andere
 Reihen sind im Baukasten nicht verlinkt (jede Reihe für sich, Einstieg über die Übersicht, kein Link
-zurück). Unten «Daten dieses Levels löschen»; Dreifachklick auf eine Blume löst alle Aufgaben dazu, sind schon alle gelöst, löscht er sie nach Rückfrage wieder.
+zurück). Unten «Daten dieses Levels löschen»; Dreifachklick auf eine Blume löst alle Aufgaben dazu, sind schon alle gelöst, löscht er sie nach Rückfrage wieder. Der Prozentbalken je Reihe (`assets/fortschritt.js`) zählt nur selbst Erledigtes, nie per Dreifachklick Gefülltes (`kara.baukasten.muster.v1`); Zusatzaufgaben führen über 100 %.
 Reflexionsfragen so formulieren, dass verschiedene Lösungswege passen (z. B. Bahnen oder Spirale).
 Felder der einfachen und mittleren Aufgaben so gestalten, dass sauberes Zerlegen und ein Muster ohne
 Rest aufgehen (z. B. «Bahn und Wende»: 4 Bahnen und ein Tor, «Zwei Rasenstücke»: zwei gleiche Rasen). Vorbild: Kursmodus von masta-nksa/turtle. Die Algorithmen-Reihe

@@ -48,7 +48,8 @@
 .bk-einheit-titel{margin-left:0;flex:1 1 0;min-width:0;display:flex;align-items:baseline;gap:12px;white-space:nowrap;overflow:hidden}
 .bk-einheit-titel b{flex:none;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.95rem}
 .bk-einheit-titel small{min-width:0;overflow:hidden;text-overflow:ellipsis;color:var(--ink-soft);font-size:.82rem}
-.bk-stand{flex:none;margin-left:auto;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.85rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bk-stand{flex:none;margin-left:auto;width:170px;display:flex}
+.bk-stand .kf{flex:1}
 .bk-strecke{overflow-x:auto;padding:2px;scrollbar-width:thin}
 .bk-abschnitte{display:flex;gap:26px;width:max-content;min-width:100%}
 .bk-abschnitt{display:flex;flex-direction:column;gap:4px}

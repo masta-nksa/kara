@@ -94,19 +94,10 @@
     li.append(el("h2", null, r.titel));
     if (r.untertitel) li.append(el("p", "ck-unter", r.untertitel));
 
-    var stand = el("div", "ck-stand");
-    var balken = el("div", "ck-balken");
-    balken.setAttribute("role", "progressbar");
-    balken.setAttribute("aria-valuemin", "0");
-    balken.setAttribute("aria-valuemax", String(aufgaben.length));
-    balken.setAttribute("aria-valuenow", String(n));
-    balken.setAttribute("aria-label", r.titel + ": " + n + " von " + aufgaben.length + " gelöst");
-    var fuell = el("i");
-    balken.append(fuell);
-    stand.append(balken, el("span", "ck-zahl", n + " von " + aufgaben.length + " gelöst"));
+    var stand = el("div", "ck-stand"), F = window.KaraFortschritt;
+    if (F) stand.append(F.anzeige(r.titel, F.stand(aufgaben, fertig, beantwortet(), F.musterLaden())));
     li.append(stand);
     if (((Array.isArray(r.abschnitte) && r.abschnitte.length) || (Array.isArray(r.denkfiguren) && r.denkfiguren.length)) && window.KaraBlume) li.append(blumen(r, aufgaben, fertig, beantwortet()));
-    requestAnimationFrame(function () { fuell.style.width = (aufgaben.length ? 100 * n / aufgaben.length : 0) + "%"; });
 
     var ul = el("ul", "ck-aufgaben");
     aufgaben.forEach(function (a) {
