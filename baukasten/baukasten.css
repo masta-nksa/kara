@@ -528,6 +528,8 @@ body.bk-zieht *{cursor:grabbing!important}
 .zw-gefuehrt td.zw-gut{color:var(--ink)}
 .zw-gefuehrt td.zw-dran{background:var(--hl);outline:2px solid var(--accent);outline-offset:-2px}
 .zw-gefuehrt td.zw-dran .zw-feld{width:3.4em}
+.zw-gefuehrt td.zw-dran .zw-feld{background:var(--hl);border:2px solid var(--accent)}
+.zw-gefuehrt td.zw-dran .zw-feld option{background:var(--surface);color:var(--ink)}
 .zw-gefuehrt td.zw-dran .zw-feld.zw-bed{width:auto;min-width:4.6em}
 .zw-gefuehrt td.zw-dran .zw-feld.zw-aus{width:3.6em}
 @keyframes zw-blitz-ok{0%,45%{background:var(--ok-soft);box-shadow:inset 0 0 0 2px var(--ok)}100%{background:transparent;box-shadow:inset 0 0 0 2px transparent}}
