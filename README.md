@@ -212,7 +212,7 @@ Limit, kein Tipp.
 
 Eine schlanke Zusatzreihe zur Algorithmen-Reihe: Statt des Käfers gibt es Variablen. Drei Stufen
 (`abschnitte`): Lesen (Sparziel, MAOAM fair teilen, «Was rechnet es aus?» mit der Summe bis n),
-Verändern (Multiplikation ohne `b = b - 1`, Highscore von zwei auf drei Runden, Ticketpreis mit
+Verändern (Multiplikation ohne `b = b - 1`, grösste von zwei auf drei Zahlen, Ticketpreis mit
 Fehler an der Altersgrenze und Seniorenpreis, Schlummertaste ohne Stundenübertrag) und Entwerfen
 (ggT nach Euklid mit Subtraktion, Rückgeld mit 5-, 2- und 1-Franken-Münzen, Handy laden in zwei
 Phasen), innerhalb der Stufen von leicht nach schwer. Preise und Ladewerte sind erfunden, damit die
