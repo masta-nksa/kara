@@ -108,7 +108,7 @@
    "abschnitt": "lesen",
    "welt": "zahlen",
    "lesen": true,
-   "text": "Eine Packung MAOAM wird an alle Personen verteilt, reihum, solange es für jede Person noch ein Stück hat. «maoam» ist die Anzahl Stücke in der Packung. Führen Sie den Schreibtischtest.",
+   "text": "Eine Packung MAOAM wird an alle Personen verteilt, reihum, solange es für jede Person noch ein Stück hat. «maoam» ist die Anzahl Stücke in der Packung. Gehen Sie das Programm Zeile für Zeile durch: Die markierte Zeile ist dran, Sie tragen ein, was sie bewirkt.",
    "faelle": [
     {
      "eingabe": {
@@ -160,7 +160,8 @@
     }
    ],
    "schreibtischtest": {
-    "fall": 0
+    "fall": 0,
+    "gefuehrt": true
    },
    "vorhersageAusgabe": {
     "fall": 1
@@ -218,7 +219,7 @@
    "abschnitt": "lesen",
    "welt": "zahlen",
    "lesen": true,
-   "text": "Lesen Sie das Programm und führen Sie den Schreibtischtest. Was rechnet es aus?",
+   "text": "Jetzt ohne Führung: Lesen Sie das Programm und füllen Sie den ganzen Schreibtischtest aus, bevor Sie ihn prüfen. Sie haben 3 Versuche. Was rechnet das Programm aus?",
    "faelle": [
     {
      "eingabe": {
@@ -266,7 +267,9 @@
     }
    ],
    "schreibtischtest": {
-    "fall": 0
+    "fall": 0,
+    "versuche": 3,
+    "neutral": true
    },
    "vorhersageAusgabe": {
     "fall": 1

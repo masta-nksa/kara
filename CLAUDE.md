@@ -106,7 +106,7 @@ zwei gelösten und reflektierten Aufgaben dazu freigeschaltet (je Denkfigur 2–
 Navigation wie im Turtle-Kurs: Aufgaben als Stationen; kein Zurück/Weiter in der Karte, weiter geht es
 über die Stationen oder nach dem Lösen mit «Nächste Aufgabe» (erst nach der Reflexion sichtbar); andere
 Reihen sind im Baukasten nicht verlinkt (jede Reihe für sich, Einstieg über die Übersicht, kein Link
-zurück). Unten «Daten dieses Levels löschen»; Dreifachklick auf eine Blume löst alle Aufgaben dazu.
+zurück). Unten «Daten dieses Levels löschen»; Dreifachklick auf eine Blume löst alle Aufgaben dazu, sind schon alle gelöst, löscht er sie nach Rückfrage wieder.
 Reflexionsfragen so formulieren, dass verschiedene Lösungswege passen (z. B. Bahnen oder Spirale).
 Felder der einfachen und mittleren Aufgaben so gestalten, dass sauberes Zerlegen und ein Muster ohne
 Rest aufgehen (z. B. «Bahn und Wende»: 4 Bahnen und ein Tor, «Zwei Rasenstücke»: zwei gleiche Rasen). Vorbild: Kursmodus von masta-nksa/turtle. Die Algorithmen-Reihe
@@ -129,7 +129,7 @@ Durchgang, alle Variablen, Bedingung, Ausgabe). Neue Zahl-Aufgaben: Ausgaben der
 aus `loesung` berechnen, typische Fehlervarianten müssen an einem Fall scheitern. Fälle für den
 Schreibtischtest klein halten (4–5 Durchgänge). Seit 2.11.2026: Tabellenzeilen heissen «1., 2., …»
 (Prüfungen der Bedingung, kein «Start»), Bedingungsspalte braun wie der Block, kein Scrollen
-(Container Queries); «1 · Sparziel» beginnt mit einer geführten Variante
+(Container Queries); «1 · Sparziel» und «2 · MAOAM fair teilen» sind geführt, die dritte Lesen-Aufgabe ist frei (ganze Tabelle, Struktogramm ohne Farbe, 3 Versuche: Anzahl Fehler, dann rot markiert, dann Lösung)
 (Kisten, Ausgabe und Start erst nach dem Schreibtischtest, das Struktogramm bleibt beim Scrollen stehen;
 `schreibtischtest.gefuehrt`: Feld für Feld, Eingabe im farbigen Tabellenfeld, grün/rot, immer weiter; `print` hat im
 Struktogramm den Kommentar «# gibt … aus»). Reserve-Ideen: Bosskampf, Level-up, Primzahltest,

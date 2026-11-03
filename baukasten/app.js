@@ -167,6 +167,7 @@
   });
 
   // Dreifachklick auf eine Blume: alle Aufgaben dazu gelten als gelöst, mit allen Fragen (für die Lehrperson).
+  // Sind schon alle gelöst, löscht er sie wieder (nach Rückfrage).
   function dreifach(knoten, fn) {
     var zeiten = [];
     knoten.addEventListener("click", function () {
@@ -177,6 +178,7 @@
   }
   // Mit «loesung» in der Aufgabe kommt das Lösungsprogramm ins Struktogramm.
   function alleLoesen(liste, titel) {
+    if (liste.length && liste.every(function (a) { return geloest[a.id]; })) { alleLoeschen(liste, titel); return; }
     liste.forEach(function (a) {
       if (a.loesung) {
         gespeicherteProgramme[a.id] = E.klonen(a.loesung);
@@ -196,6 +198,28 @@
     waehleAufgabe(aktuell);
     meldungZeigen("ok", null, "Alle Aufgaben von «" + titel + "» sind als gelöst markiert" +
       (liste.some(function (a) { return a.loesung; }) ? ", mit Lösungsprogramm im Struktogramm." : "."));
+  }
+
+  function alleLoeschen(liste, titel) {
+    if (!confirm("Alle gespeicherten Daten von «" + titel + "» löschen: gelöst, Programme und Antworten? Andere Abschnitte bleiben erhalten.")) return;
+    liste.forEach(function (a) {
+      var id = a.id;
+      delete geloest[id];
+      delete gespeicherteProgramme[id];
+      delete zustand[id];
+      delete vorhersagen[id];
+      delete stEintraege[id];
+      delete stGeprueft[id];
+      delete stVersuch[id];
+      delete gefIndex[id];
+      Object.keys(beantwortet).forEach(function (k) { if (k.split("/")[0] === id) delete beantwortet[k]; });
+      if (a === aufg) { prog = startProgramm(a); undoStack = []; }
+    });
+    speichereFortschritt();
+    speichereFragen();
+    try { localStorage.setItem(PROG_SPEICHER, JSON.stringify(gespeicherteProgramme)); } catch (e) { /* ohne Speicher weiter */ }
+    waehleAufgabe(aktuell);
+    meldungZeigen("ok", null, "Alle Aufgaben von «" + titel + "» sind wieder offen.");
   }
 
   /* ---------- Start ----------------------------------------- */
@@ -502,6 +526,8 @@
     bau.classList.toggle("lesbar", offen === "schreibtischtest");
     bau.classList.toggle("nur-lesen", !!aufg.lesen);
     bau.classList.toggle("bk-zahlen", istZahlen());
+    // Struktogramm und Tabelle ohne Farbhilfe (schreibtischtest.neutral)
+    document.querySelector(".bk-raster").classList.toggle("neutral", !!(aufg.schreibtischtest && aufg.schreibtischtest.neutral));
     $("sperre").hidden = !offen;
     $("sperre").textContent = offen === "vorhersage" ? "Zuerst 1.: Tippen Sie im Käfer-Feld, wo der Käfer endet."
       : offen === "schreibtischtest" ? "Zuerst 1.: Führen Sie rechts den Schreibtischtest für dieses Programm."
@@ -1710,6 +1736,7 @@
   var ZW = window.KaraZahlwelt, zahlRef = null;
   var stEintraege = {};          // je Aufgabe in dieser Sitzung: Eingaben im Schreibtischtest
   var stGeprueft = {};           // je Aufgabe: Schreibtischtest mindestens einmal geprüft
+  var stVersuch = {};            // je Aufgabe in dieser Sitzung: verbrauchte Versuche (schreibtischtest.versuche)
   var ZAHL_TRACE_MAX = 120;      // Wiederholung ohne Ende: nur so viele Schritte zeigen
 
   function istZahlen() { return !!(aufg && aufg.welt === "zahlen"); }
@@ -1796,10 +1823,11 @@
     var l = E.runZahlen(fall.eingabe, p);
     return { fall: fall, zeilen: st.zeilen ? l.zeilen.slice(0, st.zeilen) : l.zeilen, variablen: E.zahlVariablen(fall.eingabe, p) };
   }
-  function schreibtischGeloest() {
+  // wert 2: Versuche aufgebraucht, die richtige Tabelle wird gezeigt.
+  function schreibtischGeloest(wert) {
     var id = aufg.id;
     stGeprueft[id] = true;
-    if (!beantwortet[id + "/schreibtischtest"]) { beantwortet[id + "/schreibtischtest"] = 1; speichereFragen(); }
+    if (!beantwortet[id + "/schreibtischtest"]) { beantwortet[id + "/schreibtischtest"] = wert === 2 ? 2 : 1; speichereFragen(); }
     renderSchreibtisch();
     ablaufZeigen();
     tabsAktualisieren();
@@ -1817,12 +1845,18 @@
       eintraege: stEintraege[id] || null, fertig: !!beantwortet[id + "/schreibtischtest"],
       aendern: function (w) { stEintraege[id] = w; },
       geprueft: function () { stGeprueft[id] = true; ablaufZeigen(); },
-      geloest: schreibtischGeloest
+      geloest: function () { schreibtischGeloest(); },
+      versuche: aufg.schreibtischtest.versuche || 0, versuch: stVersuch[id] || 0, neutral: !!aufg.schreibtischtest.neutral,
+      aufgebraucht: beantwortet[id + "/schreibtischtest"] === 2,
+      versucht: function (n) {
+        stVersuch[id] = n;
+        if (n >= aufg.schreibtischtest.versuche) schreibtischGeloest(2);
+      }
     });
     renderAusgabeFrage();
   }
 
-  /* Geführte Variante (schreibtischtest.gefuehrt, nur beim ersten Lesen-Beispiel): Feld für Feld.
+  /* Geführte Variante (schreibtischtest.gefuehrt: Sparziel und MAOAM): Feld für Feld.
      Die Tabelle steht da, das Feld, das dran ist, ist farbig hinterlegt und die Frage dazu steht darunter;
      das Struktogramm markiert (gleiche Farbe) die Zeile, die diesen Wert bestimmt. */
   var gefPfad = null;  // markierter Baustein der geführten Variante (nach dem Neuzeichnen wieder setzen)
@@ -1832,8 +1866,8 @@
   }
   // Schritte = die Felder der Tabelle, die sich ändern, Zeile für Zeile; pfad = Baustein, der den Wert bestimmt.
   function gefSchritte(e) {
-    var l = E.runZahlen(e.fall.eingabe, aufg.startprogramm || []), zeilen = e.zeilen, st = [], letzt = {}, ausPfad = null, k = 0;
-    l.trace.forEach(function (ev) { if (ev.typ === "act" && E.zahlLesen(ev.cmd).art !== "zuweisung") ausPfad = ev.pfad; });
+    var l = E.runZahlen(e.fall.eingabe, aufg.startprogramm || []), zeilen = e.zeilen, st = [], letzt = {}, drucke = [], k = 0;
+    l.trace.forEach(function (ev) { if (ev.typ === "act" && E.zahlLesen(ev.cmd).art !== "zuweisung") drucke.push(ev); });
     function zeile(z, idx, bedPfad) {
       var vor = idx ? zeilen[idx - 1].werte : null;
       e.variablen.forEach(function (v) {
@@ -1842,7 +1876,11 @@
         if (neu) st.push({ zeile: idx, art: "var", name: v, soll: z.werte[v], pfad: letzt[v] || null });
       });
       if (z.ja != null) st.push({ zeile: idx, art: "bed", soll: !!z.ja, pfad: bedPfad });
-      if (z.ausgabe.length) st.push({ zeile: idx, art: "aus", soll: z.ausgabe, pfad: ausPfad });
+      // Jedes «print» ein eigener Schritt; bisher: was in diesem Feld schon steht.
+      z.ausgabe.forEach(function (w, j) {
+        var d = drucke.shift();
+        st.push({ zeile: idx, art: "aus", soll: [w], bisher: z.ausgabe.slice(0, j), cmd: d.cmd, pfad: d.pfad });
+      });
     }
     l.trace.forEach(function (ev) {
       if (ev.typ === "act") {

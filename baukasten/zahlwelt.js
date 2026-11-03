@@ -121,7 +121,7 @@
     var vars = opt.variablen, erw = opt.erwartet, eineSchleife = !!opt.bedingung;
     var hilfe = el("p", "zw-hilfe");
     if (eineSchleife) {
-      hilfe.append("Eine Zeile pro Prüfung des gefärbten Blocks ", el("span", "zw-chip", "solange " + opt.bedingung),
+      hilfe.append(opt.neutral ? "Eine Zeile pro Prüfung des Blocks " : "Eine Zeile pro Prüfung des gefärbten Blocks ", el("span", "zw-chip", "solange " + opt.bedingung),
         ": Tragen Sie ein, was in den Variablen steht, wenn geprüft wird. ");
     } else {
       hilfe.append("Eine Zeile pro Schritt: Tragen Sie ein, was in den Variablen steht. ");
@@ -215,8 +215,9 @@
       knoepfe.hidden = true;
       rueck.hidden = false;
       rueck.className = "bk-frage-rueck ok";
-      rueck.textContent = "Der Schreibtischtest stimmt.";
+      rueck.textContent = opt.aufgebraucht ? "Die " + opt.versuche + " Versuche sind aufgebraucht. Das ist die richtige Tabelle: Gehen Sie sie mit dem Programm durch." : "Der Schreibtischtest stimmt.";
     }
+    var versuch = opt.versuch || 0;
 
     plus.addEventListener("click", function () { neueZeile(null); geaendert(); zeilen[zeilen.length - 1].felder[vars[0]].focus(); });
     minus.addEventListener("click", function () {
@@ -226,6 +227,13 @@
     });
 
     pruef.addEventListener("click", function () {
+      // Mit «versuche»: Erst die ganze Tabelle, ein unfertiger Versuch zählt nicht.
+      if (opt.versuche && eineSchleife && zeilen.some(function (z) { return !z.bed.value; })) {
+        rueck.hidden = false;
+        rueck.className = "bk-frage-rueck";
+        rueck.textContent = "Füllen Sie zuerst die ganze Tabelle aus: In mindestens einer Zeile fehlt noch «wahr» oder «falsch». Dieser Klick zählt nicht als Versuch.";
+        return;
+      }
       var falsch = 0, ungueltig = 0, vorher = {};
       var soll = opt.fest ? erw.slice(0, opt.fest) : erw;
       zeilen.forEach(function (z, i) {
@@ -254,6 +262,14 @@
       });
       var fehlt = soll.length - zeilen.length;
       rueck.hidden = false;
+      var mitVersuchen = opt.versuche && !ungueltig && (falsch || fehlt);
+      if (mitVersuchen) {
+        versuch++;
+        if (opt.versucht) opt.versucht(versuch);
+        if (versuch >= opt.versuche) return;   // aufgebraucht: app.js zeigt die richtige Tabelle
+        // Erster Versuch: nur wie viele Fehler; danach auch wo.
+        if (versuch === 1) Array.prototype.forEach.call(body.querySelectorAll(".zw-feld"), function (f) { f.classList.remove("falsch", "richtig"); });
+      }
       if (!falsch && !ungueltig && !fehlt) {
         rueck.className = "bk-frage-rueck ok";
         rueck.textContent = "Der Schreibtischtest stimmt.";
@@ -262,13 +278,17 @@
       }
       var teile = [];
       if (ungueltig) teile.push(ungueltig + (ungueltig === 1 ? " Feld enthält" : " Felder enthalten") + " keine ganze Zahl");
-      if (falsch) teile.push(falsch + (falsch === 1 ? " Feld stimmt" : " Felder stimmen") + " noch nicht (rot markiert)");
+      if (falsch) teile.push(falsch + (falsch === 1 ? " Feld stimmt" : " Felder stimmen") + " noch nicht" + (mitVersuchen && versuch === 1 ? "" : " (rot markiert)"));
       if (fehlt > 0) teile.push(fehlt === 1 ? "es fehlt eine Zeile" : "es fehlen Zeilen");
       if (fehlt < 0) teile.push(fehlt === -1 ? "es hat eine Zeile zu viel" : "es hat Zeilen zu viel");
       rueck.className = "bk-frage-rueck fehler";
       var t = teile.join(", ") + ".";
-      rueck.textContent = t.charAt(0).toUpperCase() + t.slice(1) + " Vergleichen Sie mit «Einzelschritt».";
-      if (opt.geprueft) opt.geprueft();
+      if (mitVersuchen) {
+        rueck.textContent = "Versuch " + versuch + " von " + opt.versuche + ": " + t;
+        return;
+      }
+      rueck.textContent = t.charAt(0).toUpperCase() + t.slice(1) + (opt.versuche ? "" : " Vergleichen Sie mit «Einzelschritt».");
+      if (opt.geprueft && !opt.versuche) opt.geprueft();
     });
   }
 
@@ -302,7 +322,7 @@
 
     function zelle(s) { return s.art === "var" ? zellen[s.zeile].vars[s.name] : zellen[s.zeile][s.art]; }
     function text(s) {
-      return s.art === "bed" ? (s.soll ? "wahr" : "falsch") : s.art === "aus" ? s.soll.join(", ") : String(s.soll);
+      return s.art === "bed" ? (s.soll ? "wahr" : "falsch") : s.art === "aus" ? s.bisher.concat(s.soll).join(", ") : String(s.soll);
     }
     // Eingabewerte stehen in der ersten Zeile schon da.
     Object.keys(opt.eingabe).forEach(function (v) { if (zellen[0] && zellen[0].vars[v]) zellen[0].vars[v].textContent = String(opt.eingabe[v]); });
@@ -312,7 +332,7 @@
       var wann = typeof z.durchgang === "string" ? "am Ende"
         : eine ? "bei der " + n + ". Prüfung" + (n === 1 ? " (vor dem ersten Durchlauf der Wiederholung)" : " (der Rumpf ist " + (n - 1) + "-mal gelaufen)") : "in Zeile " + n;
       if (s.art === "bed") return "Ist «" + (opt.bedingung || z.bedingung) + "» " + wann + " wahr oder falsch?";
-      if (s.art === "aus") return "Was wurde bis hierher ausgegeben, seit der Zeile davor?";
+      if (s.art === "aus") return "Was gibt «" + s.cmd + "» aus?";
       return "Welchen Wert hat «" + s.name + "» " + wann + "?";
     }
 
@@ -343,7 +363,7 @@
         steuer.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); pruefen(); } });
       }
       steuer.setAttribute("aria-label", "Ihre Antwort");
-      c.textContent = "";
+      c.textContent = s.art === "aus" && s.bisher.length ? s.bisher.join(", ") + ", " : "";
       c.append(steuer);
       var ok = el("button", "bk-knopf primaer", "Weiter");
       ok.type = "button";
@@ -376,7 +396,7 @@
       opt.weiter(i);
       zeigen();
       if (i < st.length) {
-        meldung(richtig ? "Richtig." : "Nicht ganz: richtig ist " + text(s) + ".", !richtig);
+        meldung(richtig ? "Richtig." : "Nicht ganz: richtig ist " + (s.art === "aus" ? s.soll.join(", ") : text(s)) + ".", !richtig);
         steuer.focus({ preventScroll: true });
       }
     }

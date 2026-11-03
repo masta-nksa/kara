@@ -243,10 +243,14 @@ nicht mit «Richtig», das setzt die Seite davor.
   Mit `zeilen: n` nur die ersten n Zeilen (Multiplikation: Das Programm endet nie). In
   Verändern-Aufgaben ist er Schritt «1. Vorher»: Das Struktogramm bleibt lesbar, gesperrt ist nur
   das Bauen.
-- `schreibtischtest.gefuehrt: true` (nur «1 · Sparziel»): Der Schreibtischtest wird Feld für Feld
+- `schreibtischtest.versuche: 3` und `neutral: true` («3 · Was rechnet es aus?»): Die ganze Tabelle wird selbständig
+  ausgefüllt, Struktogramm und Tabelle haben keine Farbhilfe. Fehlt in einer Zeile «wahr/falsch», zählt der Klick nicht
+  als Versuch. Rückmeldung: Versuch 1 nennt die Anzahl Fehler, Versuch 2 markiert sie zusätzlich rot, nach Versuch 3
+  steht die richtige Tabelle da und es geht mit der Ausgabe-Frage weiter. Variablen und Ablauf erscheinen erst danach.
+- `schreibtischtest.gefuehrt: true` («1 · Sparziel» und «2 · MAOAM fair teilen», die dritte Lesen-Aufgabe ist frei): Der Schreibtischtest wird Feld für Feld
   geführt. Die Tabelle steht da; das Feld, das dran ist, ist farbig hinterlegt, darunter steht die
   Frage dazu («Welchen Wert hat «erspart» bei der 2. Prüfung (der Rumpf ist 1-mal gelaufen)?», bei der
-  Bedingung wahr/falsch, bei der Ausgabe die Zahl). Die Antwort wird direkt im farbigen Feld der
+  Bedingung wahr/falsch, bei der Ausgabe die Zahl, je `print` ein eigener Schritt). Die Antwort wird direkt im farbigen Feld der
   Tabelle eingetragen, «Weiter» (oder die Eingabetaste) übernimmt sie, bei «wahr/falsch» mit Maus oder Finger schon die Wahl selbst (mit der Tastatur Enter, weil der Pfeil nur umschaltet): Das Feld leuchtet kurz grün
   (richtig) oder rot (falsch, dann steht der richtige Wert drin) und es geht immer weiter. Das
   Struktogramm markiert in derselben Farbe den Baustein, der diesen Wert bestimmt (bei «solange» nur die
@@ -310,7 +314,7 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | `kara.baukasten.prog.v1` | Stand der Bausteine je Aufgabe; «Alles löschen» leert ihn |
 | `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
 | `kara.baukasten.nebel.v2` | Nebel ein/aus, je Aufgabe (nur wenn selbst umgeschaltet) |
-| `kara.baukasten.fragen.v1` | richtig beantwortete Fragen (`{aufgabenId: 1}` für die Reflexion, `{"aufgabenId/strategie": 1}` für die Vorher-Frage, `{"aufgabenId/vorhersage": 1}` für eine richtige Vorhersage, `{"aufgabenId/schreibtischtest": 1}` und `{"aufgabenId/ausgabe": 1}` in der Zahlenwelt) |
+| `kara.baukasten.fragen.v1` | richtig beantwortete Fragen (`{aufgabenId: 1}` für die Reflexion, `{"aufgabenId/strategie": 1}` für die Vorher-Frage, `{"aufgabenId/vorhersage": 1}` für eine richtige Vorhersage, `{"aufgabenId/schreibtischtest": 1}` und `{"aufgabenId/ausgabe": 1}` in der Zahlenwelt; Schreibtischtest 2 = Versuche aufgebraucht) |
 | `kara.design.v1` | gewähltes Design (`klassisch`, `bluete`, `grusel`) |
 | `kara.challenges.v1` | eigene und übernommene Challenges |
 | `kara.editor.entwurf.v1` | Entwurf im Editor |
@@ -319,7 +323,8 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 Der Link «Daten dieses Levels löschen» unten im Baukasten entfernt aus den drei
 `kara.baukasten.*`-Schlüsseln (gelöst, Programme, Fragen) nur die Einträge der aktuellen Aufgabe.
 Ein Dreifachklick auf eine Blume im Lernpfad (Abschnitt bzw. Denkfigur) markiert alle Aufgaben dazu
-als gelöst, mit allen Fragen (zum Testen für die Lehrperson).
+als gelöst, mit allen Fragen (zum Testen für die Lehrperson). Sind schon alle gelöst, löscht er nach einer Rückfrage
+die Daten dieser Aufgaben wieder.
 
 Checks und Kara liegen unter derselben Adresse `masta-nksa.github.io` und teilen sich darum
 den `localStorage`. Beim ersten Besuch übernimmt Kara einmalig den Stand aus dem früheren
