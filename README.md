@@ -211,11 +211,14 @@ Limit, kein Tipp.
 ## Algorithmen mit Zahlen (`aufgaben/zahlen.json`)
 
 Eine schlanke Zusatzreihe zur Algorithmen-Reihe: Statt des Käfers gibt es Variablen. Drei Stufen
-(`abschnitte`): Lesen (Sparziel, Pizza fair teilen, Summe bis n), Verändern (Ticketpreis mit Fehler
-an der Altersgrenze und Seniorenpreis, Multiplikation ohne `b = b - 1`, Schlummertaste ohne
-Stundenübertrag, Highscore von zwei auf drei Runden) und Entwerfen (Rückgeld mit 5-, 2- und
-1-Franken-Münzen, Handy laden in zwei Phasen, ggT nach Euklid mit Subtraktion). Preise und
-Ladewerte sind erfunden, damit die Rechnung aufgeht.
+(`abschnitte`): Lesen (Sparziel, MAOAM fair teilen, «Was rechnet es aus?» mit der Summe bis n),
+Verändern (Multiplikation ohne `b = b - 1`, Highscore von zwei auf drei Runden, Ticketpreis mit
+Fehler an der Altersgrenze und Seniorenpreis, Schlummertaste ohne Stundenübertrag) und Entwerfen
+(ggT nach Euklid mit Subtraktion, Rückgeld mit 5-, 2- und 1-Franken-Münzen, Handy laden in zwei
+Phasen), innerhalb der Stufen von leicht nach schwer. Preise und Ladewerte sind erfunden, damit die
+Rechnung aufgeht. Die Antworten der Reflexionsfragen werden nicht gemischt: Die richtige steht
+darum in der Datei an wechselnder Stelle und ist nicht deutlich die längste; `erklaerung` beginnt
+nicht mit «Richtig», das setzt die Seite davor.
 
 - `welt: "zahlen"`: Das Feld zeigt Variablen als Kisten (Aufschrift = Name), darunter die
   Ablauftabelle und die Ausgabe. Die Tabelle hat eine Zeile bei jeder Prüfung einer
