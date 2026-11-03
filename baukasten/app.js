@@ -1784,6 +1784,12 @@
     var box = $("stBox");
     box.hidden = !(istZahlen() && aufg.schreibtischtest);
     if (!box.hidden) renderSchreibtisch();
+    ablaufZeigen();
+  }
+  // Kisten, Ausgabe und Start-Knöpfe erst, wenn der Schreibtischtest gemacht ist (dann zum Vergleichen).
+  function ablaufZeigen() {
+    var offen = istZahlen() && aufg.schreibtischtest && !beantwortet[aufg.id + "/schreibtischtest"] && !stGeprueft[aufg.id];
+    $("stBox").parentNode.classList.toggle("zw-ablauf-aus", !!offen);
   }
   function stErwartet() {
     var st = aufg.schreibtischtest, p = aufg.startprogramm || [], fall = aufg.felder[st.fall || 0].fall;
@@ -1795,6 +1801,7 @@
     stGeprueft[id] = true;
     if (!beantwortet[id + "/schreibtischtest"]) { beantwortet[id + "/schreibtischtest"] = 1; speichereFragen(); }
     renderSchreibtisch();
+    ablaufZeigen();
     tabsAktualisieren();
     if (aufg.lesen && !aufg.vorhersageAusgabe) lesenGeloest();
     else if (aufg.lesen) $("stAusgabeWert").focus();
@@ -1809,7 +1816,7 @@
       eingabe: e.fall.eingabe, fest: aufg.schreibtischtest.zeilen || null,
       eintraege: stEintraege[id] || null, fertig: !!beantwortet[id + "/schreibtischtest"],
       aendern: function (w) { stEintraege[id] = w; },
-      geprueft: function () { stGeprueft[id] = true; },
+      geprueft: function () { stGeprueft[id] = true; ablaufZeigen(); },
       geloest: schreibtischGeloest
     });
     renderAusgabeFrage();

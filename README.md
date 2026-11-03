@@ -234,7 +234,9 @@ Ladewerte sind erfunden, damit die Rechnung aufgeht.
   Die Ausgaben stehen in der Datei; sie sind mit einem Skript aus `loesung` berechnet.
 - `schreibtischtest: {fall, zeilen?}`: Die Lernenden füllen die Tabelle für das vorgegebene Programm
   selbst aus (leere Zelle = unverändert, Zeilen mit «+ Zeile»), «Schreibtischtest prüfen» markiert
-  falsche Felder. Start geht erst nach der ersten Prüfung (zum Vergleichen mit «Einzelschritt»).
+  falsche Felder. Kisten, Ausgabe und Start-Knöpfe (Klasse `zw-ablauf-aus` auf `.bk-lauf`) erscheinen erst nach der ersten
+  Prüfung, dann zum Vergleichen mit «Einzelschritt». Bei Aufgaben mit Schreibtischtest bleibt das
+  Struktogramm beim Scrollen stehen (sticky).
   Mit `zeilen: n` nur die ersten n Zeilen (Multiplikation: Das Programm endet nie). In
   Verändern-Aufgaben ist er Schritt «1. Vorher»: Das Struktogramm bleibt lesbar, gesperrt ist nur
   das Bauen.
@@ -242,7 +244,7 @@ Ladewerte sind erfunden, damit die Rechnung aufgeht.
   geführt. Die Tabelle steht da; das Feld, das dran ist, ist farbig hinterlegt, darunter steht die
   Frage dazu («Welchen Wert hat «erspart» bei der 2. Prüfung (der Rumpf ist 1-mal gelaufen)?», bei der
   Bedingung wahr/falsch, bei der Ausgabe die Zahl). Die Antwort wird direkt im farbigen Feld der
-  Tabelle eingetragen, «Weiter» (oder die Eingabetaste) übernimmt sie: Das Feld leuchtet kurz grün
+  Tabelle eingetragen, «Weiter» (oder die Eingabetaste) übernimmt sie, bei «wahr/falsch» mit Maus oder Finger schon die Wahl selbst (mit der Tastatur Enter, weil der Pfeil nur umschaltet): Das Feld leuchtet kurz grün
   (richtig) oder rot (falsch, dann steht der richtige Wert drin) und es geht immer weiter. Das
   Struktogramm markiert in derselben Farbe den Baustein, der diesen Wert bestimmt (bei «solange» nur die
   Kopfzeile, nicht die ganze Schleife samt Rumpf). Nur Felder, die sich
