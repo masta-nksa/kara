@@ -212,6 +212,8 @@
       delete stGeprueft[id];
       delete stVersuch[id];
       delete gefIndex[id];
+      delete gefRichtig[id];
+      delete gefLetztes[id];
       Object.keys(beantwortet).forEach(function (k) { if (k.split("/")[0] === id) delete beantwortet[k]; });
       if (a === aufg) { prog = startProgramm(a); undoStack = []; }
     });
@@ -1823,17 +1825,27 @@
     var l = E.runZahlen(fall.eingabe, p);
     return { fall: fall, zeilen: st.zeilen ? l.zeilen.slice(0, st.zeilen) : l.zeilen, variablen: E.zahlVariablen(fall.eingabe, p) };
   }
-  // wert 2: Versuche aufgebraucht, die richtige Tabelle wird gezeigt.
+  // wert: 2 = Versuche aufgebraucht, «r/n» = geführt, r von n Feldern richtig; sonst 1.
   function schreibtischGeloest(wert) {
     var id = aufg.id;
     stGeprueft[id] = true;
-    if (!beantwortet[id + "/schreibtischtest"]) { beantwortet[id + "/schreibtischtest"] = wert === 2 ? 2 : 1; speichereFragen(); }
+    if (!beantwortet[id + "/schreibtischtest"]) { beantwortet[id + "/schreibtischtest"] = wert || 1; speichereFragen(); }
     renderSchreibtisch();
     ablaufZeigen();
     tabsAktualisieren();
     if (aufg.lesen && !aufg.vorhersageAusgabe) lesenGeloest();
     else if (aufg.lesen) $("stAusgabeWert").focus();
     else meldungZeigen("ok", null, "Der Schreibtischtest stimmt. Jetzt können Sie das Programm ändern.");
+  }
+  // Schlusstext, wenn nicht einfach alles stimmt (null: Standardtext).
+  function stSchlusstext(id) {
+    var w = beantwortet[id + "/schreibtischtest"];
+    if (w === 2) return "Die " + aufg.schreibtischtest.versuche + " Versuche sind aufgebraucht. Das ist die richtige Tabelle: Gehen Sie sie mit dem Programm durch.";
+    if (typeof w !== "string") return null;
+    var t = w.split("/");
+    if (t[0] === t[1]) return null;
+    return "Durchgang fertig: " + t[0] + " von " + t[1] + " Feldern waren richtig. Die Tabelle zeigt jetzt überall die richtigen Werte." +
+      (gefLetztes[id] != null ? " Beim letzten Feld ist richtig: " + gefLetztes[id] + "." : "");
   }
   function renderSchreibtisch() {
     var e = stErwartet(), id = aufg.id;
@@ -1847,7 +1859,7 @@
       geprueft: function () { stGeprueft[id] = true; ablaufZeigen(); },
       geloest: function () { schreibtischGeloest(); },
       versuche: aufg.schreibtischtest.versuche || 0, versuch: stVersuch[id] || 0, neutral: !!aufg.schreibtischtest.neutral,
-      aufgebraucht: beantwortet[id + "/schreibtischtest"] === 2,
+      fertigText: stSchlusstext(id),
       versucht: function (n) {
         stVersuch[id] = n;
         if (n >= aufg.schreibtischtest.versuche) schreibtischGeloest(2);
@@ -1861,6 +1873,8 @@
      das Struktogramm markiert (gleiche Farbe) die Zeile, die diesen Wert bestimmt. */
   var gefPfad = null;  // markierter Baustein der geführten Variante (nach dem Neuzeichnen wieder setzen)
   var gefIndex = {};   // je Aufgabe in dieser Sitzung: Anzahl bestätigter Felder
+  var gefRichtig = {}; // davon richtig
+  var gefLetztes = {}; // richtiger Wert, wenn das letzte Feld falsch war
   function gefuehrt() {
     return !!(aufg.schreibtischtest && aufg.schreibtischtest.gefuehrt && !beantwortet[aufg.id + "/schreibtischtest"]);
   }
@@ -1895,10 +1909,15 @@
     var id = aufg.id;
     ZW.gefuehrt($("stInhalt"), {
       variablen: e.variablen, bedingung: einzigeBedingung(aufg.startprogramm || []), eingabe: e.fall.eingabe,
-      zeilen: e.zeilen, schritte: gefSchritte(e), index: gefIndex[id] || 0,
-      weiter: function (i) { gefIndex[id] = i; },
+      zeilen: e.zeilen, schritte: gefSchritte(e), index: gefIndex[id] || 0, richtig: gefRichtig[id] || 0,
+      weiter: function (i, r) { gefIndex[id] = i; gefRichtig[id] = r; },
       markiere: function (p) { gefPfad = p; markiere(p); },
-      geloest: function () { delete gefIndex[id]; schreibtischGeloest(); }
+      geloest: function (r, n, letztes) {
+        delete gefIndex[id];
+        delete gefRichtig[id];
+        gefLetztes[id] = letztes;
+        schreibtischGeloest(r + "/" + n);
+      }
     });
   }
 

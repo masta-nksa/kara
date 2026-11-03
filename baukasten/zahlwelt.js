@@ -214,8 +214,8 @@
       zeilen.forEach(function (z) { Array.prototype.forEach.call(z.tr.querySelectorAll(".zw-feld"), function (f) { f.disabled = true; }); });
       knoepfe.hidden = true;
       rueck.hidden = false;
-      rueck.className = "bk-frage-rueck ok";
-      rueck.textContent = opt.aufgebraucht ? "Die " + opt.versuche + " Versuche sind aufgebraucht. Das ist die richtige Tabelle: Gehen Sie sie mit dem Programm durch." : "Der Schreibtischtest stimmt.";
+      rueck.className = "bk-frage-rueck" + (opt.fertigText ? "" : " ok");
+      rueck.textContent = opt.fertigText || "Der Schreibtischtest stimmt.";
     }
     var versuch = opt.versuch || 0;
 
@@ -295,11 +295,12 @@
   /* ---------- Geführter Schreibtischtest: Feld für Feld ---------- */
 
   // opt: {variablen, bedingung, eingabe, zeilen (erwartete Zeilen), schritte ([{zeile, art:"var"|"bed"|"aus", name, soll, pfad}]),
-  //       index (schon beantwortete Schritte), weiter(index), markiere(pfad|null), geloest()}
+  //       index (schon beantwortete Schritte), richtig (davon richtig), weiter(index, richtig), markiere(pfad|null),
+  //       geloest(richtig, anzahl, letztesFalsch: richtiger Wert des letzten Felds oder null)}
   // Die Tabelle steht von Anfang an da; das Feld, das dran ist, ist farbig hinterlegt, darunter steht die Frage dazu.
   function gefuehrt(box, opt) {
     box.textContent = "";
-    var vars = opt.variablen, st = opt.schritte, eine = !!opt.bedingung, i = opt.index || 0;
+    var vars = opt.variablen, st = opt.schritte, eine = !!opt.bedingung, i = opt.index || 0, rechts = opt.richtig || 0, letztesFalsch = null;
     var tabBox = el("div", "zw-tabbox zw-tabbox-test");
     var tab = el("table", "zw-tabelle zw-test zw-gefuehrt"), body = el("tbody");
     tab.append(el("caption", null, "Schreibtischtest"), kopf(vars, opt.bedingung), body);
@@ -342,7 +343,7 @@
       eingabe.textContent = "";
       rueck.hidden = true;
       steuer = null;
-      if (i >= st.length) { opt.markiere(null); frage.textContent = ""; opt.geloest(); return; }
+      if (i >= st.length) { opt.markiere(null); frage.textContent = ""; opt.geloest(rechts, st.length, letztesFalsch); return; }
       var s = st[i], c = zelle(s);
       c.classList.add("zw-dran");
       c.classList.remove("zw-blitz-ok", "zw-blitz-falsch");
@@ -393,7 +394,9 @@
       c.textContent = text(s);
       c.classList.add("zw-gut", richtig ? "zw-blitz-ok" : "zw-blitz-falsch");
       i++;
-      opt.weiter(i);
+      if (richtig) rechts++;
+      letztesFalsch = richtig ? null : s.art === "aus" ? s.soll.join(", ") : text(s);
+      opt.weiter(i, rechts);
       zeigen();
       if (i < st.length) {
         meldung(richtig ? "Richtig." : "Nicht ganz: richtig ist " + (s.art === "aus" ? s.soll.join(", ") : text(s)) + ".", !richtig);

@@ -243,6 +243,8 @@ nicht mit «Richtig», das setzt die Seite davor.
   Mit `zeilen: n` nur die ersten n Zeilen (Multiplikation: Das Programm endet nie). In
   Verändern-Aufgaben ist er Schritt «1. Vorher»: Das Struktogramm bleibt lesbar, gesperrt ist nur
   das Bauen.
+- Am Schluss des geführten Tests steht «Der Schreibtischtest stimmt.» nur, wenn alle Felder richtig waren; sonst
+  «Durchgang fertig: r von n Feldern waren richtig», bei falschem letztem Feld mit dessen richtigem Wert.
 - `schreibtischtest.versuche: 3` und `neutral: true` («3 · Was rechnet es aus?»): Die ganze Tabelle wird selbständig
   ausgefüllt, Struktogramm und Tabelle haben keine Farbhilfe. Fehlt in einer Zeile «wahr/falsch», zählt der Klick nicht
   als Versuch. Rückmeldung: Versuch 1 nennt die Anzahl Fehler, Versuch 2 markiert sie zusätzlich rot, nach Versuch 3
@@ -314,7 +316,7 @@ hebt das wieder auf (Schlüssel `kara.zaehler.aus`).
 | `kara.baukasten.prog.v1` | Stand der Bausteine je Aufgabe; «Alles löschen» leert ihn |
 | `kara.baukasten.figur.v1` | eigenes Bild (Easter Egg), nur der 128-px-Ausschnitt |
 | `kara.baukasten.nebel.v2` | Nebel ein/aus, je Aufgabe (nur wenn selbst umgeschaltet) |
-| `kara.baukasten.fragen.v1` | richtig beantwortete Fragen (`{aufgabenId: 1}` für die Reflexion, `{"aufgabenId/strategie": 1}` für die Vorher-Frage, `{"aufgabenId/vorhersage": 1}` für eine richtige Vorhersage, `{"aufgabenId/schreibtischtest": 1}` und `{"aufgabenId/ausgabe": 1}` in der Zahlenwelt; Schreibtischtest 2 = Versuche aufgebraucht) |
+| `kara.baukasten.fragen.v1` | richtig beantwortete Fragen (`{aufgabenId: 1}` für die Reflexion, `{"aufgabenId/strategie": 1}` für die Vorher-Frage, `{"aufgabenId/vorhersage": 1}` für eine richtige Vorhersage, `{"aufgabenId/schreibtischtest": 1}` und `{"aufgabenId/ausgabe": 1}` in der Zahlenwelt; Schreibtischtest 2 = Versuche aufgebraucht, «r/n» = geführt mit r von n richtigen Feldern) |
 | `kara.design.v1` | gewähltes Design (`klassisch`, `bluete`, `grusel`) |
 | `kara.challenges.v1` | eigene und übernommene Challenges |
 | `kara.editor.entwurf.v1` | Entwurf im Editor |

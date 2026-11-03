@@ -131,7 +131,7 @@ Schreibtischtest klein halten (4–5 Durchgänge). Seit 2.11.2026: Tabellenzeile
 (Prüfungen der Bedingung, kein «Start»), Bedingungsspalte braun wie der Block, kein Scrollen
 (Container Queries); «1 · Sparziel» und «2 · MAOAM fair teilen» sind geführt, die dritte Lesen-Aufgabe ist frei (ganze Tabelle, Struktogramm ohne Farbe, 3 Versuche: Anzahl Fehler, dann rot markiert, dann Lösung)
 (Kisten, Ausgabe und Start erst nach dem Schreibtischtest, das Struktogramm bleibt beim Scrollen stehen;
-`schreibtischtest.gefuehrt`: Feld für Feld, Eingabe im farbigen Tabellenfeld, grün/rot, immer weiter; `print` hat im
+`schreibtischtest.gefuehrt`: Feld für Feld, Eingabe im farbigen Tabellenfeld, grün/rot, immer weiter, am Schluss «r von n Feldern richtig»; `print` hat im
 Struktogramm den Kommentar «# gibt … aus»). Reserve-Ideen: Bosskampf, Level-up, Primzahltest,
 Dezimal in Binär, Fussballpunkte.
 
