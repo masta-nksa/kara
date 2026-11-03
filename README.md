@@ -256,7 +256,8 @@ nicht mit «Richtig», das setzt die Seite davor.
   Tabelle eingetragen, «Weiter» (oder die Eingabetaste) übernimmt sie, bei «wahr/falsch» mit Maus oder Finger schon die Wahl selbst (mit der Tastatur Enter, weil der Pfeil nur umschaltet): Das Feld leuchtet kurz grün
   (richtig) oder rot (falsch, dann steht der richtige Wert drin) und es geht immer weiter. Das
   Struktogramm markiert in derselben Farbe den Baustein, der diesen Wert bestimmt (bei «solange» nur die
-  Kopfzeile, nicht die ganze Schleife samt Rumpf). Nur Felder, die sich
+  Kopfzeile, nicht die ganze Schleife samt Rumpf; bei der ersten und der letzten Prüfung, also vor dem
+  Betreten und beim Verlassen der Schleife, ist die Schleife nicht markiert; dasselbe gilt bei Start/Einzelschritt in allen Zahl-Aufgaben). Nur Felder, die sich
   ändern, werden gefragt (leer = unverändert); nach dem letzten Feld gilt der Schreibtischtest als
   gelöst, auch mit Fehlern (es ist ein Einstieg). Der Stand gilt nur für die Sitzung. Die übrigen
   Lesen-Aufgaben haben den freien Schreibtischtest.

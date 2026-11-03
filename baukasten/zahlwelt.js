@@ -334,6 +334,7 @@
         : eine ? "bei der " + n + ". Prüfung" + (n === 1 ? " (vor dem ersten Durchlauf der Wiederholung)" : " (der Rumpf ist " + (n - 1) + "-mal gelaufen)") : "in Zeile " + n;
       if (s.art === "bed") return "Ist «" + (opt.bedingung || z.bedingung) + "» " + wann + " wahr oder falsch?";
       if (s.art === "aus") return "Was gibt «" + s.cmd + "» aus?";
+      if (eine && n === 1) return "Welchen Wert hat «" + s.name + "» nach der markierten Zeile (also vor der 1. Prüfung)?";
       return "Welchen Wert hat «" + s.name + "» " + wann + "?";
     }
 
