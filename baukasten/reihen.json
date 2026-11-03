@@ -58,6 +58,7 @@
       "id": "zahlen",
       "titel": "Algorithmen mit Zahlen",
       "untertitel": "Variablen statt Käfer: Programme lesen, verändern und selbst entwerfen, mit Schreibtischtest",
+      "dossier": "../dossier/",
       "dateien": ["aufgaben/zahlen.json"],
       "abschnitte": [
         { "id": "lesen", "titel": "Lesen", "etikett": "Stufe: lesen",

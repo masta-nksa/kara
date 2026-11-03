@@ -272,9 +272,8 @@ nicht mit «Richtig», das setzt die Seite davor.
 ## Dossier «Algorithmen mit Zahlen» (`dossier/`)
 
 Theorie und Übungen zum Ausdrucken, als Rückblick nach der Arbeit in Kara, zum Lernen und zur
-Prüfungsvorbereitung: <https://masta-nksa.github.io/kara/dossier/>. Bewusst nicht in der Übersicht
-verlinkt, damit die Namen, die Kara erst nach dem Lösen freischaltet, und die Lösungen nicht einen
-Klick entfernt sind; den Link gibt die Lehrperson weiter. Kara-Aufgabentexte verweisen nicht darauf.
+Prüfungsvorbereitung: <https://masta-nksa.github.io/kara/dossier/>. Verlinkt ist es nur im Lernpfad der Reihe
+(`"dossier": "../dossier/"` in `reihen.json`, öffnet in neuem Tab), nicht in der Übersicht und nicht in den Aufgabentexten.
 
 - `index.html`: Lernziele, sechs Theorieteile (Algorithmus und Anforderungen, Bausteine, Variablen,
   Schreibtischtest, Testen und Fehler, Denkfiguren), 17 Aufgaben (Anforderungen, Lesen, Verändern,
