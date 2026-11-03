@@ -372,6 +372,8 @@ body.bk-zieht *{cursor:grabbing!important}
 
 /* ---------- Käfer-Feld ---------- */
 .bk-feld{display:flex;justify-content:center}
+/* Zahlenwelt: bis der Schreibtischtest gemacht ist, nur die Tabelle zeigen */
+.bk-lauf.zw-ablauf-aus .bk-feld,.zw-ablauf-aus .bk-feldinfo,.zw-ablauf-aus .bk-steuerung,.zw-ablauf-aus .bk-schritt{display:none}
 /* Mehrere Labyrinthe: Reiter mit Ergebnis der letzten Prüfung */
 .bk-layouts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:10px}
 .bk-layouts[hidden]{display:none}

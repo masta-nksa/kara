@@ -234,7 +234,9 @@ Ladewerte sind erfunden, damit die Rechnung aufgeht.
   Die Ausgaben stehen in der Datei; sie sind mit einem Skript aus `loesung` berechnet.
 - `schreibtischtest: {fall, zeilen?}`: Die Lernenden füllen die Tabelle für das vorgegebene Programm
   selbst aus (leere Zelle = unverändert, Zeilen mit «+ Zeile»), «Schreibtischtest prüfen» markiert
-  falsche Felder. Start geht erst nach der ersten Prüfung (zum Vergleichen mit «Einzelschritt»).
+  falsche Felder. Kisten, Ausgabe und Start-Knöpfe (Klasse `zw-ablauf-aus` auf `.bk-lauf`) erscheinen erst nach der ersten
+  Prüfung, dann zum Vergleichen mit «Einzelschritt». Bei Aufgaben mit Schreibtischtest bleibt das
+  Struktogramm beim Scrollen stehen (sticky).
   Mit `zeilen: n` nur die ersten n Zeilen (Multiplikation: Das Programm endet nie). In
   Verändern-Aufgaben ist er Schritt «1. Vorher»: Das Struktogramm bleibt lesbar, gesperrt ist nur
   das Bauen.
