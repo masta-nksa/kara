@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Algorithmen mit Zahlen</title>
+<link rel="icon" href="../assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../assets/basis.css">
+<link rel="stylesheet" href="dossier.css">
+</head>
+<body>
+<main class="ds">
+  <div class="ds-leiste"><button class="ds-knopf" id="drucken" type="button">Drucken</button></div>
+  <span class="ds-eyebrow">Dossier</span>
+  <h1>Algorithmen mit Zahlen</h1>
+  <div class="ds-box">
+    <strong>Lernziele</strong>
+    <ul>
+      <li>Sie nennen die fünf Anforderungen an einen Algorithmus und prüfen Programme daran.</li>
+      <li>Sie lesen Struktogramme mit Variablen und führen sie von Hand aus.</li>
+      <li>Sie finden und beheben Fehler in einem Programm, auch mit Testfällen an den Grenzen.</li>
+      <li>Sie entwerfen zu einem Problem selbst einen Algorithmus und prüfen ihn.</li>
+    </ul>
+  </div>
+
+  <h2>1 · Was ist ein Algorithmus?</h2>
+  <p>Ein Algorithmus ist eine genaue Anleitung, die ein Problem in einzelnen Schritten löst. Er muss fünf Anforderungen erfüllen:</p>
+  <table class="ds-tab">
+    <thead><tr><th>Anforderung</th><th>Bedeutung</th><th>Verletzt, wenn …</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ausführbar</strong></td><td>Der Ausführende kann jeden Schritt ausführen.</td><td>… ein Schritt durch 0 teilt oder einen Befehl verlangt, den der Rechner nicht kennt.</td></tr>
+      <tr><td><strong>eindeutig</strong></td><td>Jeder Schritt und die Reihenfolge sind genau festgelegt.</td><td>… dasteht: «Lege etwas Geld dazu.» Wie viel?</td></tr>
+      <tr><td><strong>allgemein</strong></td><td>Er löst alle Aufgaben derselben Art, nicht nur einen Einzelfall.</td><td>… das Programm nur 7 · 3 ausrechnet, statt a · b.</td></tr>
+      <tr><td><strong>endlich</strong></td><td>Er kommt nach endlich vielen Schritten zu einem Ende.</td><td>… sich im Rumpf von <code>solange b &gt; 0</code> das b nie ändert.</td></tr>
+      <tr><td><strong>korrekt</strong></td><td>Er liefert für alle zulässigen Eingaben das richtige Ergebnis.</td><td>… die Summe von 1 bis n mit <code>solange i &lt; n</code> die Zahl n auslässt.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2 · Die drei Bausteine</h2>
+  <p>Jeder Algorithmus besteht aus drei Bausteinen. Ein Struktogramm zeigt sie als Aufbau aus Anweisungen und wird von oben nach unten gelesen. Isaac Nassi und Ben Shneiderman haben diese Darstellung 1973 vorgestellt. Rechts steht jeweils dasselbe in Python.</p>
+  <div class="ds-bausteine">
+    <div><strong>Sequenz</strong><br>Die Anweisungen laufen nacheinander ab.</div>
+    <div class="struktogramm" id="t-seq" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;r = 0&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;r = r + 5&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(r)&quot;}]"></div>
+    <pre>r = 0
+r = r + 5
+print(r)</pre>
+    <div><strong>Verzweigung</strong><br>Je nach Bedingung läuft der eine oder der andere Zweig.</div>
+    <div class="struktogramm" id="t-ver" data-prog="[{&quot;t&quot;: &quot;if&quot;, &quot;cond&quot;: &quot;a &gt; b&quot;, &quot;yes&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;gross = a&quot;}], &quot;no&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;gross = b&quot;}]}]"></div>
+    <pre>if a &gt; b:
+    gross = a
+else:
+    gross = b</pre>
+    <div><strong>Wiederholung</strong><br>Der Rumpf läuft, solange die Bedingung wahr ist. Geprüft wird vor jedem Durchgang.</div>
+    <div class="struktogramm" id="t-wdh" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;i = 1&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;i &lt;= 3&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(i)&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;i = i + 1&quot;}]}]"></div>
+    <pre>i = 1
+while i &lt;= 3:
+    print(i)
+    i = i + 1</pre>
+  </div>
+
+  <h2>3 · Variablen</h2>
+  <p>Eine Variable ist eine Kiste: Auf der Kiste steht der Name, in der Kiste liegt der Wert.</p>
+  <ul>
+    <li><code>r = r + a</code> ist eine Zuweisung: Zuerst wird rechts gerechnet, dann kommt das Ergebnis in die Kiste links. Der alte Wert ist danach weg.</li>
+    <li><code>r == a</code> ist ein Vergleich: Er ändert nichts und ist wahr oder falsch.</li>
+    <li>Eine Variable braucht einen Wert, bevor sie gelesen wird. Darum steht oft <code>r = 0</code> am Anfang.</li>
+  </ul>
+  <table class="ds-tab">
+    <thead><tr><th>Rechnen</th><th>Bedeutung</th><th>Vergleichen</th><th>Bedeutung</th></tr></thead>
+    <tbody>
+      <tr><td><code>+ - *</code></td><td>plus, minus, mal</td><td><code>== !=</code></td><td>gleich, ungleich</td></tr>
+      <tr><td><code>17 // 5</code></td><td>ganzzahlig teilen: 3</td><td><code>&lt; &lt;=</code></td><td>kleiner, kleiner oder gleich</td></tr>
+      <tr><td><code>17 % 5</code></td><td>Rest beim Teilen: 2</td><td><code>&gt; &gt;=</code></td><td>grösser, grösser oder gleich</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4 · Der Schreibtischtest</h2>
+  <p>Beim Schreibtischtest führen Sie ein Programm von Hand aus, Anweisung für Anweisung, und schreiben auf, was in den Kisten liegt.</p>
+  <ul>
+    <li>Jede Variable hat eine Spalte, dazu kommen Bedingung und Ausgabe.</li>
+    <li>Jede Prüfung der «solange»-Bedingung ergibt eine Zeile. Die erste Zeile zeigt die Werte vor dem ersten Durchgang.</li>
+    <li>Tragen Sie nur ein, was sich ändert: Leer heisst unverändert.</li>
+    <li>Die Zeile mit «falsch» ist die letzte. Ausgaben stehen in der Zeile, nach der sie erscheinen.</li>
+  </ul>
+  <div class="ds-paar"><div class="struktogramm" id="p-bsp" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;x = 1&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;k = 0&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;x &lt; 10&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;x = x * 2&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;k = k + 1&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(k)&quot;}]"></div><div class="schreibtisch" data-spalten="x,k" data-von="p-bsp" data-eingabe="{}"></div></div>
+
+  <h2>5 · Testen und typische Fehler</h2>
+  <p>Ein Testfall besteht aus einer Eingabe und der Ausgabe, die Sie erwarten. Wählen Sie normale Fälle und vor allem Grenzfälle: Gilt ein Rabatt ab 100 Fr., testen Sie 99 und 100. Testen Sie auch den Fall, in dem die Wiederholung gar nicht läuft. Tests können Fehler zeigen, aber nicht beweisen, dass es keine gibt.</p>
+  <table class="ds-tab">
+    <thead><tr><th>Fehler</th><th>Woran Sie ihn erkennen</th></tr></thead>
+    <tbody>
+      <tr><td><code>&gt;</code> statt <code>&gt;=</code></td><td>Das Ergebnis stimmt überall, nur genau an der Grenze nicht.</td></tr>
+      <tr><td>Startwert fehlt</td><td>Eine Variable wird gelesen, bevor sie einen Wert hat.</td></tr>
+      <tr><td>Wiederholung endet nie</td><td>Im Rumpf ändert sich nichts, was in der Bedingung steht.</td></tr>
+      <tr><td>Anweisung am falschen Ort</td><td><code>print</code> steht im Rumpf statt danach: Es kommen viele Ausgaben statt einer.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>6 · Vom Problem zum Algorithmus</h2>
+  <p>Vier Denkfiguren des Computational Thinking helfen beim Entwerfen. Beispiel: Eine Klasse fährt mit Bussen zu je 50 Plätzen. Wie viele Busse braucht es für n Personen?</p>
+  <table class="ds-tab">
+    <thead><tr><th>Denkfigur</th><th>Bedeutung</th><th>Im Beispiel</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Zerlegen</strong></td><td>Das Problem in kleinere Teilprobleme aufteilen.</td><td>Einen Bus füllen, dann schauen, wer übrig ist.</td></tr>
+      <tr><td><strong>Muster erkennen</strong></td><td>Gleiches erkennen, das sich wiederholt.</td><td>Immer dasselbe: 50 Personen abziehen, einen Bus zählen.</td></tr>
+      <tr><td><strong>Abstrahieren</strong></td><td>Unwichtiges weglassen, das Wesentliche behalten.</td><td>Wie viele Personen es sind, steht in der Variable <code>personen</code>, nicht als feste Zahl im Programm.</td></tr>
+      <tr><td><strong>Algorithmus entwerfen</strong></td><td>Die Lösung in eindeutige Schritte fassen und prüfen.</td><td>Struktogramm zeichnen, dann mit 100, 101 und 0 Personen testen.</td></tr>
+    </tbody>
+  </table>
+  <div class="ds-eng"><div class="struktogramm" id="t-bus" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;busse = 0&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;personen &gt; 0&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;personen = personen - 50&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;busse = busse + 1&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(busse)&quot;}]"></div></div>
+
+  <h2 class="ds-neue-seite">Anforderungen</h2>
+  <p class="ds-legende">★ bezeichnet eine Zusatzaufgabe. «auch in Kara» heisst: Die Aufgabe gibt es auch in der Reihe «Algorithmen mit Zahlen», dort teils mit anderen Zahlen.</p>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 1 · Welche Anforderung ist verletzt?</h3>
+    <p>Jeder Fall verletzt vor allem eine der fünf Anforderungen. Schreiben Sie sie dazu und begründen Sie kurz.</p>
+    <div class="ds-faelle">
+      <div><p>a) Das Programm soll ausgeben, bei welcher Zahl die Wiederholung aufhört.</p><div class="struktogramm" id="f-a" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;i = 1&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;i != 10&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;i = i + 2&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(i)&quot;}]"></div><div class="ds-linien"></div><div class="ds-linien"></div></div>
+      <div><p>b) Für eine Rechnung steht geschrieben: «Zählen Sie zu r ein paar Mal a dazu und geben Sie r aus.»</p><div class="ds-linien"></div><div class="ds-linien"></div></div>
+      <div><p>c) Das Programm soll a · b ausrechnen.</p><div class="struktogramm" id="f-d" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;r = a + a + a&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(r)&quot;}]"></div><div class="ds-linien"></div><div class="ds-linien"></div></div>
+      <div><p>d) Das Programm soll summe um x erhöhen. Mehr steht nicht im Programm.</p><div class="struktogramm" id="f-c" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;summe = summe + x&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(summe)&quot;}]"></div><div class="ds-linien"></div><div class="ds-linien"></div></div>
+      <div class="ds-spalte2"><p>e) Das Programm soll ausgeben, wie viele Stücke jede Person bekommt, wenn eine Packung fair verteilt wird. Bei 17 Stücken und 4 Personen stimmt die Ausgabe.</p>
+        <div class="ds-paar"><div class="struktogramm" id="f-e" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;jede = 0&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;maoam &gt; personen&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;maoam = maoam - personen&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;jede = jede + 1&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(jede)&quot;}]"></div><div class="ds-linien"></div><div class="ds-linien"></div><div class="ds-linien"></div><div class="ds-linien"></div></div></div>
+    </div>
+  </section>
+
+  <h2 class="ds-neue-seite">Lesen</h2>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 2 · Sparziel<a class="ds-kara" href="../baukasten/?reihe=zahlen&amp;aufgabe=zahl-sparen">auch in Kara</a></h3>
+    <p>Sie sparen für neue Kopfhörer. «erspart» ist, was Sie schon haben, «ziel» der Preis. Jede Woche legen Sie 15 Fr. dazu.</p>
+    <ul class="ds-teil"><li>a) Führen Sie den Schreibtischtest für erspart = 60 und ziel = 120 zu Ende. Die ersten Zeilen sind vorgegeben.</li></ul>
+    <div class="ds-paar"><div class="struktogramm" id="p-spar" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;wochen = 0&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;erspart &lt; ziel&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;erspart = erspart + 15&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;wochen = wochen + 1&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(wochen)&quot;}]"></div><div class="schreibtisch" data-spalten="erspart,ziel,wochen" data-von="p-spar" data-eingabe="{&quot;erspart&quot;: 60, &quot;ziel&quot;: 120}" data-vorgabe="2" data-zeilen="7"></div></div>
+    <ul class="ds-teil"><li>b) Was berechnet das Programm? Antworten Sie in einem Satz.</li></ul><div class="ds-linien"></div><div class="ds-linien"></div>
+    <ul class="ds-teil"><li>c) Was gibt das Programm für erspart = 50 und ziel = 200 aus? Rechnen Sie ohne Tabelle.</li></ul><div class="ds-linien"></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 3 · MAOAM fair teilen<a class="ds-kara" href="../baukasten/?reihe=zahlen&amp;aufgabe=zahl-pizza">auch in Kara</a></h3>
+    <p>Eine Packung MAOAM wird an alle Personen verteilt, reihum, solange es für jede Person noch ein Stück hat. «maoam» ist die Anzahl Stücke in der Packung.</p>
+    <ul class="ds-teil"><li>a) Führen Sie den Schreibtischtest für maoam = 17 und personen = 4 durch.</li></ul>
+    <div class="ds-paar"><div class="struktogramm" id="p-maoam" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;jede = 0&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;maoam &gt;= personen&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;maoam = maoam - personen&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;jede = jede + 1&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(jede)&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(maoam)&quot;}]"></div><div class="schreibtisch" data-spalten="maoam,personen,jede" data-zeilen="7" data-bedingung="maoam &gt;= personen"></div></div>
+    <ul class="ds-teil"><li>b) Welche zwei Rechnungen führt das Programm eigentlich aus? Schreiben Sie sie mit <code>//</code> und <code>%</code> auf.</li></ul><div class="ds-linien"></div>
+    <ul class="ds-teil"><li>c) Was gibt das Programm für maoam = 3 und personen = 5 aus?</li></ul><div class="ds-linien"></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 4 · Was rechnet es aus?<a class="ds-kara" href="../baukasten/?reihe=zahlen&amp;aufgabe=zahl-summe">auch in Kara</a></h3>
+    <ul class="ds-teil"><li>a) Führen Sie den Schreibtischtest für n = 5 durch.</li></ul>
+    <div class="ds-paar"><div class="struktogramm" id="p-summe" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;summe = 0&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;i = 1&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;i &lt;= n&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;summe = summe + i&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;i = i + 1&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(summe)&quot;}]"></div><div class="schreibtisch" data-spalten="n,summe,i" data-zeilen="8" data-bedingung="i &lt;= n"></div></div>
+    <ul class="ds-teil"><li>b) Was rechnet das Programm aus? Antworten Sie in einem Satz.</li></ul><div class="ds-linien"></div><div class="ds-linien"></div>
+    <ul class="ds-teil"><li>c) Was gibt es für n = 0 aus?</li></ul><div class="ds-linien"></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 5 · Was rechnet es aus? (2)</h3>
+    <ul class="ds-teil"><li>a) Führen Sie den Schreibtischtest für n = 20 durch.</li></ul>
+    <div class="ds-paar"><div class="struktogramm" id="p-quad" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;i = 1&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;i * i &lt; n&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;i = i + 1&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(i)&quot;}]"></div><div class="schreibtisch" data-spalten="n,i" data-zeilen="7" data-bedingung="i * i &lt; n"></div></div>
+    <ul class="ds-teil"><li>b) Was gibt das Programm für n = 16 aus?</li></ul><div class="ds-linien"></div>
+    <ul class="ds-teil"><li>c) Was rechnet das Programm aus? Antworten Sie in einem Satz.</li></ul><div class="ds-linien"></div><div class="ds-linien"></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 6 · Bosskampf</h3>
+    <p>Ein Boss hat «leben» Lebenspunkte. In jeder Runde treffen Sie ihn, jeder dritte Treffer zieht mehr ab.</p>
+    <ul class="ds-teil"><li>a) Führen Sie den Schreibtischtest für leben = 20 durch.</li></ul>
+    <div class="ds-paar breit"><div class="struktogramm" id="p-boss" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;runde = 0&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;leben &gt; 0&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;runde = runde + 1&quot;}, {&quot;t&quot;: &quot;if&quot;, &quot;cond&quot;: &quot;runde % 3 == 0&quot;, &quot;yes&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;leben = leben - 10&quot;}], &quot;no&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;leben = leben - 4&quot;}]}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(runde)&quot;}]"></div><div class="schreibtisch" data-spalten="leben,runde" data-zeilen="7" data-bedingung="leben &gt; 0"></div></div>
+    <ul class="ds-teil"><li>b) Wie viele Runden dauert der Kampf bei leben = 12? Ändert sich das, wenn die Bedingung <code>leben &gt;= 0</code> heisst? Und bei leben = 8?</li></ul><div class="ds-linien"></div><div class="ds-linien"></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>★ Aufgabe 7 · Quersumme</h3>
+    <ul class="ds-teil"><li>a) Führen Sie den Schreibtischtest für z = 472 durch.</li></ul>
+    <div class="ds-paar breit"><div class="struktogramm" id="p-quer" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;summe = 0&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;z &gt; 0&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;summe = summe + z % 10&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;z = z // 10&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(summe)&quot;}]"></div><div class="schreibtisch" data-spalten="z,summe" data-zeilen="6" data-bedingung="z &gt; 0"></div></div>
+    <ul class="ds-teil"><li>b) Was bewirken <code>z % 10</code> und <code>z // 10</code>?</li></ul><div class="ds-linien"></div><div class="ds-linien"></div>
+    <ul class="ds-teil"><li>c) Was gibt das Programm für z = 7305 aus? Rechnen Sie ohne Tabelle.</li></ul><div class="ds-linien"></div>
+  </section>
+
+  <h2 class="ds-neue-seite">Verändern</h2>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 8 · Multiplikation reparieren<a class="ds-kara" href="../baukasten/?reihe=zahlen&amp;aufgabe=zahl-mal">auch in Kara</a></h3>
+    <p>Dieser Rechner kann nur addieren. Das Programm soll a · b ausrechnen, indem es b-mal a zu r dazuzählt.</p>
+    <ul class="ds-teil"><li>a) Führen Sie den Schreibtischtest für a = 4 und b = 3 durch, bis zur 4. Prüfung.</li></ul>
+    <div class="ds-paar"><div class="struktogramm" id="p-mal" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;r = 0&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;b &gt; 0&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;r = r + a&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(r)&quot;}]"></div><div class="schreibtisch" data-spalten="a,b,r" data-zeilen="4" data-bedingung="b &gt; 0"></div></div>
+    <div class="ds-paar test"><div><ul class="ds-teil"><li>b) Was ist falsch? Welche Anforderung ist verletzt?</li></ul><div class="ds-linien"></div><div class="ds-linien"></div><div class="ds-linien"></div></div><div><ul class="ds-teil"><li>c) Zeichnen Sie das reparierte Struktogramm. Was passiert bei b = 0?</li></ul><div class="ds-rahmen klein"></div></div></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 9 · Die grösste von drei Zahlen<a class="ds-kara" href="../baukasten/?reihe=zahlen&amp;aufgabe=zahl-highscore">auch in Kara</a></h3>
+    <p>Das Programm sucht die grösste von zwei Zahlen a und b und gibt sie aus.</p>
+    <div class="ds-paar schmal"><div class="struktogramm" id="p-hs" data-prog="[{&quot;t&quot;: &quot;if&quot;, &quot;cond&quot;: &quot;a &gt; b&quot;, &quot;yes&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;gross = a&quot;}], &quot;no&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;gross = b&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(gross)&quot;}]"></div><div><ul class="ds-teil"><li>a) Neu kommt eine dritte Zahl c dazu. Zeichnen Sie das erweiterte Programm, sodass es die grösste der drei Zahlen ausgibt.</li></ul><div class="ds-rahmen klein"></div></div></div>
+    <ul class="ds-teil"><li>b) Testen Sie von Hand mit a = 3, b = 8, c = 5 und mit a = 4, b = 2, c = 9.</li></ul><div class="ds-linien"></div>
+    <ul class="ds-teil"><li>c) Weiterdenken: Was kommt für eine vierte Zahl d dazu? Wie viele Vergleiche braucht es für 100 Zahlen?</li></ul><div class="ds-linien"></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 10 · Ticketpreis<a class="ds-kara" href="../baukasten/?reihe=zahlen&amp;aufgabe=zahl-ticket">auch in Kara</a></h3>
+    <p>Im Kino kostet ein Ticket 20 Fr. Wer jünger als 16 ist, zahlt 10 Fr. Das Programm hat einen Fehler.</p>
+    <div class="ds-paar schmal"><div class="struktogramm" id="p-tick" data-prog="[{&quot;t&quot;: &quot;if&quot;, &quot;cond&quot;: &quot;alter &gt; 16&quot;, &quot;yes&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;preis = 20&quot;}], &quot;no&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;preis = 10&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(preis)&quot;}]"></div><div><ul class="ds-teil"><li>a) Wählen Sie vier Testfälle, die den Fehler aufdecken können. Tragen Sie ein, was herauskommen müsste und was das Programm ausgibt.</li></ul>
+    <table class="ds-tab ds-mitte ds-hoch"><thead><tr><th>alter</th><th>erwartet</th><th>Programm</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div>
+    <ul class="ds-teil"><li>b) Wer 65 oder älter ist, zahlt neu 14 Fr. Zeichnen Sie das reparierte und erweiterte Programm. Welche zwei Alter testen Sie zusätzlich?</li></ul>
+    <div class="ds-rahmen klein"></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>★ Aufgabe 11 · Schlummertaste<a class="ds-kara" href="../baukasten/?reihe=zahlen&amp;aufgabe=zahl-wecker">auch in Kara</a></h3>
+    <p>Der Wecker klingelt um stunde:minute. Jedes Drücken der Schlummertaste verschiebt ihn um 9 Minuten. Das Programm soll ausgeben, wann er zuletzt klingelt: zuerst die Stunde, dann die Minute. Bei 6:45 und dreimal Drücken kommt aber 6 und 72 heraus.</p>
+    <div class="ds-paar schmal"><div class="struktogramm" id="p-weck" data-prog="[{&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;drueckt &gt; 0&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;minute = minute + 9&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;drueckt = drueckt - 1&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(stunde)&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(minute)&quot;}]"></div><div><ul class="ds-teil"><li>a) Zeichnen Sie das reparierte Programm.</li></ul><div class="ds-rahmen klein"></div></div></div>
+    <ul class="ds-teil"><li>b) Weiterdenken: Was gibt Ihr Programm für 23:55 und einmal Drücken aus? Was müsste ergänzt werden?</li></ul><div class="ds-linien"></div><div class="ds-linien"></div>
+  </section>
+
+  <h2 class="ds-neue-seite">Entwerfen</h2>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 12 · ggT nach Euklid<a class="ds-kara" href="../baukasten/?reihe=zahlen&amp;aufgabe=zahl-ggt">auch in Kara</a></h3>
+    <p>Den grössten gemeinsamen Teiler (ggT) zweier Zahlen findet man auch ohne Teilen: Solange a und b verschieden sind, zieht man die kleinere Zahl von der grösseren ab. Am Schluss sind beide gleich, das ist der ggT. a und b sind ganze Zahlen ab 1.</p>
+    <div class="ds-paar test"><div><ul class="ds-teil"><li>a) Zeichnen Sie das Struktogramm. Das Programm soll den ggT ausgeben.</li></ul><div class="ds-rahmen"></div></div><div><ul class="ds-teil"><li>b) Prüfen Sie Ihr Programm mit einem Schreibtischtest für a = 12 und b = 20.</li></ul><div class="schreibtisch" data-spalten="a,b" data-zeilen="6"></div></div></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 13 · Rückgeld am Automaten<a class="ds-kara" href="../baukasten/?reihe=zahlen&amp;aufgabe=zahl-rueckgeld">auch in Kara</a></h3>
+    <p>Ein Getränkeautomat gibt Rückgeld in Münzen zu 5, 2 und 1 Franken, mit möglichst wenigen Münzen. «rest» ist das Rückgeld in Franken. Geben Sie jede Münze mit <code>print</code> aus, die grössten zuerst.</p>
+    <div class="ds-paar test"><div><ul class="ds-teil"><li>a) Zeichnen Sie das Struktogramm.</li></ul><div class="ds-rahmen"></div></div><div><ul class="ds-teil"><li>b) Testen Sie von Hand: Was gibt es für rest = 8, 4 und 0 aus?</li></ul><div class="ds-linien"></div><div class="ds-linien"></div><ul class="ds-teil"><li>c) Weiterdenken: Ein anderer Automat hat Münzen zu 4, 3 und 1 Franken. Wenden Sie bei rest = 6 dasselbe Vorgehen an. Ist das noch die Lösung mit den wenigsten Münzen?</li></ul><div class="ds-linien"></div><div class="ds-linien"></div><div class="ds-linien"></div></div></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 14 · Handy laden<a class="ds-kara" href="../baukasten/?reihe=zahlen&amp;aufgabe=zahl-akku">auch in Kara</a></h3>
+    <p>Ein Handy wird geladen. Solange der Akku unter 80 % ist, kommen pro Minute 4 Prozentpunkte dazu, sonst 1, bis er bei 100 % ist. «akku» ist der Ladestand beim Einstecken. Geben Sie aus, wie viele Minuten das Laden dauert.</p>
+    <div class="ds-paar test"><div><ul class="ds-teil"><li>a) Zeichnen Sie das Struktogramm.</li></ul><div class="ds-rahmen"></div></div><div><ul class="ds-teil"><li>b) Prüfen Sie Ihr Programm mit einem Schreibtischtest für akku = 72, bis zur 5. Prüfung.</li></ul><div class="schreibtisch" data-spalten="akku,minuten" data-zeilen="5"></div><ul class="ds-teil"><li>c) Wie lange dauert das Laden bei akku = 60? Rechnen Sie ohne Tabelle.</li></ul><div class="ds-linien"></div></div></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe 15 · Fakultät</h3>
+    <p>Die Fakultät von n ist das Produkt aller Zahlen von 1 bis n: 4! = 1 · 2 · 3 · 4 = 24. Geben Sie n! aus, n ist eine ganze Zahl ab 1.</p>
+    <div class="ds-paar test"><div><ul class="ds-teil"><li>a) Zeichnen Sie das Struktogramm.</li></ul><div class="ds-rahmen"></div></div><div><ul class="ds-teil"><li>b) Prüfen Sie Ihr Programm für n = 5. Tragen Sie Ihre Variablen in den Tabellenkopf ein.</li></ul><div class="schreibtisch" data-spalten="," data-zeilen="7"></div><ul class="ds-teil"><li>c) Stimmt Ihr Programm auch für n = 1?</li></ul><div class="ds-linien"></div></div></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>★ Aufgabe 16 · Level-up im Spiel<a class="ds-kara" href="../baukasten/?reihe=zahlen&amp;aufgabe=zahl-level">auch in Kara</a></h3>
+    <p>In einem Spiel steigt man im Level auf. Man startet auf Level 1. Für Level 2 braucht man 100 Erfahrungspunkte, und jedes weitere Level braucht 50 Punkte mehr als das vorige (150, 200, …). Beim Aufsteigen werden die gebrauchten Punkte abgezogen, der Rest zählt weiter. «xp» sind die gesammelten Punkte. Geben Sie aus, auf welchem Level man damit ist.</p>
+    <div class="ds-paar test"><div><ul class="ds-teil"><li>a) Zeichnen Sie das Struktogramm.</li></ul><div class="ds-rahmen"></div></div><div><ul class="ds-teil"><li>b) Prüfen Sie Ihr Programm für xp = 500. Tragen Sie Ihre Variablen in den Tabellenkopf ein.</li></ul><div class="schreibtisch" data-spalten=",," data-zeilen="6"></div></div></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>★ Aufgabe 17 · Ist die Zahl prim?</h3>
+    <p>Eine Primzahl ist eine Zahl ab 2, die nur durch 1 und sich selbst teilbar ist. Das Programm soll für eine Zahl n ab 2 ausgeben: 1, wenn n prim ist, sonst 0.</p>
+    <div class="ds-paar test"><div><ul class="ds-teil"><li>a) Zeichnen Sie das Struktogramm. Tipp: Prüfen Sie mit <code>%</code>, ob sich n durch einen möglichen Teiler t teilen lässt.</li></ul><div class="ds-rahmen"></div></div><div><ul class="ds-teil"><li>b) Prüfen Sie Ihr Programm für n = 7. Tragen Sie Ihre Variablen in den Tabellenkopf ein.</li></ul><div class="schreibtisch" data-spalten=",," data-zeilen="8"></div><ul class="ds-teil"><li>c) Prüfen Sie von Hand: Sind 67 und 217 prim?</li></ul><div class="ds-linien"></div></div></div>
+  </section>
+
+  <h2 class="ds-neue-seite">Anregungen</h2>
+  <p>Für alle, die weiterüben möchten. Dazu gibt es keine Lösungen: Prüfen Sie Ihr Programm mit Testfällen.</p>
+  <ul>
+    <li><strong>Dezimal in Binär:</strong> Teilen Sie immer wieder durch 2 und schreiben Sie die Reste auf. Aus 13 wird 1101. In welcher Reihenfolge entstehen die Ziffern?</li>
+    <li><strong>Zeitraum zwischen zwei Uhrzeiten:</strong> Von 12:14 bis 17:09 sind es 4 Stunden und 55 Minuten. Wann braucht es einen Übertrag?</li>
+    <li><strong>Wurzel nach Heron:</strong> Rechnen Sie mit Kommazahlen <code>x = (x + z / x) / 2</code> mehrmals hintereinander. Wohin läuft x? Welche Bedingung beendet die Wiederholung?</li>
+    <li><strong>Collatz-Folge:</strong> Ist n gerade, halbieren Sie es, sonst rechnen Sie <code>3 * n + 1</code>, bis 1 herauskommt. Von 6 aus braucht es 8 Schritte. Bewiesen ist bis heute nicht, dass das für jede Startzahl endet.</li>
+    <li><strong>Fussballpunkte:</strong> Ein Sieg gibt 3 Punkte, ein Unentschieden 1. Berechnen Sie die Punkte aus Siegen und Unentschieden, dann die Anzahl Spiele, die zu 10 Punkten mindestens nötig sind.</li>
+    <li><strong>In Python:</strong> Tippen Sie eines Ihrer Struktogramme in Python ab und lassen Sie es laufen.</li>
+    <li><strong>Selbst erfinden:</strong> Erfinden Sie eine Aufgabe aus Ihrem Alltag, zeichnen Sie die Lösung und geben Sie die Aufgabe jemandem zum Lösen.</li>
+  </ul>
+
+  <div class="ds-schluss">
+    <img src="loesungen-qr.svg" alt="QR-Code zu den Lösungen">
+    <div>
+      <p><strong>Lösungen</strong></p>
+      <p>Scannen Sie den Code, wenn Sie fertig sind. <a class="nur-bildschirm" href="loesungen.html">Lösungen öffnen</a></p>
+    </div>
+  </div>
+</main>
+<script src="../baukasten/engine.js"></script>
+<script src="dossier.js"></script>
+<script src="../assets/zaehler.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+/* ============================================================
+   dossier.css – Dossier am Bildschirm und auf Papier (A4).
+   Farben aus basis.css; im Druck fest schwarz auf weiss.
+   ============================================================ */
+body{background:var(--ground)}
+.ds{max-width:800px;margin:0 auto;padding:24px 16px 48px;background:var(--surface)}
+@media screen and (min-width:840px){.ds{margin:24px auto;padding:40px 48px 56px;border:1px solid var(--line)}}
+.ds-leiste{display:flex;justify-content:flex-end;margin-bottom:8px}
+.ds-knopf{font:inherit;padding:6px 14px;background:var(--surface);color:var(--ink);border:1px solid var(--ink-soft);border-radius:4px;cursor:pointer}
+.ds-eyebrow{font-size:.85rem;color:var(--ink-soft);letter-spacing:.04em}
+.ds h1{font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:2rem;line-height:1.15;margin:.1em 0 .5em}
+.ds h2{font-size:1.3rem;margin:1.6em 0 .4em;padding-bottom:.2em;border-bottom:2px solid var(--ink)}
+.ds h3{font-size:1.05rem;margin:0 0 .3em}
+.ds p{margin:0 0 .6em}
+.ds ul{margin:0 0 .7em;padding-left:1.2em}
+.ds code,.ds-code{font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:.92em}
+.ds-box{border:1.5px solid var(--ink);padding:10px 14px;margin:0 0 1.2em}
+.ds-box strong{display:block;margin-bottom:.2em}
+.ds-box ul{margin:0}
+
+.ds-aufgabe{margin:1.5em 0}
+.ds .ds-teil{list-style:none;padding:0;margin:.6em 0}
+.ds-teil li{padding-left:1.5em;text-indent:-1.5em}
+.ds-paar{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:16px;align-items:start;margin:.6em 0}
+.ds-paar.breit{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.ds-linien{border-bottom:1px solid var(--ink-soft);height:1.9em}
+
+/* Struktogramm: Aufbau wie im Baukasten */
+.struktogramm{border:1.5px solid var(--ink);border-bottom-width:0;font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:.82rem;line-height:1.3;background:var(--surface);break-inside:avoid}
+.struktogramm[hidden]{display:none}
+.sg-folge{min-width:0}
+.sg-a{padding:5px 6px;border-bottom:1.5px solid var(--ink);overflow-wrap:anywhere}
+.sg-leer{min-height:1.9em}
+.sg-kommentar{display:block;font-size:.88em;color:var(--ink-soft)}
+.sg-kopf{padding:5px 6px;background:var(--accent-soft);font-weight:600;border-bottom:1.5px solid var(--ink)}
+.sg-rumpf{display:flex}
+.sg-balken{width:18px;flex:none;background:var(--accent-soft);border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+.sg-rumpf .sg-folge{flex:1}
+.sg-vkopf{position:relative;height:3.6em;background:var(--accent-soft);border-bottom:1.5px solid var(--ink)}
+.sg-vkopf svg{position:absolute;inset:0;width:100%;height:100%}
+.sg-vkopf line{stroke:var(--ink);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.sg-bed{position:absolute;left:50%;top:3px;transform:translateX(-50%);font-weight:600;white-space:nowrap}
+.sg-ja,.sg-nein{position:absolute;bottom:2px;font-size:.85em;font-family:"IBM Plex Sans",sans-serif}
+.sg-ja{left:6px}
+.sg-nein{right:6px}
+.sg-aeste{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.sg-aeste > .sg-folge{display:flex;flex-direction:column}
+.sg-aeste > .sg-folge > :last-child{flex:1}
+.sg-aeste > .sg-folge + .sg-folge{border-left:1.5px solid var(--ink)}
+
+/* Schreibtisch-Tabelle */
+.schreibtisch table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:.85rem}
+.schreibtisch th,.schreibtisch td{border:1px solid var(--ink);padding:2px 3px;text-align:center;overflow-wrap:anywhere}
+.schreibtisch thead th{background:var(--accent-soft);font-weight:600;line-height:1.2;padding:2px 1px}
+.schreibtisch thead th.ds-code{font-size:.88em}
+.schreibtisch thead th:first-child{width:4.6em}
+.schreibtisch thead th{font-size:.92em}
+.schreibtisch thead th.ds-bed{font-size:.76em}
+.schreibtisch tbody th{font-weight:400;color:var(--ink-soft)}
+.schreibtisch tbody tr{height:30px}
+
+.ds-rahmen{border:1px dashed var(--ink-soft);height:300px;margin:.6em 0}
+.ds-rahmen.klein{height:220px}
+.ds-paar.schmal{grid-template-columns:minmax(0,4fr) minmax(0,7fr)}
+.ds-paar.test{grid-template-columns:minmax(0,5fr) minmax(0,6fr)}
+.ds-eng{max-width:420px;margin:.6em 0}
+.ds-legende{font-size:.9rem;color:var(--ink-soft)}
+.ds-kara{float:right;font-size:.8rem;font-weight:400;color:var(--ink-soft)}
+.ds .ds-tab{width:100%;border-collapse:collapse;font-size:.9rem;margin:.6em 0}
+.ds-tab th,.ds-tab td{border:1px solid var(--ink);padding:4px 6px;text-align:left;vertical-align:top}
+.ds-tab thead th{background:var(--accent-soft);font-weight:600}
+.ds-tab.ds-mitte th,.ds-tab.ds-mitte td{text-align:center}
+.ds-tab.ds-hoch tbody tr{height:30px}
+.ds-bausteine{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,4fr) minmax(0,3fr);gap:12px 14px;align-items:start;font-size:.92rem;margin:.6em 0}
+.ds-bausteine pre{margin:0;padding:5px 8px;border:1px solid var(--line);font-family:"IBM Plex Mono",ui-monospace,Consolas,monospace;font-size:.82rem;line-height:1.35;overflow-x:auto}
+.ds-faelle{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 18px}
+.ds-faelle p{margin:0 0 .4em}
+.ds-spalte2{grid-column:1 / -1}
+.ds-schluss{display:flex;gap:18px;align-items:center;margin-top:2em;border:1.5px solid var(--ink);padding:12px 14px;break-inside:avoid}
+.ds-schluss img{width:3.2cm;height:3.2cm;flex:none;background:#fff}
+.ds-schluss p{margin:0}
+.ds-lsg-regel{font-size:.9rem;color:var(--ink-soft)}
+.ds-probe{font-size:.85rem;background:var(--accent-soft);padding:6px 10px;margin-bottom:1em}
+
+@media screen and (max-width:640px){
+  .ds-paar,.ds-paar.breit,.ds-paar.schmal,.ds-paar.test,.ds-bausteine,.ds-faelle{grid-template-columns:minmax(0,1fr)}
+  .schreibtisch table{font-size:.78rem}
+}
+
+@page{size:A4;margin:16mm 18mm 18mm;@bottom-center{content:counter(page);font:9pt "IBM Plex Sans",sans-serif}}
+@media print{
+  :root{--ground:#fff;--surface:#fff;--ink:#000;--ink-soft:#444;--line:#888;--accent-soft:#e6e6e6}
+  html,body{background:#fff;color:#000;font-size:10.5pt}
+  .ds{max-width:none;padding:0;margin:0;border:0}
+  .ds-leiste,.ds-probe,.nur-bildschirm{display:none}
+  .ds-eyebrow{color:#000}
+  .ds h1{font-size:21pt}
+  .ds h2{font-size:13pt;break-after:avoid}
+  .ds-neue-seite{break-before:page}
+  .ds-aufgabe{break-inside:avoid;margin:1.1em 0}
+  .ds-linien{height:1.7em}
+  .ds .ds-teil{margin:.45em 0}
+  .struktogramm{font-size:8.8pt}
+  .sg-kopf,.sg-balken,.sg-vkopf,.schreibtisch thead th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .schreibtisch table{font-size:9.5pt}
+  .schreibtisch tbody tr{height:7.5mm}
+  .ds-rahmen{height:7cm}
+  .ds-rahmen.klein{height:4.4cm}
+  .ds-tab{font-size:9.5pt}
+  .ds-tab thead th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .ds-kara{color:#444}
+  .ds-faelle > div,.ds-bausteine > *{break-inside:avoid}
+  a{color:#000;text-decoration:none}
+}

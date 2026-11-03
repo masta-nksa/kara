@@ -20,6 +20,7 @@ assets/                   basis.css (Farben Hell/Dunkel, Schrift), cockpit.css/.
                           challenges.js (eigene Challenges: prüfen, Link, Speicher),
                           design-start.js, design.js, designs.css (wählbare Designs, siehe unten)
 editor/                   Labyrinth-Editor für eigene Challenges
+dossier/                  Lern- und Übungsdossier «Algorithmen mit Zahlen» (siehe unten)
 baukasten/                der Baukasten
   index.html, app.js      Oberfläche (Bausteine ziehen, Käfer-Feld, Ablauf)
   engine.js               Interpreter, Prüfung und Programmbaum (reine Funktionen, ohne DOM)
@@ -268,6 +269,29 @@ nicht mit «Richtig», das setzt die Seite davor.
   Aufgabe mit richtigem Schreibtischtest und, mit `vorhersageAusgabe: {fall}`, der richtigen Ausgabe
   für eine zweite Eingabe (eine verdeckte, nicht als Reiter gezeigte). Danach die Reflexion.
 
+## Dossier «Algorithmen mit Zahlen» (`dossier/`)
+
+Theorie und Übungen zum Ausdrucken, als Rückblick nach der Arbeit in Kara, zum Lernen und zur
+Prüfungsvorbereitung: <https://masta-nksa.github.io/kara/dossier/>. Bewusst nicht in der Übersicht
+verlinkt, damit die Namen, die Kara erst nach dem Lösen freischaltet, und die Lösungen nicht einen
+Klick entfernt sind; den Link gibt die Lehrperson weiter. Kara-Aufgabentexte verweisen nicht darauf.
+
+- `index.html`: Lernziele, sechs Theorieteile (Algorithmus und Anforderungen, Bausteine, Variablen,
+  Schreibtischtest, Testen und Fehler, Denkfiguren), 17 Aufgaben (Anforderungen, Lesen, Verändern,
+  Entwerfen, ★ Zusatz), Anregungen ohne Lösung, am Schluss der QR-Code. Jeder Teil beginnt im Druck auf einer neuen
+  Seite, sodass sich auch nur ein Teil drucken lässt (14 A4-Seiten).
+- `loesungen.html`: Lösungen, fürs Handy gestaltet; wird nicht mitgedruckt. `loesungen-qr.svg` ist ein
+  festes Bild mit der Adresse dieser Seite: **Die Adresse darf sich nach dem ersten Ausdruck nicht mehr ändern.**
+- `dossier.js`: zeichnet Struktogramme (`data-prog`, Programmbaum wie im Baukasten) und Tabellen
+  (`.schreibtisch`: `data-spalten`, `data-von` und `data-eingabe`, `data-vorgabe`, `data-zeilen`,
+  `data-bedingung`). Ausgefüllte Zeilen rechnet `engine.js` im Browser aus.
+- `dossier.css`: Bildschirm (hell/dunkel) und Druck (`@media print`, fest schwarz auf weiss). Leere Tabellen
+  haben 2 Zeilen mehr als nötig, damit die Länge die Anzahl Prüfungen nicht verrät.
+
+Die Aufgaben sind Kopien aus `aufgaben/zahlen.json` (teils mit anderen Zahlen) und neue
+(Anforderungen, «Was rechnet es aus? (2)», Bosskampf, Quersumme, Fakultät, Primzahl). Ändert sich eine
+Aufgabe in Kara, gleicht sich das Dossier nicht von selbst an. Zahlen im Text mit Skript aus der Engine nachrechnen.
+
 ## Abschluss und eigene Challenges
 
 Die letzte Reihe («Abschluss und eigene Challenges», `lokal: true` in `reihen.json`) enthält das
@@ -302,6 +326,7 @@ Herkunftsseite und Bildschirmgrösse.
 | --- | --- |
 | `/kara/` | Cockpit |
 | `/kara/editor/` | Labyrinth-Editor |
+| `/kara/dossier/`, `/kara/dossier/loesungen.html` | Dossier und Lösungen |
 | `/kara/baukasten/<reihe>/<aufgabe>` | Aufgabe geöffnet (eigene Challenges: `…/eigene/challenge`) |
 | `/kara/baukasten/geloest/<reihe>/<aufgabe>` | Ereignis: Aufgabe gelöst |
 | `/kara/baukasten/challenge-uebernommen` | Ereignis: Challenge per Link übernommen |
