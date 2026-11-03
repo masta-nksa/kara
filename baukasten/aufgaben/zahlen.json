@@ -464,16 +464,16 @@
   },
   {
    "id": "zahl-highscore",
-   "titel": "5 · Highscore aus drei Runden",
+   "titel": "5 · Die grösste von drei Zahlen",
    "abschnitt": "veraendern",
    "welt": "zahlen",
-   "text": "Das Programm gibt die höchste Punktzahl aus zwei Runden r1 und r2 aus. Neu gibt es eine dritte Runde r3. Erweitern Sie das Programm, sodass es die höchste der drei Punktzahlen ausgibt.",
+   "text": "Das Programm sucht die grösste von zwei Zahlen a und b und gibt sie aus. Neu kommt eine dritte Zahl c dazu. Erweitern Sie das Programm, sodass es die grösste der drei Zahlen ausgibt.",
    "faelle": [
     {
      "eingabe": {
-      "r1": 3,
-      "r2": 8,
-      "r3": 5
+      "a": 3,
+      "b": 8,
+      "c": 5
      },
      "ausgabe": [
       8
@@ -481,9 +481,9 @@
     },
     {
      "eingabe": {
-      "r1": 4,
-      "r2": 2,
-      "r3": 9
+      "a": 4,
+      "b": 2,
+      "c": 9
      },
      "ausgabe": [
       9
@@ -493,9 +493,9 @@
    "verdeckt": [
     {
      "eingabe": {
-      "r1": 9,
-      "r2": 2,
-      "r3": 5
+      "a": 9,
+      "b": 2,
+      "c": 5
      },
      "ausgabe": [
       9
@@ -503,9 +503,9 @@
     },
     {
      "eingabe": {
-      "r1": 5,
-      "r2": 5,
-      "r3": 3
+      "a": 5,
+      "b": 5,
+      "c": 3
      },
      "ausgabe": [
       5
@@ -513,9 +513,9 @@
     },
     {
      "eingabe": {
-      "r1": 2,
-      "r2": 9,
-      "r3": 9
+      "a": 2,
+      "b": 9,
+      "c": 9
      },
      "ausgabe": [
       9
@@ -523,9 +523,9 @@
     },
     {
      "eingabe": {
-      "r1": 1,
-      "r2": 1,
-      "r3": 1
+      "a": 1,
+      "b": 1,
+      "c": 1
      },
      "ausgabe": [
       1
@@ -535,51 +535,51 @@
    "startprogramm": [
     {
      "t": "if",
-     "cond": "r1 > r2",
+     "cond": "a > b",
      "yes": [
       {
        "t": "act",
-       "cmd": "best = r1"
+       "cmd": "gross = a"
       }
      ],
      "no": [
       {
        "t": "act",
-       "cmd": "best = r2"
+       "cmd": "gross = b"
       }
      ]
     },
     {
      "t": "act",
-     "cmd": "print(best)"
+     "cmd": "print(gross)"
     }
    ],
    "palette": {
     "befehle": [
-     "best = r1",
-     "best = r2",
-     "best = r3",
-     "print(best)"
+     "gross = a",
+     "gross = b",
+     "gross = c",
+     "print(gross)"
     ],
     "bedingungen": [
-     "r1 > r2",
-     "r3 > best",
-     "r3 > r2"
+     "a > b",
+     "c > gross",
+     "c > b"
     ],
     "verzweigung": true
    },
    "maxBloecke": 8,
    "kleinsteLoesung": 6,
    "hinweise": [
-    "Nach der ersten Verzweigung steht in «best» die höhere der ersten beiden Punktzahlen.",
-    "Mit welcher Zahl muss r3 verglichen werden: mit r2 oder mit dem bisher Besten?"
+    "Nach der ersten Verzweigung steht in «gross» die grössere der ersten beiden Zahlen.",
+    "Mit welcher Zahl muss c verglichen werden: mit b oder mit der bisher grössten Zahl?"
    ],
    "frage": {
-    "text": "Wozu dient die Variable «best»?",
+    "text": "Wozu dient die Variable «gross»?",
     "antworten": [
-     "Sie zählt die Runden. So weiss man, wie oft verglichen werden muss.",
-     "Sie speichert die letzte Runde. So kann man sie später noch einmal anzeigen.",
-     "Sie merkt sich den bisher höchsten Wert. So braucht jede neue Runde nur einen Vergleich."
+     "Sie zählt die Zahlen. So weiss man, wie oft verglichen werden muss.",
+     "Sie speichert die letzte Zahl. So kann man sie später noch einmal anzeigen.",
+     "Sie merkt sich die bisher grösste Zahl. So braucht jede neue Zahl nur einen Vergleich."
     ],
     "richtig": "9d7c40b4",
     "erklaerung": "Mit diesem Muster findet man auch das Maximum aus zehn oder hundert Zahlen."
@@ -587,34 +587,34 @@
    "loesung": [
     {
      "t": "if",
-     "cond": "r1 > r2",
+     "cond": "a > b",
      "yes": [
       {
        "t": "act",
-       "cmd": "best = r1"
+       "cmd": "gross = a"
       }
      ],
      "no": [
       {
        "t": "act",
-       "cmd": "best = r2"
+       "cmd": "gross = b"
       }
      ]
     },
     {
      "t": "if",
-     "cond": "r3 > best",
+     "cond": "c > gross",
      "yes": [
       {
        "t": "act",
-       "cmd": "best = r3"
+       "cmd": "gross = c"
       }
      ],
      "no": []
     },
     {
      "t": "act",
-     "cmd": "print(best)"
+     "cmd": "print(gross)"
     }
    ]
   },
