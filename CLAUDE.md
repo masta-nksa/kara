@@ -134,3 +134,7 @@ Schreibtischtest klein halten (4–5 Durchgänge). Seit 2.11.2026: Tabellenzeile
 `schreibtischtest.gefuehrt`: Feld für Feld, Eingabe im farbigen Tabellenfeld, grün/rot, immer weiter; `print` hat im
 Struktogramm den Kommentar «# gibt … aus»). Reserve-Ideen: Bosskampf, Level-up, Primzahltest,
 Dezimal in Binär, Fussballpunkte.
+
+Seit 3.11.2026: Stufen der Zahlen-Reihe neu nach Schwierigkeit geordnet (Reihenfolge im README), IDs unverändert.
+Antworten werden nicht gemischt: In neuen Fragen die richtige nicht immer zuerst und nicht deutlich länger; `richtig` passt zur
+Stelle (`frageSchluessel`), `erklaerung` ohne führendes «Richtig».
