@@ -322,14 +322,16 @@ Baukasten (`checks.baukasten.*`); danach sind die beiden getrennt.
 
 ## Designs
 
-Ein Knopf (oben rechts, am Handy unten rechts) wechselt im Kreis: **Klassisch**, **Blüte**
-(pastell) und **Grusel** (Halloween, nachtviolett mit Kürbis-Orange). Die Wahl steht in
-`kara.design.v1`; ohne Wahl gilt Grusel bis 2. November 2026, danach Klassisch
-(`design-start.js`, setzt das Design schon im `<head>`). Ein Design ist ein Block
+Ein Knopf (oben rechts, am Handy unten rechts) wechselt im Kreis: **Klassisch** und **Blüte**
+(pastell). Die Wahl steht in `kara.design.v1`; ohne Wahl gilt Klassisch (`design-start.js`,
+setzt das Design schon im `<head>`). **Grusel** (Halloween, nachtviolett mit Kürbis-Orange) ist seit
+3. November 2026 abgeschaltet: nicht im Umschalter, ein gespeichertes «grusel» zählt als Klassisch;
+Code und Styles bleiben für nächstes Halloween liegen (Eintrag in `DESIGNS` und `design-start.js`
+wieder freigeben). Ein Design ist ein Block
 `html[data-design="…"]` in `assets/designs.css` (überschreibt die Variablen aus
 `basis.css`/`baukasten.css`) und ein Eintrag in `DESIGNS` in `design.js`.
 
-Im Grusel ist der Käfer eine Spinne und die Steine sind Grabsteine (Dekoration, die `design.js`
+Nur wenn Grusel freigegeben ist: Der Käfer ist eine Spinne und die Steine sind Grabsteine (Dekoration, die `design.js`
 auf der Karte ergänzt). Schreck-Effekte gibt es nur im Grusel: Nach einem Fehlschlag erscheint
 mit 60 % Wahrscheinlichkeit (nie zweimal hintereinander) ein Gesicht oder eine Spinne mit Schrei,
 sonst in der Hälfte der Fälle nur ein Gruselton (Geisterheulen, Totenglocke oder Kichern);

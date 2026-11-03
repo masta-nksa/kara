@@ -60,8 +60,8 @@ Browser die Animation stark; dann mit «Einzelschritt» oder «Alle prüfen» pr
 ## Stand (Oktober 2026)
 
 Seit 27.10.2026: wählbare Designs (Klassisch, Blüte, Grusel; `assets/design*.js/css`, Details im
-README). Grusel ist bis 2.11.2026 Standard und enthält Schreck-Effekte mit Ton (Zielgruppe
-15–17 Jahre). Neue Karten-Elemente brauchen im Grusel nur Variablen, ausser sie sollen Dekoration
+README). Grusel (Schreck-Effekte mit Ton, Zielgruppe 15–17 Jahre) ist seit 3.11.2026 abgeschaltet,
+der Code bleibt für nächstes Halloween liegen. Neue Karten-Elemente brauchen im Grusel nur Variablen, ausser sie sollen Dekoration
 bekommen (`schmuecken()` in `design.js`).
 
 
