@@ -60,8 +60,8 @@ Browser die Animation stark; dann mit «Einzelschritt» oder «Alle prüfen» pr
 ## Stand (Oktober 2026)
 
 Seit 27.10.2026: wählbare Designs (Klassisch, Blüte, Grusel; `assets/design*.js/css`, Details im
-README). Grusel ist bis 2.11.2026 Standard und enthält Schreck-Effekte mit Ton (Zielgruppe
-15–17 Jahre). Neue Karten-Elemente brauchen im Grusel nur Variablen, ausser sie sollen Dekoration
+README). Grusel (Schreck-Effekte mit Ton, Zielgruppe 15–17 Jahre) ist seit 3.11.2026 abgeschaltet,
+der Code bleibt für nächstes Halloween liegen. Neue Karten-Elemente brauchen im Grusel nur Variablen, ausser sie sollen Dekoration
 bekommen (`schmuecken()` in `design.js`).
 
 
@@ -81,6 +81,10 @@ umgedrehtem, gespiegeltem Weg. Neue Karten so halten.
 
 Offen aus der Rückmeldung der Lehrperson (18.10.2026): Begriffe Labyrinth/Irrgarten
 (Labyrinth im engen Sinn ohne Verzweigungen). Texte nicht ohne Entscheid umbenennen.
+
+Offen (Todo, nicht jetzt umsetzen): neutrales, übersichtliches Design «Hell» (fest heller Hintergrund,
+weisse Flächen, dünne Linien, eine ruhige Akzentfarbe, keine Effekte) als weiterer Eintrag im Umschalter;
+ob es Standard wird, ist noch nicht entschieden.
 
 Offen, nicht entschieden: ob der Baukasten-Eintrag in `checks` auf Kara verlinken soll.
 Nur auf ausdrücklichen Wunsch ändern.

@@ -14,8 +14,9 @@
   var SCHLUESSEL = "kara.design.v1";
   var DESIGNS = [
     { id: "klassisch", name: "Klassisch", icon: "▦" },
-    { id: "bluete", name: "Blüte", icon: "✿" },
-    { id: "grusel", name: "Grusel", icon: "🎃" }
+    { id: "bluete", name: "Blüte", icon: "✿" }
+    // Grusel ({ id: "grusel", name: "Grusel", icon: "🎃" }) ist abgeschaltet: für Halloween hier
+    // wieder eintragen und in design-start.js freigeben.
   ];
   var SVGNS = "http://www.w3.org/2000/svg";
   var root = document.documentElement;
@@ -25,6 +26,7 @@
   function speichern(id) { try { localStorage.setItem(SCHLUESSEL, id); } catch (e) { /* gesperrt */ } }
 
   function anwenden(id) {
+    if (id === "grusel") id = "klassisch";  // abgeschaltet, auch aus einem anderen Tab
     if (id === "klassisch") root.removeAttribute("data-design"); else root.setAttribute("data-design", id);
     if (id === "grusel" && !document.querySelector("link[href*='Creepster']")) {
       var l = document.createElement("link");
