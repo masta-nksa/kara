@@ -331,6 +331,11 @@
       if (s.art === "bed") {
         steuer = el("select", "zw-feld zw-bed");
         ["", "wahr", "falsch"].forEach(function (t) { var o = el("option", null, t || "–"); o.value = t; steuer.append(o); });
+        // Mit Maus/Finger übernimmt schon die Wahl; mit der Tastatur schaltet der Pfeil nur um, dort gilt Enter.
+        var mitZeiger = false;
+        steuer.addEventListener("pointerdown", function () { mitZeiger = true; });
+        steuer.addEventListener("keydown", function (e) { mitZeiger = false; if (e.key === "Enter") { e.preventDefault(); pruefen(); } });
+        steuer.addEventListener("change", function () { if (mitZeiger && steuer.value) { mitZeiger = false; pruefen(); } });
       } else {
         steuer = el("input", "zw-feld" + (s.art === "aus" ? " zw-aus" : ""));
         steuer.type = "text";

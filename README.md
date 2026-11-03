@@ -242,7 +242,7 @@ Ladewerte sind erfunden, damit die Rechnung aufgeht.
   geführt. Die Tabelle steht da; das Feld, das dran ist, ist farbig hinterlegt, darunter steht die
   Frage dazu («Welchen Wert hat «erspart» bei der 2. Prüfung (der Rumpf ist 1-mal gelaufen)?», bei der
   Bedingung wahr/falsch, bei der Ausgabe die Zahl). Die Antwort wird direkt im farbigen Feld der
-  Tabelle eingetragen, «Weiter» (oder die Eingabetaste) übernimmt sie: Das Feld leuchtet kurz grün
+  Tabelle eingetragen, «Weiter» (oder die Eingabetaste) übernimmt sie, bei «wahr/falsch» mit Maus oder Finger schon die Wahl selbst (mit der Tastatur Enter, weil der Pfeil nur umschaltet): Das Feld leuchtet kurz grün
   (richtig) oder rot (falsch, dann steht der richtige Wert drin) und es geht immer weiter. Das
   Struktogramm markiert in derselben Farbe den Baustein, der diesen Wert bestimmt (bei «solange» nur die
   Kopfzeile, nicht die ganze Schleife samt Rumpf). Nur Felder, die sich
