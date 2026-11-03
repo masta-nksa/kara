@@ -126,6 +126,6 @@ aus `loesung` berechnen, typische Fehlervarianten müssen an einem Fall scheiter
 Schreibtischtest klein halten (4–5 Durchgänge). Seit 2.11.2026: Tabellenzeilen heissen «1., 2., …»
 (Prüfungen der Bedingung, kein «Start»), Bedingungsspalte braun wie der Block, kein Scrollen
 (Container Queries); «1 · Sparziel» beginnt mit einer geführten Variante
-(`schreibtischtest.gefuehrt`: Feld für Feld, das nächste Feld ist farbig, Frage dazu; `print` hat im
+(`schreibtischtest.gefuehrt`: Feld für Feld, Eingabe im farbigen Tabellenfeld, grün/rot, immer weiter; `print` hat im
 Struktogramm den Kommentar «# gibt … aus»). Reserve-Ideen: Bosskampf, Level-up, Primzahltest,
 Dezimal in Binär, Fussballpunkte.

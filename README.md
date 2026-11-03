@@ -241,11 +241,14 @@ Ladewerte sind erfunden, damit die Rechnung aufgeht.
 - `schreibtischtest.gefuehrt: true` (nur «1 · Sparziel»): Der Schreibtischtest wird Feld für Feld
   geführt. Die Tabelle steht da; das Feld, das dran ist, ist farbig hinterlegt, darunter steht die
   Frage dazu («Welchen Wert hat «erspart» bei der 2. Prüfung (der Rumpf ist 1-mal gelaufen)?», bei der
-  Bedingung wahr/falsch, bei der Ausgabe die Zahl). Das Struktogramm markiert in derselben Farbe den
-  Baustein, der diesen Wert bestimmt. Nach drei Fehlversuchen steht die Antwort im Hinweis; sind alle
-  Felder richtig, gilt der Schreibtischtest als gelöst. Nur Felder, die sich ändern, werden gefragt
-  (leer = unverändert). Der Stand gilt nur für die Sitzung. Die übrigen Lesen-Aufgaben haben den
-  freien Schreibtischtest.
+  Bedingung wahr/falsch, bei der Ausgabe die Zahl). Die Antwort wird direkt im farbigen Feld der
+  Tabelle eingetragen, «Weiter» (oder die Eingabetaste) übernimmt sie: Das Feld leuchtet kurz grün
+  (richtig) oder rot (falsch, dann steht der richtige Wert drin) und es geht immer weiter. Das
+  Struktogramm markiert in derselben Farbe den Baustein, der diesen Wert bestimmt (bei «solange» nur die
+  Kopfzeile, nicht die ganze Schleife samt Rumpf). Nur Felder, die sich
+  ändern, werden gefragt (leer = unverändert); nach dem letzten Feld gilt der Schreibtischtest als
+  gelöst, auch mit Fehlern (es ist ein Einstieg). Der Stand gilt nur für die Sitzung. Die übrigen
+  Lesen-Aufgaben haben den freien Schreibtischtest.
 - In der Zahlenwelt steht bei `print(…)` im Struktogramm der Kommentar «# gibt «…» aus» (und im
   Code von «Als Code anzeigen»), damit klar ist, dass es eine Ausgabe gibt (`printKommentar`, engine.js).
 - `lesen: true`: Das Struktogramm ist fest (keine Palette, «Struktogramm lesen»). Gelöst ist die

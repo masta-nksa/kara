@@ -317,7 +317,10 @@
 /* aktueller Baustein beim Ausführen */
 .bk-act.aktiv,.bk-blk.aktiv > .bk-kopf{background:var(--hl)}
 .bk-blk.aktiv{outline:3px solid var(--accent);outline-offset:-1px;z-index:3}
+.bk-blk.aktiv.bk-while{outline:none}
+.bk-blk.aktiv.bk-while > .bk-kopf{outline:3px solid var(--accent);outline-offset:-1px;position:relative;z-index:3}
 .bk-blk.aktiv.fehler{outline-color:var(--no)}
+.bk-blk.aktiv.fehler.bk-while > .bk-kopf{outline-color:var(--no)}
 .bk-blk.aktiv.fehler.bk-act,.bk-blk.aktiv.fehler > .bk-kopf{background:var(--no-soft)}
 
 /* ---------- Ablagestellen ---------- */
@@ -520,6 +523,18 @@ body.bk-zieht *{cursor:grabbing!important}
 .zw-gefuehrt td.zw-gz{height:32px;min-width:2.4em;font-family:"IBM Plex Mono",ui-monospace,monospace}
 .zw-gefuehrt td.zw-gut{color:var(--ink)}
 .zw-gefuehrt td.zw-dran{background:var(--hl);outline:2px solid var(--accent);outline-offset:-2px}
+.zw-gefuehrt td.zw-dran .zw-feld{width:3.4em}
+.zw-gefuehrt td.zw-dran .zw-feld.zw-bed{width:auto;min-width:4.6em}
+.zw-gefuehrt td.zw-dran .zw-feld.zw-aus{width:3.6em}
+@keyframes zw-blitz-ok{0%,45%{background:var(--ok-soft);box-shadow:inset 0 0 0 2px var(--ok)}100%{background:transparent;box-shadow:inset 0 0 0 2px transparent}}
+@keyframes zw-blitz-falsch{0%,45%{background:var(--no-soft);box-shadow:inset 0 0 0 2px var(--no)}100%{background:transparent;box-shadow:inset 0 0 0 2px transparent}}
+.zw-gefuehrt td.zw-blitz-ok{animation:zw-blitz-ok 1.6s ease-out}
+.zw-gefuehrt td.zw-blitz-falsch{animation:zw-blitz-falsch 1.6s ease-out}
+@media (prefers-reduced-motion:reduce){
+  .zw-gefuehrt td.zw-blitz-ok{animation:none;background:var(--ok-soft)}
+  .zw-gefuehrt td.zw-blitz-falsch{animation:none;background:var(--no-soft)}
+}
+.zw-knoepfe .bk-knopf.primaer{font-weight:600}
 .zw-tabbox,.zw-tabbox-test{container-type:inline-size}
 @container (max-width:460px){
   .zw-tabelle:not(.zw-test) th{white-space:normal;font-size:.72rem;padding:4px 2px}
