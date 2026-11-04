@@ -266,7 +266,8 @@ nicht mit «Richtig», das setzt die Seite davor.
 - In der Zahlenwelt steht bei `print(…)` im Struktogramm der Kommentar «# gibt «…» aus» (und im
   Code von «Als Code anzeigen»), damit klar ist, dass es eine Ausgabe gibt (`printKommentar`, engine.js).
 - `lesen: true`: Das Struktogramm ist fest (keine Palette, «Struktogramm lesen»). Gelöst ist die
-  Aufgabe mit richtigem Schreibtischtest und, mit `vorhersageAusgabe: {fall}`, der richtigen Ausgabe
+  Aufgabe mit richtigem Schreibtischtest und, mit `vorhersageAusgabe: {fall}`, der richtigen Ausgabe (ein Feld je Ausgabe, untereinander, daneben der
+  `print`-Befehl; Enter springt zum nächsten Feld)
   für eine zweite Eingabe (eine verdeckte, nicht als Reiter gezeigte). Danach die Reflexion.
 
 ## Dossiers (`dossier/`)

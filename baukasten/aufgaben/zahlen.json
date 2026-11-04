@@ -122,12 +122,12 @@
     },
     {
      "eingabe": {
-      "maoam": 38,
+      "maoam": 45,
       "personen": 6
      },
      "ausgabe": [
-      6,
-      2
+      7,
+      3
      ]
     }
    ],
