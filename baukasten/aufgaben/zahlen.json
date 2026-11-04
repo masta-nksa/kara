@@ -470,7 +470,7 @@
    "titel": "5 · Die grösste von drei Zahlen",
    "abschnitt": "veraendern",
    "welt": "zahlen",
-   "text": "Das Programm sucht die grösste von zwei Zahlen a und b und gibt sie aus. Neu kommt eine dritte Zahl c dazu. Erweitern Sie das Programm, sodass es die grösste der drei Zahlen ausgibt.",
+   "text": "Das Programm sucht die grösste von zwei Zahlen a und b und gibt sie aus. Neu kommt eine dritte Zahl c dazu. Erweitern Sie das Programm, sodass es die grösste der drei Zahlen ausgibt. Bei den Bausteinen steht auch eine Variable «gross» bereit; ob Sie sie brauchen, entscheiden Sie.",
    "faelle": [
     {
      "eingabe": {
@@ -582,23 +582,22 @@
      "yes": [
       {
        "t": "act",
-       "cmd": "gross = a"
+       "cmd": "print(a)"
       }
      ],
      "no": [
       {
        "t": "act",
-       "cmd": "gross = b"
+       "cmd": "print(b)"
       }
      ]
-    },
-    {
-     "t": "act",
-     "cmd": "print(gross)"
     }
    ],
    "palette": {
     "befehle": [
+     "print(a)",
+     "print(b)",
+     "print(c)",
      "gross = a",
      "gross = b",
      "gross = c",
@@ -606,19 +605,21 @@
     ],
     "bedingungen": [
      "a > b",
-     "c > gross",
-     "c > b"
+     "a > c",
+     "b > c",
+     "c > b",
+     "c > gross"
     ],
     "verzweigung": true
    },
-   "maxBloecke": 8,
+   "maxBloecke": 9,
    "kleinsteLoesung": 6,
    "hinweise": [
-    "Nach der ersten Verzweigung steht in «gross» die grössere der ersten beiden Zahlen.",
-    "Mit welcher Zahl muss c verglichen werden: mit b oder mit der bisher grössten Zahl?"
+    "Die grössere von a und b wird schon ausgegeben. Wo muss c noch ins Spiel kommen?",
+    "Mit welcher Zahl muss c verglichen werden: mit b oder mit der grösseren von a und b? Dafür kann die Variable «gross» nützlich sein."
    ],
    "frage": {
-    "text": "Wozu dient die Variable «gross»?",
+    "text": "Wozu kann die Variable «gross» dienen?",
     "antworten": [
      "Sie zählt die Zahlen. So weiss man, wie oft verglichen werden muss.",
      "Sie speichert die letzte Zahl. So kann man sie später noch einmal anzeigen.",
