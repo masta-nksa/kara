@@ -272,8 +272,8 @@ nicht mit «Richtig», das setzt die Seite davor.
 
 ## Dossiers (`dossier/`)
 
-Je Dossier ein Unterordner, benannt wie die Reihe in `reihen.json` (`zahlen/`, geplant `algorithmen/`, `ct/`, `labyrinth/`),
-mit eigener `index.html`, `loesungen.html` und `loesungen-qr.svg`. `dossier.css` und `dossier.js` liegen in `dossier/` und gelten
+Je Dossier ein Unterordner, benannt wie die Reihe in `reihen.json` (`zahlen/`, `labyrinth/`, geplant `algorithmen/`, `ct/`),
+meist mit eigener `index.html`, dazu `loesungen.html` und `loesungen-qr.svg`. `dossier.css` und `dossier.js` liegen in `dossier/` und gelten
 für alle. `dossier/index.html` listet die vorhandenen Dossiers und ist nicht in der Übersicht verlinkt. Neue Dossiers dort eintragen.
 `dossier/loesungen.html` leitet auf `zahlen/loesungen.html` weiter (frühere Adresse des QR-Codes).
 
@@ -298,6 +298,17 @@ Prüfungsvorbereitung: <https://masta-nksa.github.io/kara/dossier/zahlen/>. Verl
 Die Aufgaben sind Kopien aus `aufgaben/zahlen.json` (teils mit anderen Zahlen) und neue
 (Anforderungen, «Was rechnet es aus? (2)», Bosskampf, Quersumme, Fakultät, Primzahl). Ändert sich eine
 Aufgabe in Kara, gleicht sich das Dossier nicht von selbst an. Zahlen im Text mit Skript aus der Engine nachrechnen.
+
+### Raus aus dem Labyrinth (`dossier/labyrinth/`)
+
+Papier-Dossier als Einstieg vor der Arbeit mit den Labyrinthen in Kara, bearbeitbar ohne Computer. Das Dossier selbst ist eine Word-Datei
+der Lehrperson (`Algorithmen_FMS/word/Labyrinth_Dossier.docx` im OneDrive-Ordner) und liegt nicht im Repo. Hier liegen nur:
+
+- `loesungen.html`: Lösungen, fürs Handy gestaltet, <https://masta-nksa.github.io/kara/dossier/labyrinth/loesungen.html>.
+  Die letzte Aufgabe (eigene Regel) hat absichtlich keine Lösung: Die Wandregel wird weder im Dossier noch hier genannt, sie soll selbst entdeckt werden.
+- `loesungen-qr.svg`: QR-Code mit dieser Adresse, im Word-Dossier als Bild eingebettet. **Die Adresse darf sich nach dem ersten Ausdruck nicht mehr ändern.**
+
+In Kara ist es noch nicht verlinkt; das geschieht, wenn das Dossier fertig ist. Karten und Weg der Lösungsseite sind fest eingetragen und mit der Engine nachgerechnet.
 
 ## Abschluss und eigene Challenges
 
@@ -334,6 +345,7 @@ Herkunftsseite und Bildschirmgrösse.
 | `/kara/` | Cockpit |
 | `/kara/editor/` | Labyrinth-Editor |
 | `/kara/dossier/`, `/kara/dossier/zahlen/`, `/kara/dossier/zahlen/loesungen.html` | Liste der Dossiers, Dossier und Lösungen |
+| `/kara/dossier/labyrinth/loesungen.html` | Lösungen zum Labyrinth-Dossier (Word) |
 | `/kara/baukasten/<reihe>/<aufgabe>` | Aufgabe geöffnet (eigene Challenges: `…/eigene/challenge`) |
 | `/kara/baukasten/geloest/<reihe>/<aufgabe>` | Ereignis: Aufgabe gelöst |
 | `/kara/baukasten/challenge-uebernommen` | Ereignis: Challenge per Link übernommen |
