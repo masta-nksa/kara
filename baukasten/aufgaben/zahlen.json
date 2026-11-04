@@ -470,7 +470,7 @@
    "titel": "5 · Die grösste von drei Zahlen",
    "abschnitt": "veraendern",
    "welt": "zahlen",
-   "text": "Das Programm sucht die grösste von zwei Zahlen a und b und gibt sie aus. Neu kommt eine dritte Zahl c dazu. Erweitern Sie das Programm, sodass es die grösste der drei Zahlen ausgibt. Bei den Bausteinen steht auch eine Variable «gross» bereit; ob Sie sie brauchen, entscheiden Sie.",
+   "text": "Das Programm sucht die grösste von zwei Zahlen a und b und gibt sie aus. Neu kommt eine dritte Zahl c dazu. Erweitern Sie das Programm, sodass es die grösste der drei Zahlen ausgibt. Bei den Bausteinen steht auch eine Variable «gross» bereit; ob Sie sie brauchen, entscheiden Sie. Es gibt mehrere richtige Wege; alle Vergleiche stehen zur Auswahl.",
    "faelle": [
     {
      "eingabe": {
@@ -605,10 +605,13 @@
     ],
     "bedingungen": [
      "a > b",
+     "b > a",
      "a > c",
+     "c > a",
      "b > c",
      "c > b",
-     "c > gross"
+     "c > gross",
+     "gross > c"
     ],
     "verzweigung": true
    },
