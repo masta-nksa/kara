@@ -1851,7 +1851,7 @@
     ablaufZeigen();
     tabsAktualisieren();
     if (aufg.lesen && !aufg.vorhersageAusgabe) lesenGeloest();
-    else if (aufg.lesen) $("stAusgabeWert").focus();
+    else if (aufg.lesen) { var f0 = $("stAusgabeFelder").querySelector("input"); if (f0) f0.focus(); }
     else meldungZeigen("ok", null, "Der Schreibtischtest stimmt. Jetzt können Sie das Programm ändern.");
   }
   // Schlusstext, wenn nicht einfach alles stimmt (null: Standardtext).
@@ -1943,22 +1943,55 @@
     var va = aufg.vorhersageAusgabe, box = $("stAusgabe");
     box.hidden = !(va && beantwortet[aufg.id + "/schreibtischtest"]);
     if (box.hidden) return;
-    var fall = aufg.felder[va.fall].fall, fertig = !!beantwortet[aufg.id + "/ausgabe"], inp = $("stAusgabeWert"), r = $("stAusgabeRueck");
+    var fall = aufg.felder[va.fall].fall, fertig = !!beantwortet[aufg.id + "/ausgabe"], r = $("stAusgabeRueck");
     $("stAusgabeText").textContent = "Und mit einer anderen Eingabe: Was gibt das Programm bei " + E.eingabeText(fall.eingabe) + " aus?";
-    inp.value = fertig ? fall.ausgabe.join(", ") : "";
-    inp.disabled = fertig;
+    // Ein Feld je Ausgabe, untereinander; mit dem print-Befehl daneben, wenn es genau so viele gibt wie Ausgaben.
+    var felder = $("stAusgabeFelder"), cmds = ausgabeBefehle(), ben = cmds.length === fall.ausgabe.length;
+    felder.textContent = "";
+    fall.ausgabe.forEach(function (w, i) {
+      var zeile = el("label", "bk-st-zeile"), inp = el("input", "bk-zahl bk-st-wert");
+      zeile.append(el("code", null, ben ? cmds[i] : (i + 1) + ". Ausgabe"));
+      inp.type = "text"; inp.setAttribute("inputmode", "numeric");
+      inp.setAttribute("aria-label", ben ? "Ausgabe von " + cmds[i] : (i + 1) + ". Ausgabe");
+      inp.value = fertig ? String(w) : "";
+      inp.disabled = fertig;
+      inp.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+        var weiter = felder.querySelectorAll("input")[i + 1];
+        if (weiter) weiter.focus(); else ausgabePruefen();
+      });
+      zeile.append(inp);
+      felder.append(zeile);
+    });
     $("stAusgabeKnopf").hidden = fertig;
     r.hidden = !fertig;
     r.className = "bk-frage-rueck" + (fertig ? " ok" : "");
     r.textContent = fertig ? "Richtig." : "";
   }
+  // print-Befehle des Startprogramms in der Reihenfolge, wie sie im Struktogramm stehen.
+  function ausgabeBefehle() {
+    var l = [];
+    (function such(liste) {
+      liste.forEach(function (b) {
+        if (b.t === "act" && E.zahlLesen(b.cmd).art !== "zuweisung") l.push(b.cmd);
+        if (b.body) such(b.body);
+        if (b.yes) { such(b.yes); such(b.no); }
+      });
+    })(aufg.startprogramm || []);
+    return l;
+  }
   function ausgabePruefen() {
     var fall = aufg.felder[aufg.vorhersageAusgabe.fall].fall, r = $("stAusgabeRueck");
-    var a = ZW.ausgabeLesen($("stAusgabeWert").value);
+    var a = [], leer = false;
+    Array.prototype.forEach.call($("stAusgabeFelder").querySelectorAll("input"), function (f) {
+      var w = ZW.ausgabeLesen(f.value);
+      if (w.length !== 1) leer = true; else a.push(w[0]);
+    });
     r.hidden = false;
-    if (!a.length && fall.ausgabe.length) {
+    if (leer && fall.ausgabe.length) {
       r.className = "bk-frage-rueck";
-      r.textContent = "Geben Sie zuerst die Ausgabe ein, mehrere Zahlen mit Komma getrennt.";
+      r.textContent = "Tragen Sie in jedes Feld eine Zahl ein.";
       return;
     }
     var ok = a.length === fall.ausgabe.length && a.every(function (x, i) { return x === fall.ausgabe[i]; });
@@ -1973,8 +2006,7 @@
     lesenGeloest();
   }
   $("stAusgabeKnopf").addEventListener("click", ausgabePruefen);
-  $("stAusgabeWert").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); ausgabePruefen(); } });
-
+  
   function lesenGeloest() {
     if (window.KaraDesign) window.KaraDesign.ende(true);
     geloest[aufg.id] = geloest[aufg.id] || E.zaehleBausteine(prog);

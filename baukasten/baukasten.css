@@ -568,7 +568,10 @@ body.bk-zieht *{cursor:grabbing!important}
 .bk-st{margin:0 0 12px}
 .bk-st-ausgabe{margin-top:10px;border-top:1px dashed var(--line);padding-top:4px}
 .bk-st-ausgabe[hidden]{display:none}
-.bk-st-wert{width:9em}
+.bk-st-wert{width:5em}
+.bk-st-felder{display:grid;gap:6px;justify-items:start;margin:6px 0}
+.bk-st-zeile{display:flex;align-items:center;gap:10px;font-size:.9rem}
+.bk-st-zeile code{min-width:9em;font-family:"IBM Plex Mono",ui-monospace,monospace;color:var(--ink-soft)}
 
 /* Selbständiger Schreibtischtest (schreibtischtest.neutral): keine Farbhilfe im Struktogramm und in der Tabelle */
 .bk-raster.neutral .bk-blk:not(.aktiv) > .bk-kopf,.bk-raster.neutral .bk-balken{background:var(--surface)}
