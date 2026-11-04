@@ -533,6 +533,46 @@
      "ausgabe": [
       1
      ]
+    },
+    {
+     "eingabe": {
+      "a": 9,
+      "b": 5,
+      "c": 2
+     },
+     "ausgabe": [
+      9
+     ]
+    },
+    {
+     "eingabe": {
+      "a": 1,
+      "b": 2,
+      "c": 3
+     },
+     "ausgabe": [
+      3
+     ]
+    },
+    {
+     "eingabe": {
+      "a": 5,
+      "b": 8,
+      "c": 3
+     },
+     "ausgabe": [
+      8
+     ]
+    },
+    {
+     "eingabe": {
+      "a": 6,
+      "b": 2,
+      "c": 6
+     },
+     "ausgabe": [
+      6
+     ]
     }
    ],
    "startprogramm": [
