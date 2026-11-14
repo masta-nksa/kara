@@ -138,6 +138,7 @@ Dezimal in Binär, Fussballpunkte.
 Seit 3.11.2026: Dossier «Algorithmen mit Zahlen» in `dossier/zahlen/` (je Dossier ein Unterordner wie die Reihe, CSS und JS gemeinsam in `dossier/`; Theorie, 17 Aufgaben, Druck-CSS, Lösungen per
 QR-Code am Schluss; Details im README). Verlinkt nur im Lernpfad der Reihe (`dossier` in reihen.json), nicht in der Übersicht. Die Adresse von
 `loesungen.html` nach dem ersten Ausdruck nicht mehr ändern. Keine Namenszeile, kein «Lektion n», Lernziele-Box.
+Kurzversion `dossier/kurz/` (4 Seiten, Zahlen, Käfer, Labyrinth je Basis und erweitert; `dossier.js` zeichnet Käfer-Karten).
 Offen (noch nicht begonnen): je ein eigenes Dossier zu CT (`ct/`) und Algorithmen mit Kara (`algorithmen/`).
 Seit 4.11.2026: Labyrinth-Dossier als Word-Datei der Lehrperson (`Algorithmen_FMS/word/Labyrinth_Dossier.docx`, nicht im Repo), in `dossier/labyrinth/` nur Lösungsseite und QR-Code. Noch nicht in Kara verlinkt, erst wenn es fertig ist. Dossier und Lösungsseite nennen die Wandregel nie.
 Druck auf Windows prüfen: Chrome `--headless=new --no-pdf-header-footer --print-to-pdf=… file:///…/dossier/zahlen/index.html`.

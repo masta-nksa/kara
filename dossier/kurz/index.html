@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Algorithmen in Kurzform</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/basis.css">
+<link rel="stylesheet" href="../dossier.css">
+</head>
+<body>
+<main class="ds ds-kurz">
+  <div class="ds-leiste"><button class="ds-knopf" id="drucken" type="button">Drucken</button></div>
+  <p class="ds-probe">Kurzversion für den Ausdruck: 4 Seiten, doppelseitig auf 2 Blättern.</p>
+  <span class="ds-eyebrow">Dossier · Kurzversion</span>
+  <h1>Algorithmen in Kurzform</h1>
+  <div class="ds-box">
+    <strong>Lernziele</strong>
+    <ul>
+      <li>Sie nennen die fünf Anforderungen an einen Algorithmus und die drei Bausteine.</li>
+      <li>Sie führen ein Programm mit Variablen von Hand aus und finden Fehler.</li>
+      <li>Sie bauen Programme für den Käfer: als Rasenmäher und im Labyrinth.</li>
+    </ul>
+  </div>
+
+  <h2>1 · Was ist ein Algorithmus?</h2>
+  <p>Ein Algorithmus ist eine genaue Anleitung, die ein Problem in einzelnen Schritten löst. Er muss fünf Anforderungen erfüllen:</p>
+  <table class="ds-tab">
+    <tbody>
+      <tr><td><strong>ausführbar</strong></td><td>Der Ausführende kann jeden Schritt ausführen.</td></tr>
+      <tr><td><strong>eindeutig</strong></td><td>Jeder Schritt und die Reihenfolge sind genau festgelegt.</td></tr>
+      <tr><td><strong>allgemein</strong></td><td>Er löst alle Aufgaben derselben Art, nicht nur einen Einzelfall.</td></tr>
+      <tr><td><strong>endlich</strong></td><td>Er kommt nach endlich vielen Schritten zu einem Ende.</td></tr>
+      <tr><td><strong>korrekt</strong></td><td>Er liefert für alle zulässigen Eingaben das richtige Ergebnis, auch in Sonderfällen.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2 · Die drei Bausteine</h2>
+  <p>Ein Struktogramm wird von oben nach unten gelesen. Ein einzelner Kasten heisst Anweisung.</p>
+  <div class="ds-drei">
+    <div><p><strong>Sequenz:</strong> Die Anweisungen laufen nacheinander ab.</p><div class="struktogramm" id="t-seq" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;links&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}]"></div></div>
+    <div><p><strong>Verzweigung:</strong> Je nach Bedingung läuft der eine oder der andere Zweig.</p><div class="struktogramm" id="t-ver" data-prog="[{&quot;t&quot;: &quot;if&quot;, &quot;cond&quot;: &quot;frei&quot;, &quot;yes&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}], &quot;no&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;rechts&quot;}]}]"></div></div>
+    <div><p><strong>Wiederholung:</strong> Der Rumpf läuft mehrmals oder solange, bis eine Bedingung gilt.</p><div class="struktogramm" id="t-wdh" data-prog="[{&quot;t&quot;: &quot;loop&quot;, &quot;n&quot;: 4, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}]}]"></div></div>
+  </div>
+
+  <h2>3 · Variablen und Schreibtischtest</h2>
+  <ul>
+    <li>Eine Variable ist eine Kiste: Auf der Kiste steht der Name, in der Kiste liegt der Wert. <code>r = r + a</code> rechnet rechts und legt das Ergebnis in die Kiste links. <code>==</code> vergleicht nur.</li>
+    <li>Beim Schreibtischtest führen Sie ein Programm von Hand aus: eine Spalte je Variable, dazu Bedingung und Ausgabe. Jede Prüfung der «solange»-Bedingung ist eine Zeile, die erste gehört vor den ersten Durchgang. Leer heisst unverändert.</li>
+    <li>Testen Sie Grenzfälle: Gilt ein Preis ab 16, prüfen Sie 15, 16 und 17.</li>
+  </ul>
+
+  <h2>4 · Vom Problem zum Algorithmus</h2>
+  <p>Vier Denkfiguren helfen beim Entwerfen:</p>
+  <table class="ds-tab">
+    <tbody>
+      <tr><td><strong>Zerlegen</strong></td><td>Das Problem in kleinere Teilprobleme aufteilen.</td></tr>
+      <tr><td><strong>Muster erkennen</strong></td><td>Gleiches erkennen, das sich wiederholt.</td></tr>
+      <tr><td><strong>Abstrahieren</strong></td><td>Unwichtiges weglassen, das Wesentliche behalten.</td></tr>
+      <tr><td><strong>Algorithmus entwerfen</strong></td><td>Die Lösung in eindeutige Schritte fassen und an Sonderfällen prüfen.</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="ds-neue-seite">Zahlen</h2>
+  <section class="ds-aufgabe">
+    <h3><span class="ds-stufe">Basis</span>Sparziel<a class="ds-kara" href="../../baukasten/?reihe=zahlen&amp;aufgabe=zahl-sparen">auch in Kara</a></h3>
+    <p>Sie sparen für neue Kopfhörer. «erspart» ist, was Sie schon haben, «ziel» der Preis. Jede Woche legen Sie 15 Fr. dazu.</p>
+    <ul class="ds-teil"><li>a) Führen Sie den Schreibtischtest für erspart = 60 und ziel = 120 zu Ende. Die ersten Zeilen sind vorgegeben.</li></ul>
+    <div class="ds-paar"><div><div class="struktogramm" id="p-spar" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;wochen = 0&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;erspart &lt; ziel&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;erspart = erspart + 15&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;wochen = wochen + 1&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(wochen)&quot;}]"></div></div><div><div class="schreibtisch" data-spalten="erspart,ziel,wochen" data-von="p-spar" data-eingabe="{&quot;erspart&quot;: 60, &quot;ziel&quot;: 120}" data-vorgabe="2" data-zeilen="7"></div></div></div>
+    <ul class="ds-teil"><li>b) Was berechnet das Programm? Antworten Sie in einem Satz.</li></ul><div class="ds-linien"></div><div class="ds-linien"></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3><span class="ds-stufe erweitert">Erweitert</span>Ticketpreis<a class="ds-kara" href="../../baukasten/?reihe=zahlen&amp;aufgabe=zahl-ticket">auch in Kara</a></h3>
+    <p>Im Kino kostet ein Ticket 20 Fr. Wer jünger als 16 ist, zahlt 10 Fr. Das Programm hat einen Fehler.</p>
+    <div class="ds-paar schmal"><div><div class="struktogramm" id="p-tick" data-prog="[{&quot;t&quot;: &quot;if&quot;, &quot;cond&quot;: &quot;alter &gt; 16&quot;, &quot;yes&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;preis = 20&quot;}], &quot;no&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;preis = 10&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(preis)&quot;}]"></div></div><div><ul class="ds-teil"><li>a) Wählen Sie vier Testfälle, die den Fehler aufdecken können. Tragen Sie ein, was herauskommen müsste und was das Programm ausgibt.</li></ul>
+    <table class="ds-tab ds-mitte ds-hoch"><thead><tr><th>alter</th><th>erwartet</th><th>Programm</th></tr></thead><tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody></table></div></div>
+    <ul class="ds-teil"><li>b) Wer 65 oder älter ist, zahlt neu 14 Fr. Zeichnen Sie das reparierte und erweiterte Programm.</li></ul>
+    <div class="ds-rahmen klein"></div>
+  </section>
+
+  <h2 class="ds-neue-seite">Käfer: der Rasenmäher</h2>
+  <p>Der Käfer ist ein Rasenmäher und soll jedes Feld des Rasens befahren. Grau ist Mauer, das Dreieck zeigt Start und Blickrichtung. Befehle: vorwärts, rechts drehen, links drehen.</p>
+  <section class="ds-aufgabe">
+    <h3><span class="ds-stufe">Basis</span>Der kleine Rasen<a class="ds-kara" href="../../baukasten/?reihe=ct&amp;aufgabe=ct-klein">auch in Kara</a></h3>
+    <p>Der Rasen ist 3 × 3 Felder gross. Die ersten Anweisungen sind vorgegeben.</p>
+    <div class="ds-paar schmal"><div><div class="karte" data-karte="#####|#...#|#...#|#S..#|#####" data-blick="N" data-beschreibung="Kleiner Rasen, 3 mal 3 Felder, Käfer unten links mit Blick nach oben" data-zelle="7"></div><ul class="ds-teil"><li>a) Zeichnen Sie den Weg ein: Bahn um Bahn.</li><li>b) Aus welchen Teilen besteht der Weg? Wie viele sind es von jedem?</li></ul><div class="ds-linien"></div><div class="ds-linien"></div></div><div><p><strong>b) Ergänzen Sie das Struktogramm.</strong></p><div class="struktogramm" id="p-klein" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;rechts&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;rechts&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;&quot;}]"></div></div></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3><span class="ds-stufe erweitert">Erweitert</span>Bahn und Wende<a class="ds-kara" href="../../baukasten/?reihe=ct&amp;aufgabe=ct-muster">auch in Kara</a></h3>
+    <p>Ein Rasen mit 4 Bahnen, unten rechts ein Gartentor. Mähen Sie alles und fahren Sie am Schluss durchs Tor hinaus. Höchstens 12 Bausteine.</p>
+    <div class="ds-paar schmal"><div><div class="karte" data-karte="#######|#....##|#....##|#....##|#....##|#S....#|#######" data-blick="N" data-beschreibung="Rasen mit 4 Bahnen und einem Gartentor unten rechts, Käfer unten links mit Blick nach oben" data-zelle="7"></div></div><div><p>a) Zeichnen Sie das Struktogramm.</p><div class="ds-rahmen"></div></div></div>
+    <ul class="ds-teil"><li>b) Welches Stück wiederholt sich?</li><li>c) Was ändert sich im Programm, wenn der Rasen 8 statt 4 Bahnen hat?</li></ul><div class="ds-linien"></div><div class="ds-linien"></div>
+  </section>
+
+  <h2 class="ds-neue-seite">Labyrinth</h2>
+  <p>Der Käfer soll zum Ausgang Z. Er merkt nur, ob die Felder vorne, links und rechts frei sind. Neu: «wiederhole bis Ziel» läuft, bis der Käfer am Ausgang ist.</p>
+  <section class="ds-aufgabe">
+    <h3><span class="ds-stufe">Basis</span>Ecke mit Gerade<a class="ds-kara" href="../../baukasten/?reihe=labyrinth&amp;aufgabe=lab5">auch in Kara</a></h3>
+    <p>Der Weg biegt einmal ab. Der Käfer blickt nach rechts.</p>
+    <div class="ds-paar schmal"><div><div class="karte" data-karte="#####Z##|#####.##|#####.##|#####.##|#####.##|###S..##|########|########" data-blick="E" data-beschreibung="Labyrinth mit einer Ecke, Käfer unten mit Blick nach rechts, Ausgang oben" data-zelle="6.5"></div><ul class="ds-teil"><li>a) Zeichnen Sie den Weg ein.</li></ul></div><div><p>b) Setzen Sie die Anzahlen ein, damit der Käfer am Ausgang ankommt.</p><div class="struktogramm" id="p-lab5" data-prog="[{&quot;t&quot;: &quot;loop&quot;, &quot;n&quot;: &quot;___&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;links&quot;}, {&quot;t&quot;: &quot;loop&quot;, &quot;n&quot;: &quot;___&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}]}]"></div></div></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3><span class="ds-stufe erweitert">Erweitert</span>Abzweigungen<a class="ds-kara" href="../../baukasten/?reihe=labyrinth&amp;aufgabe=lab7">auch in Kara</a></h3>
+    <p>Der Käfer startet mit Blick nach unten und führt dieses Programm aus.</p>
+    <div class="ds-paar struk"><div><div class="struktogramm" id="p-lab7" data-prog="[{&quot;t&quot;: &quot;until&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;if&quot;, &quot;cond&quot;: &quot;freiLinks&quot;, &quot;yes&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;links&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}], &quot;no&quot;: [{&quot;t&quot;: &quot;if&quot;, &quot;cond&quot;: &quot;frei&quot;, &quot;yes&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}], &quot;no&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;rechts&quot;}]}]}]}]"></div></div><div><div class="karte" data-karte="########|#..#####|##.....Z|#..#####|##.#S..#|##.#.#.#|#......#|########" data-blick="S" data-beschreibung="Labyrinth mit Abzweigungen, Käfer in der Mitte mit Blick nach unten, Ausgang rechts" data-zelle="7"></div></div></div>
+    <ul class="ds-teil"><li>a) Spielen Sie das Programm von Hand durch und zeichnen Sie den Weg ein.</li><li>b) Erreicht der Käfer den Ausgang? Was fällt Ihnen auf?</li><li>c) Beschreiben Sie in einem Satz, wie der Käfer an einer Abzweigung entscheidet.</li></ul><div class="ds-linien"></div><div class="ds-linien"></div>
+  </section>
+
+  <div class="ds-schluss">
+    <img src="loesungen-qr.svg" alt="QR-Code zu den Lösungen">
+    <div>
+      <p><strong>Lösungen</strong></p>
+      <p>Scannen Sie den Code, wenn Sie fertig sind. <a class="nur-bildschirm" href="loesungen.html">Lösungen öffnen</a></p>
+    </div>
+  </div>
+</main>
+<script src="../../baukasten/engine.js"></script>
+<script src="../dossier.js"></script>
+<script src="../../assets/zaehler.js"></script>
+</body>
+</html>
