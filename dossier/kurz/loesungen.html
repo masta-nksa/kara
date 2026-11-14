@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lösungen · Algorithmen in Kurzform</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/basis.css">
+<link rel="stylesheet" href="../dossier.css">
+</head>
+<body>
+<main class="ds">
+  <span class="ds-eyebrow">Dossier · Kurzversion</span>
+  <h1>Lösungen</h1>
+  <p class="ds-lsg-regel">Andere Lösungswege können ebenso richtig sein: Entscheidend ist, dass das Ergebnis für alle zulässigen Eingaben stimmt.</p>
+
+  <h2>Zahlen</h2>
+  <section class="ds-aufgabe">
+    <h3><span class="ds-stufe">Basis</span>Sparziel</h3>
+    <ul class="ds-teil"><li>a) Schreibtischtest für erspart = 60 und ziel = 120:</li></ul>
+    <div class="struktogramm" id="p-spar" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;wochen = 0&quot;}, {&quot;t&quot;: &quot;while&quot;, &quot;cond&quot;: &quot;erspart &lt; ziel&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;erspart = erspart + 15&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;wochen = wochen + 1&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(wochen)&quot;}]" hidden></div><div class="schreibtisch" data-spalten="erspart,ziel,wochen" data-von="p-spar" data-eingabe="{&quot;erspart&quot;: 60, &quot;ziel&quot;: 120}"></div>
+    <ul class="ds-teil"><li>b) Das Programm berechnet, wie viele Wochen es dauert, bis das Geld reicht.</li></ul>
+  </section>
+  <section class="ds-aufgabe">
+    <h3><span class="ds-stufe erweitert">Erweitert</span>Ticketpreis</h3>
+    <ul class="ds-teil"><li>a) Der Fehler zeigt sich genau an der Grenze: Bei alter = 16 erwarten Sie 20, das Programm gibt 10 aus. Bei 15 gibt es richtig 10 aus, bei 17 und bei 30 richtig 20.</li><li>b) <code>alter &gt; 16</code> wird zu <code>alter &gt;= 16</code>. Zusätzlich testen: 64 (20 Fr.) und 65 (14 Fr.).</li></ul>
+    <div class="ds-eng"><div class="struktogramm" id="l-tick" data-prog="[{&quot;t&quot;: &quot;if&quot;, &quot;cond&quot;: &quot;alter &gt;= 16&quot;, &quot;yes&quot;: [{&quot;t&quot;: &quot;if&quot;, &quot;cond&quot;: &quot;alter &gt;= 65&quot;, &quot;yes&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;preis = 14&quot;}], &quot;no&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;preis = 20&quot;}]}], &quot;no&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;preis = 10&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;print(preis)&quot;}]"></div></div>
+  </section>
+
+  <h2>Käfer: der Rasenmäher</h2>
+  <section class="ds-aufgabe">
+    <h3><span class="ds-stufe">Basis</span>Der kleine Rasen</h3>
+    <div class="ds-paar schmal"><div><div class="karte" data-karte="#####|#...#|#...#|#S..#|#####" data-blick="N" data-beschreibung="Weg des Käfers über den kleinen Rasen" data-zelle="7" data-von="l-klein"></div></div><div><div class="struktogramm" id="l-klein" data-prog="[{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;rechts&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;rechts&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;links&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;links&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}]"></div></div></div>
+    <ul class="ds-teil"><li>a) Der Käfer fährt drei Bahnen: nach oben, nach unten und wieder nach oben.</li><li>b) Der Weg besteht aus 3 Bahnen (zweimal vorwärts), einer Wende rechts (rechts drehen, vorwärts, rechts drehen) und einer Wende links (links drehen, vorwärts, links drehen).</li></ul>
+  </section>
+  <section class="ds-aufgabe">
+    <h3><span class="ds-stufe erweitert">Erweitert</span>Bahn und Wende</h3>
+    <div class="ds-paar schmal"><div><div class="karte" data-karte="#######|#....##|#....##|#....##|#....##|#S....#|#######" data-blick="N" data-beschreibung="Weg des Käfers über den Rasen mit vier Bahnen und Tor" data-zelle="7" data-von="l-muster"></div></div><div><div class="struktogramm" id="l-muster" data-prog="[{&quot;t&quot;: &quot;loop&quot;, &quot;n&quot;: 2, &quot;body&quot;: [{&quot;t&quot;: &quot;loop&quot;, &quot;n&quot;: 4, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;rechts&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;rechts&quot;}, {&quot;t&quot;: &quot;loop&quot;, &quot;n&quot;: 4, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;links&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;links&quot;}]}]"></div></div></div>
+    <ul class="ds-teil"><li>b) «Bahn, Wende rechts, Bahn, Wende links» wiederholt sich: Es sind 2 Bahnen und 2 Wenden, die zweimal vorkommen.</li><li>c) Bei 8 Bahnen ändert sich nur die äussere Zahl: 4-mal statt 2-mal.</li></ul>
+  </section>
+
+  <h2>Labyrinth</h2>
+  <section class="ds-aufgabe">
+    <h3><span class="ds-stufe">Basis</span>Ecke mit Gerade</h3>
+    <div class="ds-paar schmal"><div><div class="karte" data-karte="#####Z##|#####.##|#####.##|#####.##|#####.##|###S..##|########|########" data-blick="E" data-beschreibung="Weg des Käfers durch die Ecke zum Ausgang" data-zelle="6.5" data-von="l-lab5"></div></div><div><div class="struktogramm" id="l-lab5" data-prog="[{&quot;t&quot;: &quot;loop&quot;, &quot;n&quot;: 2, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}]}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;links&quot;}, {&quot;t&quot;: &quot;loop&quot;, &quot;n&quot;: 5, &quot;body&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}]}]"></div></div></div>
+    <ul class="ds-teil"><li>b) 2-mal vorwärts, links drehen, 5-mal vorwärts.</li></ul>
+  </section>
+  <section class="ds-aufgabe">
+    <h3><span class="ds-stufe erweitert">Erweitert</span>Abzweigungen</h3>
+    <div class="struktogramm" id="l-lab7" data-prog="[{&quot;t&quot;: &quot;until&quot;, &quot;body&quot;: [{&quot;t&quot;: &quot;if&quot;, &quot;cond&quot;: &quot;freiLinks&quot;, &quot;yes&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;links&quot;}, {&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}], &quot;no&quot;: [{&quot;t&quot;: &quot;if&quot;, &quot;cond&quot;: &quot;frei&quot;, &quot;yes&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;vor&quot;}], &quot;no&quot;: [{&quot;t&quot;: &quot;act&quot;, &quot;cmd&quot;: &quot;rechts&quot;}]}]}]}]" hidden></div>
+    <div class="ds-paar test"><div><div class="karte" data-karte="########|#..#####|##.....Z|#..#####|##.#S..#|##.#.#.#|#......#|########" data-blick="S" data-beschreibung="Weg des Käfers durchs Labyrinth mit Abzweigungen" data-zelle="7" data-von="l-lab7"></div></div><div><div></div></div></div>
+    <ul class="ds-teil"><li>a) Der Weg ist eingezeichnet: Er enthält Umwege, auf denen der Käfer in Sackgassen hineinläuft und wieder umkehrt.</li><li>b) Ja, der Käfer erreicht den Ausgang. Er geht dabei mehrmals durch dieselben Felder, weil er in Sackgassen umkehren muss.</li><li>c) Ist links frei, biegt er dorthin ab. Sonst geht er geradeaus, und wenn auch das nicht geht, dreht er sich nach rechts.</li></ul>
+  </section>
+  <p class="nur-bildschirm"><a href="index.html">Zur Kurzversion</a></p>
+</main>
+<script src="../../baukasten/engine.js"></script>
+<script src="../dossier.js"></script>
+<script src="../../assets/zaehler.js"></script>
+</body>
+</html>

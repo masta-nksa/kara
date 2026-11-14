@@ -272,7 +272,7 @@ nicht mit «Richtig», das setzt die Seite davor.
 
 ## Dossiers (`dossier/`)
 
-Je Dossier ein Unterordner, benannt wie die Reihe in `reihen.json` (`zahlen/`, `labyrinth/`, geplant `algorithmen/`, `ct/`),
+Je Dossier ein Unterordner, benannt wie die Reihe in `reihen.json` (`zahlen/`, `labyrinth/`, geplant `algorithmen/`, `ct/`; dazu `kurz/`),
 meist mit eigener `index.html`, dazu `loesungen.html` und `loesungen-qr.svg`. `dossier.css` und `dossier.js` liegen in `dossier/` und gelten
 für alle. `dossier/index.html` listet die vorhandenen Dossiers und ist nicht in der Übersicht verlinkt. Neue Dossiers dort eintragen.
 `dossier/loesungen.html` leitet auf `zahlen/loesungen.html` weiter (frühere Adresse des QR-Codes).
@@ -298,6 +298,17 @@ Prüfungsvorbereitung: <https://masta-nksa.github.io/kara/dossier/zahlen/>. Verl
 Die Aufgaben sind Kopien aus `aufgaben/zahlen.json` (teils mit anderen Zahlen) und neue
 (Anforderungen, «Was rechnet es aus? (2)», Bosskampf, Quersumme, Fakultät, Primzahl). Ändert sich eine
 Aufgabe in Kara, gleicht sich das Dossier nicht von selbst an. Zahlen im Text mit Skript aus der Engine nachrechnen.
+
+### Kurzversion (`dossier/kurz/`)
+
+Vier Seiten zum Ausdrucken (zwei Blätter doppelseitig): eine Seite Theorie (Anforderungen, Bausteine, Variablen und Schreibtischtest,
+Denkfiguren) und je eine Seite für **Zahlen**, **Käfer (Rasenmäher)** und **Labyrinth**, je mit einer Basis- und einer erweiterten Aufgabe
+(Sparziel und Ticketpreis; Der kleine Rasen und Bahn und Wende; Ecke mit Gerade und Abzweigungen). Am Schluss der QR-Code auf
+`loesungen.html` (3 Seiten, nicht mitgedruckt). `index.html` und `loesungen.html` wurden mit einem Skript erzeugt, das nur im Scratchpad lag:
+künftig direkt bearbeiten. Die Wandregel im Labyrinth wird nicht genannt, wie im Labyrinth-Dossier der Lehrperson.
+`dossier.js` zeichnet dafür auch **Käfer-Karten** (`.karte`: `data-karte` mit `|` getrennt, `data-blick`, `data-zelle` in mm, mit `data-von`
+zeichnet die Engine den Weg ein) und kennt die Käfer-Bausteine (`loop`, `until`, `if` mit Engine-Namen, leere Anweisung `cmd: ""`, Platzhalter
+`"___"` als Anzahl). Die Adresse von `kurz/loesungen.html` darf sich nach dem ersten Ausdruck nicht mehr ändern.
 
 ### Raus aus dem Labyrinth (`dossier/labyrinth/`)
 

@@ -63,6 +63,7 @@ body{background:var(--ground)}
 .ds-rahmen.klein{height:220px}
 .ds-paar.schmal{grid-template-columns:minmax(0,4fr) minmax(0,7fr)}
 .ds-paar.test{grid-template-columns:minmax(0,5fr) minmax(0,6fr)}
+.ds-paar.struk{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}
 .ds-eng{max-width:420px;margin:.6em 0}
 .ds-legende{font-size:.9rem;color:var(--ink-soft)}
 .ds-kara{float:right;font-size:.8rem;font-weight:400;color:var(--ink-soft)}
@@ -76,6 +77,15 @@ body{background:var(--ground)}
 .ds-faelle{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 18px}
 .ds-faelle p{margin:0 0 .4em}
 .ds-spalte2{grid-column:1 / -1}
+
+/* Käfer-Karte (dossier.js) und Stufen der Kurzversion */
+.karte svg{display:block;max-width:100%;height:auto;background:#fff}
+.ds-stufe{display:inline-block;margin-right:.5em;padding:0 .5em;border:1px solid var(--ink);border-radius:3px;font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;vertical-align:.1em}
+.ds-stufe.erweitert{background:var(--accent-soft)}
+.ds-drei{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 14px;margin:.6em 0}
+.ds-drei p{margin:0 0 .3em;font-size:.88rem}
+.ds-drei .struktogramm{font-size:.76rem}
+.ds-karte-text{display:flex;flex-direction:column;gap:.4em}
 .ds-schluss{display:flex;gap:18px;align-items:center;margin-top:2em;border:1.5px solid var(--ink);padding:12px 14px;break-inside:avoid}
 .ds-schluss img{width:3.2cm;height:3.2cm;flex:none;background:#fff}
 .ds-schluss p{margin:0}
@@ -83,7 +93,7 @@ body{background:var(--ground)}
 .ds-probe{font-size:.85rem;background:var(--accent-soft);padding:6px 10px;margin-bottom:1em}
 
 @media screen and (max-width:640px){
-  .ds-paar,.ds-paar.breit,.ds-paar.schmal,.ds-paar.test,.ds-bausteine,.ds-faelle{grid-template-columns:minmax(0,1fr)}
+  .ds-paar,.ds-paar.breit,.ds-paar.schmal,.ds-paar.test,.ds-paar.struk,.ds-bausteine,.ds-faelle,.ds-drei{grid-template-columns:minmax(0,1fr)}
   .schreibtisch table{font-size:.78rem}
 }
 
@@ -116,5 +126,16 @@ body{background:var(--ground)}
   .ds-tab thead th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .ds-kara{color:#444}
   .ds-faelle > div,.ds-bausteine > *{break-inside:avoid}
+  .ds-stufe.erweitert{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  /* Kurzversion: vier Seiten, ein Bereich je Seite */
+  .ds-kurz .ds-aufgabe{margin:.7em 0}
+  .ds-kurz h2{margin:.7em 0 .25em}
+  .ds-kurz h2.ds-neue-seite{margin-top:0}
+  .ds-kurz{font-size:10pt}
+  .ds-kurz .struktogramm{font-size:8.4pt}
+  .ds-kurz .sg-a,.ds-kurz .sg-kopf{padding:3px 5px}
+  .ds-kurz .ds-linien{height:1.55em}
+  .ds-kurz .schreibtisch tbody tr{height:6.6mm}
+  .ds-kurz .ds-rahmen.klein{height:5.4cm}
   a{color:#000;text-decoration:none}
 }
