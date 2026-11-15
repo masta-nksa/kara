@@ -149,10 +149,18 @@ a)
 Pixel nach Format A (je 2 Bit): `10 00 10 | 00 11 11`. Pixel nach Format B (je 3 Bit): `100 010 001 111`.
 b)
 
+Format A:
+
 ```
-Format A:      Format B:
-🟩⬛🟩          🟥🟩
-⬛🟦🟦          🟦⬜
+🟩⬛🟩
+⬛🟦🟦
+```
+
+Format B:
+
+```
+🟥🟩
+🟦⬜
 ```
 
 c) Die Bits sind dieselben, aber das Format legt fest, **in welcher Reihenfolge** die Header-Angaben stehen und **wie die Pixelbits gedeutet werden** (2-Bit-Farbtabelle oder 3-Bit-RGB). Ohne die Beschreibung des Formats sind Bits bedeutungslos.
@@ -222,7 +230,7 @@ Probe: Auf S blickt er nach rechts, rechts von ihm (unten) ist frei → rechts d
 └──┴────────────────────────────┴─────────────┴──────────────┘
 ```
 
-Probe: Der Käfer fährt oben nach rechts (links von ihm ist Wand, vorne frei). Am Ende der Zeile ist vorne Wand und links Wand → rechts drehen (nach unten). Er fährt nach unten. Auf dem untersten rechten Feld ist **links der Ausgang frei** → links drehen, vorwärts auf A.
+Probe: Der Käfer fährt oben nach rechts (links von ihm ist Wand, vorne frei). Am Ende der Zeile ist vorne Wand und links Wand → rechts drehen (nach unten). Er fährt nach unten. Auf dem untersten rechten Feld ist **links der Ausgang frei** → links drehen, vorwärts auf Z.
 
 ```
 ########

@@ -73,7 +73,7 @@ def render_svg(svg, path, outdir):
     return w, h
 
 
-from boxen import box_svg, row_svg, karte_svg, baukasten_svg, leiter_svg, raster_svg, pixel_svg
+from boxen import box_svg, row_svg, karte_svg, baukasten_svg, leiter_svg, raster_svg, pixel_svg, qr_svg
 
 
 # ------------------------------------------------------------------ Inline
@@ -303,6 +303,8 @@ class Converter:
                     blocks.append(self.image_block(leiter_svg(body, 48, 22) if "klein" in flags else leiter_svg(body)))
                 elif info == "raster":
                     blocks.append(self.image_block(raster_svg(body, stack="senkrecht" in flags)))
+                elif info == "qr":
+                    blocks.append(self.image_block(qr_svg(body.strip())))
                 elif info == "pixel":
                     blocks.append(self.image_block(pixel_svg(body)))
                 elif info == "baukasten":
