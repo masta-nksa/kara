@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lösungen · Codes und Algorithmen</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/basis.css">
+<link rel="stylesheet" href="../dossier.css">
+<style>
+.ds-struk{margin:.6em 0;max-width:420px}
+.ds-struk svg{display:block;width:100%;height:auto}
+.ds-code{font-family:"IBM Plex Mono",monospace;font-size:.85em;line-height:1.25;overflow-x:auto;margin:.5em 0}
+.ds h2{margin-top:1.6em}
+.ds-pixel{margin:.5em 0}
+.ds-pixel svg{display:block;max-width:100%}
+.ds-scroll{overflow-x:auto}
+.ds p,.ds li,.ds td{overflow-wrap:anywhere}
+.ds-code{max-width:100%}
+</style>
+</head>
+<body>
+<main class="ds">
+  <span class="ds-eyebrow">Dossier · Codes und Algorithmen</span>
+  <h1>Lösungen</h1>
+
+  <h2>Teil A — Schlüsselaufgaben</h2>
+  <h2>1 Farben und Farbtiefe</h2>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A1 · Farben erkennen und vergleichen</h3>
+<p>a)</p>
+<div class="ds-scroll"><table class="ds-tab">
+<thead>
+<tr>
+<th>Code</th>
+<th>Kanäle (R, G, B)</th>
+<th>Farbe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#2BE04A</code></td>
+<td>43, 224, 74</td>
+<td>Grün (nur der Grün-Kanal ist hoch)</td>
+</tr>
+<tr>
+<td><code>#F8FAF7</code></td>
+<td>248, 250, 247</td>
+<td>Weiss (alle Kanäle fast voll)</td>
+</tr>
+<tr>
+<td><code>#1A22EE</code></td>
+<td>26, 34, 238</td>
+<td>Blau (nur der Blau-Kanal ist hoch)</td>
+</tr>
+<tr>
+<td><code>#7C7F7B</code></td>
+<td>124, 127, 123</td>
+<td>Grau (alle Kanäle fast gleich, mittel)</td>
+</tr>
+</tbody>
+</table></div>
+<p>b) Weiss: C = 0 %, M = 0 %, Y = 0 %, K = 0 %, also kein Farbstoff, das Papier bleibt weiss. Schwarz: C = M = Y = 0 %, K = 100 %, also nur der schwarze Farbstoff K.</p>
+<p>c) Reihenfolge vom dunkelsten zum hellsten: <code>#402030</code> = <strong>1</strong>, <code>#708048</code> = <strong>2</strong>, <code>#C09060</code> = <strong>3</strong>, <code>#F0E0D0</code> = <strong>4</strong>. Von Farbe zu Farbe wird jeder Kanal grösser (Rot 64, 112, 192, 240, Grün 32, 128, 144, 224, Blau 48, 72, 96, 208), deshalb ist die Reihenfolge eindeutig.</p>
+<p>d) <strong>Regel:</strong> Je <strong>grösser</strong> die Kanalwerte, desto <strong>heller</strong> die Farbe, je <strong>kleiner</strong>, desto <strong>dunkler</strong>. Sind alle drei Kanäle <strong>gleich gross</strong> (R = G = B), ist die Farbe ein <strong>Grau</strong>: <code>000000</code> ist Schwarz, <code>FFFFFF</code> ist Weiss, dazwischen liegen die Graustufen.<br />
+<em>Achtung:</em> Eine Mischung ist nicht automatisch heller. Der Vergleich ist nur eindeutig, wenn jeder Kanal grösser ist: <code>#111100</code> (17, 17, 0) ist dunkler als <code>#FF0000</code> (255, 0, 0), obwohl der Grün-Kanal grösser ist.<br />
+e) Reines Blau: <code>000000000000000011111111</code> (Rot 0, Grün 0, Blau 255).</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A2 · Farbtiefe und Hexcode</h3>
+<p>a) 6 Bit: 2⁶ = <strong>64</strong>. 12 Bit: 2¹² = <strong>4096</strong>. 15 Bit: 2¹⁵ = <strong>32 768</strong>. 30 Bit: 2³⁰ = <strong>1 073 741 824</strong>.<br />
+b) <code>F00</code>: Rot 15 (voll), Grün 0, Blau 0 → <strong>Rot</strong>. <code>0F0</code> → <strong>Grün</strong>. <code>888</code>: alle Kanäle gleich (8 von 15, etwa die Hälfte) → <strong>Grau</strong>. <code>FFF</code>: alle Kanäle voll → <strong>Weiss</strong>.<br />
+c) Jede Ziffer wird verdoppelt: <code>F00</code> → <code>FF0000</code> (Rot, 255), <code>888</code> → <code>888888</code> (136, 136, 136). Das Rot bleibt Rot und das Grau bleibt Grau, denn die Kanäle bleiben im selben Verhältnis. Aus <code>F</code> (15) wird <code>FF</code> (255), aus <code>8</code> wird <code>88</code> (136).<br />
+d) Ein 4-Bit-Wert <em>v</em> wird zu <em>v</em> · 17 (0 bis 255). Dabei bleiben die Verhältnisse zwischen den Kanälen praktisch gleich, und der grösste Wert <code>F</code> wird zu <code>FF</code>. Das Bild hat darum dieselben Farben, nur feiner abgestuft.</p>
+  </section>
+  <h2>2 Grafikformate</h2>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A3 · Dieselben Bits, zwei Bilder</h3>
+<p>a) Datei a): Header <code>100 | 0110 | 01</code> → Höhe 4, Breite 6, Farbtiefe 1 Bit. Pixeldaten (24 Bit): <code>100100 010010 001001 111111</code>. Es sind 6 · 4 · 1 = 24 Bit, das passt. 1 = weiss, 0 = schwarz:</p>
+<div class="ds-pixel"><svg viewBox="0 0 132.0 88.0" style="display:block;width:100%;height:auto;max-width:132px"><rect x="0" y="0" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/><rect x="22" y="0" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="44" y="0" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="66" y="0" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/><rect x="88" y="0" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="110" y="0" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="0" y="22" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="22" y="22" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/><rect x="44" y="22" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="66" y="22" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="88" y="22" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/><rect x="110" y="22" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="0" y="44" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="22" y="44" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="44" y="44" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/><rect x="66" y="44" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="88" y="44" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="110" y="44" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/><rect x="0" y="66" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/><rect x="22" y="66" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/><rect x="44" y="66" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/><rect x="66" y="66" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/><rect x="88" y="66" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/><rect x="110" y="66" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/></svg></div>
+<p>b) Datei b): Header <code>010 | 0100 | 11</code> → Höhe 2, Breite 4, Farbtiefe 3 Bit. Pixeldaten: <code>100 100 010 010 | 001 001 111 111</code>. Es sind 4 · 2 · 3 = 24 Bit, das passt.</p>
+<div class="ds-pixel"><svg viewBox="0 0 88.0 44.0" style="display:block;width:100%;height:auto;max-width:88px"><rect x="0" y="0" width="22" height="22" fill="#FF0000" stroke="#555555" stroke-width=".8"/><rect x="22" y="0" width="22" height="22" fill="#FF0000" stroke="#555555" stroke-width=".8"/><rect x="44" y="0" width="22" height="22" fill="#00FF00" stroke="#555555" stroke-width=".8"/><rect x="66" y="0" width="22" height="22" fill="#00FF00" stroke="#555555" stroke-width=".8"/><rect x="0" y="22" width="22" height="22" fill="#0000FF" stroke="#555555" stroke-width=".8"/><rect x="22" y="22" width="22" height="22" fill="#0000FF" stroke="#555555" stroke-width=".8"/><rect x="44" y="22" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/><rect x="66" y="22" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/></svg></div>
+<p>c) In a) sind es <strong>24 Pixel</strong> (24 Bit ÷ 1 Bit), in b) <strong>8 Pixel</strong> (24 Bit ÷ 3 Bit). Die <strong>Pixeldaten sind in beiden Dateien dieselben 24 Bit</strong>. Nur der Header (Höhe, Breite, Farbtiefe) sagt, wie man sie in Pixel aufteilt, darum entstehen zwei verschiedene Bilder. Anzahl Pixel = Anzahl Bit der Pixeldaten ÷ Farbtiefe, und das muss zu Breite · Höhe passen.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A4 · Ein Bild in Bits übersetzen</h3>
+<p>a) 12 Pixel × 24 Bit = <strong>288 Bit = 36 Byte</strong>. Die Pixeldaten lauten zeilenweise:</p>
+<pre class="ds-code">FF0000 FF0000 00FF00 00FF00
+FF0000 000000 000000 00FF00
+0000FF 0000FF 0000FF 0000FF
+</pre>
+<p>b) Es gibt 4 Farben, also genügen <strong>2 Bit</strong> pro Pixel (2² = 4). Farbtabelle: <code>00</code> Schwarz, <code>01</code> Rot, <code>10</code> Grün, <code>11</code> Blau.</p>
+<pre class="ds-code">01 01 10 10
+01 00 00 10
+11 11 11 11
+</pre>
+<p>Pixeldaten: <code>010110100100001011111111</code> (12 × 2 = 24 Bit = 3 Byte).<br />
+c) 288 Bit ÷ 24 Bit = Die Datei wird <strong>12-mal kleiner</strong>.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A5 · Dateigrösse und indizierte Farben</h3>
+<p>a) 240 · 100 = <strong>24 000 Pixel</strong>. Unkomprimiert: 24 000 · 24 Bit = 576 000 Bit = <strong>72 000 Byte = 72 kB</strong>.<br />
+b) 6 Farben: 2² = 4 genügt nicht, 2³ = 8 → <strong>3 Bit</strong> pro Pixel. Pixeldaten: 24 000 · 3 = 72 000 Bit = 9000 Byte. Farbtabelle: 6 · 24 = 144 Bit = 18 Byte. Zusammen <strong>9018 Byte</strong>.<br />
+c) 72 000 ÷ 9018 ≈ 7,98, die Datei ist also <strong>fast 8-mal kleiner</strong> (fast das Verhältnis 24 Bit : 3 Bit, die kleine Farbtabelle fällt kaum ins Gewicht).</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A6 · Druckauflösung (dpi)</h3>
+<p>a) 3600 ÷ 300 = 12 Zoll, 2400 ÷ 300 = 8 Zoll, also <strong>30,48 cm × 20,32 cm</strong>.<br />
+b) 3600 ÷ 150 = 24 Zoll, 2400 ÷ 150 = 16 Zoll, also <strong>60,96 cm × 40,64 cm</strong>. Halbe Auflösung heisst doppelte Kantenlänge.<br />
+c) 15 cm = 5,906 Zoll, 5,906 · 300 ≈ <strong>1772 Pixel</strong>. 10 cm = 3,937 Zoll, 3,937 · 300 ≈ <strong>1181 Pixel</strong>. Das sind etwa 2,1 Megapixel. Das Foto (3600 × 2400) <strong>reicht reichlich</strong>.<br />
+d) 60 cm = 23,62 Zoll, 3600 ÷ 23,62 ≈ <strong>152 dpi</strong>. Das liegt unter den üblichen 200–600 dpi für Druck. Aus einigem Abstand (Poster an der Wand) ist es noch brauchbar, aus der Nähe sieht man die Pixel.<br />
+e) 120 cm = 47,24 Zoll, 3600 ÷ 47,24 ≈ <strong>76 dpi</strong>. Es sind zu wenig Pixel: Das Programm muss Pixel erfinden (interpolieren), das Bild wird unscharf oder verpixelt. Echte Bildinformation kommt nicht dazu.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A7 · Verlustbehaftet komprimieren (Theorie)</h3>
+<p>a) Beim Speichern wird <strong>Information in den Farben weggelassen</strong>: Es wird nur ein ähnlicher Farbverlauf gespeichert, nicht die genauen Werte. Das Weggelassene ist <strong>dauerhaft verloren</strong> und lässt sich nicht zurückholen.<br />
+b) In Fotos ändern sich die Farben meist sanft. Ein ähnlicher Verlauf liegt deshalb sehr nah an den echten Werten, und das Auge sieht den kleinen Unterschied nicht. Dafür wird die Datei viel kleiner.<br />
+c) Bei jedem Speichern geht weitere Information verloren. Die Qualität nimmt ab (Blöcke, Farbränder).<br />
+d) <strong>Foto → JPG:</strong> Farbverläufe lassen sich gut zusammenfassen, die Datei wird klein. <strong>Logo mit wenigen Farben → GIF:</strong> Es braucht nur eine kleine Farbtabelle, die Farben und scharfen Kanten bleiben exakt. Als JPG entstünden unscharfe Ränder.</p>
+  </section>
+  <h2>3 Dateiformate</h2>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A8 · Endung und Header</h3>
+<p>a)</p>
+<div class="ds-scroll"><table class="ds-tab">
+<thead>
+<tr>
+<th>Dateiname</th>
+<th>Programm nach Endung</th>
+<th>Wirklich ein …</th>
+<th>Endung stimmt?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Urlaub.png</td>
+<td>Bildbetrachter</td>
+<td>PNG-Bild (<code>89 50 4E 47</code>)</td>
+<td>ja</td>
+</tr>
+<tr>
+<td>Zeugnis.pdf</td>
+<td>PDF-Programm</td>
+<td>ZIP-Archiv, z. B. ein Office-Dokument (<code>50 4B 03 04</code>)</td>
+<td>nein</td>
+</tr>
+<tr>
+<td>Notizen.txt</td>
+<td>Texteditor</td>
+<td>JPG-Bild (<code>FF D8 FF</code>)</td>
+<td>nein</td>
+</tr>
+</tbody>
+</table></div>
+<p>b) <strong>Schritt 1:</strong> Das Betriebssystem schaut auf die <strong>Endung</strong> und startet das dazu passende Programm. <strong>Schritt 2:</strong> Das Programm prüft den <strong>Header</strong> (Magic Number) und sieht, was wirklich in der Datei steckt. Die Endung kann jeder umbenennen, der Header lässt sich nicht so leicht fälschen.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A9 · Spielstand lesen: Schiffe versenken</h3>
+<p>a) 16 Felder zu je 2 Bit:</p>
+<pre class="ds-code">00  01  00  00
+00  10  10  10
+01  00  00  00
+00  00  01  10
+</pre>
+<pre class="ds-code">·  o  ·  ·
+·  X  X  X
+o  ·  ·  ·
+·  ·  o  X
+</pre>
+<p>b) Beschossen sind alle Felder ausser <code>00</code>: 3 Fehlschüsse und 4 Treffer, also <strong>7 Schüsse</strong>, davon <strong>4 Treffer</strong>.<br />
+c) 10 · 10 = 100 Felder, 100 · 2 = <strong>200 Bit = 25 Byte</strong>.<br />
+d) Man kann ein zweites Feld speichern, in dem jedes Feld <strong>1 Bit</strong> hat (<code>1</code> = Schiff, <code>0</code> = Wasser). Bei 4 × 4 sind das <strong>16 Bit</strong>. Zusammen mit dem Spielstand sind es 32 + 16 = 48 Bit.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A10 · Header lesen: dieselben Bits, zwei Formate</h3>
+<p><strong>Format A</strong> (Breite 4, Höhe 4, Farbtiefe 4 Bit): <code>0011 | 0010 | 0010 | 100010001111</code><br />
+<strong>Format B</strong> (Farbtiefe 4, Breite 4, Höhe 4 Bit): <code>0011 | 0010 | 0010 | 100010001111</code></p>
+<p>a)</p>
+<div class="ds-scroll"><table class="ds-tab">
+<thead>
+<tr>
+<th></th>
+<th>Breite</th>
+<th>Höhe</th>
+<th>Farbtiefe</th>
+<th>Pixelbits passen?</th>
+<th>Datei (Bit / Byte)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Format A</td>
+<td>3</td>
+<td>2</td>
+<td>2 Bit</td>
+<td>3 · 2 · 2 = 12, vorhanden 12: passt</td>
+<td>24 Bit = 3 Byte</td>
+</tr>
+<tr>
+<td>Format B</td>
+<td>2</td>
+<td>2</td>
+<td>3 Bit</td>
+<td>2 · 2 · 3 = 12, vorhanden 12: passt</td>
+<td>24 Bit = 3 Byte</td>
+</tr>
+</tbody>
+</table></div>
+<p>Pixel nach Format A (je 2 Bit): <code>10 00 10 | 00 11 11</code>. Pixel nach Format B (je 3 Bit): <code>100 010 001 111</code>.<br />
+b)</p>
+<p>Format A:</p>
+<div class="ds-pixel"><svg viewBox="0 0 66.0 44.0" style="display:block;width:100%;height:auto;max-width:66px"><rect x="0" y="0" width="22" height="22" fill="#00FF00" stroke="#555555" stroke-width=".8"/><rect x="22" y="0" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="44" y="0" width="22" height="22" fill="#00FF00" stroke="#555555" stroke-width=".8"/><rect x="0" y="22" width="22" height="22" fill="#000000" stroke="#555555" stroke-width=".8"/><rect x="22" y="22" width="22" height="22" fill="#0000FF" stroke="#555555" stroke-width=".8"/><rect x="44" y="22" width="22" height="22" fill="#0000FF" stroke="#555555" stroke-width=".8"/></svg></div>
+<p>Format B:</p>
+<div class="ds-pixel"><svg viewBox="0 0 44.0 44.0" style="display:block;width:100%;height:auto;max-width:44px"><rect x="0" y="0" width="22" height="22" fill="#FF0000" stroke="#555555" stroke-width=".8"/><rect x="22" y="0" width="22" height="22" fill="#00FF00" stroke="#555555" stroke-width=".8"/><rect x="0" y="22" width="22" height="22" fill="#0000FF" stroke="#555555" stroke-width=".8"/><rect x="22" y="22" width="22" height="22" fill="#FFFFFF" stroke="#555555" stroke-width=".8"/></svg></div>
+<p>c) Die Bits sind dieselben, aber das Format legt fest, <strong>in welcher Reihenfolge</strong> die Header-Angaben stehen und <strong>wie die Pixelbits gedeutet werden</strong> (2-Bit-Farbtabelle oder 3-Bit-RGB). Ohne die Beschreibung des Formats sind Bits bedeutungslos.</p>
+  </section>
+  <h2>4 Algorithmen</h2>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A11 · Kara: Der Käfer findet das Ziel nicht</h3>
+<p>a) Der Käfer fährt nach rechts bis zur Wand, dreht nach rechts (unten), fährt bis zur Wand, dreht wieder, fährt nach links, dreht und fährt nach oben, dreht und ist wieder auf <strong>S</strong>, blickt nach rechts. Er läuft im Kreis um den Wandblock und beginnt von vorn.</p>
+<pre class="ds-code">########
+#→→→→→↓#
+#↑####↓#
+#↑←←←←←Z
+########
+</pre>
+<p>Der Käfer <strong>prüft nur das Feld vorne</strong> und kann sich <strong>nur nach rechts drehen</strong>. Auf dem Feld unten rechts blickt er nach unten, vorne ist Wand, also dreht er nach rechts (nach links im Bild). Das Ziel Z liegt aber auf seiner <strong>linken</strong> Seite. Das Programm kann nie nach links abbiegen und merkt auch nicht, dass dort das Ziel ist. Er erreicht Z nie (Kara meldet: «Der Käfer läuft im Kreis»): Das Programm wird <strong>nie fertig</strong> (die Anforderung «endlich» ist verletzt).<br />
+b) Es gibt mindestens zwei Lösungen (beide Seiten der Wand folgen). Nicht gebraucht werden «rückwärts», «stehen bleiben» und «Feld hinten frei?».</p>
+<p><strong>Lösung 1: Wand rechts behalten (Rechte-Hand-Regel):</strong></p>
+<div class="ds-struk"><svg viewBox="0 0 365.8 214.5" style="display:block;width:100%;height:auto;max-width:366px"><path stroke="currentColor" stroke-width="1.1" stroke-linecap="square" fill="none" d="M3.0 8.2H362.9M3.0 41.2H362.9M20.7 74.2H362.9M20.7 107.2H362.9M20.7 140.2H362.9M191.8 173.2H362.9M3.0 206.2H362.9M3.0 8.2V206.2M20.7 41.2V206.2M191.8 74.2V206.2M274.4 140.2V206.2M362.9 8.2V206.2"/><g fill="currentColor"><text x="11.8" y="27.4" font-family="Arial" font-size="10">wiederhole bis Ziel</text><text x="191.8" y="60.4" text-anchor="middle" font-family="Arial" font-size="10">Feld rechts frei?</text><text x="106.2" y="93.4" text-anchor="middle" font-family="Arial" font-size="10">Ja</text><text x="277.3" y="93.4" text-anchor="middle" font-family="Arial" font-size="10">Nein</text><text x="29.5" y="126.4" font-family="Arial" font-size="10">rechts drehen</text><text x="277.3" y="126.4" text-anchor="middle" font-family="Arial" font-size="10">Feld vorne frei?</text><text x="29.5" y="159.4" font-family="Arial" font-size="10">vorwärts</text><text x="233.1" y="159.4" text-anchor="middle" font-family="Arial" font-size="10">Ja</text><text x="318.6" y="159.4" text-anchor="middle" font-family="Arial" font-size="10">Nein</text><text x="200.6" y="192.4" font-family="Arial" font-size="10">vorwärts</text><text x="283.2" y="192.4" font-family="Arial" font-size="10">links drehen</text></g></svg></div>
+<p>Probe: Auf S blickt er nach rechts, rechts von ihm (unten) ist frei → rechts drehen, vorwärts. Auf dem Feld darunter blickt er nach unten: rechts (links im Bild) ist Wand, vorne frei → vorwärts. Auf dem untersten Feld links ist vorne Wand und rechts Wand → links drehen. Jetzt blickt er nach rechts, rechts ist Wand, vorne frei → vorwärts, bis er auf Z steht.</p>
+<pre class="ds-code">########
+#S·····#
+#↓####·#
+#→→→→→→Z
+########
+</pre>
+<p>(S: rechts drehen, dann vorwärts nach unten.)</p>
+<p><strong>Lösung 2: Wand links behalten (Linke-Hand-Regel):</strong> Die Rollen von links und rechts sind vertauscht.</p>
+<div class="ds-struk"><svg viewBox="0 0 365.8 214.5" style="display:block;width:100%;height:auto;max-width:366px"><path stroke="currentColor" stroke-width="1.1" stroke-linecap="square" fill="none" d="M3.0 8.2H362.9M3.0 41.2H362.9M20.7 74.2H362.9M20.7 107.2H362.9M20.7 140.2H362.9M191.8 173.2H362.9M3.0 206.2H362.9M3.0 8.2V206.2M20.7 41.2V206.2M191.8 74.2V206.2M274.4 140.2V206.2M362.9 8.2V206.2"/><g fill="currentColor"><text x="11.8" y="27.4" font-family="Arial" font-size="10">wiederhole bis Ziel</text><text x="191.8" y="60.4" text-anchor="middle" font-family="Arial" font-size="10">Feld links frei?</text><text x="106.2" y="93.4" text-anchor="middle" font-family="Arial" font-size="10">Ja</text><text x="277.3" y="93.4" text-anchor="middle" font-family="Arial" font-size="10">Nein</text><text x="29.5" y="126.4" font-family="Arial" font-size="10">links drehen</text><text x="277.3" y="126.4" text-anchor="middle" font-family="Arial" font-size="10">Feld vorne frei?</text><text x="29.5" y="159.4" font-family="Arial" font-size="10">vorwärts</text><text x="233.1" y="159.4" text-anchor="middle" font-family="Arial" font-size="10">Ja</text><text x="318.6" y="159.4" text-anchor="middle" font-family="Arial" font-size="10">Nein</text><text x="200.6" y="192.4" font-family="Arial" font-size="10">vorwärts</text><text x="283.2" y="192.4" font-family="Arial" font-size="10">rechts drehen</text></g></svg></div>
+<p>Probe: Der Käfer fährt oben nach rechts (links von ihm ist Wand, vorne frei). Am Ende der Zeile ist vorne Wand und links Wand → rechts drehen (nach unten). Er fährt nach unten. Auf dem untersten rechten Feld ist <strong>links der Ausgang frei</strong> → links drehen, vorwärts auf Z.</p>
+<pre class="ds-code">########
+#S→→→→↓#
+#·####↓#
+#·····→Z
+########
+</pre>
+<p><strong>Nicht</strong> richtig sind Lösungen, bei denen vorne vor rechts geprüft wird (er läuft wieder im Kreis), oder bei denen «rückwärts» oder «stehen bleiben» statt Drehen eingesetzt wird (er kommt nicht voran).</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A12 · Schreibtischtest: Quersumme</h3>
+<p>a) Schreibtischtest:</p>
+<div class="ds-scroll"><table class="ds-tab">
+<thead>
+<tr>
+<th>Prüfung</th>
+<th>zahl</th>
+<th>summe</th>
+<th>zahl &gt; 0</th>
+<th>Ausgabe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.</td>
+<td>3846</td>
+<td>0</td>
+<td>wahr</td>
+<td></td>
+</tr>
+<tr>
+<td>2.</td>
+<td>384</td>
+<td>6</td>
+<td>wahr</td>
+<td></td>
+</tr>
+<tr>
+<td>3.</td>
+<td>38</td>
+<td>10</td>
+<td>wahr</td>
+<td></td>
+</tr>
+<tr>
+<td>4.</td>
+<td>3</td>
+<td>18</td>
+<td>wahr</td>
+<td></td>
+</tr>
+<tr>
+<td>5.</td>
+<td>0</td>
+<td>21</td>
+<td>falsch</td>
+<td>21</td>
+</tr>
+</tbody>
+</table></div>
+<p>b) Das Programm zählt alle <strong>Ziffern</strong> der Zahl zusammen (Quersumme): 3 + 8 + 4 + 6 = 21.<br />
+c) Bei <code>zahl = 0</code> ist die Bedingung sofort falsch, es gibt keinen Durchgang. Ausgegeben wird <strong>0</strong>. Das ist sinnvoll, denn die Quersumme von 0 ist 0 (Grenzfall).</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe A13 · Fehler im Programm: Countdown</h3>
+<p>a) Die Zahl ändert sich nie:</p>
+<div class="ds-scroll"><table class="ds-tab">
+<thead>
+<tr>
+<th>Prüfung</th>
+<th>zahl</th>
+<th>zahl &gt; 0</th>
+<th>Ausgabe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.</td>
+<td>10</td>
+<td>wahr</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2.</td>
+<td>10</td>
+<td>wahr</td>
+<td>10</td>
+</tr>
+<tr>
+<td>3.</td>
+<td>10</td>
+<td>wahr</td>
+<td>10</td>
+</tr>
+<tr>
+<td>4.</td>
+<td>10</td>
+<td>wahr</td>
+<td>10</td>
+</tr>
+</tbody>
+</table></div>
+<p>Das Programm gibt endlos «10» aus und erreicht «Start!» nie.<br />
+b) <strong>endlich</strong> ist verletzt: Der Algorithmus kommt nie zu einem Ende, weil die Bedingung immer wahr bleibt.<br />
+c) In der Schleife muss die Zahl kleiner werden:</p>
+<div class="ds-struk"><svg viewBox="0 0 236.0 181.5" style="display:block;width:100%;height:auto;max-width:236px"><path stroke="currentColor" stroke-width="1.1" stroke-linecap="square" fill="none" d="M3.0 8.2H233.1M3.0 41.2H233.1M3.0 74.2H233.1M20.7 107.2H233.1M3.0 140.2H233.1M3.0 173.2H233.1M3.0 8.2V173.2M20.7 74.2V140.2M233.1 8.2V173.2"/><g fill="currentColor"><text x="11.8" y="27.4" font-family="Arial" font-size="10">zahl = 10</text><text x="11.8" y="60.4" font-family="Arial" font-size="10">solange zahl &gt; 0</text><text x="29.5" y="93.4" font-family="Arial" font-size="10">print(zahl)</text><text x="29.5" y="126.4" font-family="Arial" font-size="10">zahl = zahl - 1</text><text x="11.8" y="159.4" font-family="Arial" font-size="10">print("Start!")</text></g></svg></div>
+<p>d) Bei <code>zahl = 0</code> ist die Bedingung sofort falsch, es wird nur «Start!» ausgegeben. Das ist sinnvoll: Es gibt nichts herunterzuzählen.</p>
+  </section>
+  <h2>Teil B — Erweiterte Aufgabensammlung</h2>
+  <h2>B1 Farben und Farbtiefe</h2>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B1.1 · Additiv oder subtraktiv?</h3>
+<p>Bildschirm: RGB, additiv (Licht). Tintenstrahldrucker: CMYK, subtraktiv. Beamer: RGB, additiv (er strahlt Licht aus). Zeitungsdruck: CMYK, subtraktiv.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B1.2 · Heller oder dunkler?</h3>
+<p>Die hellere Farbe ist: (a) <code>#E0E0E0</code>, (b) <code>#0000FF</code>, (c) <code>#FF0000</code>, (d) <code>#00FF00</code>. Regel: Bei gleicher Farbe ist die mit den <strong>grösseren Kanalwerten heller</strong>, die mit den kleineren dunkler.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B1.3 · Grau bauen</h3>
+<p>a) Zum Beispiel <code>808080</code> (128, 128, 128). b) Alle drei Kanäle <strong>erhöhen</strong> macht heller (z. B. <code>C0C0C0</code>), alle drei <strong>senken</strong> macht dunkler (z. B. <code>404040</code>). c) Ein Hexcode ist ein Grau, wenn <strong>alle drei Kanäle gleich</strong> sind (R = G = B).</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B1.4 · Dezimal nach Hex</h3>
+<p>a) <code>FF0000</code>, Rot. b) <code>404040</code>, dunkles Grau. c) <code>C0C0C0</code>, helles Grau. d) <code>000080</code>, Blau zur Hälfte aufgedreht, also dunkles Blau.<br />
+Rechnung: 64 = <code>40</code>, 128 = <code>80</code>, 192 = <code>C0</code>, 255 = <code>FF</code>.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B1.5 · Bits zählen</h3>
+<p>a) 1 Bit. b) 3 Bit (2² = 4 genügt nicht, 2³ = 8). c) 7 Bit (2⁶ = 64 zu wenig, 2⁷ = 128). d) 8 Bit.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B1.6 · Dateigrösse</h3>
+<p>800 · 600 · 3 Byte = <strong>1 440 000 Byte = 1,44 MB</strong>. Bei 8 Bit (1 Byte pro Pixel): 480 000 Byte = <strong>0,48 MB</strong>.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B1.7 · Graustufen</h3>
+<p>Mit 1 Byte pro Pixel wird die Datei <strong>dreimal kleiner</strong>, also 0,48 MB statt 1,44 MB. Verloren geht die Farbinformation: Es sind nur noch Grautöne möglich, Rot, Grün und Blau lassen sich nicht mehr unterscheiden.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B1.8 · Gleiche Zahl, andere Helligkeit?</h3>
+<p>Nein, sie wirken <strong>nicht gleich hell</strong>. Die Reihenfolge von hell nach dunkel lautet <strong>Grün, Rot, Blau</strong>: Das Auge ist für Grün am empfindlichsten und für Blau am wenigsten. Nach der Definition der relativen Helligkeit (WCAG) zählt Grün mit dem Gewicht 0,7152, Rot mit 0,2126 und Blau mit 0,0722 (gerechnet mit linearisierten Werten). Quelle: <a href="https://www.w3.org/TR/WCAG2/relative-luminance.html">WCAG, relative luminance</a></p>
+  </section>
+  <h2>B2 Grafikformate</h2>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B2.1 · Raster oder Vektor?</h3>
+<p>Foto: Raster (fotografische Farbverläufe). Firmenlogo: Vektor (muss beliebig skalierbar sein). Stadtplan: meist Vektor (Linien, Flächen, Beschriftung). Röntgenbild: Raster (Helligkeit pro Bildpunkt). Piktogramm: Vektor (einfache Formen).</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B2.2 · SVG lesen</h3>
+<p>Weisser Hintergrund, ein blaues Kreuz: waagrechter Balken von y = 80 bis 120 über die ganze Breite, senkrechter Balken von x = 80 bis 120 über die ganze Höhe. Es ist die <strong>Flagge Finnlands</strong>.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B2.3 · SVG ändern</h3>
+<p>Erste Zeile: <code>fill=&quot;#FF0000&quot;</code> (roter Grund). Zweite und dritte Zeile: <code>fill=&quot;#FFFFFF&quot;</code> (weisses Kreuz). Das Kreuz sitzt auch bei Dänemark nach links verschoben, die Koordinaten können (vereinfacht) gleich bleiben.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B2.4 · Welche Auflösung?</h3>
+<p>5 cm = 1,969 Zoll, 1000 ÷ 1,969 ≈ <strong>508 dpi</strong>. Das ist mehr als die nötigen 300 dpi, es genügt also reichlich. Bei genau 300 dpi: 1000 ÷ 300 = 3,33 Zoll ≈ <strong>8,47 cm</strong>.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B2.5 · Poster</h3>
+<p>50 cm = 19,69 Zoll, also etwa 19,69 · 300 ≈ <strong>5906 Pixel</strong>. 70 cm = 27,56 Zoll, also etwa <strong>8268 Pixel</strong>. Das sind rund 5906 · 8268 ≈ <strong>48,8 Megapixel</strong>.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B2.6 · Formatwahl</h3>
+<p>a) JPG (Foto, Farbverläufe, kleine Datei). b) SVG (Vektor, beliebig skalierbar, scharf auf Karte und Plakat). c) PNG (verlustfrei, scharfe Kanten, Text bleibt lesbar). d) GIF (kann Animationen).</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B2.7 · Vergrössern</h3>
+<p>Bei einer Rastergrafik werden fehlende Pixel <strong>erfunden</strong> (interpoliert), das Bild wird unscharf oder verpixelt. Bei einer Vektorgrafik werden nur die Parameter (z. B. Koordinaten) mit dem Vergrösserungsfaktor multipliziert, das Bild bleibt scharf. Die <strong>Vektordatei bleibt gleich gross</strong>. Speichert man ein Rasterbild wirklich vergrössert, wächst die Datei mit der Pixelzahl (Faktor 2 bei der Kantenlänge heisst Faktor 4 bei der Datei), ohne dass neue Bildinformation entsteht.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B2.8 · Format-Detektiv</h3>
+<p>Die Qualität <strong>nimmt mit jedem Speichern ab</strong> (Generationsverlust), es entstehen Blöcke und Farbränder. Das liegt daran, dass JPG <strong>verlustbehaftet</strong> komprimiert: Bei jedem Speichern geht Information verloren, die nicht zurückkommt.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B2.9 · Blöcke zusammenfassen</h3>
+<p>a) Ohne Blöcke: 100 Bit. Mit Blöcken: 5 Blöcke · (7 + 1) Bit = <strong>40 Bit</strong>, also 2,5-mal weniger. b) Bei jedem Pixel ein Farbwechsel gibt 100 Blöcke · 8 Bit = <strong>800 Bit</strong>, das ist <strong>8-mal mehr</strong> als ohne Blöcke. Blockcodierung lohnt sich nur bei langen gleichfarbigen Abschnitten.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B2.10 · Indizierte Farben im Vergleich</h3>
+<p>a) 640 · 480 = 307 200 Pixel, mal 3 Byte = <strong>921 600 Byte</strong>. b) 200 Farben: 2⁷ = 128 sind zu wenig, 2⁸ = 256 → 8 Bit = 1 Byte pro Pixel, also 307 200 Byte. Dazu die Farbtabelle: 200 · 3 Byte = 600 Byte. Zusammen <strong>307 800 Byte</strong>. c) 921 600 ÷ 307 800 ≈ 2,99, also <strong>etwa dreimal kleiner</strong>. d) Mit 8 Bit höchstens 2⁸ = <strong>256 Farben</strong>.</p>
+  </section>
+  <h2>B3 Dateiformate</h2>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B3.1 · Bits sagen nichts</h3>
+<p>Mögliche Bedeutungen von <code>61 62 63</code>:</p>
+<ul>
+<li>Textdatei (ASCII): die Zeichen <code>abc</code>.</li>
+<li>Bilddatei (24 Bit): ein einzelner Pixel mit RGB (97, 98, 99), ein dunkles Grau.</li>
+<li>Tabelle: die Zahl 6 382 179 in einer Zelle (0x616263).</li>
+</ul>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B3.2 · Spielstand lesen: Tic-Tac-Toe (19 Bit)</h3>
+<p>Bit 1 = <code>1</code>: <strong>Kreuz</strong> ist am Zug. Dann <code>11 10 00 | 00 11 00 | 00 00 10</code>.</p>
+<div class="ds-pixel"><svg viewBox="0 0 66.0 66.0" style="display:block;width:100%;height:auto;max-width:66px"><rect x="0" y="0" width="22" height="22" fill="#ffffff" stroke="#555555" stroke-width=".8"/><text x="11.0" y="15.399999999999999" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#000000">X</text><rect x="22" y="0" width="22" height="22" fill="#ffffff" stroke="#555555" stroke-width=".8"/><text x="33.0" y="15.399999999999999" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#000000">O</text><rect x="44" y="0" width="22" height="22" fill="#ffffff" stroke="#555555" stroke-width=".8"/><rect x="0" y="22" width="22" height="22" fill="#ffffff" stroke="#555555" stroke-width=".8"/><rect x="22" y="22" width="22" height="22" fill="#ffffff" stroke="#555555" stroke-width=".8"/><text x="33.0" y="37.4" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#000000">X</text><rect x="44" y="22" width="22" height="22" fill="#ffffff" stroke="#555555" stroke-width=".8"/><rect x="0" y="44" width="22" height="22" fill="#ffffff" stroke="#555555" stroke-width=".8"/><rect x="22" y="44" width="22" height="22" fill="#ffffff" stroke="#555555" stroke-width=".8"/><rect x="44" y="44" width="22" height="22" fill="#ffffff" stroke="#555555" stroke-width=".8"/><text x="55.0" y="59.4" text-anchor="middle" font-family="Arial" font-size="14" font-weight="700" fill="#000000">O</text></svg></div>
+<p>Zwei Kreuze und zwei Kreise: Kreuz hat begonnen, also ist Kreuz wieder dran.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B3.3 · Spielstand schreiben</h3>
+<p>Kreuz hat begonnen, beide haben 2 Zeichen: Kreuz ist am Zug, also <code>1</code>. Kreis = <code>10</code>, Kreuz = <code>11</code>, leer = <code>00</code>.</p>
+<p><code>1 | 10 11 00 | 00 10 00 | 11 00 00</code> = <strong><code>1101100001000110000</code></strong> (19 Bit)</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B3.4 · Dateigrösse mit Header</h3>
+<p>3000 · 2000 · 3 Byte = 18 000 000 Byte. Mit Header: <strong>18 000 016 Byte ≈ 18,0 MB</strong>. Der Header macht 16 Byte aus, das sind rund <strong>0,00009 %</strong> der Datei, also kaum etwas.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B3.5 · 4 gewinnt</h3>
+<p>Die Folge <code>00100100000100000000000011</code> wird so zerlegt:</p>
+<div class="ds-scroll"><table class="ds-tab">
+<thead>
+<tr>
+<th>Teil</th>
+<th>Bits</th>
+<th>Bedeutung</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zug</td>
+<td><code>0</code></td>
+<td><strong>Blau</strong> ist am Zug</td>
+</tr>
+<tr>
+<td>Spalte 1</td>
+<td><code>010</code> <code>01</code></td>
+<td>2 Steine: unten Blau, darüber Rot</td>
+</tr>
+<tr>
+<td>Spalte 2</td>
+<td><code>000</code></td>
+<td>leer</td>
+</tr>
+<tr>
+<td>Spalte 3</td>
+<td><code>001</code> <code>0</code></td>
+<td>1 Stein: Blau</td>
+</tr>
+<tr>
+<td>Spalte 4</td>
+<td><code>000</code></td>
+<td>leer</td>
+</tr>
+<tr>
+<td>Spalte 5</td>
+<td><code>000</code></td>
+<td>leer</td>
+</tr>
+<tr>
+<td>Spalte 6</td>
+<td><code>000</code></td>
+<td>leer</td>
+</tr>
+<tr>
+<td>Spalte 7</td>
+<td><code>001</code> <code>1</code></td>
+<td>1 Stein: Rot</td>
+</tr>
+</tbody>
+</table></div>
+<p>a) Spielstand (unten beginnend, Spalten 1 bis 7):</p>
+<pre class="ds-code">. . . . . . .
+. . . . . . .
+. . . . . . .
+. . . . . . .
+R . . . . . .
+B . B . . . R
+</pre>
+<p>b) Bits = 1 + 7 · 3 + Anzahl Steine. Bei 9 Steinen: 1 + 21 + 9 = <strong>31 Bit</strong>. Bei vollem Brett (42 Steine): 1 + 21 + 42 = <strong>64 Bit</strong>.<br />
+c) Blau hat 2 Steine, Rot hat 2: Beide haben gleich viele, also ist der Spieler an der Reihe, der angefangen hat. Hier <strong>Blau</strong>. Das stimmt mit Bit 1 überein.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B3.6 · Eigenes Format</h3>
+<p>Musterlösung:</p>
+<ul>
+<li><strong>Format:</strong> Bit 1: wer ist am Zug (0 = weiss, 1 = schwarz). Danach die 32 dunklen Felder in Leserichtung (oben links bis unten rechts), je Feld 3 Bit: <code>000</code> leer, <code>001</code> weisser Stein, <code>010</code> schwarzer Stein, <code>011</code> weisse Dame, <code>100</code> schwarze Dame.</li>
+<li><strong>Bits:</strong> 5 Zustände brauchen 3 Bit (2² = 4 genügt nicht, 2³ = 8). Zusammen 1 + 32 · 3 = <strong>97 Bit</strong>. Jede Stellung hat so genau eine Bitfolge (vollständig), und jede Bitfolge ergibt höchstens eine Stellung (eindeutig). Die Brettgrösse und die Regeln müssen nicht gespeichert werden.</li>
+<li><strong>Beispiel:</strong> Anfangsstellung, weiss beginnt: <code>0</code>, dann 12 · <code>010</code> (die obersten 12 Felder, schwarze Steine), 8 · <code>000</code> (die mittleren 8 Felder leer), 12 · <code>001</code> (die untersten 12 Felder, weisse Steine).</li>
+<li><strong>Zum Vergleichen:</strong> Jedes andere Format ist dann besser, wenn es weniger als 97 Bit braucht und trotzdem eindeutig und vollständig bleibt.</li>
+</ul>
+  </section>
+  <h2>B4 Algorithmen</h2>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B4.1 · Fünf Anforderungen</h3>
+<p>a) <strong>eindeutig</strong> (was ist «gut»?). b) <strong>endlich</strong> (kein Ende). c) <strong>ausführbar</strong> (die dritte Schraube gibt es nicht). d) <strong>allgemein</strong> (er löst nur einen Einzelfall).</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B4.2 · Struktogramm lesen: Käfer</h3>
+<p>a) Der Käfer fährt 2 Felder nach Osten, dreht links (Norden), fährt 2 Felder, dreht links (Westen) und fährt 2 Felder. (E = Endfeld, S = Start)</p>
+<pre class="ds-code">E ← ←
+· · ↑
+S → ↑
+</pre>
+<p>b) Er blickt am Schluss nach <strong>Süden</strong> (nach der dritten Linksdrehung). Er hat <strong>7 verschiedene Felder</strong> besucht (Start und Endfeld eingeschlossen). Das Endfeld liegt 2 Felder oberhalb des Startfelds.<br />
+c) Mit «4-mal» kommt der Käfer wieder auf dem <strong>Startfeld</strong> an und blickt wieder nach Osten: Er hat ein Quadrat gefahren (8 Randfelder eines 3 × 3-Feldes).</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B4.3 · Struktogramm ergänzen: Treppe</h3>
+<p>a) <strong>5</strong>: Eine Stufe bringt den Käfer 1 Feld nach rechts und 1 Feld nach unten.</p>
+<div class="ds-struk"><svg viewBox="0 0 212.4 181.5" style="display:block;width:100%;height:auto;max-width:212px"><path stroke="currentColor" stroke-width="1.1" stroke-linecap="square" fill="none" d="M3.0 8.2H209.5M3.0 41.2H209.5M20.7 74.2H209.5M20.7 107.2H209.5M20.7 140.2H209.5M3.0 173.2H209.5M3.0 8.2V173.2M20.7 41.2V173.2M209.5 8.2V173.2"/><g fill="currentColor"><text x="11.8" y="27.4" font-family="Arial" font-size="10">wiederhole 5-mal</text><text x="29.5" y="60.4" font-family="Arial" font-size="10">vorwärts</text><text x="29.5" y="93.4" font-family="Arial" font-size="10">rechts drehen</text><text x="29.5" y="126.4" font-family="Arial" font-size="10">vorwärts</text><text x="29.5" y="159.4" font-family="Arial" font-size="10">links drehen</text></g></svg></div>
+<p>b) <strong>5 Bausteine</strong>: 1 Wiederholung und 4 Anweisungen (je nach Zählweise 5).<br />
+c) Nur die Zahl ändert sich: «wiederhole 8-mal». Der Aufbau bleibt gleich.<br />
+d) Erst 4 Stufen (4 rechts, 4 unten), dann zeigt der Käfer nach Osten und muss noch 2 Felder nach unten. Er dreht nach rechts (Süden) und fährt 2 Felder:</p>
+<div class="ds-struk"><svg viewBox="0 0 212.4 280.5" style="display:block;width:100%;height:auto;max-width:212px"><path stroke="currentColor" stroke-width="1.1" stroke-linecap="square" fill="none" d="M3.0 8.2H209.5M3.0 41.2H209.5M20.7 74.2H209.5M20.7 107.2H209.5M20.7 140.2H209.5M3.0 173.2H209.5M3.0 206.2H209.5M3.0 239.2H209.5M3.0 272.2H209.5M3.0 8.2V272.2M20.7 41.2V173.2M20.7 239.2V272.2M209.5 8.2V272.2"/><g fill="currentColor"><text x="11.8" y="27.4" font-family="Arial" font-size="10">wiederhole 4-mal</text><text x="29.5" y="60.4" font-family="Arial" font-size="10">vorwärts</text><text x="29.5" y="93.4" font-family="Arial" font-size="10">rechts drehen</text><text x="29.5" y="126.4" font-family="Arial" font-size="10">vorwärts</text><text x="29.5" y="159.4" font-family="Arial" font-size="10">links drehen</text><text x="11.8" y="192.4" font-family="Arial" font-size="10">rechts drehen</text><text x="11.8" y="225.4" font-family="Arial" font-size="10">wiederhole 2-mal</text><text x="29.5" y="258.4" font-family="Arial" font-size="10">vorwärts</text></g></svg></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B4.4 · Schreibtischtest mit Liste</h3>
+<p>Schreibtischtest:</p>
+<div class="ds-scroll"><table class="ds-tab">
+<thead>
+<tr>
+<th>zahl</th>
+<th>zahl &gt; max</th>
+<th>max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(Start)</td>
+<td></td>
+<td>7</td>
+</tr>
+<tr>
+<td>7</td>
+<td>falsch</td>
+<td>7</td>
+</tr>
+<tr>
+<td>3</td>
+<td>falsch</td>
+<td>7</td>
+</tr>
+<tr>
+<td>9</td>
+<td>wahr</td>
+<td>9</td>
+</tr>
+<tr>
+<td>4</td>
+<td>falsch</td>
+<td>9</td>
+</tr>
+</tbody>
+</table></div>
+<p>Ausgabe: <strong>9</strong>. Mit <code>max = 0</code> und lauter negativen Zahlen bleibt <code>max</code> bei 0. Das Programm gibt 0 aus, obwohl 0 nicht in der Liste steht: Es ist <strong>nicht korrekt</strong>. Der Start mit dem ersten Listenelement vermeidet das.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B4.5 · Verzweigung: Briefporto</h3>
+<p>a)</p>
+<div class="ds-scroll"><table class="ds-tab">
+<thead>
+<tr>
+<th>gewicht</th>
+<th>5</th>
+<th>20</th>
+<th>21</th>
+<th>100</th>
+<th>101</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>preis</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>5</td>
+</tr>
+</tbody>
+</table></div>
+<p>b) Grenzfälle sind die Gewichte an den Grenzen: <strong>20 und 21</strong>, <strong>100 und 101</strong> (jeweils auf und knapp über der Grenze).<br />
+c) Der Fall <strong>20 g</strong>: Erwartet wird 1 Fr., das fehlerhafte Programm gibt 2 Fr. aus, weil <code>20 &lt; 20</code> falsch ist.<br />
+d) Ergänztes Struktogramm:</p>
+<div class="ds-struk"><svg viewBox="0 0 566.4 280.5" style="display:block;width:100%;height:auto;max-width:566px"><path stroke="currentColor" stroke-width="1.1" stroke-linecap="square" fill="none" d="M3.0 8.2H563.5M3.0 41.2H563.5M3.0 74.2H563.5M280.2 107.2H563.5M280.2 140.2H563.5M421.9 173.2H563.5M421.9 206.2H563.5M3.0 239.2H563.5M3.0 272.2H563.5M3.0 8.2V272.2M280.2 41.2V239.2M421.9 107.2V239.2M492.7 173.2V239.2M563.5 8.2V272.2"/><g fill="currentColor"><text x="283.2" y="27.4" text-anchor="middle" font-family="Arial" font-size="10">gewicht &lt;= 20</text><text x="141.6" y="60.4" text-anchor="middle" font-family="Arial" font-size="10">Ja</text><text x="421.9" y="60.4" text-anchor="middle" font-family="Arial" font-size="10">Nein</text><text x="11.8" y="93.4" font-family="Arial" font-size="10">preis = 1</text><text x="421.9" y="93.4" text-anchor="middle" font-family="Arial" font-size="10">gewicht &lt;= 100</text><text x="351.1" y="126.4" text-anchor="middle" font-family="Arial" font-size="10">Ja</text><text x="492.7" y="126.4" text-anchor="middle" font-family="Arial" font-size="10">Nein</text><text x="289.1" y="159.4" font-family="Arial" font-size="10">preis = 2</text><text x="492.7" y="159.4" text-anchor="middle" font-family="Arial" font-size="10">gewicht &lt;= 500</text><text x="457.2" y="192.4" text-anchor="middle" font-family="Arial" font-size="10">Ja</text><text x="528.1" y="192.4" text-anchor="middle" font-family="Arial" font-size="10">Nein</text><text x="430.7" y="225.4" font-family="Arial" font-size="10">preis = 5</text><text x="501.5" y="225.4" font-family="Arial" font-size="10">preis = 9</text><text x="11.8" y="258.4" font-family="Arial" font-size="10">print(preis)</text></g></svg></div>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B4.6 · Kara-Rasenmäher</h3>
+<p>a) Der Käfer fährt Bahn um Bahn: 3 Felder vorwärts, am Rand wenden (rechts, vorwärts, rechts), 3 Felder zurück, am anderen Rand wenden (links, vorwärts, links), 3 Felder vorwärts. Er mäht so jedes Feld.<br />
+b) Struktogramm:</p>
+<div class="ds-struk"><svg viewBox="0 0 200.6 412.5" style="display:block;width:100%;height:auto;max-width:201px"><path stroke="currentColor" stroke-width="1.1" stroke-linecap="square" fill="none" d="M3.0 8.2H197.7M3.0 41.2H197.7M3.0 74.2H197.7M3.0 107.2H197.7M3.0 140.2H197.7M3.0 173.2H197.7M3.0 206.2H197.7M3.0 239.2H197.7M3.0 272.2H197.7M3.0 305.2H197.7M3.0 338.2H197.7M3.0 371.2H197.7M3.0 404.2H197.7M3.0 8.2V404.2M20.7 41.2V74.2M20.7 206.2V239.2M20.7 371.2V404.2M197.7 8.2V404.2"/><g fill="currentColor"><text x="11.8" y="27.4" font-family="Arial" font-size="10">wiederhole 3-mal</text><text x="29.5" y="60.4" font-family="Arial" font-size="10">vorwärts</text><text x="11.8" y="93.4" font-family="Arial" font-size="10">rechts drehen</text><text x="11.8" y="126.4" font-family="Arial" font-size="10">vorwärts</text><text x="11.8" y="159.4" font-family="Arial" font-size="10">rechts drehen</text><text x="11.8" y="192.4" font-family="Arial" font-size="10">wiederhole 3-mal</text><text x="29.5" y="225.4" font-family="Arial" font-size="10">vorwärts</text><text x="11.8" y="258.4" font-family="Arial" font-size="10">links drehen</text><text x="11.8" y="291.4" font-family="Arial" font-size="10">vorwärts</text><text x="11.8" y="324.4" font-family="Arial" font-size="10">links drehen</text><text x="11.8" y="357.4" font-family="Arial" font-size="10">wiederhole 3-mal</text><text x="29.5" y="390.4" font-family="Arial" font-size="10">vorwärts</text></g></svg></div>
+<p>Es wiederholt sich das Stück <strong>Bahn + Wende</strong> (die Wenden wechseln zwischen rechts und links).<br />
+c) Bei 6 Bahnen gibt es 6 Bahnen und 5 Wenden. Das Struktogramm lautet:</p>
+<div class="ds-struk"><svg viewBox="0 0 212.4 478.5" style="display:block;width:100%;height:auto;max-width:212px"><path stroke="currentColor" stroke-width="1.1" stroke-linecap="square" fill="none" d="M3.0 8.2H209.5M3.0 41.2H209.5M20.7 74.2H209.5M20.7 107.2H209.5M20.7 140.2H209.5M20.7 173.2H209.5M20.7 206.2H209.5M20.7 239.2H209.5M20.7 272.2H209.5M3.0 305.2H209.5M3.0 338.2H209.5M3.0 371.2H209.5M3.0 404.2H209.5M3.0 437.2H209.5M3.0 470.2H209.5M3.0 8.2V470.2M20.7 41.2V305.2M209.5 8.2V470.2"/><g fill="currentColor"><text x="11.8" y="27.4" font-family="Arial" font-size="10">wiederhole 2-mal</text><text x="29.5" y="60.4" font-family="Arial" font-size="10">Bahn: 3-mal vorwärts</text><text x="29.5" y="93.4" font-family="Arial" font-size="10">rechts drehen</text><text x="29.5" y="126.4" font-family="Arial" font-size="10">vorwärts</text><text x="29.5" y="159.4" font-family="Arial" font-size="10">rechts drehen</text><text x="29.5" y="192.4" font-family="Arial" font-size="10">Bahn: 3-mal vorwärts</text><text x="29.5" y="225.4" font-family="Arial" font-size="10">links drehen</text><text x="29.5" y="258.4" font-family="Arial" font-size="10">vorwärts</text><text x="29.5" y="291.4" font-family="Arial" font-size="10">links drehen</text><text x="11.8" y="324.4" font-family="Arial" font-size="10">Bahn: 3-mal vorwärts</text><text x="11.8" y="357.4" font-family="Arial" font-size="10">rechts drehen</text><text x="11.8" y="390.4" font-family="Arial" font-size="10">vorwärts</text><text x="11.8" y="423.4" font-family="Arial" font-size="10">rechts drehen</text><text x="11.8" y="456.4" font-family="Arial" font-size="10">Bahn: 3-mal vorwärts</text></g></svg></div>
+<p>Der Aufbau bleibt gleich, nur die Anzahl der Wiederholungen ändert sich.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B4.7 · Schreibtischtest: Halbieren</h3>
+<p>a) Schreibtischtest für <code>n = 100</code>:</p>
+<div class="ds-scroll"><table class="ds-tab">
+<thead>
+<tr>
+<th>Prüfung</th>
+<th>n</th>
+<th>k</th>
+<th>n &gt; 1</th>
+<th>Ausgabe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.</td>
+<td>100</td>
+<td>0</td>
+<td>wahr</td>
+<td></td>
+</tr>
+<tr>
+<td>2.</td>
+<td>50</td>
+<td>1</td>
+<td>wahr</td>
+<td></td>
+</tr>
+<tr>
+<td>3.</td>
+<td>25</td>
+<td>2</td>
+<td>wahr</td>
+<td></td>
+</tr>
+<tr>
+<td>4.</td>
+<td>12</td>
+<td>3</td>
+<td>wahr</td>
+<td></td>
+</tr>
+<tr>
+<td>5.</td>
+<td>6</td>
+<td>4</td>
+<td>wahr</td>
+<td></td>
+</tr>
+<tr>
+<td>6.</td>
+<td>3</td>
+<td>5</td>
+<td>wahr</td>
+<td></td>
+</tr>
+<tr>
+<td>7.</td>
+<td>1</td>
+<td>6</td>
+<td>falsch</td>
+<td>6</td>
+</tr>
+</tbody>
+</table></div>
+<p>b) Das Programm zählt, <strong>wie oft man n halbieren kann</strong>, bis 1 erreicht ist (jeweils abgerundet). Es berechnet den ganzzahligen Zweierlogarithmus, denn 2⁶ = 64 ≤ 100 &lt; 128 = 2⁷.<br />
+c) <code>n = 37</code>: 37 → 18 → 9 → 4 → 2 → 1, das sind <strong>5</strong> Halbierungen. <code>n = 1</code>: Die Bedingung ist von Anfang an falsch, es wird <strong>0</strong> ausgegeben.<br />
+d) In jedem Durchgang wird <code>n</code> mindestens halbiert (ganzzahlig) und damit kleiner. Irgendwann ist <code>n = 1</code> und die Bedingung <code>n &gt; 1</code> falsch: Die Wiederholung ist <strong>endlich</strong>.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B4.8 · Labyrinth</h3>
+<p>a) Der Käfer blickt zuerst nach rechts. Rechts von ihm ist das Feld frei, also biegt er sofort nach unten ab:</p>
+<pre class="ds-code">#######
+#S....#
+#↓###.#
+#→→↓#.#
+###↓#Z#
+###→→↑#
+#######
+</pre>
+<p>Der Käfer geht von S zwei Felder nach unten, dann zwei Felder nach rechts, zwei Felder nach unten, zwei Felder nach rechts und zuletzt ein Feld nach oben zum Ziel Z. Der Befehlsablauf lautet: <code>R V V L V V R V V L V V L V</code> (R = rechts drehen, L = links drehen, V = vorwärts).<br />
+b) Der Käfer macht <strong>9 Schritte vorwärts</strong>.<br />
+c) Der Käfer <strong>biegt immer nach rechts ab, wenn rechts frei ist</strong>. Sonst geht er geradeaus, und wenn vorne zu ist, dreht er nach links (Rechte-Hand-Regel).<br />
+d) Die Regel führt den Käfer an der Wand entlang. Steht das Ziel <strong>in der Mitte eines offenen Raums</strong>, wo keine Wand angrenzt, fährt er nur dem Rand entlang und erreicht es nie. Beispiel:</p>
+<pre class="ds-code">#######
+#S....#
+#.....#
+#..Z..#
+#.....#
+#.....#
+#######
+</pre>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B4.9 · Struktogramm entwerfen: gerade Zahlen</h3>
+<p>a) Struktogramm:</p>
+<div class="ds-struk"><svg viewBox="0 0 259.6 280.5" style="display:block;width:100%;height:auto;max-width:260px"><path stroke="currentColor" stroke-width="1.1" stroke-linecap="square" fill="none" d="M3.0 8.2H256.7M3.0 41.2H256.7M3.0 74.2H256.7M3.0 107.2H256.7M20.7 140.2H256.7M20.7 173.2H256.7M20.7 206.2H256.7M3.0 239.2H256.7M3.0 272.2H256.7M3.0 8.2V272.2M20.7 107.2V239.2M138.7 140.2V206.2M256.7 8.2V272.2"/><g fill="currentColor"><text x="11.8" y="27.4" font-family="Arial" font-size="10">summe = 0</text><text x="11.8" y="60.4" font-family="Arial" font-size="10">i = 1</text><text x="11.8" y="93.4" font-family="Arial" font-size="10">solange i &lt;= n</text><text x="138.7" y="126.4" text-anchor="middle" font-family="Arial" font-size="10">i % 2 == 0</text><text x="79.7" y="159.4" text-anchor="middle" font-family="Arial" font-size="10">Ja</text><text x="197.7" y="159.4" text-anchor="middle" font-family="Arial" font-size="10">Nein</text><text x="29.5" y="192.4" font-family="Arial" font-size="10">summe = summe + i</text><text x="29.5" y="225.4" font-family="Arial" font-size="10">i = i + 1</text><text x="11.8" y="258.4" font-family="Arial" font-size="10">print(summe)</text></g></svg></div>
+<p>b) Schreibtischtests: <code>n = 7</code>: gerade Zahlen 2, 4, 6, Summe <strong>12</strong>. <code>n = 10</code>: 2 + 4 + 6 + 8 + 10 = <strong>30</strong>. <code>n = 1</code>: keine gerade Zahl, Ausgabe <strong>0</strong>.<br />
+c) Sonderfälle: <code>n = 1</code> (keine gerade Zahl), <code>n = 2</code> (genau eine), <code>n = 0</code> (leere Summe, Ausgabe 0) und ein ungerades <code>n</code> gegen ein gerades <code>n</code> am Ende der Zahlenreihe.</p>
+  </section>
+  <section class="ds-aufgabe">
+    <h3>Aufgabe B4.10 · Vom Problem zum Algorithmus</h3>
+<p>Musterlösung:</p>
+<ul>
+<li><strong>Zerlegen:</strong> Teller, Besteck, Glas, Serviette pro Gast.</li>
+<li><strong>Muster erkennen:</strong> Für jeden Gast sind die Handlungen gleich.</li>
+<li><strong>Abstrahieren:</strong> Gast = ein Platz am Tisch. Farbe der Servietten oder Form der Teller sind unwichtig.</li>
+<li><strong>Algorithmus:</strong></li>
+</ul>
+<div class="ds-struk"><svg viewBox="0 0 259.6 148.5" style="display:block;width:100%;height:auto;max-width:260px"><path stroke="currentColor" stroke-width="1.1" stroke-linecap="square" fill="none" d="M3.0 8.2H256.7M3.0 41.2H256.7M20.7 74.2H256.7M20.7 107.2H256.7M3.0 140.2H256.7M3.0 8.2V140.2M20.7 41.2V140.2M256.7 8.2V140.2"/><g fill="currentColor"><text x="11.8" y="27.4" font-family="Arial" font-size="10">wiederhole n-mal</text><text x="29.5" y="60.4" font-family="Arial" font-size="10">Teller hinstellen</text><text x="29.5" y="93.4" font-family="Arial" font-size="10">Besteck links und rechts legen</text><text x="29.5" y="126.4" font-family="Arial" font-size="10">Glas rechts oben stellen</text></g></svg></div>
+<ul>
+<li><strong>Sonderfälle:</strong> n = 0: nichts passiert (korrekt). n = 1: ein Gedeck (korrekt). Der Algorithmus ist endlich, eindeutig, allgemein, ausführbar und korrekt.</li>
+</ul>
+  </section>
+</main>
+<script src="../../assets/zaehler.js"></script>
+</body>
+</html>

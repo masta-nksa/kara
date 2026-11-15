@@ -20,13 +20,35 @@ def _wrap(w, h, inner):
 
 
 # ---------------------------------------------------------------- Struktogramm
+def _pfad(seg, tol=0.05):
+    """Linienstuecke zu zusammenhaengenden Strecken verbinden und als ein Pfad ausgeben (kleinere Dateien)."""
+    hor, ver = {}, {}
+    for x1, y1, x2, y2 in seg:
+        if abs(y1 - y2) < tol:
+            hor.setdefault(round(y1, 1), []).append((min(x1, x2), max(x1, x2)))
+        else:
+            ver.setdefault(round(x1, 1), []).append((min(y1, y2), max(y1, y2)))
+    d = []
+    for key, runs, horiz in [(k, v, True) for k, v in sorted(hor.items())] + [(k, v, False) for k, v in sorted(ver.items())]:
+        runs.sort()
+        a, b = runs[0]
+        for c, e in runs[1:]:
+            if c <= b + tol:
+                b = max(b, e)
+            else:
+                d.append(f"M{a:.1f} {key}H{b:.1f}" if horiz else f"M{key} {a:.1f}V{b:.1f}")
+                a, b = c, e
+        d.append(f"M{a:.1f} {key}H{b:.1f}" if horiz else f"M{key} {a:.1f}V{b:.1f}")
+    return "".join(d)
+
+
 def box_parts(text, cw=5.9, lh=16.5, fs=10, slot_h=1.25):
     """Struktogramm-Textkasten (┌─┐│├┤┬┴┼└┘) -> (SVG-Inhalt, Breite, Hoehe). Luecken aus ___ werden gelbe, hoehere Felder."""
     rows = text.split("\n")
     ncol = max(len(r) for r in rows)
     hs = [lh * slot_h if "___" in r else lh for r in rows]
     w, h = ncol * cw, sum(hs)
-    bg, lines, texts = [], [], []
+    bg, seg, texts = [], [], []
     y = 0.0
     for ri, row in enumerate(rows):
         rh = hs[ri]
@@ -36,10 +58,10 @@ def box_parts(text, cw=5.9, lh=16.5, fs=10, slot_h=1.25):
             if not d:
                 continue
             cx = (ci + 0.5) * cw
-            if "L" in d: lines.append(f'<line x1="{cx - cw / 2:.1f}" y1="{cy:.1f}" x2="{cx:.1f}" y2="{cy:.1f}"/>')
-            if "R" in d: lines.append(f'<line x1="{cx:.1f}" y1="{cy:.1f}" x2="{cx + cw / 2:.1f}" y2="{cy:.1f}"/>')
-            if "U" in d: lines.append(f'<line x1="{cx:.1f}" y1="{cy - rh / 2:.1f}" x2="{cx:.1f}" y2="{cy:.1f}"/>')
-            if "D" in d: lines.append(f'<line x1="{cx:.1f}" y1="{cy:.1f}" x2="{cx:.1f}" y2="{cy + rh / 2:.1f}"/>')
+            if "L" in d: seg.append((cx - cw / 2, cy, cx, cy))
+            if "R" in d: seg.append((cx, cy, cx + cw / 2, cy))
+            if "U" in d: seg.append((cx, cy - rh / 2, cx, cy))
+            if "D" in d: seg.append((cx, cy, cx, cy + rh / 2))
         ci = 0
         while ci < len(row):
             if row[ci] in _SEG:
@@ -64,7 +86,7 @@ def box_parts(text, cw=5.9, lh=16.5, fs=10, slot_h=1.25):
                 texts.append(f'<text x="{(a + ci) / 2 * cw:.1f}" y="{base:.1f}" text-anchor="middle" {FONT} font-size="{fs}">{esc(s)}</text>')
         y += rh
     inner = ("".join(bg)
-             + '<g stroke="currentColor" stroke-width="1.1" stroke-linecap="square" fill="none">' + "".join(lines) + "</g>"
+             + '<path stroke="currentColor" stroke-width="1.1" stroke-linecap="square" fill="none" d="' + _pfad(seg) + '"/>'
              + '<g fill="currentColor">' + "".join(texts) + "</g>")
     return inner, w, h
 
@@ -235,3 +257,24 @@ def baukasten_parts(text, w=112, ih=18, gap=5, colgap=10):
         maxy = max(maxy, y)
     ng = len(text.strip("\n").split("\n"))
     return "".join(out), ng * w + (ng - 1) * colgap, maxy
+
+
+def qr_svg(url, cell=4, border=2):
+    """QR-Code (segno) als SVG-Grafik."""
+    import segno
+    m = segno.make(url, error="m").matrix
+    n = len(m)
+    size = (n + 2 * border) * cell
+    out = []
+    for r, row in enumerate(m):
+        c = 0
+        while c < n:
+            if row[c]:
+                s = c
+                while c < n and row[c]:
+                    c += 1
+                out.append(f'<rect x="{(s + border) * cell}" y="{(r + border) * cell}" width="{(c - s) * cell}" height="{cell}" fill="#000000"/>')
+            else:
+                c += 1
+    return (f'<svg viewBox="0 0 {size} {size}" style="display:block;width:100%;height:auto;max-width:{size}px">'
+            f'<rect width="{size}" height="{size}" fill="#ffffff"/>' + "".join(out) + "</svg>")

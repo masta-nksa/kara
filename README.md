@@ -272,7 +272,7 @@ nicht mit «Richtig», das setzt die Seite davor.
 
 ## Dossiers (`dossier/`)
 
-Je Dossier ein Unterordner, benannt wie die Reihe in `reihen.json` (`zahlen/`, `labyrinth/`, geplant `algorithmen/`, `ct/`; dazu `kurz/`; `codes-und-algorithmen/` ist ein eigenständiges Word-Lerndossier zu Farben, Grafik- und Dateiformaten, nicht zu Kara),
+Je Dossier ein Unterordner, benannt wie die Reihe in `reihen.json` (`zahlen/`, `labyrinth/`, geplant `algorithmen/`, `ct/`; dazu `kurz/`; `codes-und-algorithmen/` ist ein eigenständiges Word-Lerndossier zu Farben, Grafik- und Dateiformaten, nicht zu Kara; mit `loesungen.html` und `loesungen-qr.svg`),
 meist mit eigener `index.html`, dazu `loesungen.html` und `loesungen-qr.svg`. `dossier.css` und `dossier.js` liegen in `dossier/` und gelten
 für alle. `dossier/index.html` listet die vorhandenen Dossiers und ist nicht in der Übersicht verlinkt. Neue Dossiers dort eintragen.
 `dossier/loesungen.html` leitet auf `zahlen/loesungen.html` weiter (frühere Adresse des QR-Codes).
