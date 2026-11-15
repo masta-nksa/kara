@@ -1,7 +1,7 @@
 # Codes und Algorithmen (Lerndossier, Word)
 
 Papier-Dossier zu Farben und Farbtiefe, Grafikformaten, Dateiformaten und Algorithmen (Struktogramme, Kara-Käfer),
-18 Seiten, Teil A (Schlüsselaufgaben) und Teil B (erweiterte Sammlung). Nicht in Kara verlinkt.
+17 Seiten, Teil A (Schlüsselaufgaben) und Teil B (erweiterte Sammlung). Nicht in Kara verlinkt.
 
 - `lerndossier.md`: Quelle im Dossier-Dialekt (Aufgabenboxen, Ausfüllfelder `{{n}}`, Grafik-Blöcke). Änderungen nur hier machen.
 - `Lerndossier_Codes_und_Algorithmen.docx`: daraus erzeugte Word-Datei (Formatvorlagen, nicht von Hand ändern).

@@ -943,14 +943,10 @@ Entwerfen Sie einen Algorithmus «Tisch decken für n Gäste». Gehen Sie in vie
 
 [[/aufgabe]]
 
-<div style="break-before:page"></div>
-
 ## Lösungen
 
-Die Lösungen aller Aufgaben finden Sie online. Scannen Sie den QR-Code und schauen Sie erst hin, wenn eine Aufgabe fertig ist.
+Die Lösungen aller Aufgaben finden Sie online unter `https://masta-nksa.github.io/kara/dossier/codes-und-algorithmen/loesungen.html`. Scannen Sie den QR-Code und schauen Sie erst hin, wenn eine Aufgabe fertig ist.
 
 ```qr
 https://masta-nksa.github.io/kara/dossier/codes-und-algorithmen/loesungen.html
 ```
-
-Adresse: `https://masta-nksa.github.io/kara/dossier/codes-und-algorithmen/loesungen.html`

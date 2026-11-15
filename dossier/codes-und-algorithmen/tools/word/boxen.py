@@ -259,7 +259,7 @@ def baukasten_parts(text, w=112, ih=18, gap=5, colgap=10):
     return "".join(out), ng * w + (ng - 1) * colgap, maxy
 
 
-def qr_svg(url, cell=4, border=2):
+def qr_svg(url, cell=3, border=2):
     """QR-Code (segno) als SVG-Grafik."""
     import segno
     m = segno.make(url, error="m").matrix
@@ -278,3 +278,33 @@ def qr_svg(url, cell=4, border=2):
                 c += 1
     return (f'<svg viewBox="0 0 {size} {size}" style="display:block;width:100%;height:auto;max-width:{size}px">'
             f'<rect width="{size}" height="{size}" fill="#ffffff"/>' + "".join(out) + "</svg>")
+
+
+def pfeilkarte_svg(text, cell_px=26):
+    """Käfer-Karte mit eingezeichnetem Weg (Pfeile = Richtung beim Verlassen des Feldes), Stil wie Kara:
+    # Mauer (grau), . oder · Weg, S Start, Z Ziel, E Endfeld, ↑ ↓ ← → Pfeile, * mehrfach befahren."""
+    ls = text.strip("\n").split("\n")
+    Z = 14
+    rows, cols = len(ls), max(len(r) for r in ls)
+    out = []
+    for r, zeile in enumerate(ls):
+        for c in range(cols):
+            ch = zeile[c] if c < len(zeile) else "#"
+            fill = "#c4c4c4" if ch == "#" else "#ffffff"
+            out.append(f'<rect x="{c * Z}" y="{r * Z}" width="{Z}" height="{Z}" fill="{fill}" stroke="#777777" stroke-width=".5"/>')
+            if ch in "ZSE*":
+                col = "#000000" if ch == "Z" else "#0F6B63"
+                out.append(f'<text x="{c * Z + Z / 2}" y="{r * Z + 11}" text-anchor="middle" {FONT} font-size="11" font-weight="700" fill="{col}">{ch}</text>')
+            elif ch in "↑↓←→":
+                x, y = c * Z + Z / 2, r * Z + Z / 2
+                dx, dy = {"→": (1, 0), "←": (-1, 0), "↑": (0, -1), "↓": (0, 1)}[ch]
+                px, py = -dy, dx
+                tip = (x + dx * 5, y + dy * 5)
+                b1 = (x - dx * 3 + px * 3.5, y - dy * 3 + py * 3.5)
+                b2 = (x - dx * 3 - px * 3.5, y - dy * 3 - py * 3.5)
+                out.append(f'<line x1="{x - dx * 5:.1f}" y1="{y - dy * 5:.1f}" x2="{x + dx * 1:.1f}" y2="{y + dy * 1:.1f}" stroke="#0F6B63" stroke-width="2"/>')
+                out.append(f'<polygon points="{tip[0]:.1f},{tip[1]:.1f} {b1[0]:.1f},{b1[1]:.1f} {b2[0]:.1f},{b2[1]:.1f}" fill="#0F6B63"/>')
+    k = cell_px / Z
+    w, h = cols * cell_px, rows * cell_px
+    return (f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="Karte mit Weg" style="display:block;width:100%;height:auto;max-width:{w}px;background:#fff">'
+            f'<g transform="scale({k:.4f})">' + "".join(out) + "</g></svg>")
