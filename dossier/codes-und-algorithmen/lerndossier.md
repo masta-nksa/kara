@@ -25,7 +25,7 @@
 - Sie führen ein Programm mit Variablen von Hand aus und finden Fehler.
 - Sie lesen und zeichnen Struktogramme und bauen Programme für den Käfer.
 
-Teil A enthält Schlüsselaufgaben zu jedem Thema (●○○ bis ●●○), Teil B eine erweiterte Sammlung mit steigendem Niveau (●○○ bis ●●●). ●○○ Grundlage · ●●○ Anwendung · ●●● Transfer. Die Lösungen erreichen Sie über den QR-Code am Schluss: Schauen Sie erst hin, wenn eine Aufgabe fertig ist.
+Niveau: ●○○ Grundlage · ●●○ Anwendung · ●●● Transfer. Lösungen per QR-Code am Schluss.
 [[/anleitung]]
 
 ## Teil A — Schlüsselaufgaben
@@ -37,7 +37,7 @@ Teil A enthält Schlüsselaufgaben zu jedem Thema (●○○ bis ●●○), Tei
 - **RGB (additiv):** Bildschirme mischen Licht aus Rot, Grün und Blau. Alle drei zusammen ergeben Weiss, keine ergibt Schwarz.
 - **CMYK (subtraktiv):** Drucker mischen Farbstoffe (Cyan, Magenta, Gelb, Schwarz = *Key*). Jede Farbe nimmt Licht weg. Papier ist weiss: **0 % Farbstoff** ergibt Weiss, **100 % Schwarz (K)** ergibt Schwarz.
 - **Farbtiefe:** Anzahl Bit pro Farbangabe. Bei *n* Bit gibt es 2ⁿ verschiedene Farben, zum Beispiel 4 Bit = 16 Farben, 8 Bit = 256 Farben, 24 Bit = rund 16,7 Mio. Farben.
-- **Farbwert:** Bei 24 Bit Farbtiefe hat jeder Kanal 1 Byte (0–255, hexadezimal `00`–`FF`). Eine Farbe sind also 3 Byte = 24 Bit, geschrieben `RRGGBB`. Mit weniger Bit werden die Stufen pro Kanal gröber und der Code kürzer: Bei 12 Bit hat jeder Kanal 4 Bit (0–15, `0`–`F`), Rot ist dann `F00`.
+- **Farbwert:** Bei 24 Bit hat jeder Kanal 1 Byte (0–255, hexadezimal `00`–`FF`), also 3 Byte, geschrieben `RRGGBB`. Mit weniger Bit wird der Code kürzer: Bei 12 Bit hat jeder Kanal 4 Bit (`0`–`F`), Rot ist dann `F00`.
 - **Helligkeit:** Je **grösser** die Kanalwerte, desto **heller** die Farbe, je **kleiner**, desto **dunkler**. Sind alle drei Kanäle **gleich gross**, entsteht ein **Grau**. Mischfarben müssen Sie nicht benennen, aber vergleichen: Ist **jeder** Kanal der einen Farbe grösser als bei der anderen, ist sie heller.
 - **Mischwerte:** Ein Code wie `#E31F33` ist praktisch Rot: Nur ein Kanal hat einen hohen Wert, die anderen sind vernachlässigbar.
 

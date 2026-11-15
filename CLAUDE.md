@@ -33,6 +33,8 @@ Diese Datei sammelt Arbeitsweise, Konventionen und den aktuellen Stand.
 
 ## Ablauf
 
+- Seit 15.11.2026 (Wunsch der Lehrperson): Änderungen direkt auf `main` committen und pushen, ohne Branch und PR.
+  Die folgenden Regeln zu Branch und PR gelten nur, wenn die Lehrperson wieder darum bittet.
 - Entwicklung auf Branch `claude/great-newton-a6bhbk`, jeweils frisch von `main`
   (`git fetch origin main && git checkout -B claude/great-newton-a6bhbk FETCH_HEAD`).
 - Commit, Push, Pull Request; gemergt wird, wenn die Lehrperson es sagt.
