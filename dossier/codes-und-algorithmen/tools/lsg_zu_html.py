@@ -9,7 +9,7 @@ import html, os, re, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(HERE, "word"))
-from boxen import box_svg, pixel_svg
+from boxen import box_svg, pixel_svg, pfeilkarte_svg
 from markdown_it import MarkdownIt
 
 md = MarkdownIt("commonmark", {"breaks": True}).enable("table")
@@ -31,12 +31,16 @@ def render(text):
     def box(m):
         raw = html.unescape(m.group(1)).rstrip("\n")
         if "┌" in raw:
-            return '<div class="ds-struk">' + box_svg(raw) + "</div>"
+            svg = re.sub(r"max-width:(\d+)px", lambda k: f"max-width:{int(int(k.group(1)) * 1.45)}px", box_svg(raw))   # grösser für den Bildschirm
+            return '<div class="ds-struk">' + svg + "</div>"
         if raw and all(c in emoji or c in " \n" for c in raw):   # Farbbild oder Spielfeld als Grafik
             z = "\n".join("".join(emoji[c] for c in row if c in emoji) for row in raw.split("\n"))
             if "X" in z or "O" in z:
                 z = z.replace("W", ".")
             return '<div class="ds-pixel">' + pixel_svg(z, 22) + "</div>"
+        zeilen = [z.replace(" ", "") for z in raw.split("\n")]
+        if len(zeilen) >= 3 and re.search(r"[#↑↓←→]", raw) and all(set(z) <= set("#.·SZE*↑↓←→") and len(z) == len(zeilen[0]) for z in zeilen):
+            return '<div class="ds-pixel">' + pfeilkarte_svg("\n".join(zeilen)) + "</div>"   # Käfer-Karte mit Weg
         return '<pre class="ds-code">' + m.group(1) + "</pre>"
     h = re.sub(r"<pre><code[^>]*>(.*?)</code></pre>", box, h, flags=re.S)
     h = h.replace("<table>", '<div class="ds-scroll"><table class="ds-tab">').replace("</table>", "</table></div>")
@@ -105,7 +109,7 @@ seite = f"""<!doctype html>
 <link rel="stylesheet" href="../../assets/basis.css">
 <link rel="stylesheet" href="../dossier.css">
 <style>
-.ds-struk{{margin:.6em 0;max-width:420px}}
+.ds-struk{{margin:.6em 0}}
 .ds-struk svg{{display:block;width:100%;height:auto}}
 .ds-code{{font-family:"IBM Plex Mono",monospace;font-size:.85em;line-height:1.25;overflow-x:auto;margin:.5em 0}}
 .ds h2{{margin-top:1.6em}}
