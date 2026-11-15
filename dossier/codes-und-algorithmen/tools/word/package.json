@@ -1,0 +1,1 @@
+﻿{ "name": "dossier-word", "private": true, "dependencies": { "docx": "^9" } }

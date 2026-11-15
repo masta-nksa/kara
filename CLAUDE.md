@@ -141,6 +141,7 @@ QR-Code am Schluss; Details im README). Verlinkt nur im Lernpfad der Reihe (`dos
 Kurzversion `dossier/kurz/` (4 Seiten, Zahlen, Käfer, Labyrinth je Basis und erweitert; `dossier.js` zeichnet Käfer-Karten).
 Offen (noch nicht begonnen): je ein eigenes Dossier zu CT (`ct/`) und Algorithmen mit Kara (`algorithmen/`).
 Seit 4.11.2026: Labyrinth-Dossier als Word-Datei der Lehrperson (`Algorithmen_FMS/word/Labyrinth_Dossier.docx`, nicht im Repo), in `dossier/labyrinth/` nur Lösungsseite und QR-Code. Noch nicht in Kara verlinkt, erst wenn es fertig ist. Dossier und Lösungsseite nennen die Wandregel nie.
+Seit 15.11.2026: Word-Lerndossier «Codes und Algorithmen» (Farben, Grafikformate, Dateiformate, Algorithmen) in `dossier/codes-und-algorithmen/`: Quelle `lerndossier.md`, Word-Datei, Lösungen `lsg.md`, Export-Werkzeug `tools/word/` (siehe dortiges README). Nicht in Kara verlinkt; Lösungsadresse und QR-Code im Dossier sind noch Platzhalter.
 Druck auf Windows prüfen: Chrome `--headless=new --no-pdf-header-footer --print-to-pdf=… file:///…/dossier/zahlen/index.html`.
 
 Seit 3.11.2026: Stufen der Zahlen-Reihe neu nach Schwierigkeit geordnet (Reihenfolge im README), IDs unverändert.
